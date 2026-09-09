@@ -4,7 +4,15 @@ import { readFile } from "fs/promises";
 import { join } from "path";
 import { closeWatcher, FS_WATCH_RETRY_DELAY_MS, watchWithErrorHandler } from "./fs-watch.js";
 import * as log from "./log.js";
-import type { SlackBot, SlackEvent } from "./slack.js";
+import type { SlackEvent } from "./slack.js";
+
+/**
+ * The events watcher only needs to be able to queue an event, so it depends on
+ * this narrow shape rather than a concrete bot class.
+ */
+export interface EventBotTarget {
+	enqueueEvent(event: SlackEvent): boolean;
+}
 
 // ============================================================================
 // Event Types
@@ -53,7 +61,7 @@ export class EventsWatcher {
 
 	constructor(
 		private eventsDir: string,
-		private slack: SlackBot,
+		private slack: EventBotTarget,
 	) {
 		this.startTime = Date.now();
 	}
@@ -436,7 +444,7 @@ export class EventsWatcher {
 /**
  * Create and start an events watcher.
  */
-export function createEventsWatcher(workspaceDir: string, slack: SlackBot): EventsWatcher {
+export function createEventsWatcher(workspaceDir: string, slack: EventBotTarget): EventsWatcher {
 	const eventsDir = join(workspaceDir, "events");
 	return new EventsWatcher(eventsDir, slack);
 }

@@ -23,8 +23,23 @@ import type { ChannelInfo, SlackContext, UserInfo } from "./slack.js";
 import type { ChannelStore } from "./store.js";
 import { createMomTools, setUploadFunction } from "./tools/index.js";
 
-// Hardcoded model for now - TODO: make configurable (issue #63)
-const model = getModel("anthropic", "claude-sonnet-4-5");
+// Model is configurable via env (resolves upstream issue #63).
+// "glm-5.3-flash" ships in the model registry under provider "zai" with
+// api "openai-completions" — the Chat Completions protocol that
+// OpenAI-compatible gateways actually serve.
+const model = getModel("zai", "glm-5.3-flash");
+if (process.env.OPENAI_BASE_URL) model.baseUrl = process.env.OPENAI_BASE_URL;
+// Provider "zai" emits two z.ai-specific request fields that OpenAI-compatible
+// gateways (this one is litellm-backed) reject with 400:
+//   1. top-level `enable_thinking`  -> use the standard `reasoning_effort` instead
+//   2. top-level `tool_stream`      -> stream tool call deltas the standard way
+// Both are verified necessary against the live endpoint; the rest of the compat
+// defaults work as-is.
+model.compat = {
+	...(model.compat ?? {}),
+	thinkingFormat: "openai",
+	zaiToolStream: false,
+};
 
 export interface PendingMessage {
 	userName: string;
@@ -42,12 +57,15 @@ export interface AgentRunner {
 	abort(): void;
 }
 
-async function getAnthropicApiKey(authStorage: AuthStorage): Promise<string> {
-	const key = await authStorage.getApiKey("anthropic");
+async function resolveApiKey(authStorage: AuthStorage): Promise<string> {
+	const provider = model.provider;
+	// Fall back to OPENAI_API_KEY: gateways usually issue one key regardless of
+	// which upstream model is being routed to.
+	const key = (await authStorage.getApiKey(provider)) ?? process.env.OPENAI_API_KEY;
 	if (!key) {
 		throw new Error(
-			"No API key found for anthropic.\n\n" +
-				"Set an API key environment variable, or use /login with Anthropic and link to auth.json from " +
+			`No API key found for ${provider} (tried ${provider} auth and OPENAI_API_KEY).\n\n` +
+				"Set OPENAI_API_KEY, or link to auth.json from " +
 				join(homedir(), ".pi", "mom", "auth.json"),
 		);
 	}
@@ -167,23 +185,23 @@ function buildSystemPrompt(
 - Bash working directory: ${process.cwd()}
 - Be careful with system modifications`;
 
-	return `You are mom, a Slack bot assistant. Be concise. No emojis.
+	return `You are mom, a Feishu bot assistant. Be concise. No emojis.
 
 ## Context
 - For current date/time, use: date
 - You have access to previous conversation context including tool results from prior turns.
 - For older history beyond your context, search log.jsonl (contains user messages and your final responses, but not tool results).
 
-## Slack Formatting (mrkdwn, NOT Markdown)
-Bold: *text*, Italic: _text_, Code: \`code\`, Block: \`\`\`code\`\`\`, Links: <url|text>
-Do NOT use **double asterisks** or [markdown](links).
+## Formatting
+Messages are sent as plain text and are NOT rendered as Markdown.
+Do NOT use markdown syntax (**bold**, [links](url), headings) — write plain sentences with line breaks.
 
-## Slack IDs
+## Known Users
 Channels: ${channelMappings}
 
 Users: ${userMappings}
 
-When mentioning users, use <@username> format (e.g., <@mario>).
+When you want to address a user, write their name directly — do not use <@...> mention syntax.
 
 ## Environment
 ${envDescription}
@@ -440,7 +458,7 @@ function createRunner(sandboxConfig: SandboxConfig, channelId: string, channelDi
 			tools,
 		},
 		convertToLlm,
-		getApiKey: async () => getAnthropicApiKey(authStorage),
+		getApiKey: async () => resolveApiKey(authStorage),
 	});
 
 	// Load existing messages

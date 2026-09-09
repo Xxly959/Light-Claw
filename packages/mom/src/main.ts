@@ -1,20 +1,26 @@
 #!/usr/bin/env node
 
 import { join, resolve } from "path";
+import { EnvHttpProxyAgent, setGlobalDispatcher } from "undici";
 import { type AgentRunner, getOrCreateRunner } from "./agent.js";
-import { downloadChannel } from "./download.js";
 import { createEventsWatcher } from "./events.js";
+import { FeishuBot, type MomHandler, type SlackEvent } from "./feishu.js";
 import * as log from "./log.js";
 import { parseSandboxArg, type SandboxConfig, validateSandbox } from "./sandbox.js";
-import { type MomHandler, type SlackBot, SlackBot as SlackBotClass, type SlackEvent } from "./slack.js";
 import { ChannelStore } from "./store.js";
+
+// Thinking models can stall the SSE stream for minutes with no body data; undici's
+// default 300s bodyTimeout would kill requests mid-stream. Same as coding-agent CLI.
+setGlobalDispatcher(new EnvHttpProxyAgent({ bodyTimeout: 0, headersTimeout: 0 }));
 
 // ============================================================================
 // Config
 // ============================================================================
 
-const MOM_SLACK_APP_TOKEN = process.env.MOM_SLACK_APP_TOKEN;
-const MOM_SLACK_BOT_TOKEN = process.env.MOM_SLACK_BOT_TOKEN;
+const MOM_FEISHU_APP_ID = process.env.MOM_FEISHU_APP_ID;
+const MOM_FEISHU_APP_SECRET = process.env.MOM_FEISHU_APP_SECRET;
+// ChannelStore wants a token for Slack attachment downloads; unused on Feishu.
+const SLACK_TOKEN_PLACEHOLDER = "";
 
 interface ParsedArgs {
 	workingDir?: string;
@@ -54,12 +60,8 @@ const parsedArgs = parseArgs();
 
 // Handle --download mode
 if (parsedArgs.downloadChannel) {
-	if (!MOM_SLACK_BOT_TOKEN) {
-		console.error("Missing env: MOM_SLACK_BOT_TOKEN");
-		process.exit(1);
-	}
-	await downloadChannel(parsedArgs.downloadChannel, MOM_SLACK_BOT_TOKEN);
-	process.exit(0);
+	console.error("--download is Slack-only and not supported on the Feishu build");
+	process.exit(1);
 }
 
 // Normal bot mode - require working dir
@@ -71,8 +73,8 @@ if (!parsedArgs.workingDir) {
 
 const { workingDir, sandbox } = { workingDir: parsedArgs.workingDir, sandbox: parsedArgs.sandbox };
 
-if (!MOM_SLACK_APP_TOKEN || !MOM_SLACK_BOT_TOKEN) {
-	console.error("Missing env: MOM_SLACK_APP_TOKEN, MOM_SLACK_BOT_TOKEN");
+if (!MOM_FEISHU_APP_ID || !MOM_FEISHU_APP_SECRET) {
+	console.error("Missing env: MOM_FEISHU_APP_ID, MOM_FEISHU_APP_SECRET");
 	process.exit(1);
 }
 
@@ -99,7 +101,7 @@ function getState(channelId: string): ChannelState {
 		state = {
 			running: false,
 			runner: getOrCreateRunner(sandbox, channelId, channelDir),
-			store: new ChannelStore({ workingDir, botToken: MOM_SLACK_BOT_TOKEN! }),
+			store: new ChannelStore({ workingDir, botToken: SLACK_TOKEN_PLACEHOLDER }),
 			stopRequested: false,
 		};
 		channelStates.set(channelId, state);
@@ -111,7 +113,7 @@ function getState(channelId: string): ChannelState {
 // Create SlackContext adapter
 // ============================================================================
 
-function createSlackContext(event: SlackEvent, slack: SlackBot, state: ChannelState, isEvent?: boolean) {
+function createSlackContext(event: SlackEvent, slack: FeishuBot, state: ChannelState, isEvent?: boolean) {
 	let messageTs: string | null = null;
 	const threadMessageTs: string[] = [];
 	let accumulatedText = "";
@@ -284,7 +286,7 @@ const handler: MomHandler = {
 		return state?.running ?? false;
 	},
 
-	async handleStop(channelId: string, slack: SlackBot): Promise<void> {
+	async handleStop(channelId: string, slack: FeishuBot): Promise<void> {
 		const state = channelStates.get(channelId);
 		if (state?.running) {
 			state.stopRequested = true;
@@ -296,7 +298,7 @@ const handler: MomHandler = {
 		}
 	},
 
-	async handleEvent(event: SlackEvent, slack: SlackBot, isEvent?: boolean): Promise<void> {
+	async handleEvent(event: SlackEvent, slack: FeishuBot, isEvent?: boolean): Promise<void> {
 		const state = getState(event.channel);
 
 		// Start run
@@ -338,11 +340,11 @@ const handler: MomHandler = {
 log.logStartup(workingDir, sandbox.type === "host" ? "host" : `docker:${sandbox.container}`);
 
 // Shared store for attachment downloads (also used per-channel in getState)
-const sharedStore = new ChannelStore({ workingDir, botToken: MOM_SLACK_BOT_TOKEN! });
+const sharedStore = new ChannelStore({ workingDir, botToken: SLACK_TOKEN_PLACEHOLDER });
 
-const bot = new SlackBotClass(handler, {
-	appToken: MOM_SLACK_APP_TOKEN,
-	botToken: MOM_SLACK_BOT_TOKEN,
+const bot = new FeishuBot(handler, {
+	appId: MOM_FEISHU_APP_ID,
+	appSecret: MOM_FEISHU_APP_SECRET,
 	workingDir,
 	store: sharedStore,
 });
