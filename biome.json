@@ -34,7 +34,7 @@
 			"!**/test-sessions.ts",
 			"!**/models.generated.ts",
 			"!packages/web-ui/src/app.css",
-			"!packages/mom/data/**/*",
+			"!packages/lightclaw/lightclaw-data/**/*",
 			"!!**/node_modules"
 		]
 	}

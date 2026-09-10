@@ -21,6 +21,7 @@ packages/*/dist-firefox/
 *~
 
 # Package specific
+/lightclaw-data/
 .npm/
 coverage/
 .nyc_output/

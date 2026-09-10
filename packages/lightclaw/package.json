@@ -1,0 +1,59 @@
+{
+	"name": "lightclaw",
+	"version": "0.70.6",
+	"description": "LightClaw: a durable personal agent for Feishu and Slack powered by pi",
+	"type": "module",
+	"bin": {
+		"lightclaw": "dist/main.js"
+	},
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"files": [
+		"dist",
+		"CHANGELOG.md"
+	],
+	"scripts": {
+		"clean": "shx rm -rf dist",
+		"build": "tsgo -p tsconfig.build.json && shx chmod +x dist/main.js",
+		"dev": "tsgo -p tsconfig.build.json --watch --preserveWatchOutput",
+		"prepublishOnly": "npm run clean && npm run build"
+	},
+	"dependencies": {
+		"@anthropic-ai/sandbox-runtime": "^0.0.16",
+		"@larksuiteoapi/node-sdk": "^1.73.3",
+		"@mariozechner/pi-agent-core": "^0.70.6",
+		"@mariozechner/pi-ai": "^0.70.6",
+		"@mariozechner/pi-coding-agent": "^0.70.6",
+		"@slack/socket-mode": "^2.0.0",
+		"@slack/web-api": "^7.0.0",
+		"chalk": "^5.6.2",
+		"croner": "^9.1.0",
+		"diff": "^8.0.2",
+		"typebox": "^1.1.24",
+		"undici": "^8.10.2"
+	},
+	"devDependencies": {
+		"@types/diff": "^7.0.2",
+		"@types/node": "^24.3.0",
+		"typescript": "^5.7.3"
+	},
+	"keywords": [
+		"lightclaw",
+		"feishu",
+		"slack",
+		"bot",
+		"ai",
+		"agent",
+		"long-running-agent"
+	],
+	"author": "Xxly959",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Xxly959/Light-Claw.git",
+		"directory": "packages/lightclaw"
+	},
+	"engines": {
+		"node": ">=20.0.0"
+	}
+}
