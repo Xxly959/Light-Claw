@@ -9,6 +9,8 @@
 ### Added
 
 - Added LightClaw branding, Feishu and Slack transport selection, configurable model providers, durable long-running goals, crash recovery, circuit breakers, and privacy-conscious run auditing.
+- Added dataset-based Agent evaluation, rule scoring, JSON reports, and guarded prompt optimization that promotes only better candidates.
+- Added a non-root Docker image with CPU, memory, process, capability, and privilege limits.
 
 ### Changed
 
@@ -18,6 +20,7 @@
 
 - Kept model reasoning content in local logs instead of exposing it in chat responses.
 - Preserved a successfully completed goal when the model gateway fails while generating the final response.
+- Prevented ordinary one-turn tasks from calling long-running goal tools without an active goal.
 
 ## [0.70.6] - 2026-04-28
 

@@ -1,153 +1,57 @@
 # LightClaw Docker Sandbox
 
-## Overview
+LightClaw connects to chat platforms and models on the host while `bash/read/write/edit` tools execute inside Docker. The container receives only the selected data directory, not other host files or API keys.
 
-LightClaw can run tools either directly on the host or inside a Docker container for isolation.
+## Create the sandbox
 
-## Why Docker?
-
-When lightclaw runs on your machine and is accessible via Slack, anyone in your workspace could potentially:
-- Execute arbitrary commands on your machine
-- Access your files, credentials, etc.
-- Cause damage via prompt injection
-
-The Docker sandbox isolates lightclaw's tools to a container where she can only access what you explicitly mount.
-
-## Quick Start
+Run from the repository root:
 
 ```bash
-# 1. Create and start the container
-cd packages/lightclaw
-./docker.sh create ./data
-
-# 2. Run lightclaw with Docker sandbox
-lightclaw --sandbox=docker:lightclaw-sandbox ./data
+mkdir -p lightclaw-data
+bash packages/lightclaw/docker.sh create ./lightclaw-data
 ```
 
-## How It Works
+The script builds a local image with these defaults:
 
-```
-┌─────────────────────────────────────────────────────┐
-│  Host                                               │
-│                                                     │
-│  lightclaw process (Node.js)                              │
-│  ├── Slack connection                               │
-│  ├── LLM API calls                                  │
-│  └── Tool execution ──────┐                         │
-│                           ▼                         │
-│              ┌─────────────────────────┐            │
-│              │  Docker Container       │            │
-│              │  ├── bash, git, gh, etc │            │
-│              │  └── /workspace (mount) │            │
-│              └─────────────────────────┘            │
-└─────────────────────────────────────────────────────┘
-```
+- 1 CPU
+- 512 MB memory and no additional swap
+- 128 processes
+- All Linux capabilities removed
+- Privilege escalation disabled
+- The current host UID/GID instead of root
+- A separate 64 MB temporary filesystem at `/tmp`
 
-- LightClaw process runs on host (handles Slack, LLM calls)
-- All tool execution (`bash`, `read`, `write`, `edit`) happens inside the container
-- Only `/workspace` (your data dir) is accessible to the container
+The image includes bash, curl, git, jq, and Python 3. The running Agent cannot use `apk add`. Add required system packages to `Dockerfile` and rebuild so the environment remains reproducible.
 
-## Container Setup
+## Configure limits
 
-Use the provided script:
+Set variables before `create`:
 
 ```bash
-./docker.sh create <data-dir>   # Create and start container
-./docker.sh start               # Start existing container
-./docker.sh stop                # Stop container
-./docker.sh remove              # Remove container
-./docker.sh status              # Check if running
-./docker.sh shell               # Open shell in container
+export LIGHTCLAW_SANDBOX_CPUS=2
+export LIGHTCLAW_SANDBOX_MEMORY=1g
+export LIGHTCLAW_SANDBOX_PIDS_LIMIT=256
+export LIGHTCLAW_SANDBOX_NETWORK=none
+bash packages/lightclaw/docker.sh create ./lightclaw-data
 ```
 
-Or manually:
+`LIGHTCLAW_SANDBOX_NETWORK=none` blocks network access from tools without affecting host-side chat or model connections. Keep the default `bridge` setting when tools need git or curl.
+
+## Management commands
 
 ```bash
-docker run -d --name lightclaw-sandbox \
-  -v /path/to/lightclaw-data:/workspace \
-  alpine:latest tail -f /dev/null
+bash packages/lightclaw/docker.sh status
+bash packages/lightclaw/docker.sh stop
+bash packages/lightclaw/docker.sh start
+bash packages/lightclaw/docker.sh shell
+bash packages/lightclaw/docker.sh remove
 ```
 
-## LightClaw Manages Her Own Computer
-
-The container is treated as lightclaw's personal computer. She can:
-
-- Install tools: `apk add github-cli git curl`
-- Configure credentials: `gh auth login`
-- Create files and directories
-- Persist state across restarts
-
-When lightclaw needs a tool, she installs it. When she needs credentials, she asks you.
-
-### Example Flow
-
-```
-User: "@lightclaw check the spine-runtimes repo"
-LightClaw:  "I need gh CLI. Installing..."
-      (runs: apk add github-cli)
-LightClaw:  "I need a GitHub token. Please provide one."
-User: "ghp_xxxx..."
-LightClaw:  (runs: echo "ghp_xxxx" | gh auth login --with-token)
-LightClaw:  "Done. Checking repo..."
-```
-
-## Persistence
-
-The container persists across:
-- `docker stop` / `docker start`
-- Host reboots
-
-Installed tools and configs remain until you `docker rm` the container.
-
-To start fresh: `./docker.sh remove && ./docker.sh create ./data`
-
-## CLI Options
+Existing containers do not receive new limits automatically. Recreate the container once after upgrading:
 
 ```bash
-# Run on host (default, no isolation)
-lightclaw ./data
-
-# Run with Docker sandbox
-lightclaw --sandbox=docker:lightclaw-sandbox ./data
-
-# Explicit host mode
-lightclaw --sandbox=host ./data
+bash packages/lightclaw/docker.sh remove
+bash packages/lightclaw/docker.sh create ./lightclaw-data
 ```
 
-## Security Considerations
-
-**What the container CAN do:**
-- Read/write files in `/workspace` (your data dir)
-- Make network requests (for git, gh, curl, etc.)
-- Install packages
-- Run any commands
-
-**What the container CANNOT do:**
-- Access files outside `/workspace`
-- Access your host's credentials
-- Affect your host system
-
-**For maximum security:**
-1. Create a dedicated GitHub bot account with limited repo access
-2. Only share that bot's token with lightclaw
-3. Don't mount sensitive directories
-
-## Troubleshooting
-
-### Container not running
-```bash
-./docker.sh status  # Check status
-./docker.sh start   # Start it
-```
-
-### Reset container
-```bash
-./docker.sh remove
-./docker.sh create ./data
-```
-
-### Missing tools
-Ask lightclaw to install them, or manually:
-```bash
-docker exec lightclaw-sandbox apk add <package>
-```
+Docker reduces the blast radius but is not an absolute security boundary. Do not mount sensitive directories, and use dedicated least-privilege credentials for external services.

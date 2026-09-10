@@ -58,7 +58,7 @@ export interface AgentRunner {
 	abort(): void;
 }
 
-function resolveModel(config: LightClawConfig): Model<Api> {
+export function resolveModel(config: LightClawConfig): Model<Api> {
 	if (!getProviders().includes(config.modelProvider as KnownProvider)) {
 		throw new Error(`未知模型提供商：${config.modelProvider}`);
 	}
@@ -78,7 +78,7 @@ function resolveModel(config: LightClawConfig): Model<Api> {
 	return model;
 }
 
-async function resolveApiKey(authStorage: AuthStorage, provider: string): Promise<string> {
+export async function resolveApiKey(authStorage: AuthStorage, provider: string): Promise<string> {
 	// Fall back to OPENAI_API_KEY: gateways usually issue one key regardless of
 	// which upstream model is being routed to.
 	const key = (await authStorage.getApiKey(provider)) ?? process.env.OPENAI_API_KEY;
@@ -186,6 +186,7 @@ function buildSystemPrompt(
 	skills: Skill[],
 	goalStore: GoalStore,
 	transport: LightClawConfig["transport"],
+	promptInstructions?: string,
 ): string {
 	const channelPath = `${workspacePath}/${channelId}`;
 	const isDocker = sandboxConfig.type === "docker";
@@ -200,8 +201,9 @@ function buildSystemPrompt(
 
 	const envDescription = isDocker
 		? `You are running inside a Docker container (Alpine Linux).
-- Bash working directory: / (use cd or absolute paths)
-- Install tools with: apk add <package>
+- Bash working directory: /workspace
+- Common tools are preinstalled. You are a non-root user and cannot install system packages at runtime.
+- If another system package is required, explain which package is missing instead of attempting privilege escalation.
 - Your changes persist across sessions`
 		: `You are running directly on the host machine.
 - Bash working directory: ${process.cwd()}
@@ -365,7 +367,8 @@ grep '"userName":"mario"' log.jsonl | tail -20 | jq -c '{date: .date[0:19], text
 - attach: Share files to the current chat
 
 Each tool requires a "label" parameter (shown to user).
-${formatGoalPrompt(goalStore.get())}`;
+${formatGoalPrompt(goalStore.get())}
+${promptInstructions ? `\n## 可迭代行为指令\n${promptInstructions}` : ""}`;
 }
 
 function truncate(text: string, maxLen: number): string {
@@ -481,6 +484,7 @@ function createRunner(
 		skills,
 		goalStore,
 		config.transport,
+		config.promptInstructions,
 	);
 
 	// Create session manager and settings manager
@@ -722,6 +726,7 @@ function createRunner(
 				skills,
 				goalStore,
 				config.transport,
+				config.promptInstructions,
 			);
 			session.agent.state.systemPrompt = systemPrompt;
 

@@ -16,7 +16,7 @@ export function createGoalTools(store: GoalStore) {
 	const progressTool: AgentTool<typeof progressSchema> = {
 		name: "goal_progress",
 		label: "记录目标进展",
-		description: "记录长期目标当前轮次的进展和可核验依据。每轮至少调用一次。",
+		description: "仅当系统提示词显示有进行中的长期目标时调用；普通单轮任务不要调用。长期目标每轮至少调用一次。",
 		parameters: progressSchema,
 		async execute(_id, { summary, evidence }) {
 			const goal = store.updateProgress(summary, evidence);
@@ -26,7 +26,7 @@ export function createGoalTools(store: GoalStore) {
 	const completeTool: AgentTool<typeof completeSchema> = {
 		name: "goal_complete",
 		label: "完成长期目标",
-		description: "仅在目标确实完成并有可核验依据时调用。调用后长期循环停止。",
+		description: "仅当系统提示词显示有进行中的长期目标，且目标确实完成并有可核验依据时调用。普通单轮任务不要调用。",
 		parameters: completeSchema,
 		async execute(_id, { summary, evidence }) {
 			const goal = store.complete(summary, evidence);

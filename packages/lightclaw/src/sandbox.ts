@@ -8,7 +8,7 @@ export function parseSandboxArg(value: string): SandboxConfig {
 	}
 	if (value.startsWith("docker:")) {
 		const container = value.slice("docker:".length);
-		if (!container) {
+		if (!/^[a-zA-Z0-9][a-zA-Z0-9_.-]*$/.test(container)) {
 			console.error("Error: docker sandbox requires container name (e.g., docker:lightclaw-sandbox)");
 			process.exit(1);
 		}
@@ -180,7 +180,7 @@ class DockerExecutor implements Executor {
 	constructor(private container: string) {}
 
 	async exec(command: string, options?: ExecOptions): Promise<ExecResult> {
-		// Wrap command for docker exec
+		// 容器名经过白名单校验，命令正文经过 shell 转义，避免宿主机命令注入。
 		const dockerCmd = `docker exec ${this.container} sh -c ${shellEscape(command)}`;
 		const hostExecutor = new HostExecutor();
 		return hostExecutor.exec(dockerCmd, options);

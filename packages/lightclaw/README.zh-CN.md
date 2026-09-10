@@ -14,12 +14,15 @@ LightClaw 基于 pi 的 `pi-ai`、`pi-agent-core` 和 `pi-coding-agent` 构建�
 
 普通聊天机器人收到一句话，只执行一轮。长期任务却可能需要多轮尝试，还会遇到模型提前停止、工具失败、进程重启和上下文压缩。
 
-LightClaw 在轻量框架上增加了四个工程能力：
+LightClaw 在轻量框架上增加了七个工程能力：
 
 1. 飞书和 Slack 使用同一套消息平台协议。
 2. 模型、网关和运行限制全部通过环境变量配置。
 3. 长期目标保存到磁盘，重启后能够继续执行。
 4. 每轮记录延迟、Token、费用和工具结果数量，完成时必须提供证据。
+5. 用固定评测集检查回复、文件产物、工具错误、耗时和 Token。
+6. 自动生成提示词候选，并且只在复测得分更高时保存新版本。
+7. Docker 沙箱限制 CPU、内存和进程数，并使用非 root 用户运行。
 
 ## 五分钟启动
 
@@ -61,6 +64,35 @@ npx tsx packages/lightclaw/src/main.ts --sandbox=docker:lightclaw-sandbox ./ligh
 ```
 
 任何 API Key 都不要写进源码、README 或提交记录。
+
+## 运行 Agent 评测
+
+下面的命令会真实调用学校的大模型接口，因此会消耗 API 额度：
+
+```bash
+npx tsx packages/lightclaw/src/evals/cli.ts \
+  --sandbox=docker:lightclaw-sandbox \
+  --workspace=./lightclaw-data
+```
+
+默认评测集是 `packages/lightclaw/evals/basic.json`。它不只判断模型“说得像不像”，还会检查 Agent 是否真的创建了文件、工具有没有报错，以及耗时、Token 和费用。结果保存在 `lightclaw-data/evals/report-*.json`。
+
+## 自动优化提示词
+
+```bash
+npx tsx packages/lightclaw/src/evals/optimize-cli.ts \
+  --sandbox=docker:lightclaw-sandbox \
+  --workspace=./lightclaw-data \
+  --candidates=2
+```
+
+流程是“跑基线 → 生成候选 → 同集复测 → 比较指标”。候选没有超过基线时，不会覆盖原提示词；超过后才会写入 `lightclaw-data/evals/optimized-prompt.txt`。启用它：
+
+```bash
+export LIGHTCLAW_PROMPT_INSTRUCTIONS="$(cat ./lightclaw-data/evals/optimized-prompt.txt)"
+```
+
+这就是最小可用的 Prompt Optimization 闭环。恭喜你，已经不是“凭感觉改提示词”了！
 
 ## 使用长期目标
 
@@ -112,7 +144,8 @@ lightclaw-data/
 4. `src/tools/goal.ts`：理解 Tool 本质上就是带参数描述的函数。
 5. `src/agent.ts`：理解模型、上下文、工具和 Agent Loop 怎样组合。
 6. `src/main.ts`：最后理解消息队列、长期循环、停止和崩溃恢复。
+7. `src/evals/`：理解离线评测、指标比较和提示词自动优化。
 
 每看完一个文件，先回答三个问题：输入是什么、状态保存在哪里、失败后怎样停止。能回答出来，再看下一个文件。
 
-更完整的设计说明见[架构文档](docs/architecture.zh-CN.md)和[长期目标文档](docs/goals.zh-CN.md)。
+更完整的设计说明见[架构文档](docs/architecture.zh-CN.md)、[长期目标文档](docs/goals.zh-CN.md)、[评测记录](docs/evaluation.zh-CN.md)、[项目介绍与面试讲稿](docs/project-introduction.zh-CN.md)和[沙箱文档](docs/sandbox.zh-CN.md)。

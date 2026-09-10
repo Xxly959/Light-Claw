@@ -4,6 +4,7 @@ import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { handleGoalCommand } from "../src/goals/commands.js";
 import { GoalStore } from "../src/goals/store.js";
+import { createGoalTools } from "../src/tools/goal.js";
 
 describe("长期目标状态机", () => {
 	let directory: string;
@@ -71,5 +72,10 @@ describe("长期目标状态机", () => {
 			consecutiveFailures: 0,
 			staleCycles: 0,
 		});
+	});
+
+	it("目标工具明确禁止普通任务误调用", () => {
+		const descriptions = createGoalTools(store).map((tool) => tool.description);
+		expect(descriptions.every((description) => description.includes("普通单轮任务不要调用"))).toBe(true);
 	});
 });

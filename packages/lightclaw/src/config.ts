@@ -5,6 +5,7 @@ export interface LightClawConfig {
 	modelProvider: string;
 	modelId: string;
 	openaiBaseUrl?: string;
+	promptInstructions?: string;
 	maxGoalCycles: number;
 	maxGoalFailures: number;
 	maxStaleCycles: number;
@@ -39,6 +40,7 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): LightClawConfi
 		modelProvider: env.LIGHTCLAW_MODEL_PROVIDER?.trim() || "zai",
 		modelId: env.LIGHTCLAW_MODEL_ID?.trim() || "glm-5.3-flash",
 		openaiBaseUrl: env.OPENAI_BASE_URL?.trim() || undefined,
+		promptInstructions: env.LIGHTCLAW_PROMPT_INSTRUCTIONS?.trim() || undefined,
 		maxGoalCycles: positiveInteger(env.LIGHTCLAW_GOAL_MAX_CYCLES, 8, "LIGHTCLAW_GOAL_MAX_CYCLES"),
 		maxGoalFailures: positiveInteger(env.LIGHTCLAW_GOAL_MAX_FAILURES, 2, "LIGHTCLAW_GOAL_MAX_FAILURES"),
 		maxStaleCycles: positiveInteger(env.LIGHTCLAW_GOAL_MAX_STALE_CYCLES, 2, "LIGHTCLAW_GOAL_MAX_STALE_CYCLES"),

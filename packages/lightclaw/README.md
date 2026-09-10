@@ -15,7 +15,8 @@ It intentionally keeps pi's lightweight design: one agent loop, a small set of f
 - Safety limits for total cycles, consecutive failures, and stalled cycles
 - Completion evidence required before a goal can be marked complete
 - JSONL run audit with latency, token, cost, and tool-call metrics
-- Docker sandbox support
+- Dataset-based Agent evaluation and guarded prompt optimization
+- Resource-limited, non-root Docker sandbox
 - Scheduled and periodic events
 
 ## Quick start
@@ -54,6 +55,33 @@ npx tsx packages/lightclaw/src/main.ts --sandbox=docker:lightclaw-sandbox ./ligh
 ```
 
 Do not hardcode credentials. `OPENAI_API_KEY`, `OPENAI_BASE_URL`, and chat-platform credentials are read only from the environment or pi's auth store.
+
+## Evaluation and prompt optimization
+
+The included evaluation set runs the real Agent loop and checks responses, files, tool errors, latency, tokens, and cost. It calls the configured model and therefore consumes API quota:
+
+```bash
+npx tsx packages/lightclaw/src/evals/cli.ts \
+  --sandbox=docker:lightclaw-sandbox \
+  --workspace=./lightclaw-data
+```
+
+Prompt optimization generates candidates, evaluates every candidate on the same dataset, and writes a prompt only when it beats the baseline:
+
+```bash
+npx tsx packages/lightclaw/src/evals/optimize-cli.ts \
+  --sandbox=docker:lightclaw-sandbox \
+  --workspace=./lightclaw-data \
+  --candidates=2
+```
+
+To use the promoted instructions, load the generated text before starting LightClaw:
+
+```bash
+export LIGHTCLAW_PROMPT_INSTRUCTIONS="$(cat ./lightclaw-data/evals/optimized-prompt.txt)"
+```
+
+Add project-specific cases by copying `evals/basic.json`. Evaluation directories and reports live under `lightclaw-data/` and are excluded from Git.
 
 ## Long-running goals
 
@@ -102,6 +130,8 @@ The audit log contains operational metadata only. It does not intentionally stor
 - [Chinese guide](README.zh-CN.md)
 - [Architecture](docs/architecture.zh-CN.md)
 - [Long-running goals](docs/goals.zh-CN.md)
+- [Evaluation record](docs/evaluation.zh-CN.md)
+- [Project introduction and interview script](docs/project-introduction.zh-CN.md)
 - [Events](docs/events.md)
 - [Sandbox](docs/sandbox.md)
 - [Slack setup](docs/slack-bot-minimal-guide.md)

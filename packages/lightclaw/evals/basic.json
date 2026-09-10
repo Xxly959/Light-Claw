@@ -1,0 +1,21 @@
+[
+  {
+    "id": "exact-answer",
+    "prompt": "这是评测任务。不要调用工具，只回复 EVAL_OK。",
+    "expect": {
+      "responseIncludes": ["EVAL_OK"],
+      "maxToolErrors": 0,
+      "maxDurationMs": 60000
+    }
+  },
+  {
+    "id": "write-evidence",
+    "prompt": "在当前频道的 scratch 目录创建 eval-proof.txt，内容必须包含 lightclaw-eval-pass，然后简短说明完成情况。",
+    "expect": {
+      "filesExist": ["scratch/eval-proof.txt"],
+      "filesContain": [{ "path": "scratch/eval-proof.txt", "text": "lightclaw-eval-pass" }],
+      "maxToolErrors": 0,
+      "maxDurationMs": 120000
+    }
+  }
+]

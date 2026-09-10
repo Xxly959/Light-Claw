@@ -2,20 +2,39 @@
 
 ## 主调用链
 
-```text
-飞书 / Slack
-     │ ChatEvent
-     ▼
-ChatTransport ──► main.ts ──► AgentRunner
-                     │             │
-                     │             ├── pi-ai：模型协议
-                     │             ├── pi-agent-core：Agent Loop
-                     │             ├── 基础工具：read/bash/edit/write
-                     │             └── SessionManager：上下文压缩与恢复
-                     │
-                     ├── GoalStore：长期目标状态机
-                     └── audit/runs.jsonl：运行指标
+```mermaid
+flowchart LR
+    User[飞书 / Slack 用户] --> Transport[ChatTransport 适配层]
+    Transport --> Main[main.ts 调度与队列]
+
+    subgraph Runtime[Agent 运行时]
+        Main --> Runner[AgentRunner]
+        Runner --> Loop[pi-agent-core<br/>Agent Loop]
+        Loop <--> Model[pi-ai<br/>OpenAI 兼容模型]
+        Loop <--> Tools[基础工具<br/>bash / read / write / edit]
+        Runner <--> Session[SessionManager<br/>上下文压缩与恢复]
+        Runner <--> Goal[GoalStore<br/>长期目标状态机]
+    end
+
+    Tools --> Sandbox[Docker Sandbox<br/>非 root + 资源限制]
+    Session --> Data[(JSON / JSONL<br/>记忆、上下文、目标)]
+    Goal --> Data
+    Runner --> Audit[(audit/runs.jsonl<br/>Token、耗时、工具错误)]
+    Runner --> Transport
+
+    subgraph Quality[质量闭环]
+        Dataset[JSON 评测集] --> Eval[Eval Runner<br/>规则评分]
+        Eval --> Runner
+        Eval --> Report[JSON 评测报告]
+        Report --> Optimizer[Prompt Optimizer]
+        Optimizer --> Candidates[候选行为指令]
+        Candidates --> Eval
+        Optimizer -->|仅得分严格提高| Prompt[最佳提示词]
+        Prompt -.-> Runner
+    end
 ```
+
+实线表示线上请求或状态读写，虚线表示经过评测门禁后才允许进入运行时的提示词。核心原则是：模型负责决策，确定性代码负责状态、安全边界和验收。
 
 ## 为什么需要传输层
 

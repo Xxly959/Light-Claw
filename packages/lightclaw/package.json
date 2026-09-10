@@ -4,17 +4,22 @@
 	"description": "LightClaw: a durable personal agent for Feishu and Slack powered by pi",
 	"type": "module",
 	"bin": {
-		"lightclaw": "dist/main.js"
+		"lightclaw": "dist/main.js",
+		"lightclaw-eval": "dist/evals/cli.js",
+		"lightclaw-prompt-optimize": "dist/evals/optimize-cli.js"
 	},
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",
 	"files": [
 		"dist",
-		"CHANGELOG.md"
+		"evals",
+		"CHANGELOG.md",
+		"Dockerfile",
+		"docker.sh"
 	],
 	"scripts": {
 		"clean": "shx rm -rf dist",
-		"build": "tsgo -p tsconfig.build.json && shx chmod +x dist/main.js",
+		"build": "tsgo -p tsconfig.build.json && shx chmod +x dist/main.js dist/evals/cli.js dist/evals/optimize-cli.js",
 		"dev": "tsgo -p tsconfig.build.json --watch --preserveWatchOutput",
 		"prepublishOnly": "npm run clean && npm run build"
 	},

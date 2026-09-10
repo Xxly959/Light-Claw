@@ -10,7 +10,12 @@
 #   ./docker.sh shell               - 进入容器终端
 
 CONTAINER_NAME="lightclaw-sandbox"
-IMAGE="alpine:latest"
+IMAGE="lightclaw-sandbox:local"
+SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
+SANDBOX_CPUS="${LIGHTCLAW_SANDBOX_CPUS:-1.0}"
+SANDBOX_MEMORY="${LIGHTCLAW_SANDBOX_MEMORY:-512m}"
+SANDBOX_PIDS="${LIGHTCLAW_SANDBOX_PIDS_LIMIT:-128}"
+SANDBOX_NETWORK="${LIGHTCLAW_SANDBOX_NETWORK:-bridge}"
 
 case "$1" in
   create)
@@ -29,9 +34,23 @@ case "$1" in
     
     echo "正在创建容器 '${CONTAINER_NAME}'..."
     echo "  数据目录：${DATA_DIR} -> /workspace"
+    echo "  限额：CPU ${SANDBOX_CPUS}，内存 ${SANDBOX_MEMORY}，进程 ${SANDBOX_PIDS}，网络 ${SANDBOX_NETWORK}"
+
+    echo "正在构建最小权限镜像..."
+    docker build -q -t "$IMAGE" -f "${SCRIPT_DIR}/Dockerfile" "$SCRIPT_DIR" || exit 1
     
     docker run -d \
       --name "$CONTAINER_NAME" \
+      --cpus "$SANDBOX_CPUS" \
+      --memory "$SANDBOX_MEMORY" \
+      --memory-swap "$SANDBOX_MEMORY" \
+      --pids-limit "$SANDBOX_PIDS" \
+      --network "$SANDBOX_NETWORK" \
+      --user "$(id -u):$(id -g)" \
+      -e HOME=/tmp/lightclaw \
+      --cap-drop ALL \
+      --security-opt no-new-privileges:true \
+      --tmpfs /tmp:rw,nosuid,nodev,size=64m \
       -v "${DATA_DIR}:/workspace" \
       "$IMAGE" \
       tail -f /dev/null

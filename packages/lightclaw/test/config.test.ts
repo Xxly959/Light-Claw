@@ -17,10 +17,12 @@ describe("LightClaw 配置", () => {
 			LIGHTCLAW_MODEL_PROVIDER: "deepseek",
 			LIGHTCLAW_MODEL_ID: "deepseek-chat",
 			OPENAI_BASE_URL: "https://example.com/v1",
+			LIGHTCLAW_PROMPT_INSTRUCTIONS: "先验证，再回答",
 		});
 		expect(config.slack?.botToken).toBe("bot-token");
 		expect(config.modelId).toBe("deepseek-chat");
 		expect(config.openaiBaseUrl).toBe("https://example.com/v1");
+		expect(config.promptInstructions).toBe("先验证，再回答");
 	});
 
 	it("拒绝缺少凭证或非法轮次", () => {
