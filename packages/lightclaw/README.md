@@ -1,30 +1,32 @@
 # LightClaw
 
-[中文文档](README.zh-CN.md) | English
+**A self-hosted agent for Feishu and Slack that saves progress and records completion evidence.**
 
-LightClaw is a durable personal agent built on pi. It connects Feishu or Slack to the same small agent runtime, supports configurable model providers, survives process restarts, and records privacy-conscious execution metrics.
+[中文](README.zh-CN.md) · [Repository overview](../../README.md) · [Architecture](docs/architecture.zh-CN.md) · [Long-running goals](docs/goals.zh-CN.md)
 
-It intentionally keeps pi's lightweight design: one agent loop, a small set of filesystem and shell tools, JSON/JSONL persistence, and no orchestration framework.
+Give LightClaw a task in chat. It uses file and shell tools, keeps conversation and goal state on disk, and records progress and completion evidence across multiple execution cycles.
 
-## Features
+## Highlights
 
-- Feishu and Slack transport adapters behind one `ChatTransport` interface
-- OpenAI-compatible model gateways configured with environment variables
-- Persistent conversation context and workspace/channel memory
-- Durable long-running goals with pause, resume, cancel, and crash recovery
-- Safety limits for total cycles, consecutive failures, and stalled cycles
-- Completion evidence required before a goal can be marked complete
-- JSONL run audit with latency, token, cost, and tool-call metrics
-- Dataset-based Agent evaluation and guarded prompt optimization
-- Resource-limited, non-root Docker sandbox
-- Scheduled and periodic events
+- **Durable goals:** pause, resume, cancel, and recover active goals after process restarts.
+- **Completion evidence:** require a summary and evidence before marking a goal complete.
+- **Loop circuit breakers:** stop at cycle, consecutive-failure, or stale-progress limits.
+- **Chat integration:** Feishu and Slack share one transport interface and retain channel-specific context.
+- **Tool sandbox:** optional Docker execution with CPU, memory, process, and network settings.
+- **Evaluation workflow:** check responses, files, tool errors, and latency; record tokens and cost; compare prompt candidates with a baseline.
+
+Built on pi's model, Agent, and session infrastructure. LightClaw adds chat transports and the task lifecycle in this package.
 
 ## Quick start
 
-Install dependencies from the repository root:
+Requires Node.js >= 22.19.0, npm, a model account, and a Feishu or Slack application. The Node agent runs on the host; the following setup uses Docker for tools. Install from the repository root:
 
 ```bash
+git clone https://github.com/Xxly959/Light-Claw.git
+cd Light-Claw
 npm install
+mkdir -p lightclaw-data
+bash packages/lightclaw/docker.sh create ./lightclaw-data
 ```
 
 Configure a model. The provider and model must exist in pi's model registry:
@@ -33,10 +35,11 @@ Configure a model. The provider and model must exist in pi's model registry:
 export LIGHTCLAW_MODEL_PROVIDER=zai
 export LIGHTCLAW_MODEL_ID=glm-5.3-flash
 export OPENAI_API_KEY=your-key
-export OPENAI_BASE_URL=https://your-openai-compatible-gateway.example/v1
+# Optional gateway endpoint
+# export OPENAI_BASE_URL=https://your-openai-compatible-gateway.example/v1
 ```
 
-For Feishu:
+For Feishu, enable the bot, subscribe to `im.message.receive_v1` over a long connection, and grant message read/send permissions:
 
 ```bash
 export LIGHTCLAW_TRANSPORT=feishu
@@ -45,7 +48,7 @@ export LIGHTCLAW_FEISHU_APP_SECRET=xxx
 npx tsx packages/lightclaw/src/main.ts --sandbox=docker:lightclaw-sandbox ./lightclaw-data
 ```
 
-For Slack:
+For Slack, enable Socket Mode and configure events and scopes using the [setup guide](docs/slack-bot-minimal-guide.md):
 
 ```bash
 export LIGHTCLAW_TRANSPORT=slack
@@ -54,7 +57,7 @@ export LIGHTCLAW_SLACK_BOT_TOKEN=xoxb-xxx
 npx tsx packages/lightclaw/src/main.ts --sandbox=docker:lightclaw-sandbox ./lightclaw-data
 ```
 
-Do not hardcode credentials. `OPENAI_API_KEY`, `OPENAI_BASE_URL`, and chat-platform credentials are read only from the environment or pi's auth store.
+Credentials come from environment variables or pi's auth store; the entrypoint does not load `.env` automatically. Omitting `--sandbox` runs tools on the host. Docker uses `bridge` networking by default; set `LIGHTCLAW_SANDBOX_NETWORK=none` before creating the container for offline tool execution. See [sandbox configuration](docs/sandbox.zh-CN.md).
 
 ## Evaluation and prompt optimization
 
@@ -81,7 +84,7 @@ To use the promoted instructions, load the generated text before starting LightC
 export LIGHTCLAW_PROMPT_INSTRUCTIONS="$(cat ./lightclaw-data/evals/optimized-prompt.txt)"
 ```
 
-Add project-specific cases by copying `evals/basic.json`. Evaluation directories and reports live under `lightclaw-data/` and are excluded from Git.
+The bundled two-case set is a smoke check. Same-dataset prompt selection does not establish generalization or production reliability. Add project-specific cases by copying `evals/basic.json`. Evaluation directories and reports live under `lightclaw-data/` and are excluded from Git.
 
 ## Long-running goals
 
@@ -96,6 +99,8 @@ Send these commands in a direct message or mention:
 ```
 
 An active goal is stored in `<workspace>/<channel>/goal.json`. LightClaw asks the model to report progress every cycle and to provide evidence before completion. Active goals are re-enqueued after a process restart.
+
+Completion evidence is submitted by the executing Agent; it is not independent verification. Restart recovery may repeat unfinished work, so external side effects require application-level idempotency.
 
 The default circuit breakers are:
 
@@ -131,7 +136,6 @@ The audit log contains operational metadata only. It does not intentionally stor
 - [Architecture](docs/architecture.zh-CN.md)
 - [Long-running goals](docs/goals.zh-CN.md)
 - [Evaluation record](docs/evaluation.zh-CN.md)
-- [Project introduction and interview script](docs/project-introduction.zh-CN.md)
 - [Events](docs/events.md)
 - [Sandbox](docs/sandbox.md)
 - [Slack setup](docs/slack-bot-minimal-guide.md)

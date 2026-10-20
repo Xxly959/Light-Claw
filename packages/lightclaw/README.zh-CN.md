@@ -1,35 +1,19 @@
-# LightClaw：能长期干活的轻量个人 Agent
+# LightClaw 使用指南
 
-[English](README.md) | 中文文档
+[English](README.md) · [项目首页](../../README.md) · [架构](docs/architecture.zh-CN.md) · [长期目标](docs/goals.zh-CN.md)
 
-LightClaw 基于 pi 的 `pi-ai`、`pi-agent-core` 和 `pi-coding-agent` 构建。它不是套一层 LangChain，也不是把所有能力都塞进提示词，而是保留一条清晰的主线：
+LightClaw 将飞书和 Slack 接入同一套 Agent 运行时，支持多轮任务、进度持久化、完成证据、Docker 工具执行、运行审计和任务评测。
 
-```text
-消息平台 → Agent Loop → 基础工具 → 持久化状态 → 可验证结果
-```
+## 安装与启动
 
-恭喜你，能看懂这条链路，你就已经抓住 Agent 工程最重要的部分了！
-
-## 它解决什么问题
-
-普通聊天机器人收到一句话，只执行一轮。长期任务却可能需要多轮尝试，还会遇到模型提前停止、工具失败、进程重启和上下文压缩。
-
-LightClaw 在轻量框架上增加了七个工程能力：
-
-1. 飞书和 Slack 使用同一套消息平台协议。
-2. 模型、网关和运行限制全部通过环境变量配置。
-3. 长期目标保存到磁盘，重启后能够继续执行。
-4. 每轮记录延迟、Token、费用和工具结果数量，完成时必须提供证据。
-5. 用固定评测集检查回复、文件产物、工具错误、耗时和 Token。
-6. 自动生成提示词候选，并且只在复测得分更高时保存新版本。
-7. Docker 沙箱限制 CPU、内存和进程数，并使用非 root 用户运行。
-
-## 五分钟启动
-
-在仓库根目录安装依赖：
+需要 Node.js >=22.19.0、npm、模型凭证和飞书或 Slack 应用。Node Agent 在宿主机运行，以下使用 Docker 执行工具。在仓库根目录安装依赖：
 
 ```bash
+git clone https://github.com/Xxly959/Light-Claw.git
+cd Light-Claw
 npm install
+mkdir -p lightclaw-data
+bash packages/lightclaw/docker.sh create ./lightclaw-data
 ```
 
 配置 OpenAI 兼容模型：
@@ -38,7 +22,8 @@ npm install
 export LIGHTCLAW_MODEL_PROVIDER=zai
 export LIGHTCLAW_MODEL_ID=glm-5.3-flash
 export OPENAI_API_KEY=你的密钥
-export OPENAI_BASE_URL=https://你的网关地址/v1
+# 使用自定义 OpenAI 兼容网关时设置
+# export OPENAI_BASE_URL=https://your-gateway.example/v1
 ```
 
 `LIGHTCLAW_MODEL_PROVIDER` 和 `LIGHTCLAW_MODEL_ID` 必须能在 pi 的模型注册表中找到。也可以改用 `deepseek`、`moonshotai-cn` 等已有 provider。
@@ -52,9 +37,11 @@ export LIGHTCLAW_FEISHU_APP_SECRET=xxx
 npx tsx packages/lightclaw/src/main.ts --sandbox=docker:lightclaw-sandbox ./lightclaw-data
 ```
 
-飞书应用需要接收 `im.message.receive_v1`，并允许机器人读取和发送消息。群聊中需要 @ 机器人，私聊可以直接发送。
+飞书应用需启用机器人能力，通过长连接订阅 `im.message.receive_v1`，并允许机器人读取和发送消息。群聊中需要 @ 机器人，私聊可以直接发送。
 
 ### Slack 模式
+
+开启 Socket Mode，并按 [Slack 接入指南](docs/slack-bot-minimal-guide.md) 配置事件与权限。
 
 ```bash
 export LIGHTCLAW_TRANSPORT=slack
@@ -63,11 +50,11 @@ export LIGHTCLAW_SLACK_BOT_TOKEN=xoxb-xxx
 npx tsx packages/lightclaw/src/main.ts --sandbox=docker:lightclaw-sandbox ./lightclaw-data
 ```
 
-任何 API Key 都不要写进源码、README 或提交记录。
+凭证通过环境变量或 pi 认证存储读取，启动入口不会自动加载 `.env`。省略 `--sandbox` 时工具在宿主机执行；Docker 默认使用 `bridge` 网络，创建容器前可设置 `LIGHTCLAW_SANDBOX_NETWORK=none`。详见[沙箱配置](docs/sandbox.zh-CN.md)。
 
 ## 运行 Agent 评测
 
-下面的命令会真实调用学校的大模型接口，因此会消耗 API 额度：
+下面的命令会调用配置的模型接口，消耗相应 API 额度：
 
 ```bash
 npx tsx packages/lightclaw/src/evals/cli.ts \
@@ -92,7 +79,7 @@ npx tsx packages/lightclaw/src/evals/optimize-cli.ts \
 export LIGHTCLAW_PROMPT_INSTRUCTIONS="$(cat ./lightclaw-data/evals/optimized-prompt.txt)"
 ```
 
-这就是最小可用的 Prompt Optimization 闭环。恭喜你，已经不是“凭感觉改提示词”了！
+随包两例数据集用于冒烟检查。同集候选选优不代表独立测试集泛化或生产可靠性；重要任务应增加独立用例并重复评测。
 
 ## 使用长期目标
 
@@ -114,9 +101,11 @@ export LIGHTCLAW_GOAL_MAX_FAILURES=2
 export LIGHTCLAW_GOAL_MAX_STALE_CYCLES=2
 ```
 
+完成证据由执行 Agent 提交，不是独立验收器的核验结果。重启恢复可能重复执行未完成工作，外部副作用需要业务幂等处理。
+
 ## 数据放在哪里
 
-每个频道独立保存上下文和目标，避免不同用户之间串数据：
+对话、目标和产物按频道保存；工作区级 `MEMORY.md` 为共享记忆，频道划分不等于多租户安全隔离：
 
 ```text
 lightclaw-data/
@@ -134,18 +123,12 @@ lightclaw-data/
     └── skills/
 ```
 
-## 推荐学习顺序
+## 文档与开发
 
-如果你现在几乎看不懂代码，按下面顺序学，不要一上来啃完整入口：
+- [架构设计](docs/architecture.zh-CN.md)
+- [长期目标](docs/goals.zh-CN.md)
+- [沙箱配置](docs/sandbox.zh-CN.md)
+- [定时事件](docs/events.md)
+- [历史评测记录](docs/evaluation.zh-CN.md)
 
-1. `src/config.ts`：学习环境变量、类型和输入校验。
-2. `src/transport.ts`：学习接口和适配器模式。
-3. `src/goals/store.ts`：学习状态机、JSON 持久化和原子写入。
-4. `src/tools/goal.ts`：理解 Tool 本质上就是带参数描述的函数。
-5. `src/agent.ts`：理解模型、上下文、工具和 Agent Loop 怎样组合。
-6. `src/main.ts`：最后理解消息队列、长期循环、停止和崩溃恢复。
-7. `src/evals/`：理解离线评测、指标比较和提示词自动优化。
-
-每看完一个文件，先回答三个问题：输入是什么、状态保存在哪里、失败后怎样停止。能回答出来，再看下一个文件。
-
-更完整的设计说明见[架构文档](docs/architecture.zh-CN.md)、[长期目标文档](docs/goals.zh-CN.md)、[评测记录](docs/evaluation.zh-CN.md)、[项目介绍与面试讲稿](docs/project-introduction.zh-CN.md)和[沙箱文档](docs/sandbox.zh-CN.md)。
+静态检查在仓库根目录执行 `npm run check`，不包含测试。定向测试从对应包目录执行，遵循[开发规则](../../AGENTS.md)。

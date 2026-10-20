@@ -1,68 +1,97 @@
 # LightClaw
 
-[English](packages/lightclaw/README.md) | 中文
+**在飞书和 Slack 中执行任务，保存进度，并提供完成证据。**
 
-LightClaw 是一个能持续推进目标、保存进度并提供完成证据的轻量个人 Agent。它通过飞书或 Slack 接收任务，使用 OpenAI 兼容模型规划和调用工具，并在 Docker 沙箱内安全执行命令。
+[English](packages/lightclaw/README.md) · [使用指南](packages/lightclaw/README.zh-CN.md) · [架构](packages/lightclaw/docs/architecture.zh-CN.md) · [长期目标](packages/lightclaw/docs/goals.zh-CN.md)
 
-本项目基于 [pi-mono](https://github.com/badlogic/pi-mono) 的轻量 Agent 运行时开发，不依赖 LangChain、Dify 等重型编排框架。
+LightClaw 是一个基于 TypeScript 的自托管个人 Agent。你在聊天中交付目标，它调用文件和 Shell 工具完成工作，将进度保存到磁盘，并在标记目标完成时提交结构化说明和证据。
 
-```text
-飞书 / Slack
-      ↓
-消息平台适配层
-      ↓
-Agent Loop + 上下文记忆
-      ↓
-基础工具 + 长期目标状态机
-      ↓
-Docker 沙箱 + JSONL 审计
+适合需要多轮执行、保留产物和追踪过程的任务：整理资料、生成报告、修改代码、运行测试，以及定时处理工作区内的文件。
+
+## 为什么用 LightClaw
+
+| 能力 | 解决的问题 | 实现方式 |
+| --- | --- | --- |
+| 持久化目标 | 任务需要多轮推进，进程可能中断 | 保存状态与进度，支持暂停、恢复、取消和重启恢复 |
+| 完成证据 | 需要追踪 Agent 为什么认为任务完成 | `goal_complete` 要求提交完成说明和证据，保存为结构化状态 |
+| 循环熔断 | 长任务可能反复失败或停止取得进展 | 最大轮次、连续失败、连续停滞三类停止条件 |
+| 多平台接入 | 希望在日常聊天工具中交付任务 | 飞书与 Slack 适配同一接口，按频道保存会话与任务 |
+| 工具沙箱 | 文件与 Shell 操作需要限制影响范围 | 可选 Docker 执行环境，配置 CPU、内存、进程数和网络 |
+| 可检查的运行过程 | 需要知道任务产物与资源消耗 | JSONL 审计，检查回复、文件、工具错误、耗时与 Token 的任务评测 |
+
+飞书和 Slack 共用一套 `ChatTransport` 接口。模型、工具、会话和上下文管理复用 [pi-mono](https://github.com/badlogic/pi-mono)；LightClaw 的业务代码集中在 [`packages/lightclaw`](packages/lightclaw)。
+
+## 一次任务如何完成
+
+```mermaid
+flowchart LR
+    Chat[飞书 / Slack] --> Queue[频道队列]
+    Queue --> Agent[Agent 与工具循环]
+    Agent --> Tools[文件 / Shell / 附件]
+    Tools --> Agent
+    Agent --> Goal[目标进度与完成证据]
+    Goal -->|继续执行| Queue
+    Goal -->|目标完成| Result[结果与证据]
+    Result --> Chat
 ```
 
-## 核心能力
-
-- 飞书与 Slack 共用一套 `ChatTransport` 协议
-- 兼容 OpenAI Chat Completions 的模型网关
-- `read`、`write`、`edit`、`bash` 等基础工具
-- `/goal` 长期目标创建、查询、暂停、恢复和取消
-- 目标状态持久化，进程重启后能够继续
-- 最大轮次、连续失败和停滞熔断
-- 完成前必须保存进展和可核验证据
-- 记录延迟、Token、费用和工具调用指标
-- Docker 隔离执行环境
-
-## 已验证链路
+例如，在飞书中发送：
 
 ```text
-飞书消息
-  → LightClaw
-  → OpenAI 兼容 GLM-5.3-Flash
-  → Docker 中创建 Python 项目
-  → unittest 4 项通过
-  → goal_complete 保存证据
-  → 飞书返回结果
+/goal 读取 scratch/notes.md，整理成 scratch/report.md，并附上结果文件
+/goal status
 ```
+
+Agent 可以多轮读取、写入和检查产物。每轮通过 `goal_progress` 保存进展；完成时通过 `goal_complete` 提交说明和证据。你可以用 `/goal status` 查看状态，或暂停、恢复和取消目标。
+
+当前完成证据由执行 Agent 提交，不是独立验收器的核验结果。对结果有严格要求时，应另外检查实际文件或测试输出。详见[长期目标说明](packages/lightclaw/docs/goals.zh-CN.md)。
 
 ## 快速开始
 
+需要 **Node.js >= 22.19.0**、npm、可用的模型凭证，以及飞书或 Slack 应用。以下步骤使用 Docker 运行工具，Node Agent 在宿主机运行。
+
+### 1. 安装并创建工具环境
+
 ```bash
+git clone https://github.com/Xxly959/Light-Claw.git
+cd Light-Claw
 npm install
 mkdir -p lightclaw-data
 bash packages/lightclaw/docker.sh create ./lightclaw-data
 ```
 
-配置环境变量：
+### 2. 配置模型与聊天平台
+
+以下使用仓库默认的 `zai/glm-5.3-flash`。provider 与 model ID 必须存在于 pi 的模型注册表中；OpenAI 兼容网关可通过 `OPENAI_BASE_URL` 覆盖地址。
 
 ```bash
-export LIGHTCLAW_TRANSPORT=feishu
-export LIGHTCLAW_FEISHU_APP_ID=cli_xxx
-export LIGHTCLAW_FEISHU_APP_SECRET=xxx
 export LIGHTCLAW_MODEL_PROVIDER=zai
 export LIGHTCLAW_MODEL_ID=glm-5.3-flash
-export OPENAI_API_KEY=你的密钥
-export OPENAI_BASE_URL=https://你的网关地址/v1
+export OPENAI_API_KEY='your-api-key'
+# 使用自定义 OpenAI 兼容网关时设置：
+# export OPENAI_BASE_URL='https://your-gateway.example/v1'
+
+export LIGHTCLAW_TRANSPORT=feishu
+export LIGHTCLAW_FEISHU_APP_ID='cli_xxx'
+export LIGHTCLAW_FEISHU_APP_SECRET='your-app-secret'
 ```
 
-启动：
+飞书应用需开启机器人能力，使用长连接订阅 `im.message.receive_v1`，并具备读取和发送消息的权限。私聊直接发送，群聊 @ 机器人。
+
+<details>
+<summary>改用 Slack</summary>
+
+开启应用的 Socket Mode，按 [Slack 接入指南](packages/lightclaw/docs/slack-bot-minimal-guide.md) 配置事件和权限，再替换聊天平台变量：
+
+```bash
+export LIGHTCLAW_TRANSPORT=slack
+export LIGHTCLAW_SLACK_APP_TOKEN='xapp-xxx'
+export LIGHTCLAW_SLACK_BOT_TOKEN='xoxb-xxx'
+```
+
+</details>
+
+### 3. 启动并发送任务
 
 ```bash
 npx tsx packages/lightclaw/src/main.ts \
@@ -70,38 +99,69 @@ npx tsx packages/lightclaw/src/main.ts \
   ./lightclaw-data
 ```
 
-在飞书中创建长期目标：
+先发送一条普通消息验证连接，再尝试 `/goal`。凭证通过环境变量或 pi 认证存储读取；启动入口不会自动加载 `.env`。
+
+省略 `--sandbox` 会使用宿主机执行。Docker 默认网络为 `bridge`；离线工具环境可在创建容器前设置 `LIGHTCLAW_SANDBOX_NETWORK=none`。详细参数见[沙箱说明](packages/lightclaw/docs/sandbox.zh-CN.md)。
+
+## 目标控制与执行边界
 
 ```text
-/goal 在 scratch 目录创建一个 Python 项目，运行测试并提供完成证据
-/goal status
+/goal status     查看目标、进展与待确认结果
+/goal pause      暂停目标
+/goal resume     恢复目标
+/goal cancel     取消目标
 ```
 
-任何凭证都必须通过环境变量传入，禁止写进代码或提交到仓库。
-
-## 文档
-
-- [中文教程](packages/lightclaw/README.zh-CN.md)
-- [English guide](packages/lightclaw/README.md)
-- [架构设计](packages/lightclaw/docs/architecture.zh-CN.md)
-- [长期目标状态机](packages/lightclaw/docs/goals.zh-CN.md)
-
-## 验证
+默认目标上限为 8 轮；连续失败或停滞达到 2 轮时暂停，可通过环境变量调整：
 
 ```bash
-npm run check
-cd packages/lightclaw
-npx tsx ../../node_modules/vitest/dist/cli.js --run \
-  test/config.test.ts \
-  test/goals.test.ts \
-  test/observability.test.ts \
-  test/feishu.test.ts \
-  test/events.test.ts \
-  test/presentation.test.ts
+export LIGHTCLAW_GOAL_MAX_CYCLES=8
+export LIGHTCLAW_GOAL_MAX_FAILURES=2
+export LIGHTCLAW_GOAL_MAX_STALE_CYCLES=2
 ```
 
-单元测试不会调用真实模型或消耗 API 额度。
+目标保存在频道目录的 `goal.json`，对话、记忆、附件和产物保存在 `lightclaw-data/`。恢复采用至少一次执行语义，外部副作用仍需业务幂等处理。当前设计面向单实例个人 Agent，详见[使用指南](packages/lightclaw/README.zh-CN.md)。
 
-## 项目来源
+## 评测与提示词优化
 
-LightClaw 保留 pi-mono 的 MIT 许可证和上游历史。本仓库的新增工作集中在 `packages/lightclaw`，包括飞书适配、可配置模型网关、长期目标状态机、崩溃恢复、运行审计和中文教程。
+评测运行实际 Agent 循环，检查回复内容、文件产物、工具错误和耗时，并记录 Token 与费用：
+
+```bash
+npx tsx packages/lightclaw/src/evals/cli.ts \
+  --sandbox=docker:lightclaw-sandbox \
+  --workspace=./lightclaw-data
+```
+
+提示词优化先运行基线，再生成候选并在同一数据集上评测，仅在得分严格提高时保存新指令：
+
+```bash
+npx tsx packages/lightclaw/src/evals/optimize-cli.ts \
+  --sandbox=docker:lightclaw-sandbox \
+  --workspace=./lightclaw-data \
+  --candidates=2
+```
+
+以上命令会消耗配置模型的 API 额度。随包两例数据集用于冒烟检查；同集得分提高不代表独立测试集泛化，也不代表生产可靠性。详见[历史评测记录](packages/lightclaw/docs/evaluation.zh-CN.md)。
+
+## 项目结构与文档
+
+| 路径 | 用途 |
+| --- | --- |
+| [`packages/lightclaw`](packages/lightclaw) | 平台接入、目标、队列、沙箱、审计与评测 |
+| [`packages/ai`](packages/ai) | 模型接口与流式事件 |
+| [`packages/agent`](packages/agent) | Agent 工具循环 |
+| [`packages/coding-agent`](packages/coding-agent) | 会话、上下文压缩与工具基础设施 |
+| [`packages/tui`](packages/tui) | coding-agent 所依赖的终端组件 |
+
+- [中文使用指南](packages/lightclaw/README.zh-CN.md) / [English guide](packages/lightclaw/README.md)
+- [架构设计](packages/lightclaw/docs/architecture.zh-CN.md) · [目标状态与恢复](packages/lightclaw/docs/goals.zh-CN.md)
+- [沙箱配置](packages/lightclaw/docs/sandbox.zh-CN.md) · [定时事件](packages/lightclaw/docs/events.md)
+- [评测记录](packages/lightclaw/docs/evaluation.zh-CN.md)
+
+## 开发检查
+
+在仓库根目录执行 `npm run check` 进行静态检查；该命令不运行测试。定向测试从相应包目录执行，遵循 [开发规则](AGENTS.md)。
+
+## 许可证与致谢
+
+[MIT](LICENSE)。LightClaw 基于 [pi-mono](https://github.com/badlogic/pi-mono)，保留上游版权声明与历史。感谢 pi 提供模型、Agent 和会话基础设施。

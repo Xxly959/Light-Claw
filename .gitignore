@@ -39,3 +39,24 @@ plans/
 .pi/hf-sessions/
 .pi/hf-sessions-backup/
 collect.sh
+
+
+# Local credentials and private project records
+/.local-only/
+.env.*
+!.env.example
+!.env.*.example
+/auth.json
+/credentials.json
+/LEARNING_PROGRESS.md
+/docs/engineering-change-log.zh-CN.md
+/docs/interview-evidence/
+/docs/testing/
+/docs/optimization/
+/docs/superpowers/
+/packages/lightclaw/docs/interview-*.md
+/packages/lightclaw/docs/project-introduction.zh-CN.md
+/packages/lightclaw/docs/agent-research-*.md
+/packages/lightclaw/docs/test-audit-*.md
+/packages/lightclaw/docs/optimization-acceptance-*.md
+/packages/lightclaw/docs/verification-design.zh-CN.md
