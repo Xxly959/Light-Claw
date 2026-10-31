@@ -17,8 +17,10 @@ flowchart LR
     end
 
     Tools --> Sandbox[Docker Sandbox<br/>非 root + 资源限制]
-    Session --> Data[(JSON / JSONL<br/>记忆、上下文、目标)]
-    Goal --> Data
+    Session --> Data[(JSON / JSONL<br/>记忆、上下文、产物)]
+    Goal --> Control[(工作区外 control<br/>目标、验收报告、互斥锁)]
+    Goal --> Verifier[确定性文件 / Docker 命令验收]
+    User -->|确认当前申请| Goal
     Runner --> Audit[(audit/runs.jsonl<br/>Token、耗时、工具错误)]
     Runner --> Transport
 
@@ -57,7 +59,7 @@ flowchart LR
 - `log.jsonl` 是便于检索的聊天历史。
 - `context.jsonl` 是模型实际使用的结构化上下文。
 - `MEMORY.md` 保存跨会话仍有价值的偏好和事实。
-- `goal.json` 只保存当前目标的结构化状态，不依赖对话摘要。
+- 控制根的 `<channel>/goal.json` 保存 schema 2 目标、创建者、验收契约、状态版本及有界验证报告，不在可写工作区内。
 
 把目标状态从模型上下文中独立出来非常重要。即使旧对话被压缩，目标、轮次、进展和证据仍不会丢失。
 
@@ -66,3 +68,5 @@ flowchart LR
 LightClaw 默认推荐 Docker 沙箱。长期 Agent 比普通聊天机器人风险更高，因为它能多轮调用 bash 和文件工具。循环必须受到最大轮次、连续失败和无进展检测约束，用户也可以随时发送 `stop`。
 
 审计日志只保存指标，不保存完整提示词、工具参数和回复正文。凭证只从环境变量或 pi 的认证存储读取。
+
+固定契约由真实平台事件创建，恢复／调度／续跑事件通过显式 origin 区分。`goal_complete` 经验证器读取实际文件或执行预定命令，failed 保持 active，inconclusive 等待创建者确认。验证命令共享单轮工具预算与取消信号。启动验证 Docker mount 未覆盖控制目录，Bot／迁移工具用同一互斥锁。相同 UID 的 host 命令、多租户共享挂载和远端取消仍有边界，详见[验收说明](goals.zh-CN.md)。

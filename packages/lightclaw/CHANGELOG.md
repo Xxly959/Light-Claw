@@ -4,23 +4,97 @@
 
 ### Breaking Changes
 
+- Stop handlers require a platform actor. Goal/run controls check owner or explicitly configured administrators before cancellation; human confirmation remains creator-only. Docker startup rejects unsafe or unbounded configurations. Full diagnostic payload capture now requires explicit opt-in.
+
+- The unified evaluation CLI now defaults to a credential-free offline audit; the previous model-backed single-turn mode requires `--suite=legacy`.
+
+- All runtime modes require host POSIX/Python flock support; stop older instances before upgrading. Docker execution requires container Python with Linux subreaper/pidfd support and confirms task termination before reporting cancellation.
+
+- Attachment uploads require host Python 3 on POSIX, accept only current-channel paths, reject links and non-regular files, and enforce a 20 MiB limit. Transport upload paths are now channel-relative.
+
+- Prompt optimization reports now use schema 4 and record distinct request seeds, selection objective, measured-noise guards and thresholds. Run input-token totals now include provider-reported cache reads and writes.
+
 - Renamed the package, workspace directory, CLI, runtime directory, Docker sandbox, and environment variables from Mom to LightClaw. Configuration now uses the `LIGHTCLAW_*` prefix.
+- Required Node.js 22.19.0 or newer to match undici's runtime requirement.
+- Changed benchmark summaries and resource records to schema 2 with required event-loop observations.
+- Required independent holdout cases and at least five repetitions for prompt optimization, with schema 2 reports retaining every evaluation and rejection reason.
 
 ### Added
+
+- Add a side-effect-free public source index, native local source-release integrity tooling, credential-free CLI help/local lock health probe, deployment/recovery guidance and explicit unverified compiled-install gates.
+- Add shared actual-adapter offline contracts, Unicode-safe reply previews, strict dated event scheduling and configurable resource/diagnostic retention and admission limits.
+
+- Add a shared-production-runtime reliability evaluation suite with 36 family-separated synthetic tasks, protected exact artifact scoring, isolated faux workers, crash/fault evidence, frozen manifests and task-level paired statistics. Offline wiring results do not measure model quality or prompt benefit.
+
+- Persist message and one-shot event admission, consumption, deadlines, bounded manual retries and uncertain/dead-letter outcomes in the protected control directory.
+- Add stable-ID controlled operation records, service result reconciliation and manual resolution, with an independent mock-service process fault matrix.
+
+- Added seven independent diagnostic feature switches and an owner-only goal verification dispute log.
+
+- Added immutable goal acceptance contracts, deterministic file and Docker command verification, owner confirmation, protected schema 2 control storage, and explicit offline legacy migration.
 
 - Added LightClaw branding, Feishu and Slack transport selection, configurable model providers, durable long-running goals, crash recovery, circuit breakers, and privacy-conscious run auditing.
 - Added dataset-based Agent evaluation, rule scoring, JSON reports, and guarded prompt optimization that promotes only better candidates.
 - Added a non-root Docker image with CPU, memory, process, capability, and privilege limits.
+- Added a deterministic faux-provider concurrency benchmark with raw task, round, CPU, and memory samples plus summaries rebuilt from those records.
+- Added configurable per-run duration, tool-call, reported-token limits and a default bash timeout.
+- Added configurable platform request timeouts, uncertain-delivery isolation, and delivery error reporting independent of execution outcomes.
+- Added benchmark P99, maximum latency, per-round results, event-loop delay, and resource-sampling lag observations.
+- Added configurable pending queue capacity and wait deadlines with rejection/expiry auditing and user notices.
+- Added bounded idle channel caches that retain busy resources and dispose inactive sessions without deleting persisted state.
 
 ### Changed
 
+- Load skill creation, event scheduling, and history-query tutorials on demand from a channel-local guide while keeping installed skills discoverable.
+- Support explicit quality, token, or latency objectives in repeated prompt selection, retaining quality and tool-error guards.
+
+- Completion claims now require verification or owner confirmation; natural-language goals use manual acceptance. Goal state is stored outside the workspace and startup requires an exclusive control lock.
+
 - Decoupled the agent, event watcher, and message context from Slack-specific transport types.
+- Tested LightClaw against workspace package sources and configured CI for minimum and current Node 22 versions.
+- Surfaced Slack rate limits and request failures without automatic retries after uncertain delivery.
 
 ### Fixed
 
+- Prevent invalid historical-goal controls from cancelling another current run, pass authenticated stop identities, and validate channel storage paths.
+- Admit attachment batches atomically, enforce bounded downloads/archives, retain authoritative state on quota/write failure, and keep optional diagnostic failures nonfatal.
+- Accept safe Docker tmpfs mounts throughout startup isolation and bound startup probe duration/output. Preserve the existing channel export alongside the separate attachment downloader.
+
+- Replace stale file-token locks with kernel ownership released on process exit; stop admission and drain/cancel in-flight work before unlock.
+- Retain queued work across restarts, isolate uncertain execution before follow-up/goal replay, and delete one-shot sources only after durable admission.
+- Supervise Docker execution trees inside the container, with host-liveness monitoring and cancellation/exit confirmation.
+
+- Enforce attachment authorization at both platform read boundaries using pinned directory/file descriptors and upload only bounded, verified bytes.
+- Run LightClaw offline regressions through the workspace test script and an explicit required CI step, with isolated user configuration and blocked Node network access.
+
+- Return corrective goal acceptance conditions, ignore progress-only verification revisions, deduplicate identical progress, and redact common credentials in audit failure details.
+- Reject prompt promotions within measured baseline variation, training-only gains, and per-task mean regressions; send paired distinct seeds through supported OpenAI-compatible evaluation requests.
+
+- Keep sandbox paths and fresh channel, memory, and goal context in the system prompt actually dispatched by AgentSession.
+- Discover optional shell commands once per runner, report missing commands explicitly, and remove contradictory Docker package-install instructions.
+- Include all training repetitions, effective system prompts, and bounded tool-error diagnostics when generating prompt candidates.
+
+- Isolated attachment uploads per agent runner to prevent files being routed to another channel during concurrent runs.
+- Rejected overlapping runs on the same runner and drained queued replies before clearing run state, including after setup or prompt failures.
 - Kept model reasoning content in local logs instead of exposing it in chat responses.
 - Preserved a successfully completed goal when the model gateway fails while generating the final response.
 - Prevented ordinary one-turn tasks from calling long-running goal tools without an active goal.
+- Rejected blank completion evidence and malformed persisted goals, isolating corrupt channels during recovery.
+- Validated evaluation datasets before loading tasks.
+- Archived every truncated shell output before returning its path, preserved large-output tails, and handled asynchronous spawn errors.
+- Counted written UTF-8 bytes accurately.
+- Recovered message updates after delivery failures, preserved execution auditing and completed goals, and paused stranded active goals.
+- Prevented new model requests and tool side effects after a run budget is exhausted.
+- Rejected timer-overflow budgets, non-string goal statuses, and noncanonical persisted dates.
+- Corrected goal recovery hints to the supported `/goal resume` command.
+- Isolated cached runners by workspace path and avoided allocating runners for inactive goals during startup.
+- Rejected unknown or ineffective evaluation checks, validated programmatic datasets, scored cancellation and truncation as unsuccessful, and restricted artifact checks to channel-local regular files.
+- Released evaluation sessions and used unique report paths to avoid collisions.
+- Cancelled session retry and compaction alongside model execution, preserving cancellation until the current run finishes.
+- Prevented a stop received during typing delivery from launching a new run.
+- Observed immediate platform notifications with deadlines and failure auditing.
+- Rejected prompt candidates with increased tool-error or artifact-failure frequency across repeated evaluations.
+- Rejected explicit shell timeouts outside the Node timer range before command execution.
 
 ## [0.70.6] - 2026-04-28
 

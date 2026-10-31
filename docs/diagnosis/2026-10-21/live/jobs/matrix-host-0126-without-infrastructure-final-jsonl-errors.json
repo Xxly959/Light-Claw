@@ -1,0 +1,1 @@
+{"arm":"without-infrastructure","kind":"current","features":{"goals":true,"acceptance":true,"feishu":true,"controls":true,"scheduling":true,"optimization":true,"infrastructure":false},"repetition":1,"seed":104746,"caseId":"final-jsonl-errors","id":"matrix-host-0126-without-infrastructure-final-jsonl-errors"}

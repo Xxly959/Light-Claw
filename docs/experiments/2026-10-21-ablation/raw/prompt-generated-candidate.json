@@ -1,0 +1,38 @@
+{
+  "createdAt": "2026-10-21T08:27:17.984Z",
+  "instruction": "你是Agent系统提示词优化器。生成一个简洁、通用的中文行为指令候选，用于追加到既有系统提示词末尾。不得硬编码任务答案，不得扩大权限或放宽安全边界，不超过250个汉字。只输出JSON字符串数组，恰好一个元素。\n当前追加指令：无\n训练任务：[{\"id\":\"train-orders\",\"prompt\":\"读取scratch/orders.csv，只统计status=paid的订单，用整数分计算总额；输出scratch/summary.json，且只含paid_count和total_cents两个数值字段。 所有输入文件必须保持原样。输出文件使用UTF-8，完成后简短说明。\",\"expect\":{\"maxToolErrors\":0}},{\"id\":\"train-contacts\",\"prompt\":\"读取scratch/contacts.json，将email去除两端空格并转小写后去重，保留首次出现的记录及其name，输出scratch/clean.json，格式为对象数组，只保留name和规范化email。 所有输入文件必须保持原样。输出文件使用UTF-8，完成后简短说明。\",\"expect\":{\"maxToolErrors\":0}},{\"id\":\"train-merge\",\"prompt\":\"读取scratch/base.json和scratch/override.json，进行浅合并，同名键以override为准，null必须保留。输出scratch/merged.json。 所有输入文件必须保持原样。输出文件使用UTF-8，完成后简短说明。\",\"expect\":{\"maxToolErrors\":0}},{\"id\":\"train-markdown\",\"prompt\":\"读取scratch/notes.md，提取所有以'- [ ] '开头的未完成项，去掉该前缀，保持顺序；输出scratch/todo.json，格式为字符串数组。 所有输入文件必须保持原样。输出文件使用UTF-8，完成后简短说明。\",\"expect\":{\"maxToolErrors\":0}},{\"id\":\"train-version-sort\",\"prompt\":\"读取scratch/versions.json，按三段十进制版本号数值从小到大排序，保留重复项；输出scratch/sorted.json。不能按字符串字典序排序。 所有输入文件必须保持原样。输出文件使用UTF-8，完成后简短说明。\",\"expect\":{\"maxToolErrors\":0}},{\"id\":\"train-invalid-lines\",\"prompt\":\"逐行读取scratch/events.jsonl，跳过非法JSON行，对合法对象的整数value求和。输出scratch/result.json且只含sum和invalid_lines；invalid_lines为非法行的1-based行号数组。 所有输入文件必须保持原样。输出文件使用UTF-8，完成后简短说明。\",\"expect\":{\"maxToolErrors\":0}}]\n基线检查：[{\"id\":\"train-orders\",\"score\":1,\"failed\":[]},{\"id\":\"train-contacts\",\"score\":1,\"failed\":[]},{\"id\":\"train-merge\",\"score\":0.8,\"failed\":[{\"name\":\"tool_errors\",\"passed\":false,\"detail\":\"1 <= 0\"}]},{\"id\":\"train-markdown\",\"score\":1,\"failed\":[]},{\"id\":\"train-version-sort\",\"score\":1,\"failed\":[]},{\"id\":\"train-invalid-lines\",\"score\":1,\"failed\":[]}]",
+  "response": {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "text",
+        "text": "[\"执行任务前先确认所需输入文件存在且可读，若缺失或解析失败应先用工具排查而非反复重试；保持输入文件只读，仅写入指定输出路径；严格按任务规定的字段、格式与编码产出，不添加或省略字段；完成后用一句话说明结果与关键处理，避免冗长解释。\"]"
+      }
+    ],
+    "api": "openai-completions",
+    "provider": "deepseek-experiment",
+    "model": "deepseek-flash",
+    "usage": {
+      "input": 661,
+      "output": 72,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "totalTokens": 733,
+      "cost": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "total": 0
+      }
+    },
+    "stopReason": "stop",
+    "timestamp": 1792571236566,
+    "responseId": "d2963bb0-327c-4470-84bb-b9a52d6162c9"
+  },
+  "candidates": [
+    "执行任务前先确认所需输入文件存在且可读，若缺失或解析失败应先用工具排查而非反复重试；保持输入文件只读，仅写入指定输出路径；严格按任务规定的字段、格式与编码产出，不添加或省略字段；完成后用一句话说明结果与关键处理，避免冗长解释。"
+  ],
+  "datasetHash": "b7a5f92c8a38e92d3d5d01712901c9203914a4c8bd26056a0a195f2c8839bc84",
+  "finalTestNotYetRun": true
+}

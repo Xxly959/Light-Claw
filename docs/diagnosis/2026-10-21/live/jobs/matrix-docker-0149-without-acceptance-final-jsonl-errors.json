@@ -1,0 +1,1 @@
+{"arm":"without-acceptance","kind":"current","features":{"goals":true,"acceptance":false,"feishu":true,"controls":true,"scheduling":true,"optimization":true,"infrastructure":true},"repetition":1,"seed":104746,"caseId":"final-jsonl-errors","id":"matrix-docker-0149-without-acceptance-final-jsonl-errors"}

@@ -1,0 +1,10 @@
+{
+  "remaining_test_processes": [],
+  "docker_daemon": "unavailable: cannot connect to Docker daemon",
+  "created_docker_resources": [],
+  "removed_docker_resources": [],
+  "existing_business_containers_touched": false,
+  "temporary_test_directories": "test afterEach removes explicitly created fixtures; child workers/services are awaited or verified stopped",
+  "process_scan": "all executables, filter by batch fixture markers, exclude scanner ancestors; command lines not exported",
+  "verified_after_final_43_file_run": true
+}

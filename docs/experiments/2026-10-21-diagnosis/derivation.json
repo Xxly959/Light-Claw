@@ -1,0 +1,10 @@
+{
+  "source": "docs/experiments/2026-10-21-ablation/run-prompt.mjs",
+  "sourceSha256": "b36d477d033abd84a787ddd78fb8a7bef990dd0eb07fadd2034dc2cd94b0ebd9",
+  "changes": [
+    "experiment workspace/container/output",
+    "known-case balanced five-arm loop",
+    "single-factor request system-text transforms"
+  ],
+  "productSourceChanged": false
+}

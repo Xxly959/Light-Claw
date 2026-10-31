@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "/Users/x/.local/bin/rtk",
+    "proxy",
+    "npm",
+    "run",
+    "check"
+  ],
+  "exit": 0
+}

@@ -1,0 +1,3030 @@
+{
+  "completedAt": "2026-10-22T00:15:55.912Z",
+  "finished": 252,
+  "planned": 252,
+  "reserved": 891,
+  "reportedTokens": 2128214,
+  "stopped": false,
+  "budgetLimited": false,
+  "results": [
+    {
+      "id": "matrix-host-0002-only-feishu-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0002-only-feishu-final-inventory-join",
+        "success": true,
+        "tokens": 6702,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0001-only-acceptance-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0001-only-acceptance-final-inventory-join",
+        "success": true,
+        "tokens": 6744,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0000-only-goals-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0000-only-goals-final-inventory-join",
+        "success": false,
+        "tokens": 11766,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0004-only-scheduling-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0004-only-scheduling-final-inventory-join",
+        "success": true,
+        "tokens": 6752,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0003-only-controls-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0003-only-controls-final-inventory-join",
+        "success": true,
+        "tokens": 6813,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0005-only-optimization-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0005-only-optimization-final-inventory-join",
+        "success": true,
+        "tokens": 6821,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0008-only-optimization-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0008-only-optimization-final-money-csv",
+        "success": true,
+        "tokens": 6586,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0006-without-infrastructure-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0006-without-infrastructure-final-inventory-join",
+        "success": false,
+        "tokens": 11962,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0007-without-infrastructure-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0007-without-infrastructure-final-money-csv",
+        "success": false,
+        "tokens": 17916,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "matrix-host-0010-only-controls-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0010-only-controls-final-money-csv",
+        "success": true,
+        "tokens": 6813,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0009-only-scheduling-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0009-only-scheduling-final-money-csv",
+        "success": true,
+        "tokens": 6654,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0011-only-feishu-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0011-only-feishu-final-money-csv",
+        "success": true,
+        "tokens": 6907,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0012-only-acceptance-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0012-only-acceptance-final-money-csv",
+        "success": true,
+        "tokens": 6786,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0015-only-acceptance-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0015-only-acceptance-final-stable-dedup",
+        "success": true,
+        "tokens": 6729,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0013-only-goals-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0013-only-goals-final-money-csv",
+        "success": false,
+        "tokens": 17974,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "matrix-host-0014-only-goals-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0014-only-goals-final-stable-dedup",
+        "success": false,
+        "tokens": 18240,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "matrix-host-0017-only-controls-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0017-only-controls-final-stable-dedup",
+        "success": true,
+        "tokens": 6586,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0016-only-feishu-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0016-only-feishu-final-stable-dedup",
+        "success": true,
+        "tokens": 6829,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0018-only-scheduling-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0018-only-scheduling-final-stable-dedup",
+        "success": true,
+        "tokens": 6691,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0019-only-optimization-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0019-only-optimization-final-stable-dedup",
+        "success": true,
+        "tokens": 6748,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0020-without-infrastructure-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0020-without-infrastructure-final-stable-dedup",
+        "success": false,
+        "tokens": 17632,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "matrix-host-0021-without-infrastructure-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0021-without-infrastructure-final-markdown-section",
+        "success": false,
+        "tokens": 15019,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "matrix-host-0022-only-optimization-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0022-only-optimization-final-markdown-section",
+        "success": true,
+        "tokens": 11749,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "matrix-host-0023-only-scheduling-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0023-only-scheduling-final-markdown-section",
+        "success": true,
+        "tokens": 8902,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0024-only-controls-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0024-only-controls-final-markdown-section",
+        "success": true,
+        "tokens": 8947,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0025-only-feishu-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0025-only-feishu-final-markdown-section",
+        "success": true,
+        "tokens": 8897,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0026-only-acceptance-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0026-only-acceptance-final-markdown-section",
+        "success": true,
+        "tokens": 9735,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0027-only-goals-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0027-only-goals-final-markdown-section",
+        "success": false,
+        "tokens": 14264,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "matrix-host-0029-only-acceptance-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0029-only-acceptance-final-nested-config",
+        "success": true,
+        "tokens": 6626,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0028-only-goals-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0028-only-goals-final-nested-config",
+        "success": false,
+        "tokens": 12025,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0031-only-controls-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0031-only-controls-final-nested-config",
+        "success": true,
+        "tokens": 6760,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0030-only-feishu-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0030-only-feishu-final-nested-config",
+        "success": true,
+        "tokens": 6734,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0032-only-scheduling-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0032-only-scheduling-final-nested-config",
+        "success": true,
+        "tokens": 6666,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0033-only-optimization-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0033-only-optimization-final-nested-config",
+        "success": true,
+        "tokens": 6642,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0034-without-infrastructure-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0034-without-infrastructure-final-nested-config",
+        "success": false,
+        "tokens": 11548,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0036-only-optimization-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0036-only-optimization-final-version-filter",
+        "success": true,
+        "tokens": 6698,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0035-without-infrastructure-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0035-without-infrastructure-final-version-filter",
+        "success": false,
+        "tokens": 17719,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "matrix-host-0037-only-scheduling-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0037-only-scheduling-final-version-filter",
+        "success": true,
+        "tokens": 6698,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0038-only-controls-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0038-only-controls-final-version-filter",
+        "success": true,
+        "tokens": 6595,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0039-only-feishu-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0039-only-feishu-final-version-filter",
+        "success": true,
+        "tokens": 6829,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0040-only-acceptance-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0040-only-acceptance-final-version-filter",
+        "success": true,
+        "tokens": 6571,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0041-only-goals-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0041-only-goals-final-version-filter",
+        "success": false,
+        "tokens": 11328,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0042-only-goals-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0042-only-goals-final-jsonl-errors",
+        "success": false,
+        "tokens": 19200,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "matrix-host-0043-only-acceptance-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0043-only-acceptance-final-jsonl-errors",
+        "success": false,
+        "tokens": 11923,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "matrix-host-0044-only-feishu-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0044-only-feishu-final-jsonl-errors",
+        "success": true,
+        "tokens": 12896,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "matrix-host-0045-only-controls-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0045-only-controls-final-jsonl-errors",
+        "success": true,
+        "tokens": 9752,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0046-only-scheduling-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0046-only-scheduling-final-jsonl-errors",
+        "success": true,
+        "tokens": 9810,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0047-only-optimization-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0047-only-optimization-final-jsonl-errors",
+        "success": true,
+        "tokens": 9859,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0050-only-optimization-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0050-only-optimization-final-unicode-path",
+        "success": true,
+        "tokens": 7054,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0049-without-infrastructure-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0049-without-infrastructure-final-unicode-path",
+        "success": false,
+        "tokens": 15285,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "matrix-host-0048-without-infrastructure-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0048-without-infrastructure-final-jsonl-errors",
+        "success": false,
+        "tokens": 27434,
+        "modelRequests": 8
+      }
+    },
+    {
+      "id": "matrix-host-0052-only-controls-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0052-only-controls-final-unicode-path",
+        "success": true,
+        "tokens": 6694,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0051-only-scheduling-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0051-only-scheduling-final-unicode-path",
+        "success": true,
+        "tokens": 7054,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0053-only-feishu-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0053-only-feishu-final-unicode-path",
+        "success": true,
+        "tokens": 6848,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0054-only-acceptance-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0054-only-acceptance-final-unicode-path",
+        "success": true,
+        "tokens": 7037,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0055-only-goals-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0055-only-goals-final-unicode-path",
+        "success": false,
+        "tokens": 11520,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0057-only-acceptance-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0057-only-acceptance-final-multi-file-consistency",
+        "success": true,
+        "tokens": 6637,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0056-only-goals-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0056-only-goals-final-multi-file-consistency",
+        "success": false,
+        "tokens": 11675,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0058-only-feishu-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0058-only-feishu-final-multi-file-consistency",
+        "success": true,
+        "tokens": 6654,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0059-only-controls-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0059-only-controls-final-multi-file-consistency",
+        "success": true,
+        "tokens": 6622,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0060-only-scheduling-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0060-only-scheduling-final-multi-file-consistency",
+        "success": true,
+        "tokens": 6727,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0061-only-optimization-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0061-only-optimization-final-multi-file-consistency",
+        "success": true,
+        "tokens": 6660,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0064-only-optimization-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0064-only-optimization-final-null-vs-missing",
+        "success": true,
+        "tokens": 6678,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0062-without-infrastructure-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0062-without-infrastructure-final-multi-file-consistency",
+        "success": false,
+        "tokens": 17983,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "matrix-host-0063-without-infrastructure-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0063-without-infrastructure-final-null-vs-missing",
+        "success": false,
+        "tokens": 17804,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "matrix-host-0065-only-scheduling-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0065-only-scheduling-final-null-vs-missing",
+        "success": true,
+        "tokens": 6570,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0066-only-controls-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0066-only-controls-final-null-vs-missing",
+        "success": true,
+        "tokens": 6596,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0067-only-feishu-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0067-only-feishu-final-null-vs-missing",
+        "success": true,
+        "tokens": 6598,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0068-only-acceptance-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0068-only-acceptance-final-null-vs-missing",
+        "success": true,
+        "tokens": 6984,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0070-only-goals-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0070-only-goals-final-range-boundaries",
+        "success": false,
+        "tokens": 11287,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0069-only-goals-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0069-only-goals-final-null-vs-missing",
+        "success": false,
+        "tokens": 11380,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0071-only-acceptance-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0071-only-acceptance-final-range-boundaries",
+        "success": true,
+        "tokens": 6637,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0072-only-feishu-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0072-only-feishu-final-range-boundaries",
+        "success": true,
+        "tokens": 6721,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0073-only-controls-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0073-only-controls-final-range-boundaries",
+        "success": true,
+        "tokens": 9534,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0074-only-scheduling-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0074-only-scheduling-final-range-boundaries",
+        "success": true,
+        "tokens": 6644,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0075-only-optimization-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0075-only-optimization-final-range-boundaries",
+        "success": true,
+        "tokens": 6732,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0076-without-infrastructure-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0076-without-infrastructure-final-range-boundaries",
+        "success": false,
+        "tokens": 11460,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0078-only-optimization-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0078-only-optimization-final-text-replacement",
+        "success": true,
+        "tokens": 9247,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0077-without-infrastructure-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0077-without-infrastructure-final-text-replacement",
+        "success": false,
+        "tokens": 22220,
+        "modelRequests": 7
+      }
+    },
+    {
+      "id": "matrix-host-0079-only-scheduling-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0079-only-scheduling-final-text-replacement",
+        "success": true,
+        "tokens": 9262,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0080-only-controls-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0080-only-controls-final-text-replacement",
+        "success": true,
+        "tokens": 9230,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0081-only-feishu-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0081-only-feishu-final-text-replacement",
+        "success": true,
+        "tokens": 9258,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0082-only-acceptance-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0082-only-acceptance-final-text-replacement",
+        "success": true,
+        "tokens": 9235,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0084-without-infrastructure-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0084-without-infrastructure-final-inventory-join",
+        "success": false,
+        "tokens": 11695,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0083-only-goals-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0083-only-goals-final-text-replacement",
+        "success": false,
+        "tokens": 14764,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "matrix-host-0085-only-optimization-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0085-only-optimization-final-inventory-join",
+        "success": true,
+        "tokens": 6882,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0088-only-feishu-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0088-only-feishu-final-inventory-join",
+        "success": true,
+        "tokens": 6901,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0086-only-scheduling-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0086-only-scheduling-final-inventory-join",
+        "success": true,
+        "tokens": 6797,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0087-only-controls-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0087-only-controls-final-inventory-join",
+        "success": true,
+        "tokens": 6735,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0089-only-acceptance-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0089-only-acceptance-final-inventory-join",
+        "success": true,
+        "tokens": 6816,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0090-only-goals-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0090-only-goals-final-inventory-join",
+        "success": false,
+        "tokens": 11798,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0091-only-goals-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0091-only-goals-final-money-csv",
+        "success": false,
+        "tokens": 11529,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0092-only-acceptance-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0092-only-acceptance-final-money-csv",
+        "success": true,
+        "tokens": 6639,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0094-only-controls-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0094-only-controls-final-money-csv",
+        "success": true,
+        "tokens": 6784,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0093-only-feishu-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0093-only-feishu-final-money-csv",
+        "success": true,
+        "tokens": 6810,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0095-only-scheduling-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0095-only-scheduling-final-money-csv",
+        "success": true,
+        "tokens": 6791,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0096-only-optimization-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0096-only-optimization-final-money-csv",
+        "success": true,
+        "tokens": 6789,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0098-without-infrastructure-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0098-without-infrastructure-final-stable-dedup",
+        "success": false,
+        "tokens": 11325,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0097-without-infrastructure-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0097-without-infrastructure-final-money-csv",
+        "success": false,
+        "tokens": 17860,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "matrix-host-0099-only-optimization-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0099-only-optimization-final-stable-dedup",
+        "success": true,
+        "tokens": 6754,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0100-only-scheduling-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0100-only-scheduling-final-stable-dedup",
+        "success": true,
+        "tokens": 6776,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0101-only-controls-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0101-only-controls-final-stable-dedup",
+        "success": true,
+        "tokens": 6818,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0102-only-feishu-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0102-only-feishu-final-stable-dedup",
+        "success": true,
+        "tokens": 6625,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0103-only-acceptance-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0103-only-acceptance-final-stable-dedup",
+        "success": true,
+        "tokens": 6777,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0104-only-goals-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0104-only-goals-final-stable-dedup",
+        "success": false,
+        "tokens": 11432,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0105-only-goals-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0105-only-goals-final-markdown-section",
+        "success": false,
+        "tokens": 14541,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "matrix-host-0106-only-acceptance-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0106-only-acceptance-final-markdown-section",
+        "success": true,
+        "tokens": 11737,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "matrix-host-0107-only-feishu-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0107-only-feishu-final-markdown-section",
+        "success": true,
+        "tokens": 8866,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0109-only-scheduling-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0109-only-scheduling-final-markdown-section",
+        "success": true,
+        "tokens": 8933,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0108-only-controls-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0108-only-controls-final-markdown-section",
+        "success": true,
+        "tokens": 11802,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "matrix-host-0110-only-optimization-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0110-only-optimization-final-markdown-section",
+        "success": true,
+        "tokens": 9087,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0113-only-optimization-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0113-only-optimization-final-nested-config",
+        "success": true,
+        "tokens": 6525,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0111-without-infrastructure-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0111-without-infrastructure-final-markdown-section",
+        "success": false,
+        "tokens": 14618,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "matrix-host-0112-without-infrastructure-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0112-without-infrastructure-final-nested-config",
+        "success": false,
+        "tokens": 18481,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "matrix-host-0114-only-scheduling-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0114-only-scheduling-final-nested-config",
+        "success": true,
+        "tokens": 6615,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0115-only-controls-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0115-only-controls-final-nested-config",
+        "success": true,
+        "tokens": 6720,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0116-only-feishu-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0116-only-feishu-final-nested-config",
+        "success": true,
+        "tokens": 6847,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0117-only-acceptance-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0117-only-acceptance-final-nested-config",
+        "success": true,
+        "tokens": 6615,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0118-only-goals-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0118-only-goals-final-nested-config",
+        "success": false,
+        "tokens": 12016,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0119-only-goals-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0119-only-goals-final-version-filter",
+        "success": false,
+        "tokens": 11403,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0120-only-acceptance-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0120-only-acceptance-final-version-filter",
+        "success": true,
+        "tokens": 6772,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0121-only-feishu-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0121-only-feishu-final-version-filter",
+        "success": true,
+        "tokens": 6564,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0122-only-controls-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0122-only-controls-final-version-filter",
+        "success": true,
+        "tokens": 6742,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0123-only-scheduling-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0123-only-scheduling-final-version-filter",
+        "success": true,
+        "tokens": 6642,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0124-only-optimization-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0124-only-optimization-final-version-filter",
+        "success": true,
+        "tokens": 6650,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0125-without-infrastructure-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0125-without-infrastructure-final-version-filter",
+        "success": false,
+        "tokens": 17872,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "matrix-host-0126-without-infrastructure-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0126-without-infrastructure-final-jsonl-errors",
+        "success": false,
+        "tokens": 23009,
+        "modelRequests": 7
+      }
+    },
+    {
+      "id": "matrix-host-0127-only-optimization-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0127-only-optimization-final-jsonl-errors",
+        "success": true,
+        "tokens": 9761,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0128-only-scheduling-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0128-only-scheduling-final-jsonl-errors",
+        "success": true,
+        "tokens": 9777,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0129-only-controls-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0129-only-controls-final-jsonl-errors",
+        "success": false,
+        "tokens": 12279,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "matrix-host-0130-only-feishu-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0130-only-feishu-final-jsonl-errors",
+        "success": false,
+        "tokens": 12283,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "matrix-host-0131-only-acceptance-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0131-only-acceptance-final-jsonl-errors",
+        "success": true,
+        "tokens": 9763,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0134-only-acceptance-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0134-only-acceptance-final-unicode-path",
+        "success": true,
+        "tokens": 6890,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0133-only-goals-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0133-only-goals-final-unicode-path",
+        "success": false,
+        "tokens": 11526,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0132-only-goals-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0132-only-goals-final-jsonl-errors",
+        "success": false,
+        "tokens": 19169,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "matrix-host-0135-only-feishu-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0135-only-feishu-final-unicode-path",
+        "success": true,
+        "tokens": 7042,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0136-only-controls-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0136-only-controls-final-unicode-path",
+        "success": true,
+        "tokens": 7025,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0137-only-scheduling-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0137-only-scheduling-final-unicode-path",
+        "success": true,
+        "tokens": 9484,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0138-only-optimization-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0138-only-optimization-final-unicode-path",
+        "success": true,
+        "tokens": 7092,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0139-without-infrastructure-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0139-without-infrastructure-final-unicode-path",
+        "success": false,
+        "tokens": 19275,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "matrix-host-0140-without-infrastructure-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0140-without-infrastructure-final-multi-file-consistency",
+        "success": false,
+        "tokens": 17966,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "matrix-host-0141-only-optimization-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0141-only-optimization-final-multi-file-consistency",
+        "success": true,
+        "tokens": 9615,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0142-only-scheduling-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0142-only-scheduling-final-multi-file-consistency",
+        "success": true,
+        "tokens": 6750,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0143-only-controls-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0143-only-controls-final-multi-file-consistency",
+        "success": true,
+        "tokens": 6739,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0144-only-feishu-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0144-only-feishu-final-multi-file-consistency",
+        "success": true,
+        "tokens": 6637,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0145-only-acceptance-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0145-only-acceptance-final-multi-file-consistency",
+        "success": true,
+        "tokens": 6751,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0146-only-goals-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0146-only-goals-final-multi-file-consistency",
+        "success": false,
+        "tokens": 11647,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0147-only-goals-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0147-only-goals-final-null-vs-missing",
+        "success": false,
+        "tokens": 11275,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0148-only-acceptance-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0148-only-acceptance-final-null-vs-missing",
+        "success": true,
+        "tokens": 6584,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0149-only-feishu-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0149-only-feishu-final-null-vs-missing",
+        "success": true,
+        "tokens": 6730,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0150-only-controls-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0150-only-controls-final-null-vs-missing",
+        "success": true,
+        "tokens": 6608,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0151-only-scheduling-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0151-only-scheduling-final-null-vs-missing",
+        "success": true,
+        "tokens": 6624,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0152-only-optimization-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0152-only-optimization-final-null-vs-missing",
+        "success": true,
+        "tokens": 6641,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0154-without-infrastructure-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0154-without-infrastructure-final-range-boundaries",
+        "success": false,
+        "tokens": 11300,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0153-without-infrastructure-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0153-without-infrastructure-final-null-vs-missing",
+        "success": false,
+        "tokens": 17889,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "matrix-host-0155-only-optimization-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0155-only-optimization-final-range-boundaries",
+        "success": true,
+        "tokens": 6636,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0156-only-scheduling-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0156-only-scheduling-final-range-boundaries",
+        "success": true,
+        "tokens": 6701,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0157-only-controls-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0157-only-controls-final-range-boundaries",
+        "success": true,
+        "tokens": 6469,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0158-only-feishu-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0158-only-feishu-final-range-boundaries",
+        "success": true,
+        "tokens": 6777,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0159-only-acceptance-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0159-only-acceptance-final-range-boundaries",
+        "success": true,
+        "tokens": 6762,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0160-only-goals-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0160-only-goals-final-range-boundaries",
+        "success": false,
+        "tokens": 11261,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0161-only-goals-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0161-only-goals-final-text-replacement",
+        "success": false,
+        "tokens": 14769,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "matrix-host-0162-only-acceptance-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0162-only-acceptance-final-text-replacement",
+        "success": true,
+        "tokens": 9246,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0163-only-feishu-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0163-only-feishu-final-text-replacement",
+        "success": true,
+        "tokens": 9250,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0164-only-controls-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0164-only-controls-final-text-replacement",
+        "success": true,
+        "tokens": 9264,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0165-only-scheduling-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0165-only-scheduling-final-text-replacement",
+        "success": true,
+        "tokens": 9244,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0166-only-optimization-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0166-only-optimization-final-text-replacement",
+        "success": true,
+        "tokens": 9226,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0169-only-acceptance-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0169-only-acceptance-final-inventory-join",
+        "success": true,
+        "tokens": 6928,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0168-only-goals-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0168-only-goals-final-inventory-join",
+        "success": false,
+        "tokens": 11719,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0167-without-infrastructure-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0167-without-infrastructure-final-text-replacement",
+        "success": false,
+        "tokens": 18803,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "matrix-host-0170-only-feishu-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0170-only-feishu-final-inventory-join",
+        "success": true,
+        "tokens": 6863,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0171-only-controls-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0171-only-controls-final-inventory-join",
+        "success": true,
+        "tokens": 6940,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0172-only-scheduling-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0172-only-scheduling-final-inventory-join",
+        "success": true,
+        "tokens": 6828,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0173-only-optimization-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0173-only-optimization-final-inventory-join",
+        "success": true,
+        "tokens": 6807,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0174-without-infrastructure-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0174-without-infrastructure-final-inventory-join",
+        "success": false,
+        "tokens": 11745,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0176-only-optimization-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0176-only-optimization-final-money-csv",
+        "success": true,
+        "tokens": 6731,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0177-only-scheduling-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0177-only-scheduling-final-money-csv",
+        "success": true,
+        "tokens": 6746,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0178-only-controls-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0178-only-controls-final-money-csv",
+        "success": true,
+        "tokens": 12027,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "matrix-host-0179-only-feishu-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0179-only-feishu-final-money-csv",
+        "success": true,
+        "tokens": 6680,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0180-only-acceptance-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0180-only-acceptance-final-money-csv",
+        "success": true,
+        "tokens": 6858,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0181-only-goals-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0181-only-goals-final-money-csv",
+        "success": false,
+        "tokens": 11437,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0182-only-goals-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0182-only-goals-final-stable-dedup",
+        "success": false,
+        "tokens": 11276,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0183-only-acceptance-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0183-only-acceptance-final-stable-dedup",
+        "success": true,
+        "tokens": 6595,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0184-only-feishu-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0184-only-feishu-final-stable-dedup",
+        "success": true,
+        "tokens": 6476,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0185-only-controls-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0185-only-controls-final-stable-dedup",
+        "success": true,
+        "tokens": 6723,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0186-only-scheduling-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0186-only-scheduling-final-stable-dedup",
+        "success": true,
+        "tokens": 6735,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0187-only-optimization-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0187-only-optimization-final-stable-dedup",
+        "success": true,
+        "tokens": 6760,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0188-without-infrastructure-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0188-without-infrastructure-final-stable-dedup",
+        "success": false,
+        "tokens": 18244,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "matrix-host-0189-without-infrastructure-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0189-without-infrastructure-final-markdown-section",
+        "success": false,
+        "tokens": 14223,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "matrix-host-0190-only-optimization-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0190-only-optimization-final-markdown-section",
+        "success": true,
+        "tokens": 8960,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0191-only-scheduling-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0191-only-scheduling-final-markdown-section",
+        "success": true,
+        "tokens": 9064,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0192-only-controls-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0192-only-controls-final-markdown-section",
+        "success": true,
+        "tokens": 9017,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0193-only-feishu-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0193-only-feishu-final-markdown-section",
+        "success": true,
+        "tokens": 8969,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0194-only-acceptance-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0194-only-acceptance-final-markdown-section",
+        "success": true,
+        "tokens": 9546,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0195-only-goals-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0195-only-goals-final-markdown-section",
+        "success": false,
+        "tokens": 14432,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "matrix-host-0196-only-goals-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0196-only-goals-final-nested-config",
+        "success": false,
+        "tokens": 11317,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0197-only-acceptance-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0197-only-acceptance-final-nested-config",
+        "success": true,
+        "tokens": 6574,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0198-only-feishu-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0198-only-feishu-final-nested-config",
+        "success": true,
+        "tokens": 6638,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0199-only-controls-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0199-only-controls-final-nested-config",
+        "success": true,
+        "tokens": 6569,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0201-only-optimization-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0201-only-optimization-final-nested-config",
+        "success": true,
+        "tokens": 6549,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0200-only-scheduling-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0200-only-scheduling-final-nested-config",
+        "success": true,
+        "tokens": 6925,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0175-without-infrastructure-final-money-csv",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "matrix-host-0202-without-infrastructure-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0202-without-infrastructure-final-nested-config",
+        "success": false,
+        "tokens": 11938,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "matrix-host-0204-only-optimization-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0204-only-optimization-final-version-filter",
+        "success": true,
+        "tokens": 6574,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0203-without-infrastructure-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0203-without-infrastructure-final-version-filter",
+        "success": false,
+        "tokens": 18467,
+        "modelRequests": 7
+      }
+    },
+    {
+      "id": "matrix-host-0205-only-scheduling-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0205-only-scheduling-final-version-filter",
+        "success": true,
+        "tokens": 6878,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0207-only-feishu-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0207-only-feishu-final-version-filter",
+        "success": true,
+        "tokens": 6488,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0206-only-controls-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0206-only-controls-final-version-filter",
+        "success": true,
+        "tokens": 6817,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0208-only-acceptance-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0208-only-acceptance-final-version-filter",
+        "success": true,
+        "tokens": 6827,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0209-only-goals-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0209-only-goals-final-version-filter",
+        "success": false,
+        "tokens": 11598,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0211-only-acceptance-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0211-only-acceptance-final-jsonl-errors",
+        "success": true,
+        "tokens": 6960,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0210-only-goals-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0210-only-goals-final-jsonl-errors",
+        "success": false,
+        "tokens": 21765,
+        "modelRequests": 7
+      }
+    },
+    {
+      "id": "matrix-host-0214-only-scheduling-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0214-only-scheduling-final-jsonl-errors",
+        "success": false,
+        "tokens": 0,
+        "modelRequests": 1
+      }
+    },
+    {
+      "id": "matrix-host-0213-only-controls-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0213-only-controls-final-jsonl-errors",
+        "success": false,
+        "tokens": 1963,
+        "modelRequests": 2
+      }
+    },
+    {
+      "id": "matrix-host-0212-only-feishu-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0212-only-feishu-final-jsonl-errors",
+        "success": false,
+        "tokens": 6969,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0215-only-optimization-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0215-only-optimization-final-jsonl-errors",
+        "success": false,
+        "tokens": 0,
+        "modelRequests": 1
+      }
+    },
+    {
+      "id": "matrix-host-0217-without-infrastructure-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0217-without-infrastructure-final-unicode-path",
+        "success": false,
+        "tokens": 0,
+        "modelRequests": 2
+      }
+    },
+    {
+      "id": "matrix-host-0216-without-infrastructure-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0216-without-infrastructure-final-jsonl-errors",
+        "success": false,
+        "tokens": 0,
+        "modelRequests": 2
+      }
+    },
+    {
+      "id": "matrix-host-0218-only-optimization-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0218-only-optimization-final-unicode-path",
+        "success": false,
+        "tokens": 0,
+        "modelRequests": 1
+      }
+    },
+    {
+      "id": "matrix-host-0219-only-scheduling-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0219-only-scheduling-final-unicode-path",
+        "success": false,
+        "tokens": 0,
+        "modelRequests": 1
+      }
+    },
+    {
+      "id": "matrix-host-0220-only-controls-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0220-only-controls-final-unicode-path",
+        "success": false,
+        "tokens": 0,
+        "modelRequests": 1
+      }
+    },
+    {
+      "id": "matrix-host-0221-only-feishu-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0221-only-feishu-final-unicode-path",
+        "success": false,
+        "tokens": 0,
+        "modelRequests": 1
+      }
+    },
+    {
+      "id": "matrix-host-0222-only-acceptance-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0222-only-acceptance-final-unicode-path",
+        "success": true,
+        "tokens": 6882,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0223-only-goals-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0223-only-goals-final-unicode-path",
+        "success": false,
+        "tokens": 12153,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-host-0224-only-goals-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0224-only-goals-final-multi-file-consistency",
+        "success": false,
+        "tokens": 14911,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "matrix-host-0226-only-feishu-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0226-only-feishu-final-multi-file-consistency",
+        "success": false,
+        "tokens": 1940,
+        "modelRequests": 2
+      }
+    },
+    {
+      "id": "matrix-host-0225-only-acceptance-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0225-only-acceptance-final-multi-file-consistency",
+        "success": false,
+        "tokens": 4223,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0228-only-scheduling-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0228-only-scheduling-final-multi-file-consistency",
+        "success": false,
+        "tokens": 0,
+        "modelRequests": 1
+      }
+    },
+    {
+      "id": "matrix-host-0229-only-optimization-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0229-only-optimization-final-multi-file-consistency",
+        "success": false,
+        "tokens": 0,
+        "modelRequests": 1
+      }
+    },
+    {
+      "id": "matrix-host-0231-without-infrastructure-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0231-without-infrastructure-final-null-vs-missing",
+        "success": false,
+        "tokens": 0,
+        "modelRequests": 2
+      }
+    },
+    {
+      "id": "matrix-host-0230-without-infrastructure-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0230-without-infrastructure-final-multi-file-consistency",
+        "success": false,
+        "tokens": 0,
+        "modelRequests": 2
+      }
+    },
+    {
+      "id": "matrix-host-0227-only-controls-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0227-only-controls-final-multi-file-consistency",
+        "success": false,
+        "tokens": 0,
+        "modelRequests": 1
+      }
+    },
+    {
+      "id": "matrix-host-0232-only-optimization-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0232-only-optimization-final-null-vs-missing",
+        "success": false,
+        "tokens": 0,
+        "modelRequests": 1
+      }
+    },
+    {
+      "id": "matrix-host-0233-only-scheduling-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0233-only-scheduling-final-null-vs-missing",
+        "success": false,
+        "tokens": 0,
+        "modelRequests": 1
+      }
+    },
+    {
+      "id": "matrix-host-0234-only-controls-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0234-only-controls-final-null-vs-missing",
+        "success": false,
+        "tokens": 0,
+        "modelRequests": 1
+      }
+    },
+    {
+      "id": "matrix-host-0235-only-feishu-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0235-only-feishu-final-null-vs-missing",
+        "success": false,
+        "tokens": 0,
+        "modelRequests": 1
+      }
+    },
+    {
+      "id": "matrix-host-0236-only-acceptance-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0236-only-acceptance-final-null-vs-missing",
+        "success": false,
+        "tokens": 0,
+        "modelRequests": 1
+      }
+    },
+    {
+      "id": "matrix-host-0239-only-acceptance-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0239-only-acceptance-final-range-boundaries",
+        "success": false,
+        "tokens": 0,
+        "modelRequests": 1
+      }
+    },
+    {
+      "id": "matrix-host-0240-only-feishu-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0240-only-feishu-final-range-boundaries",
+        "success": false,
+        "tokens": 0,
+        "modelRequests": 1
+      }
+    },
+    {
+      "id": "matrix-host-0241-only-controls-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0241-only-controls-final-range-boundaries",
+        "success": true,
+        "tokens": 6817,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0237-only-goals-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0237-only-goals-final-null-vs-missing",
+        "success": false,
+        "tokens": 12159,
+        "modelRequests": 8
+      }
+    },
+    {
+      "id": "matrix-host-0238-only-goals-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0238-only-goals-final-range-boundaries",
+        "success": false,
+        "tokens": 12057,
+        "modelRequests": 7
+      }
+    },
+    {
+      "id": "matrix-host-0242-only-scheduling-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0242-only-scheduling-final-range-boundaries",
+        "success": true,
+        "tokens": 6592,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0243-only-optimization-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0243-only-optimization-final-range-boundaries",
+        "success": false,
+        "tokens": 4336,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0244-without-infrastructure-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0244-without-infrastructure-final-range-boundaries",
+        "success": false,
+        "tokens": 2378,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-host-0245-without-infrastructure-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0245-without-infrastructure-final-text-replacement",
+        "success": false,
+        "tokens": 0,
+        "modelRequests": 2
+      }
+    },
+    {
+      "id": "matrix-host-0246-only-optimization-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0246-only-optimization-final-text-replacement",
+        "success": false,
+        "tokens": 0,
+        "modelRequests": 1
+      }
+    },
+    {
+      "id": "matrix-host-0247-only-scheduling-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0247-only-scheduling-final-text-replacement",
+        "success": false,
+        "tokens": 0,
+        "modelRequests": 1
+      }
+    },
+    {
+      "id": "matrix-host-0248-only-controls-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0248-only-controls-final-text-replacement",
+        "success": false,
+        "tokens": 0,
+        "modelRequests": 1
+      }
+    },
+    {
+      "id": "matrix-host-0249-only-feishu-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0249-only-feishu-final-text-replacement",
+        "success": false,
+        "tokens": 0,
+        "modelRequests": 1
+      }
+    },
+    {
+      "id": "matrix-host-0250-only-acceptance-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0250-only-acceptance-final-text-replacement",
+        "success": false,
+        "tokens": 0,
+        "modelRequests": 1
+      }
+    },
+    {
+      "id": "matrix-host-0251-only-goals-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-host-0251-only-goals-final-text-replacement",
+        "success": false,
+        "tokens": 0,
+        "modelRequests": 8
+      }
+    }
+  ]
+}

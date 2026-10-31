@@ -1,10 +1,19 @@
 import { SocketModeClient } from "@slack/socket-mode";
 import { WebClient } from "@slack/web-api";
-import { appendFileSync, existsSync, mkdirSync, readFileSync } from "fs";
+import { existsSync, mkdirSync, readFileSync } from "fs";
 import { basename, join } from "path";
+import { readChannelAttachment } from "./attachments.js";
+import { ChannelQueue, type ChannelQueueOptions } from "./channel-queue.js";
+import type { DurableInbox } from "./durable-inbox.js";
+import { IdleResourceCache } from "./idle-cache.js";
 import * as log from "./log.js";
+import { observePlatformOperation } from "./platform-operations.js";
+import { enqueueChatEvent } from "./queued-events.js";
+import { appendConversationLine } from "./resource-policy.js";
+import { createSdkLogger } from "./sdk-logger.js";
 import type { Attachment, ChannelStore } from "./store.js";
 import type { ChatChannel, ChatEvent, ChatHandler, ChatTransport, ChatUser } from "./transport.js";
+import { isImmediateGoalControl } from "./transport.js";
 
 // ============================================================================
 // Types
@@ -16,44 +25,31 @@ export type SlackChannel = ChatChannel;
 export type LightClawHandler = ChatHandler;
 
 // ============================================================================
-// Per-channel queue for sequential processing
-// ============================================================================
-
-type QueuedWork = () => Promise<void>;
-
-class ChannelQueue {
-	private queue: QueuedWork[] = [];
-	private processing = false;
-
-	enqueue(work: QueuedWork): void {
-		this.queue.push(work);
-		this.processNext();
-	}
-
-	size(): number {
-		return this.queue.length;
-	}
-
-	private async processNext(): Promise<void> {
-		if (this.processing || this.queue.length === 0) return;
-		this.processing = true;
-		const work = this.queue.shift()!;
-		try {
-			await work();
-		} catch (err) {
-			log.logWarning("Queue error", err instanceof Error ? err.message : String(err));
-		}
-		this.processing = false;
-		this.processNext();
-	}
-}
-
-// ============================================================================
 // SlackBot
 // ============================================================================
 
 export class SlackBot implements ChatTransport {
 	readonly kind = "slack" as const;
+	readonly inbox?: DurableInbox;
+	readonly queueWaitMs: number;
+	get queueCapacity(): number {
+		return this.queueOptions.maxPending;
+	}
+	get durableAdmission(): boolean {
+		return this.inbox !== undefined;
+	}
+	async stop(): Promise<void> {
+		this.inbox?.stopAdmission();
+		const queues = this.queues.values();
+		for (const queue of queues) queue.close();
+		await Promise.all(queues.map((queue) => queue.drain()));
+		this.queues.close();
+		await this.socketClient.disconnect();
+	}
+	enqueueAccepted(event: ChatEvent, isEvent: boolean): boolean {
+		return enqueueChatEvent(() => this.getQueue(event.channel), event, this.handler, this, isEvent);
+	}
+
 	private socketClient: SocketModeClient;
 	private webClient: WebClient;
 	private handler: LightClawHandler;
@@ -64,17 +60,52 @@ export class SlackBot implements ChatTransport {
 
 	private users = new Map<string, SlackUser>();
 	private channels = new Map<string, SlackChannel>();
-	private queues = new Map<string, ChannelQueue>();
+	private readonly queues: IdleResourceCache<ChannelQueue>;
+	private readonly queueOptions: ChannelQueueOptions;
+	private readonly platformTimeoutMs: number;
 
 	constructor(
 		handler: LightClawHandler,
-		config: { appToken: string; botToken: string; workingDir: string; store: ChannelStore },
+		config: {
+			appToken: string;
+			botToken: string;
+			workingDir: string;
+			inbox?: DurableInbox;
+			store: ChannelStore;
+			platformTimeoutMs?: number;
+			schedulingEnabled?: boolean;
+			queueMaxPending?: number;
+			queueMaxWaitMs?: number;
+			channelCacheMaxEntries?: number;
+			channelCacheIdleTtlMs?: number;
+		},
 	) {
+		this.queues = new IdleResourceCache<ChannelQueue>(
+			{
+				enabled: config.schedulingEnabled,
+				maxEntries: config.channelCacheMaxEntries ?? 128,
+				idleTtlMs: config.channelCacheIdleTtlMs ?? 900_000,
+			},
+			(queue) => queue.isProcessing() || queue.size() > 0,
+		);
+		this.queueOptions = {
+			enabled: config.schedulingEnabled,
+			maxPending: config.queueMaxPending ?? 5,
+			maxWaitMs: config.queueMaxWaitMs ?? 300_000,
+		};
 		this.handler = handler;
+		this.platformTimeoutMs = config.platformTimeoutMs ?? 30_000;
 		this.workingDir = config.workingDir;
+		this.inbox = config.inbox;
+		this.queueWaitMs = config.queueMaxWaitMs ?? 300_000;
 		this.store = config.store;
-		this.socketClient = new SocketModeClient({ appToken: config.appToken });
-		this.webClient = new WebClient(config.botToken);
+		this.socketClient = new SocketModeClient({ appToken: config.appToken, logger: createSdkLogger("slack-socket") });
+		this.webClient = new WebClient(config.botToken, {
+			timeout: config.platformTimeoutMs ?? 30_000,
+			logger: createSdkLogger("slack-web"),
+			retryConfig: { retries: 0 },
+			rejectRateLimitedCalls: true,
+		});
 	}
 
 	// ==========================================================================
@@ -117,7 +148,8 @@ export class SlackBot implements ChatTransport {
 
 	async postMessage(channel: string, text: string): Promise<string> {
 		const result = await this.webClient.chat.postMessage({ channel, text });
-		return result.ts as string;
+		if (!result.ts) throw new Error("slack send failed: no message ts in response");
+		return result.ts;
 	}
 
 	async updateMessage(channel: string, ts: string, text: string): Promise<void> {
@@ -130,12 +162,13 @@ export class SlackBot implements ChatTransport {
 
 	async postInThread(channel: string, threadTs: string, text: string): Promise<string> {
 		const result = await this.webClient.chat.postMessage({ channel, thread_ts: threadTs, text });
-		return result.ts as string;
+		if (!result.ts) throw new Error("slack send failed: no message ts in response");
+		return result.ts;
 	}
 
 	async uploadFile(channel: string, filePath: string, title?: string): Promise<void> {
 		const fileName = title || basename(filePath);
-		const fileContent = readFileSync(filePath);
+		const fileContent = await readChannelAttachment(this.workingDir, channel, filePath);
 		await this.webClient.files.uploadV2({
 			channel_id: channel,
 			file: fileContent,
@@ -149,9 +182,9 @@ export class SlackBot implements ChatTransport {
 	 * This is the ONLY place messages are written to log.jsonl
 	 */
 	logToFile(channel: string, entry: object): void {
-		const dir = join(this.workingDir, channel);
+		const dir = this.store.getChannelDir(channel);
 		if (!existsSync(dir)) mkdirSync(dir, { recursive: true });
-		appendFileSync(join(dir, "log.jsonl"), `${JSON.stringify(entry)}\n`);
+		appendConversationLine(join(dir, "log.jsonl"), `${JSON.stringify(entry)}\n`);
 	}
 
 	/**
@@ -174,17 +207,10 @@ export class SlackBot implements ChatTransport {
 
 	/**
 	 * Enqueue an event for processing. Always queues (no "already working" rejection).
-	 * Returns true if enqueued, false if queue is full (max 5).
+	 * Returns false if bounded admission rejects the event.
 	 */
 	enqueueEvent(event: SlackEvent): boolean {
-		const queue = this.getQueue(event.channel);
-		if (queue.size() >= 5) {
-			log.logWarning(`Event queue full for ${event.channel}, discarding: ${event.text.substring(0, 50)}`);
-			return false;
-		}
-		log.logInfo(`Enqueueing event for ${event.channel}: ${event.text.substring(0, 50)}`);
-		queue.enqueue(() => this.handler.handleEvent(event, this, true));
-		return true;
+		return enqueueChatEvent(() => this.getQueue(event.channel), event, this.handler, this, true);
 	}
 
 	// ==========================================================================
@@ -192,12 +218,7 @@ export class SlackBot implements ChatTransport {
 	// ==========================================================================
 
 	private getQueue(channelId: string): ChannelQueue {
-		let queue = this.queues.get(channelId);
-		if (!queue) {
-			queue = new ChannelQueue();
-			this.queues.set(channelId, queue);
-		}
-		return queue;
+		return this.queues.getOrCreate(channelId, () => new ChannelQueue(undefined, this.queueOptions));
 	}
 
 	private setupEventHandlers(): void {
@@ -218,6 +239,7 @@ export class SlackBot implements ChatTransport {
 			}
 
 			const slackEvent: SlackEvent = {
+				origin: "platform",
 				type: "mention",
 				channel: e.channel,
 				ts: e.ts,
@@ -231,7 +253,7 @@ export class SlackBot implements ChatTransport {
 			slackEvent.attachments = this.logUserMessage(slackEvent);
 
 			// Only trigger processing for messages AFTER startup (not replayed old messages)
-			if (this.startupTs && e.ts < this.startupTs) {
+			if (!this.inbox && this.startupTs && e.ts < this.startupTs) {
 				log.logInfo(
 					`[${e.channel}] Logged old message (pre-startup), not triggering: ${slackEvent.text.substring(0, 30)}`,
 				);
@@ -239,22 +261,51 @@ export class SlackBot implements ChatTransport {
 				return;
 			}
 
+			if (isImmediateGoalControl(slackEvent)) {
+				void observePlatformOperation(
+					() => this.handler.handleEvent(slackEvent, this),
+					this.workingDir,
+					e.channel,
+					this.platformTimeoutMs,
+					"goal-control",
+				);
+				ack();
+				return;
+			}
 			// Check for stop command - execute immediately, don't queue!
 			if (slackEvent.text.toLowerCase().trim() === "stop") {
 				if (this.handler.isRunning(e.channel)) {
-					this.handler.handleStop(e.channel, this); // Don't await, don't queue
+					void observePlatformOperation(
+						() => this.handler.handleStop(e.channel, this, { user: slackEvent.user, origin: "platform" }),
+						this.workingDir,
+						e.channel,
+						this.platformTimeoutMs,
+						"stop",
+					);
 				} else {
-					this.postMessage(e.channel, "_Nothing running_");
+					void observePlatformOperation(
+						() => this.postMessage(e.channel, "_Nothing running_"),
+						this.workingDir,
+						e.channel,
+						this.platformTimeoutMs,
+						"idle-stop",
+					);
 				}
 				ack();
 				return;
 			}
 
 			// SYNC: Check if busy
-			if (this.handler.isRunning(e.channel)) {
-				this.postMessage(e.channel, "_Already working. Say `@lightclaw stop` to cancel._");
+			if (!this.inbox && this.handler.isRunning(e.channel)) {
+				void observePlatformOperation(
+					() => this.postMessage(e.channel, "_Already working. Say `@lightclaw stop` to cancel._"),
+					this.workingDir,
+					e.channel,
+					this.platformTimeoutMs,
+					"busy",
+				);
 			} else {
-				this.getQueue(e.channel).enqueue(() => this.handler.handleEvent(slackEvent, this));
+				enqueueChatEvent(() => this.getQueue(e.channel), slackEvent, this.handler, this);
 			}
 
 			ack();
@@ -297,6 +348,7 @@ export class SlackBot implements ChatTransport {
 			}
 
 			const slackEvent: SlackEvent = {
+				origin: "platform",
 				type: isDM ? "dm" : "mention",
 				channel: e.channel,
 				ts: e.ts,
@@ -310,7 +362,7 @@ export class SlackBot implements ChatTransport {
 			slackEvent.attachments = this.logUserMessage(slackEvent);
 
 			// Only trigger processing for messages AFTER startup (not replayed old messages)
-			if (this.startupTs && e.ts < this.startupTs) {
+			if (!this.inbox && this.startupTs && e.ts < this.startupTs) {
 				log.logInfo(`[${e.channel}] Skipping old message (pre-startup): ${slackEvent.text.substring(0, 30)}`);
 				ack();
 				return;
@@ -318,21 +370,50 @@ export class SlackBot implements ChatTransport {
 
 			// Only trigger handler for DMs
 			if (isDM) {
+				if (isImmediateGoalControl(slackEvent)) {
+					void observePlatformOperation(
+						() => this.handler.handleEvent(slackEvent, this),
+						this.workingDir,
+						e.channel,
+						this.platformTimeoutMs,
+						"goal-control",
+					);
+					ack();
+					return;
+				}
 				// Check for stop command - execute immediately, don't queue!
 				if (slackEvent.text.toLowerCase().trim() === "stop") {
 					if (this.handler.isRunning(e.channel)) {
-						this.handler.handleStop(e.channel, this); // Don't await, don't queue
+						void observePlatformOperation(
+							() => this.handler.handleStop(e.channel, this, { user: slackEvent.user, origin: "platform" }),
+							this.workingDir,
+							e.channel,
+							this.platformTimeoutMs,
+							"stop",
+						);
 					} else {
-						this.postMessage(e.channel, "_Nothing running_");
+						void observePlatformOperation(
+							() => this.postMessage(e.channel, "_Nothing running_"),
+							this.workingDir,
+							e.channel,
+							this.platformTimeoutMs,
+							"idle-stop",
+						);
 					}
 					ack();
 					return;
 				}
 
-				if (this.handler.isRunning(e.channel)) {
-					this.postMessage(e.channel, "_Already working. Say `stop` to cancel._");
+				if (!this.inbox && this.handler.isRunning(e.channel)) {
+					void observePlatformOperation(
+						() => this.postMessage(e.channel, "_Already working. Say `stop` to cancel._"),
+						this.workingDir,
+						e.channel,
+						this.platformTimeoutMs,
+						"busy",
+					);
 				} else {
-					this.getQueue(e.channel).enqueue(() => this.handler.handleEvent(slackEvent, this));
+					enqueueChatEvent(() => this.getQueue(e.channel), slackEvent, this.handler, this);
 				}
 			}
 

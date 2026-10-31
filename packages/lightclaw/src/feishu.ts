@@ -1,9 +1,18 @@
 import * as Lark from "@larksuiteoapi/node-sdk";
-import { appendFileSync, existsSync, mkdirSync, readFileSync } from "fs";
+import { existsSync, mkdirSync } from "fs";
 import { basename, join } from "path";
+import { readChannelAttachment } from "./attachments.js";
+import { ChannelQueue, type ChannelQueueOptions } from "./channel-queue.js";
+import type { DurableInbox } from "./durable-inbox.js";
+import { IdleResourceCache } from "./idle-cache.js";
 import * as log from "./log.js";
+import { observePlatformOperation } from "./platform-operations.js";
+import { enqueueChatEvent } from "./queued-events.js";
+import { appendConversationLine } from "./resource-policy.js";
+import { createSdkLogger } from "./sdk-logger.js";
 import type { Attachment, ChannelStore } from "./store.js";
 import type { ChatChannel, ChatEvent, ChatHandler, ChatTransport, ChatUser } from "./transport.js";
+import { isImmediateGoalControl } from "./transport.js";
 
 // ============================================================================
 // Types
@@ -13,38 +22,30 @@ export interface FeishuConfig {
 	appId: string; // cli_xxxxxxxx
 	appSecret: string;
 	workingDir: string;
+	inbox?: DurableInbox;
 	store: ChannelStore;
+	platformTimeoutMs?: number;
+	schedulingEnabled?: boolean;
+	queueMaxPending?: number;
+	queueMaxWaitMs?: number;
+	channelCacheMaxEntries?: number;
+	channelCacheIdleTtlMs?: number;
 }
 
-/**
- * Per-chat queue, so messages from one chat are processed sequentially.
- * Mirrors the ChannelQueue in slack.ts.
- */
-class ChatQueue {
-	private queue: Array<() => Promise<void>> = [];
-	private processing = false;
-
-	enqueue(work: () => Promise<void>): void {
-		this.queue.push(work);
-		void this.processNext();
-	}
-
-	size(): number {
-		return this.queue.length;
-	}
-
-	private async processNext(): Promise<void> {
-		if (this.processing || this.queue.length === 0) return;
-		this.processing = true;
-		const work = this.queue.shift()!;
-		try {
-			await work();
-		} catch (err) {
-			log.logWarning("Queue error", err instanceof Error ? err.message : String(err));
-		}
-		this.processing = false;
-		await this.processNext();
-	}
+export function createFeishuHttpClient(timeoutMs: number): Lark.HttpInstance {
+	// The SDK interceptor unwraps Axios responses; HttpInstance's R describes that payload.
+	const request = <T = unknown, R = T, D = unknown>(options: Lark.HttpRequestOptions<D>): Promise<R> =>
+		Lark.defaultHttpInstance.request<T, R, D>({ ...options, timeout: timeoutMs }) as Promise<R>;
+	return {
+		request,
+		get: (url, options) => request({ ...options, url, method: "GET" }),
+		delete: (url, options) => request({ ...options, url, method: "DELETE" }),
+		head: (url, options) => request({ ...options, url, method: "HEAD" }),
+		options: (url, options) => request({ ...options, url, method: "OPTIONS" }),
+		post: (url, data, options) => request({ ...options, url, data, method: "POST" }),
+		put: (url, data, options) => request({ ...options, url, data, method: "PUT" }),
+		patch: (url, data, options) => request({ ...options, url, data, method: "PATCH" }),
+	};
 }
 
 // ============================================================================
@@ -83,6 +84,26 @@ export function stripAtTags(s: string): string {
 
 export class FeishuBot implements ChatTransport {
 	readonly kind = "feishu" as const;
+	readonly inbox?: DurableInbox;
+	readonly queueWaitMs: number;
+	get queueCapacity(): number {
+		return this.queueOptions.maxPending;
+	}
+	get durableAdmission(): boolean {
+		return this.inbox !== undefined;
+	}
+	async stop(): Promise<void> {
+		this.inbox?.stopAdmission();
+		const queues = this.queues.values();
+		for (const queue of queues) queue.close();
+		await Promise.all(queues.map((queue) => queue.drain()));
+		this.queues.close();
+		this.ws.close();
+	}
+	enqueueAccepted(event: ChatEvent, isEvent: boolean): boolean {
+		return enqueueChatEvent(() => this.getQueue(event.channel), event, this.handler, this, isEvent);
+	}
+
 	private client: Lark.Client;
 	private ws: Lark.WSClient;
 	private handler: ChatHandler;
@@ -92,27 +113,50 @@ export class FeishuBot implements ChatTransport {
 	private botOpenId: string | null = null;
 	private users = new Map<string, ChatUser>();
 	private channels = new Map<string, ChatChannel>();
-	private queues = new Map<string, ChatQueue>();
+	private readonly queues: IdleResourceCache<ChannelQueue>;
+	private readonly queueOptions: ChannelQueueOptions;
+	private readonly platformTimeoutMs: number;
 	private seenMessageIds = new Set<string>();
 
 	constructor(handler: ChatHandler, config: FeishuConfig) {
+		this.queues = new IdleResourceCache<ChannelQueue>(
+			{
+				enabled: config.schedulingEnabled,
+				maxEntries: config.channelCacheMaxEntries ?? 128,
+				idleTtlMs: config.channelCacheIdleTtlMs ?? 900_000,
+			},
+			(queue) => queue.isProcessing() || queue.size() > 0,
+		);
+		this.queueOptions = {
+			enabled: config.schedulingEnabled,
+			maxPending: config.queueMaxPending ?? 5,
+			maxWaitMs: config.queueMaxWaitMs ?? 300_000,
+		};
 		this.handler = handler;
+		this.platformTimeoutMs = config.platformTimeoutMs ?? 30_000;
 		this.workingDir = config.workingDir;
+		this.inbox = config.inbox;
+		this.queueWaitMs = config.queueMaxWaitMs ?? 300_000;
 		this.store = config.store;
+		const httpInstance = createFeishuHttpClient(config.platformTimeoutMs ?? 30_000);
 
 		this.client = new Lark.Client({
 			appId: config.appId,
 			appSecret: config.appSecret,
 			domain: Lark.Domain.Feishu,
-			loggerLevel: Lark.LoggerLevel.info,
+			loggerLevel: Lark.LoggerLevel.warn,
+			logger: createSdkLogger("feishu"),
+			httpInstance,
 		});
 
 		this.ws = new Lark.WSClient({
 			appId: config.appId,
 			appSecret: config.appSecret,
 			domain: Lark.Domain.Feishu,
-			loggerLevel: Lark.LoggerLevel.info,
+			loggerLevel: Lark.LoggerLevel.warn,
+			logger: createSdkLogger("feishu"),
 			onReady: () => log.logInfo("[feishu] ws connected"),
+			httpInstance,
 			onError: (err: Error) => log.logWarning("[feishu] ws error", err.message),
 			onReconnecting: () => log.logInfo("[feishu] ws reconnecting"),
 			onReconnected: () => log.logInfo("[feishu] ws reconnected"),
@@ -200,7 +244,11 @@ export class FeishuBot implements ChatTransport {
 	async uploadFile(channel: string, filePath: string, title?: string): Promise<void> {
 		const fileName = title || basename(filePath);
 		const up = await this.client.im.v1.file.create({
-			data: { file_type: "stream", file_name: fileName, file: readFileSync(filePath) },
+			data: {
+				file_type: "stream",
+				file_name: fileName,
+				file: await readChannelAttachment(this.workingDir, channel, filePath),
+			},
 		});
 		if (!up?.file_key) throw new Error("feishu upload failed: no file_key (needs im:resource?)");
 		const res = await this.client.im.v1.message.create({
@@ -215,9 +263,9 @@ export class FeishuBot implements ChatTransport {
 	}
 
 	logToFile(channel: string, entry: object): void {
-		const dir = join(this.workingDir, channel);
+		const dir = this.store.getChannelDir(channel);
 		if (!existsSync(dir)) mkdirSync(dir, { recursive: true });
-		appendFileSync(join(dir, "log.jsonl"), `${JSON.stringify(entry)}\n`);
+		appendConversationLine(join(dir, "log.jsonl"), `${JSON.stringify(entry)}\n`);
 	}
 
 	logBotResponse(channel: string, text: string, ts: string): void {
@@ -231,29 +279,17 @@ export class FeishuBot implements ChatTransport {
 		});
 	}
 
-	/** Always queues. Returns false when the queue is full (max 5). */
+	/** Applies the same bounded admission and expiry policy as user messages. */
 	enqueueEvent(event: ChatEvent): boolean {
-		const queue = this.getQueue(event.channel);
-		if (queue.size() >= 5) {
-			log.logWarning(`Event queue full for ${event.channel}, discarding: ${event.text.substring(0, 50)}`);
-			return false;
-		}
-		log.logInfo(`Enqueueing event for ${event.channel}: ${event.text.substring(0, 50)}`);
-		queue.enqueue(() => this.handler.handleEvent(event, this, true));
-		return true;
+		return enqueueChatEvent(() => this.getQueue(event.channel), event, this.handler, this, true);
 	}
 
 	// ==========================================================================
 	// Private
 	// ==========================================================================
 
-	private getQueue(chatId: string): ChatQueue {
-		let q = this.queues.get(chatId);
-		if (!q) {
-			q = new ChatQueue();
-			this.queues.set(chatId, q);
-		}
-		return q;
+	private getQueue(chatId: string): ChannelQueue {
+		return this.queues.getOrCreate(chatId, () => new ChannelQueue(undefined, this.queueOptions));
 	}
 
 	/** Bot's own open_id is not in the event body; fetch it once at startup. */
@@ -314,9 +350,9 @@ export class FeishuBot implements ChatTransport {
 			if (!message?.message_id || !message.chat_id) return;
 
 			// Feishu may re-push; dedupe on message_id (never event_id).
-			if (this.seenMessageIds.has(message.message_id)) return;
-			this.seenMessageIds.add(message.message_id);
-			if (this.seenMessageIds.size > 2000) this.seenMessageIds.clear();
+			if (!this.inbox) {
+				if (this.seenMessageIds.has(message.message_id)) return;
+			}
 
 			// Ignore our own messages, otherwise we loop forever.
 			if (data.sender?.sender_type === "bot") return;
@@ -338,6 +374,7 @@ export class FeishuBot implements ChatTransport {
 
 			const event: ChatEvent = {
 				type: isP2p ? "dm" : "mention",
+				origin: "platform",
 				channel: message.chat_id,
 				ts: message.message_id,
 				user: senderOpenId,
@@ -353,19 +390,39 @@ export class FeishuBot implements ChatTransport {
 				isBot: false,
 			});
 
-			const queue = this.getQueue(message.chat_id);
-			if (text.toLowerCase() === "stop") {
-				if (this.handler.isRunning(message.chat_id)) void this.handler.handleStop(message.chat_id, this);
-				else void this.postMessage(message.chat_id, "当前没有正在执行的任务");
+			// Failed mandatory log admission must remain retryable after quota/disk recovery.
+			if (!this.inbox) {
+				if (this.seenMessageIds.size >= 2000) this.seenMessageIds.clear();
+				this.seenMessageIds.add(message.message_id);
+			}
+
+			if (isImmediateGoalControl(event)) {
+				void observePlatformOperation(
+					() => this.handler.handleEvent(event, this),
+					this.workingDir,
+					event.channel,
+					this.platformTimeoutMs,
+					"goal-control",
+				);
 				return;
 			}
-			if (this.handler.isRunning(message.chat_id)) {
-				this.enqueueEvent(event);
-			} else {
-				queue.enqueue(() => this.handler.handleEvent(event, this));
+			if (text.toLowerCase() === "stop") {
+				void observePlatformOperation(
+					() =>
+						this.handler.isRunning(message.chat_id!)
+							? this.handler.handleStop(message.chat_id!, this, { user: senderOpenId, origin: "platform" })
+							: this.postMessage(message.chat_id!, "当前没有正在执行的任务"),
+					this.workingDir,
+					message.chat_id,
+					this.platformTimeoutMs,
+					"stop",
+				);
+				return;
 			}
+			enqueueChatEvent(() => this.getQueue(event.channel), event, this.handler, this);
 		} catch (err) {
 			log.logWarning("[feishu] onMessage error", err instanceof Error ? err.message : String(err));
+			if (this.inbox) throw err; // Let the SDK observe persistence failure; do not claim acceptance.
 		}
 	}
 

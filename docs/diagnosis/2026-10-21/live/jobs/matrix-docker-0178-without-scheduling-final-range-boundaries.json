@@ -1,0 +1,1 @@
+{"arm":"without-scheduling","kind":"current","features":{"goals":true,"acceptance":true,"feishu":true,"controls":true,"scheduling":false,"optimization":true,"infrastructure":true},"repetition":1,"seed":104746,"caseId":"final-range-boundaries","id":"matrix-docker-0178-without-scheduling-final-range-boundaries"}

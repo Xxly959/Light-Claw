@@ -1,0 +1,74 @@
+{
+  "mode": "pilot",
+  "frozenAt": "2026-10-21T15:19:49.120Z",
+  "node": "v24.19.0",
+  "model": "deepseek-flash",
+  "temperature": 0.2,
+  "max_tokens": 2048,
+  "thinking": "disabled",
+  "seeds": [
+    17
+  ],
+  "maxRequests": 90,
+  "maxReportedTokens": 300000,
+  "maxConcurrentTasks": 3,
+  "perTaskExternalTimeoutMs": 120000,
+  "perTaskExternalRequestLimit": 30,
+  "note": "Token ceiling checked before dispatch; up to three in-flight requests may exceed it. Prices unknown. No candidate generated. Goal-enabled arms create equivalent file-existence acceptance and use the production-equivalent outer loop adapter. Queue and actual IM delivery are outside this runner experiment.",
+  "datasetSha256": "b7a5f92c8a38e92d3d5d01712901c9203914a4c8bd26056a0a195f2c8839bc84",
+  "image": "sha256:061401acf8127a73b139afcecc1a1713d84e61cd9318d155f64802beef304809",
+  "workerSha256": "a567dc78f05bce44a9ac168eddda578c56dac871ce93be8f46ba5b6c1a2cc2bb",
+  "jobs": [
+    {
+      "arm": "pilot-upstream",
+      "kind": "upstream",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "train-orders",
+      "id": "pilot-0000-pilot-upstream-train-orders"
+    },
+    {
+      "arm": "pilot-old",
+      "kind": "old",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "train-orders",
+      "id": "pilot-0001-pilot-old-train-orders"
+    },
+    {
+      "arm": "pilot-current",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "train-orders",
+      "id": "pilot-0002-pilot-current-train-orders"
+    }
+  ]
+}

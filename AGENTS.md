@@ -17,6 +17,14 @@
 - Do not preserve backward compatibility unless the user explicitly asks for it
 - Never hardcode key checks with, eg. `matchesKey(keyData, "ctrl+x")`. All keybindings must be configurable. Add default to matching object (`DEFAULT_EDITOR_KEYBINDINGS` or `DEFAULT_APP_KEYBINDINGS`)
 
+## Engineering Change Records
+
+- Record every change and optimization in `docs/engineering-change-log.zh-CN.md`, including documentation and workflow changes. Append a dated entry for each work item; update its verification results as the work progresses.
+- Describe the actual engineering problem, affected files, previous behavior, resulting behavior, problems encountered, root causes, and how they were resolved.
+- Record improvements with evidence: before/after observations, regression results, or measured performance data. Identify unmeasured benefits explicitly; never invent speed, cost, quality, or percentage improvements.
+- Include exact verification commands, results, and practical limits such as faux-provider-only checks, untested live integrations, or unverified production behavior.
+- Preserve historical records. Distinguish pre-existing workspace changes from changes made in the current work item. Changelog entries do not replace the engineering record.
+
 ## Commands
 
 - After code changes (not documentation changes): `npm run check` (get full output, no tail). Fix all errors, warnings, and infos before committing.

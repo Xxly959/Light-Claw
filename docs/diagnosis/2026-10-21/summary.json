@@ -1,0 +1,257 @@
+{
+  "historical_artifact_hashes": {
+    "2026-10-21-ablation": {
+      "files": 42,
+      "mismatches": []
+    },
+    "2026-10-21-diagnosis": {
+      "files": 33,
+      "mismatches": []
+    },
+    "2026-10-21-fixes": {
+      "files": 119,
+      "mismatches": []
+    }
+  },
+  "groups": {
+    "historical-original": {
+      "n": 36,
+      "successes": 31,
+      "artifact_correct": 36,
+      "mean_model_requests": 3.111111111111111,
+      "mean_tool_calls": 2.111111111111111,
+      "mean_tokens": 10992.361111111111,
+      "mean_duration_ms": 4039.1944444444443,
+      "tool_errors": 5,
+      "timeouts": 0,
+      "cost": null,
+      "cost_reason": "historical prices are zero placeholders, not billing evidence"
+    },
+    "historical-candidate": {
+      "n": 36,
+      "successes": 28,
+      "artifact_correct": 36,
+      "mean_model_requests": 3.3333333333333335,
+      "mean_tool_calls": 2.3333333333333335,
+      "mean_tokens": 12081.638888888889,
+      "mean_duration_ms": 4040.9166666666665,
+      "tool_errors": 8,
+      "timeouts": 0,
+      "cost": null,
+      "cost_reason": "historical prices are zero placeholders, not billing evidence"
+    },
+    "historical-before": {
+      "n": 36,
+      "successes": 30,
+      "artifact_correct": 36,
+      "mean_model_requests": 3.25,
+      "mean_tool_calls": 2.25,
+      "mean_tokens": 11529,
+      "mean_duration_ms": 3947.9444444444443,
+      "tool_errors": 6,
+      "timeouts": 0,
+      "cost": null,
+      "cost_reason": "historical prices are zero placeholders, not billing evidence"
+    },
+    "historical-fixed-v1": {
+      "n": 36,
+      "successes": 34,
+      "artifact_correct": 36,
+      "mean_model_requests": 3.138888888888889,
+      "mean_tool_calls": 2.138888888888889,
+      "mean_tokens": 7543.222222222223,
+      "mean_duration_ms": 3638.8888888888887,
+      "tool_errors": 2,
+      "timeouts": 0,
+      "cost": null,
+      "cost_reason": "historical prices are zero placeholders, not billing evidence"
+    },
+    "historical-fixed-v2-targeted": {
+      "n": 9,
+      "successes": 9,
+      "artifact_correct": 9,
+      "mean_model_requests": 3,
+      "mean_tool_calls": 2,
+      "mean_tokens": 7223.222222222223,
+      "mean_duration_ms": 3360.3333333333335,
+      "tool_errors": 0,
+      "timeouts": 0,
+      "cost": null,
+      "cost_reason": "historical prices are zero placeholders, not billing evidence"
+    }
+  },
+  "baseline_noise_six_time_block_repetitions": {
+    "strict_success_rate": {
+      "n": 6,
+      "values": [
+        0.8333333333333334,
+        0.9166666666666666,
+        0.8333333333333334,
+        0.9166666666666666,
+        0.75,
+        0.8333333333333334
+      ],
+      "mean": 0.8472222222222222,
+      "sample_variance": 0.003935185185185182,
+      "sample_sd": 0.0627310543924234,
+      "range": 0.16666666666666663
+    },
+    "tokens_per_task": {
+      "n": 6,
+      "values": [
+        11552.666666666666,
+        10520.25,
+        10904.166666666666,
+        11536.333333333334,
+        11503.416666666666,
+        11547.25
+      ],
+      "mean": 11260.680555555555,
+      "sample_variance": 195524.55393518522,
+      "sample_sd": 442.18158479880776,
+      "range": 1032.416666666666
+    },
+    "duration_ms_per_task": {
+      "n": 6,
+      "values": [
+        4207,
+        3854,
+        4056.5833333333335,
+        3759,
+        4173.75,
+        3911.0833333333335
+      ],
+      "mean": 3993.5694444444443,
+      "sample_variance": 32658.95949074074,
+      "sample_sd": 180.71790030525682,
+      "range": 448
+    },
+    "requests_per_task": {
+      "n": 6,
+      "values": [
+        3.25,
+        3,
+        3.0833333333333335,
+        3.25,
+        3.25,
+        3.25
+      ],
+      "mean": 3.1805555555555554,
+      "sample_variance": 0.012268518518518512,
+      "sample_sd": 0.11076334465209378,
+      "range": 0.25
+    }
+  },
+  "within_cohort_noise": {
+    "historical-original": {
+      "success_rate": {
+        "n": 3,
+        "values": [
+          0.8333333333333334,
+          0.9166666666666666,
+          0.8333333333333334
+        ],
+        "mean": 0.8611111111111112,
+        "sample_variance": 0.002314814814814811,
+        "sample_sd": 0.048112522432468774,
+        "range": 0.08333333333333326
+      },
+      "tokens_per_task": {
+        "n": 3,
+        "values": [
+          11552.666666666666,
+          10520.25,
+          10904.166666666666
+        ],
+        "mean": 10992.361111111111,
+        "sample_variance": 272304.73842592567,
+        "sample_sd": 521.8282652615951,
+        "range": 1032.416666666666
+      }
+    },
+    "historical-before": {
+      "success_rate": {
+        "n": 3,
+        "values": [
+          0.9166666666666666,
+          0.75,
+          0.8333333333333334
+        ],
+        "mean": 0.8333333333333334,
+        "sample_variance": 0.0069444444444444415,
+        "sample_sd": 0.08333333333333331,
+        "range": 0.16666666666666663
+      },
+      "tokens_per_task": {
+        "n": 3,
+        "values": [
+          11536.333333333334,
+          11503.416666666666,
+          11547.25
+        ],
+        "mean": 11529.0,
+        "sample_variance": 520.6736111111311,
+        "sample_sd": 22.818273622496754,
+        "range": 43.83333333333394
+      }
+    }
+  },
+  "noise_caveat": "same agent source and final tasks, but different Node runtimes and 2 time blocks; six pooled observations are exploratory, NOT five repetitions of one fully fixed configuration; each valid historical cohort has only three repetitions",
+  "taxonomy": {
+    "ablation-all": {
+      "success": 109,
+      "sandbox_tool_missing_file_command": 15,
+      "checker_contract_ambiguity": 6,
+      "prompt_host_container_path_conflict": 2
+    },
+    "paired-all": {
+      "success": 64,
+      "sandbox_tool_missing_file_command": 8
+    },
+    "followup-all": {
+      "success": 14,
+      "sandbox_tool_missing_file_command": 4
+    }
+  },
+  "effects": {
+    "candidate": {
+      "success_rate_difference": {
+        "effect": -0.08333333333333337,
+        "task_cluster_bootstrap_95": [
+          -0.25,
+          0.05555555555555558
+        ],
+        "task_clusters": 12
+      },
+      "relative_token_change": {
+        "effect": 0.0990940678501484,
+        "task_cluster_bootstrap_95": [
+          0.0037037317559023286,
+          0.20600444523728023
+        ],
+        "task_clusters": 12
+      }
+    },
+    "fixed-v1": {
+      "success_rate_difference": {
+        "effect": 0.11111111111111105,
+        "task_cluster_bootstrap_95": [
+          0.02777777777777779,
+          0.19444444444444442
+        ],
+        "task_clusters": 12
+      },
+      "relative_token_change": {
+        "effect": -0.34571756247530383,
+        "task_cluster_bootstrap_95": [
+          -0.3802795724400624,
+          -0.31238818485609277
+        ],
+        "task_clusters": 12
+      }
+    }
+  },
+  "prompt_requests_decomposed": 462,
+  "current_product_real_model_runs": 0,
+  "upstream_mom_real_model_runs": 0
+}

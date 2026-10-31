@@ -1,0 +1,1 @@
+{"arm":"final-goal-lean","kind":"lean","startGoal":true,"features":{"goals":true,"acceptance":true,"feishu":true,"controls":true,"scheduling":true,"optimization":true,"infrastructure":true},"sandbox":"docker","repetition":1,"seed":104746,"caseId":"final-null-vs-missing","id":"ordinary-0065-final-goal-lean-final-null-vs-missing"}

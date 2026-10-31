@@ -1,0 +1,22 @@
+{
+  "revision": "3ffc2b430",
+  "files": {
+    "packages/mom/src/agent.ts": "e4f30eeac8c4e4b1995f39467a66662a07a77c4e97954d7d9c64cd6835fb7469",
+    "packages/mom/src/context.ts": "fc7af78dcf48979d4f9b42adb4853f32a5854277928efbcfd59ccac489273bc8",
+    "packages/mom/src/download.ts": "698583f3f88a739fc88a1c40089b976a30b7f2c9bf70429a2fb9134c22121573",
+    "packages/mom/src/events.ts": "086af9d9b68085092c0c30778487f3038b2f6983f89a6903ec93af665898ac63",
+    "packages/mom/src/fs-watch.ts": "f40e22497371b59286e516eeff70495b20a099daef160c82cc1c196cf637df41",
+    "packages/mom/src/log.ts": "1cbe349e93d37caac96ea0264075d6a385a3e20b0dee3d053dbb1f18e7c100cd",
+    "packages/mom/src/main.ts": "a4214622253ff20322b91a44d7854cce7a5d5caa819029637058ba4e583de89d",
+    "packages/mom/src/sandbox.ts": "802f6524daa62cbbcdb398a3fbd8382b99bd67718dc088ae5a9e7ae4cde4a810",
+    "packages/mom/src/slack.ts": "6b60b9dadb5911cb44b9e15a05427f52fabed3af9fca559c08913d1296445e9d",
+    "packages/mom/src/store.ts": "186321bce8ba8d9cf7d351b36d18204fc21b1c2f875ff7a517e753b398a14c73",
+    "packages/mom/src/tools/attach.ts": "45f2b533c825953e7bfee656c16e378ea987e46752c3e82e3f60a4a99228cbbe",
+    "packages/mom/src/tools/bash.ts": "16a740e0a47e95034ad93edd9aae2833203f66e31608e5daef6ae67afb60b7db",
+    "packages/mom/src/tools/edit.ts": "3ee69dfb4a96f7cf0415e48ed6956af20dc0c63e0769cf46770909a2e0bacdc4",
+    "packages/mom/src/tools/index.ts": "c93dd9856d815adbf9eb970c0feb6fc76526770bee4ee01c51b195a6b971382d",
+    "packages/mom/src/tools/read.ts": "7bec778bccaea4cf9c8ed71f9b3471fb736fc1e16fb6013e21ce89041e9be8e9",
+    "packages/mom/src/tools/truncate.ts": "64a77728c26c87eb9f93e470ed553116107aae047f2f0d516ca7c644bffcf10c",
+    "packages/mom/src/tools/write.ts": "6f4a3643014382753f958f30ed16f859a61138f5d6f4f401578fdd271091d5ad"
+  }
+}

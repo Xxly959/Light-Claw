@@ -1,0 +1,46 @@
+[
+  {
+    "command": [
+      "rtk",
+      "proxy",
+      "node",
+      "--check",
+      "docs/experiments/2026-10-21-fixes/run-paired.mjs"
+    ],
+    "exitCode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "rtk",
+      "proxy",
+      "node",
+      "--check",
+      "docs/experiments/2026-10-21-fixes/run-followup.mjs"
+    ],
+    "exitCode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "rtk",
+      "proxy",
+      "node",
+      "--check",
+      "docs/experiments/2026-10-21-fixes/run-aux.mjs"
+    ],
+    "exitCode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "pythonAstParse": "analyze.py",
+    "passed": true
+  },
+  {
+    "pythonAstParse": "verify.py",
+    "passed": true
+  }
+]

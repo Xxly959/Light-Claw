@@ -1,0 +1,106 @@
+[
+  {
+    "id": "lightclaw@0.70.6",
+    "name": "lightclaw",
+    "version": "0.70.6",
+    "size": 48894,
+    "unpackedSize": 140914,
+    "shasum": "f483268c9bd9af8bf64a62ac570b5db4d12ae643",
+    "integrity": "sha512-qBHNVRV2K8ZwE6h9Zb8Q43K+DoKxr1kQx94pnEILrW11XwH4b1nFb3oLpYSVd7V8UpTrPLcVInWTEZlo4LAn6Q==",
+    "filename": "lightclaw-0.70.6.tgz",
+    "files": [
+      {
+        "path": "CHANGELOG.md",
+        "size": 25942,
+        "mode": 420
+      },
+      {
+        "path": "Dockerfile",
+        "size": 328,
+        "mode": 420
+      },
+      {
+        "path": "README.md",
+        "size": 14381,
+        "mode": 420
+      },
+      {
+        "path": "README.zh-CN.md",
+        "size": 11783,
+        "mode": 420
+      },
+      {
+        "path": "docker.sh",
+        "size": 3726,
+        "mode": 420
+      },
+      {
+        "path": "docs/deployment.zh-CN.md",
+        "size": 8002,
+        "mode": 420
+      },
+      {
+        "path": "docs/resources.zh-CN.md",
+        "size": 5452,
+        "mode": 420
+      },
+      {
+        "path": "docs/troubleshooting.zh-CN.md",
+        "size": 3098,
+        "mode": 420
+      },
+      {
+        "path": "evals/basic.json",
+        "size": 639,
+        "mode": 420
+      },
+      {
+        "path": "evals/holdout.json",
+        "size": 944,
+        "mode": 420
+      },
+      {
+        "path": "evals/reliability/make-data.py",
+        "size": 11196,
+        "mode": 420
+      },
+      {
+        "path": "evals/reliability/protected/check-artifacts.py",
+        "size": 3367,
+        "mode": 420
+      },
+      {
+        "path": "evals/reliability/protected/oracles.json",
+        "size": 10500,
+        "mode": 420
+      },
+      {
+        "path": "evals/reliability/tasks.json",
+        "size": 23048,
+        "mode": 420
+      },
+      {
+        "path": "package.json",
+        "size": 2023,
+        "mode": 420
+      },
+      {
+        "path": "scripts/local-release.mjs",
+        "size": 7457,
+        "mode": 420
+      },
+      {
+        "path": "src/attachment-reader.py",
+        "size": 2728,
+        "mode": 420
+      },
+      {
+        "path": "src/docker-supervisor.py",
+        "size": 6300,
+        "mode": 420
+      }
+    ],
+    "entryCount": 18,
+    "bundled": []
+  }
+]

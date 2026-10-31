@@ -1,0 +1,202 @@
+{
+  "baseline_files": 4552,
+  "missing_preexisting_files": [],
+  "historical_diagnosis_and_batch1_files_unchanged": 3386,
+  "staged_status_unchanged": true,
+  "engineering_log_append_only": true,
+  "changed_existing": [
+    {
+      "path": "docs/engineering-change-log.zh-CN.md",
+      "existed_before": true,
+      "before_sha256": "d94dd04042b7d0d5e8184a6493331c4b452c5a4bbc31111356276ae0f412a3ba",
+      "after_sha256": "4c5207c6a1da6dd23f96871d534c46c4116fd240e1239b4e35d52c0c4f1d04cb"
+    },
+    {
+      "path": "packages/lightclaw/CHANGELOG.md",
+      "existed_before": true,
+      "before_sha256": "017b0182001163e07ccd6d0c9970aa53e544e990083007d18fac527d4a5ec1f7",
+      "after_sha256": "447243e9e45189a6e1d20a68e5213402d8d34ec5fefb0c44da28445749e3ff49"
+    },
+    {
+      "path": "packages/lightclaw/README.md",
+      "existed_before": true,
+      "before_sha256": "0a60e5ae7dd2c3e6b46ee005830be56ae44f485ecd7de0dc4cb85b2a1743859a",
+      "after_sha256": "1670ebbf0c383f2bd5bbf9fd55e68e47da0b5aa1e1ba0e06ccd8196914f44c25"
+    },
+    {
+      "path": "packages/lightclaw/README.zh-CN.md",
+      "existed_before": true,
+      "before_sha256": "4ad07899533eb12d0b06ae278e4d4b5def5ece60ba42aea32589a15fe9308e89",
+      "after_sha256": "aa2de9c3ee71dc75a04df670bb953a5138d71c4d9ccc8f2b108cb1d62369fa73"
+    },
+    {
+      "path": "packages/lightclaw/package.json",
+      "existed_before": true,
+      "before_sha256": "35de68840d2d896205c74222c999bc9ab4a43bc1049849a3dc733ada66e868a4",
+      "after_sha256": "ffa838d6d3b11eaf5c14e482cf6078b9948d47084e6891a3aee3bc3ce0516bfe"
+    },
+    {
+      "path": "packages/lightclaw/src/channel-queue.ts",
+      "existed_before": true,
+      "before_sha256": "8f8033b741949036b14ab9b4d8552d9ba2afcc0fc79c7105c31327a4b60122aa",
+      "after_sha256": "33d1584ced2cf5336b8bc38cf648aa3b2a46961239e3cd3075dc9aea98e87fb9"
+    },
+    {
+      "path": "packages/lightclaw/src/events.ts",
+      "existed_before": true,
+      "before_sha256": "2c74dce6482df7c9a564756b4f322e143c11db1b2e36f2fe3a500e4205cfb0c8",
+      "after_sha256": "a118126826c0c83276e629a33c9fbd152e3e81b4431e27a8a865bb9489b9c90c"
+    },
+    {
+      "path": "packages/lightclaw/src/feishu.ts",
+      "existed_before": true,
+      "before_sha256": "041581df0270c2cdffc7346dd9eb1c7a257fe1a42ac486d386a7489ba49ec3de",
+      "after_sha256": "b9ab591cbec87e817731d8c3b114ca088c17a13d23676248fc89118730ebd576"
+    },
+    {
+      "path": "packages/lightclaw/src/goals/control.ts",
+      "existed_before": true,
+      "before_sha256": "44417fe45e4804fba556f26fdbe068c116148ef185f3914bda8779a25037120e",
+      "after_sha256": "76f90e3e3b910ae21d4f749332aee57facc31051a7a29df2a43b5dcdc47bfc25"
+    },
+    {
+      "path": "packages/lightclaw/src/idle-cache.ts",
+      "existed_before": true,
+      "before_sha256": "bc16692fcf7d7207cafeec9be89d6ee00b8feb810b2b1fae2d644db90ef1202f",
+      "after_sha256": "c2c8bf6a40b2d3050dcf3a0abe73729632fe10229c2909fb4ecb86794750481c"
+    },
+    {
+      "path": "packages/lightclaw/src/main.ts",
+      "existed_before": true,
+      "before_sha256": "4cfd5250f3e605887c095778e99a886d20cefceb4a26d462c8b0c69aa1ed56dc",
+      "after_sha256": "af0f9e908ce1e51600bdb16d544580a7052d744e721c7373fc65aaf288c18ad0"
+    },
+    {
+      "path": "packages/lightclaw/src/queued-events.ts",
+      "existed_before": true,
+      "before_sha256": "cf4c626552e2f0b29068d86fcd623451fdcfa9108e52c949b37dfe048ec815a4",
+      "after_sha256": "a910e38257314808f9eeefad77c2c781f3d27d7db42af8b70188517fb377d5e1"
+    },
+    {
+      "path": "packages/lightclaw/src/sandbox.ts",
+      "existed_before": true,
+      "before_sha256": "55526b1a9d49d548a8c972c13c41368f1e25401b75df83b9c9955855114e0979",
+      "after_sha256": "a43e8374897543af484205f518ced58cd07508bf9e674664cb50562a0084e273"
+    },
+    {
+      "path": "packages/lightclaw/src/slack.ts",
+      "existed_before": true,
+      "before_sha256": "051a29bd1ac09943733b3877acab5b0d893291bed0c3b22d913b61c3fa890602",
+      "after_sha256": "38690e18ca68b4176a2f4fa27073ef1a20ab223832e40a88647a75ce78d4da62"
+    },
+    {
+      "path": "packages/lightclaw/src/transport.ts",
+      "existed_before": true,
+      "before_sha256": "832672aa487a62e2fdbf34fea78df9072ea0f9ca46843d0544a93d76afa78584",
+      "after_sha256": "e7cb150cffede2d35c0a74291a838dcd67d7f8c47f6c69f75dc221bfbf7b03b4"
+    },
+    {
+      "path": "packages/lightclaw/test/goal-control.test.ts",
+      "existed_before": true,
+      "before_sha256": "9da0b8e1bd17aae70ec102ca83d4eee2aa118f89f7502e2d12ee8b0e79ba8650",
+      "after_sha256": "88071300b583627007fbc52a06912e02f121304bf0046867b7d49f382113f08e"
+    },
+    {
+      "path": "packages/lightclaw/test/main-lifecycle.test.ts",
+      "existed_before": true,
+      "before_sha256": "f4dd6c05f124d37be7702ed00f7376f206db46412fb98ed38bb9efd590b4e5fa",
+      "after_sha256": "d51343ec0d072e9912610cf3bd98a0d1b173e70ae9f15554226c36063fbc92fb"
+    },
+    {
+      "path": "packages/lightclaw/test/platform-notifications.test.ts",
+      "existed_before": true,
+      "before_sha256": "d73d2454b5f3566ecfd6d584ffbd288bf0dd793273827433eae07ee59da27200",
+      "after_sha256": "a1b531fd39c092014f746bb223ac7386618a392a3f78fe14b63bfdd498bafa66"
+    }
+  ],
+  "added_files": [
+    {
+      "path": "packages/lightclaw/docs/recovery.zh-CN.md",
+      "existed_before": false,
+      "before_sha256": null,
+      "after_sha256": "5c6e4243ba07683db5b3f38b255c3636b9fd3ded7da23cebc1afad508ff06933"
+    },
+    {
+      "path": "packages/lightclaw/src/docker-supervisor.py",
+      "existed_before": false,
+      "before_sha256": null,
+      "after_sha256": "bc1381ff14eac4cdcc7b5419fecdbd5624429917815cb4d4e1e20d42b570717e"
+    },
+    {
+      "path": "packages/lightclaw/src/durable-inbox.ts",
+      "existed_before": false,
+      "before_sha256": null,
+      "after_sha256": "6e76c549bb2a2fba97b5a7e2750c6da71922e01909f379d772f8dcc8b283935e"
+    },
+    {
+      "path": "packages/lightclaw/src/durable-state.ts",
+      "existed_before": false,
+      "before_sha256": null,
+      "after_sha256": "44477333030bceaeba998ee5b334b3edbe6eeca3d1dedec0e1021cfb31213a40"
+    },
+    {
+      "path": "packages/lightclaw/src/operations.ts",
+      "existed_before": false,
+      "before_sha256": null,
+      "after_sha256": "33fba2c686fffc173e3872b423605c9c8aa2b8a843770ff74a836f6075fedb63"
+    },
+    {
+      "path": "packages/lightclaw/test/docker-cancellation.test.ts",
+      "existed_before": false,
+      "before_sha256": null,
+      "after_sha256": "ca3f6e73160d931853b78267fc09da27f67513cd5417b069e6e67875d72b87fe"
+    },
+    {
+      "path": "packages/lightclaw/test/docker-live.test.ts",
+      "existed_before": false,
+      "before_sha256": null,
+      "after_sha256": "4d2a9e08f994a67af2f08587950ae87aacae16fac749fe75abdc1b6c7eb43db3"
+    },
+    {
+      "path": "packages/lightclaw/test/durable-admission.test.ts",
+      "existed_before": false,
+      "before_sha256": null,
+      "after_sha256": "90ae76601e69c360faaf3408ad0817a7992976d0a24338686c32276a8e8f1305"
+    },
+    {
+      "path": "packages/lightclaw/test/durable-work.test.ts",
+      "existed_before": false,
+      "before_sha256": null,
+      "after_sha256": "b59c2a7094d82fcc3f2dcddc1d648a448590e073da76554c5f90d0ebfb36fac6"
+    },
+    {
+      "path": "packages/lightclaw/test/fixtures/mock-operation-service.py",
+      "existed_before": false,
+      "before_sha256": null,
+      "after_sha256": "6580917d6ed76884d4441ed81f250059cc461a346070361c5afe41f4a8d01c4d"
+    },
+    {
+      "path": "packages/lightclaw/test/fixtures/recovery-worker.ts",
+      "existed_before": false,
+      "before_sha256": null,
+      "after_sha256": "d5a72d1ce8bf66a962f8515f0869761f907f5cf1696ae4c6fe09975ab38a526f"
+    },
+    {
+      "path": "packages/lightclaw/test/instance-lock.test.ts",
+      "existed_before": false,
+      "before_sha256": null,
+      "after_sha256": "f13938feaa78b61a90fa9b6849ddf7ff59e6f7cd75ef98f59f34de944e36379a"
+    },
+    {
+      "path": "packages/lightclaw/test/recovery-faults.test.ts",
+      "existed_before": false,
+      "before_sha256": null,
+      "after_sha256": "948c357b59127f7cb373c46e2fad06409dd2c7152f6afc10d6e19785befeb58a"
+    }
+  ],
+  "notes": [
+    "Manifest compares with the start of batch 2, not HEAD.",
+    "Evidence-directory files excluded to avoid self-referential hashes.",
+    "All changed preexisting files are scoped LightClaw files or append-only engineering record."
+  ]
+}

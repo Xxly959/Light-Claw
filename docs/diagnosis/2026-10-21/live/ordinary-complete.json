@@ -1,0 +1,972 @@
+{
+  "completedAt": "2026-10-21T22:03:52.997Z",
+  "finished": 108,
+  "planned": 108,
+  "reserved": 263,
+  "reportedTokens": 501799,
+  "stopped": false,
+  "budgetLimited": false,
+  "results": [
+    {
+      "id": "ordinary-0001-ordinary-lean-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-0001-ordinary-lean-final-inventory-join",
+        "success": true,
+        "tokens": 6390,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-0000-ordinary-before-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-0000-ordinary-before-final-inventory-join",
+        "success": true,
+        "tokens": 7103,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-0002-final-goal-lean-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-0002-final-goal-lean-final-inventory-join",
+        "success": true,
+        "tokens": 11026,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "ordinary-0004-ordinary-lean-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-0004-ordinary-lean-final-money-csv",
+        "success": true,
+        "tokens": 6331,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-0005-ordinary-before-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-0005-ordinary-before-final-money-csv",
+        "success": true,
+        "tokens": 7013,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-0003-final-goal-lean-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-0003-final-goal-lean-final-money-csv",
+        "success": true,
+        "tokens": 11010,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "ordinary-0006-ordinary-before-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-0006-ordinary-before-final-stable-dedup",
+        "success": true,
+        "tokens": 7172,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-0007-ordinary-lean-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-0007-ordinary-lean-final-stable-dedup",
+        "success": true,
+        "tokens": 6252,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-0010-ordinary-lean-final-markdown-section",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0009-final-goal-lean-final-markdown-section",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0008-final-goal-lean-final-stable-dedup",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0013-ordinary-lean-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-0013-ordinary-lean-final-nested-config",
+        "success": true,
+        "tokens": 6490,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-0012-ordinary-before-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-0012-ordinary-before-final-nested-config",
+        "success": true,
+        "tokens": 7228,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-0011-ordinary-before-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-0011-ordinary-before-final-markdown-section",
+        "success": true,
+        "tokens": 7454,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-0016-ordinary-lean-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-0016-ordinary-lean-final-version-filter",
+        "success": true,
+        "tokens": 6124,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-0014-final-goal-lean-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-0014-final-goal-lean-final-nested-config",
+        "success": true,
+        "tokens": 11074,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "ordinary-0015-final-goal-lean-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-0015-final-goal-lean-final-version-filter",
+        "success": true,
+        "tokens": 10771,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "ordinary-0017-ordinary-before-final-version-filter",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0018-ordinary-before-final-jsonl-errors",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0019-ordinary-lean-final-jsonl-errors",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0021-final-goal-lean-final-unicode-path",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0022-ordinary-lean-final-unicode-path",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0020-final-goal-lean-final-jsonl-errors",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0024-ordinary-before-final-multi-file-consistency",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0025-ordinary-lean-final-multi-file-consistency",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0023-ordinary-before-final-unicode-path",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0028-ordinary-lean-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-0028-ordinary-lean-final-null-vs-missing",
+        "success": true,
+        "tokens": 6258,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-0029-ordinary-before-final-null-vs-missing",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0027-final-goal-lean-final-null-vs-missing",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0026-final-goal-lean-final-multi-file-consistency",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0031-ordinary-lean-final-range-boundaries",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": {
+        "id": "ordinary-0031-ordinary-lean-final-range-boundaries",
+        "success": false,
+        "tokens": 1815,
+        "modelRequests": 1
+      }
+    },
+    {
+      "id": "ordinary-0030-ordinary-before-final-range-boundaries",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0032-final-goal-lean-final-range-boundaries",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0034-ordinary-lean-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": true,
+      "summary": {
+        "id": "ordinary-0034-ordinary-lean-final-text-replacement",
+        "success": true,
+        "tokens": 6128,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-0033-final-goal-lean-final-text-replacement",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0035-ordinary-before-final-text-replacement",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0037-ordinary-lean-final-inventory-join",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0038-ordinary-before-final-inventory-join",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0036-final-goal-lean-final-inventory-join",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0040-ordinary-lean-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-0040-ordinary-lean-final-money-csv",
+        "success": true,
+        "tokens": 6310,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-0039-ordinary-before-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-0039-ordinary-before-final-money-csv",
+        "success": true,
+        "tokens": 7041,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-0041-final-goal-lean-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-0041-final-goal-lean-final-money-csv",
+        "success": true,
+        "tokens": 10943,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "ordinary-0044-ordinary-before-final-stable-dedup",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0043-ordinary-lean-final-stable-dedup",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0042-final-goal-lean-final-stable-dedup",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0047-final-goal-lean-final-markdown-section",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0045-ordinary-before-final-markdown-section",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0046-ordinary-lean-final-markdown-section",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0050-ordinary-before-final-nested-config",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0049-ordinary-lean-final-nested-config",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0048-final-goal-lean-final-nested-config",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0053-final-goal-lean-final-version-filter",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0052-ordinary-lean-final-version-filter",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0051-ordinary-before-final-version-filter",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0055-ordinary-lean-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-0055-ordinary-lean-final-jsonl-errors",
+        "success": true,
+        "tokens": 6465,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-0057-ordinary-before-final-unicode-path",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0054-final-goal-lean-final-jsonl-errors",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0056-ordinary-before-final-jsonl-errors",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0059-final-goal-lean-final-unicode-path",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0060-final-goal-lean-final-multi-file-consistency",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0058-ordinary-lean-final-unicode-path",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0061-ordinary-lean-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-0061-ordinary-lean-final-multi-file-consistency",
+        "success": true,
+        "tokens": 6304,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-0063-ordinary-before-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-0063-ordinary-before-final-null-vs-missing",
+        "success": true,
+        "tokens": 6867,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-0062-ordinary-before-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-0062-ordinary-before-final-multi-file-consistency",
+        "success": true,
+        "tokens": 6897,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-0064-ordinary-lean-final-null-vs-missing",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0065-final-goal-lean-final-null-vs-missing",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0066-final-goal-lean-final-range-boundaries",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0068-ordinary-before-final-range-boundaries",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0067-ordinary-lean-final-range-boundaries",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0069-ordinary-before-final-text-replacement",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0070-ordinary-lean-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-0070-ordinary-lean-final-text-replacement",
+        "success": true,
+        "tokens": 6185,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-0072-ordinary-before-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-0072-ordinary-before-final-inventory-join",
+        "success": true,
+        "tokens": 7090,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-0074-final-goal-lean-final-inventory-join",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0071-final-goal-lean-final-text-replacement",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0073-ordinary-lean-final-inventory-join",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0076-ordinary-lean-final-money-csv",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0075-final-goal-lean-final-money-csv",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0077-ordinary-before-final-money-csv",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0079-ordinary-lean-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-0079-ordinary-lean-final-stable-dedup",
+        "success": true,
+        "tokens": 6031,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-0081-final-goal-lean-final-markdown-section",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0078-ordinary-before-final-stable-dedup",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0080-final-goal-lean-final-stable-dedup",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0083-ordinary-before-final-markdown-section",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0082-ordinary-lean-final-markdown-section",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0084-ordinary-before-final-nested-config",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0085-ordinary-lean-final-nested-config",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0087-final-goal-lean-final-version-filter",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0086-final-goal-lean-final-nested-config",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0088-ordinary-lean-final-version-filter",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0089-ordinary-before-final-version-filter",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0090-ordinary-before-final-jsonl-errors",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0091-ordinary-lean-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-0091-ordinary-lean-final-jsonl-errors",
+        "success": true,
+        "tokens": 6455,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-0093-final-goal-lean-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-0093-final-goal-lean-final-unicode-path",
+        "success": true,
+        "tokens": 14413,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "ordinary-0092-final-goal-lean-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-0092-final-goal-lean-final-jsonl-errors",
+        "success": true,
+        "tokens": 14593,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "ordinary-0094-ordinary-lean-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-0094-ordinary-lean-final-unicode-path",
+        "success": true,
+        "tokens": 6312,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-0095-ordinary-before-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-0095-ordinary-before-final-unicode-path",
+        "success": true,
+        "tokens": 6996,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-0096-ordinary-before-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-0096-ordinary-before-final-multi-file-consistency",
+        "success": true,
+        "tokens": 7070,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-0097-ordinary-lean-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-0097-ordinary-lean-final-multi-file-consistency",
+        "success": true,
+        "tokens": 6316,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-0098-final-goal-lean-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-0098-final-goal-lean-final-multi-file-consistency",
+        "success": true,
+        "tokens": 10799,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "ordinary-0100-ordinary-lean-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-0100-ordinary-lean-final-null-vs-missing",
+        "success": true,
+        "tokens": 6276,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-0099-final-goal-lean-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-0099-final-goal-lean-final-null-vs-missing",
+        "success": true,
+        "tokens": 10735,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "ordinary-0101-ordinary-before-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-0101-ordinary-before-final-null-vs-missing",
+        "success": true,
+        "tokens": 7316,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-0102-ordinary-before-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-0102-ordinary-before-final-range-boundaries",
+        "success": true,
+        "tokens": 7037,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-0103-ordinary-lean-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-0103-ordinary-lean-final-range-boundaries",
+        "success": true,
+        "tokens": 6207,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-0106-ordinary-lean-final-text-replacement",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0104-final-goal-lean-final-range-boundaries",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0105-final-goal-lean-final-text-replacement",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "ordinary-0107-ordinary-before-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-0107-ordinary-before-final-text-replacement",
+        "success": true,
+        "tokens": 6899,
+        "modelRequests": 3
+      }
+    }
+  ]
+}

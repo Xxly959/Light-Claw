@@ -1,0 +1,8 @@
+{
+  "createdAt": "2026-10-21T08:29:14.108Z",
+  "datasetHash": "b7a5f92c8a38e92d3d5d01712901c9203914a4c8bd26056a0a195f2c8839bc84",
+  "candidate": "执行任务前先确认所需输入文件存在且可读，若缺失或解析失败应先用工具排查而非反复重试；保持输入文件只读，仅写入指定输出路径；严格按任务规定的字段、格式与编码产出，不添加或省略字段；完成后用一句话说明结果与关键处理，避免冗长解释。",
+  "candidateSha256": "5db3873824be877754d8eb4ca8d4989d55d4554fe9a9093ffadf130e23b8fca8",
+  "selectionPromoted": false,
+  "note": "Final tests compare the frozen generated candidate even if selection rejected it; no test-set selection."
+}

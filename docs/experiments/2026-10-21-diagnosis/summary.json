@@ -1,0 +1,329 @@
+{
+  "originalDecomposition": {
+    "baseline": {
+      "requests": 112,
+      "usage": {
+        "input": 123343,
+        "output": 15742,
+        "cacheRead": 256640,
+        "cacheWrite": 0,
+        "totalTokens": 395725
+      },
+      "requestCountDistribution": {
+        "3": 32,
+        "4": 4
+      },
+      "requestPathMs": 139805.0,
+      "toolPathMs": 5501.0,
+      "runDurationMs": 145411,
+      "meanFirstInputTokens": 3118.4166666666665,
+      "requestPathFraction": 0.9614472082579723
+    },
+    "candidate": {
+      "requests": 120,
+      "usage": {
+        "input": 128144,
+        "output": 14571,
+        "cacheRead": 292224,
+        "cacheWrite": 0,
+        "totalTokens": 434939
+      },
+      "requestCountDistribution": {
+        "3": 27,
+        "5": 3,
+        "4": 6
+      },
+      "requestPathMs": 139115.0,
+      "toolPathMs": 6244.0,
+      "runDurationMs": 145473,
+      "meanFirstInputTokens": 3195.4166666666665,
+      "requestPathFraction": 0.9562942951613014
+    }
+  },
+  "memoryImportProbes": {
+    "agent-core": {
+      "heapMiB": 12.959739685058594,
+      "rssMiB": 131.375,
+      "commonJsModules": 13
+    },
+    "coding-narrow": {
+      "heapMiB": 42.69561004638672,
+      "rssMiB": 219.578125,
+      "commonJsModules": 352
+    },
+    "coding-root": {
+      "heapMiB": 42.70610809326172,
+      "rssMiB": 216.15625,
+      "commonJsModules": 352
+    },
+    "idle-cache": {
+      "heapMiB": 6.618324279785156,
+      "rssMiB": 80.546875,
+      "commonJsModules": 11
+    },
+    "lightclaw": {
+      "heapMiB": 43.06684875488281,
+      "rssMiB": 216.1875,
+      "commonJsModules": 352
+    },
+    "native-empty": {
+      "heapMiB": 3.5475692749023438,
+      "rssMiB": 41.4375,
+      "commonJsModules": 0
+    },
+    "pi-ai": {
+      "heapMiB": 12.819961547851562,
+      "rssMiB": 131.359375,
+      "commonJsModules": 13
+    },
+    "queue": {
+      "heapMiB": 6.616630554199219,
+      "rssMiB": 80.578125,
+      "commonJsModules": 11
+    },
+    "tsx-empty": {
+      "heapMiB": 6.213096618652344,
+      "rssMiB": 78.90625,
+      "commonJsModules": 11
+    }
+  },
+  "cacheIncrementalHeapMiB": {
+    "disabled": 19.317169189453125,
+    "combined": 1.34320068359375
+  },
+  "diagnosticStatus": "complete",
+  "diagnosticRuns": 45,
+  "diagnosticGroups": {
+    "control": {
+      "runs": 9,
+      "strictPassed": 2,
+      "artifactPassed": 6,
+      "toolErrors": 4,
+      "errorReasons": {
+        "missing_file": 4
+      },
+      "meanTokens": 11782.666666666666,
+      "meanInputTokens": 11320.666666666666,
+      "meanOutputTokens": 462,
+      "usageSum": {
+        "input": 31614,
+        "output": 4158,
+        "cacheRead": 70272,
+        "cacheWrite": 0,
+        "totalTokens": 106044
+      },
+      "meanSeconds": 4.190333333333333,
+      "meanRequests": 3.3333333333333335,
+      "systemCharsMedian": 6884.0,
+      "cases": {
+        "final-nested-config": {
+          "strictPassed": 0,
+          "artifactPassed": 3
+        },
+        "final-text-replacement": {
+          "strictPassed": 2,
+          "artifactPassed": 3
+        },
+        "select-space-path": {
+          "strictPassed": 0,
+          "artifactPassed": 0
+        }
+      },
+      "tokenChangeVsControlPercent": 0.0,
+      "timeChangeVsControlPercent": 0.0
+    },
+    "candidate": {
+      "runs": 9,
+      "strictPassed": 3,
+      "artifactPassed": 6,
+      "toolErrors": 5,
+      "errorReasons": {
+        "missing_file": 3,
+        "host_path": 1,
+        "other": 1
+      },
+      "meanTokens": 11650.777777777777,
+      "meanInputTokens": 11252.111111111111,
+      "meanOutputTokens": 398.6666666666667,
+      "usageSum": {
+        "input": 32021,
+        "output": 3588,
+        "cacheRead": 69248,
+        "cacheWrite": 0,
+        "totalTokens": 104857
+      },
+      "meanSeconds": 4.062777777777778,
+      "meanRequests": 3.2222222222222223,
+      "systemCharsMedian": 7009,
+      "cases": {
+        "final-nested-config": {
+          "strictPassed": 3,
+          "artifactPassed": 3
+        },
+        "final-text-replacement": {
+          "strictPassed": 0,
+          "artifactPassed": 3
+        },
+        "select-space-path": {
+          "strictPassed": 0,
+          "artifactPassed": 0
+        }
+      },
+      "tokenChangeVsControlPercent": -1.119346686281164,
+      "timeChangeVsControlPercent": -3.0440431681382996
+    },
+    "slim": {
+      "runs": 9,
+      "strictPassed": 3,
+      "artifactPassed": 6,
+      "toolErrors": 3,
+      "errorReasons": {
+        "missing_file": 2,
+        "other": 1
+      },
+      "meanTokens": 7627.333333333333,
+      "meanInputTokens": 7163.888888888889,
+      "meanOutputTokens": 463.44444444444446,
+      "usageSum": {
+        "input": 19803,
+        "output": 4171,
+        "cacheRead": 44672,
+        "cacheWrite": 0,
+        "totalTokens": 68646
+      },
+      "meanSeconds": 4.363222222222222,
+      "meanRequests": 3.3333333333333335,
+      "systemCharsMedian": 2329.0,
+      "cases": {
+        "final-nested-config": {
+          "strictPassed": 2,
+          "artifactPassed": 3
+        },
+        "final-text-replacement": {
+          "strictPassed": 1,
+          "artifactPassed": 3
+        },
+        "select-space-path": {
+          "strictPassed": 0,
+          "artifactPassed": 0
+        }
+      },
+      "tokenChangeVsControlPercent": -35.26649315378522,
+      "timeChangeVsControlPercent": 4.125898231379099
+    },
+    "capabilities": {
+      "runs": 9,
+      "strictPassed": 6,
+      "artifactPassed": 6,
+      "toolErrors": 0,
+      "errorReasons": {},
+      "meanTokens": 10545.111111111111,
+      "meanInputTokens": 10138.111111111111,
+      "meanOutputTokens": 407,
+      "usageSum": {
+        "input": 30699,
+        "output": 3663,
+        "cacheRead": 60544,
+        "cacheWrite": 0,
+        "totalTokens": 94906
+      },
+      "meanSeconds": 3.8755555555555556,
+      "meanRequests": 3,
+      "systemCharsMedian": 7051,
+      "cases": {
+        "final-nested-config": {
+          "strictPassed": 3,
+          "artifactPassed": 3
+        },
+        "final-text-replacement": {
+          "strictPassed": 3,
+          "artifactPassed": 3
+        },
+        "select-space-path": {
+          "strictPassed": 0,
+          "artifactPassed": 0
+        }
+      },
+      "tokenChangeVsControlPercent": -10.503187356191768,
+      "timeChangeVsControlPercent": -7.511998515100893
+    },
+    "cwd": {
+      "runs": 9,
+      "strictPassed": 3,
+      "artifactPassed": 6,
+      "toolErrors": 3,
+      "errorReasons": {
+        "missing_file": 3
+      },
+      "meanTokens": 10842.666666666666,
+      "meanInputTokens": 10450.222222222223,
+      "meanOutputTokens": 392.44444444444446,
+      "usageSum": {
+        "input": 31076,
+        "output": 3532,
+        "cacheRead": 62976,
+        "cacheWrite": 0,
+        "totalTokens": 97584
+      },
+      "meanSeconds": 3.7733333333333334,
+      "meanRequests": 3.111111111111111,
+      "systemCharsMedian": 6858.0,
+      "cases": {
+        "final-nested-config": {
+          "strictPassed": 2,
+          "artifactPassed": 3
+        },
+        "final-text-replacement": {
+          "strictPassed": 1,
+          "artifactPassed": 3
+        },
+        "select-space-path": {
+          "strictPassed": 0,
+          "artifactPassed": 0
+        }
+      },
+      "tokenChangeVsControlPercent": -7.977820527328284,
+      "timeChangeVsControlPercent": -9.951475618486993
+    }
+  },
+  "policy": {
+    "sameQualityHalfTokenAndLatency": {
+      "accepted": false,
+      "reasons": [
+        "训练集均分未严格提高"
+      ]
+    },
+    "customSystemPromptStillGetsHostCwdAppended": true,
+    "reproducedPrompt": "Docker working directory: /workspace\nCurrent date: 2026-10-21\nCurrent working directory: /host-path-that-is-not-in-container",
+    "candidateGeneratorReceivedActualMissingCommandError": false,
+    "candidateGeneratorReceivedActualSystemPrompt": false,
+    "note": "Counterfactual report checks policy, not an achieved 50% saving; no model API calls."
+  },
+  "additionalRealUsage": {
+    "completedAt": "2026-10-21T08:53:44.349Z",
+    "runs": 45,
+    "requestCount": 144,
+    "reportedTokens": 472037,
+    "datasetHash": "b7a5f92c8a38e92d3d5d01712901c9203914a4c8bd26056a0a195f2c8839bc84"
+  },
+  "clarification": {
+    "original": {
+      "runs": 3,
+      "strictPassed": 0,
+      "artifactPassed": 0,
+      "toolErrors": 1
+    },
+    "clarified": {
+      "runs": 3,
+      "strictPassed": 1,
+      "artifactPassed": 3,
+      "toolErrors": 2
+    }
+  },
+  "clarificationUsage": {
+    "runs": 6,
+    "requestCount": 23,
+    "reportedTokens": 80764,
+    "completedAt": "2026-10-21T08:56:50.904Z"
+  }
+}

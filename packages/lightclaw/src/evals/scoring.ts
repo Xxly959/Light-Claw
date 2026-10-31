@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from "node:fs";
+import { readFileSync, realpathSync, statSync } from "node:fs";
 import { resolve, sep } from "node:path";
 import type { AgentRunResult } from "../agent.js";
 import type { EvalCase, EvalCaseResult, EvalCheck } from "./types.js";
@@ -10,7 +10,14 @@ function check(name: string, passed: boolean, detail: string): EvalCheck {
 function resolveArtifact(channelDir: string, relativePath: string): string | undefined {
 	const root = resolve(channelDir);
 	const target = resolve(root, relativePath);
-	return target.startsWith(`${root}${sep}`) ? target : undefined;
+	if (!target.startsWith(`${root}${sep}`)) return undefined;
+	try {
+		const realRoot = realpathSync(root);
+		const realTarget = realpathSync(target);
+		return realTarget.startsWith(`${realRoot}${sep}`) && statSync(realTarget).isFile() ? realTarget : undefined;
+	} catch {
+		return undefined;
+	}
 }
 
 export function scoreEvalCase(
@@ -19,34 +26,35 @@ export function scoreEvalCase(
 	run: AgentRunResult,
 	channelDir: string,
 ): EvalCaseResult {
-	const checks: EvalCheck[] = [check("agent_run", run.stopReason !== "error", run.errorMessage ?? run.stopReason)];
+	const checks: EvalCheck[] = [
+		check(
+			"agent_run",
+			run.stopReason === "stop" && !run.budgetReason && !run.deliveryError,
+			run.errorMessage ?? run.budgetReason ?? run.deliveryError ?? run.stopReason,
+		),
+	];
 
 	for (const text of testCase.expect.responseIncludes ?? []) {
 		checks.push(check(`response_includes:${text}`, response.includes(text), `响应应包含“${text}”`));
 	}
 	for (const path of testCase.expect.filesExist ?? []) {
 		const absolutePath = resolveArtifact(channelDir, path);
-		checks.push(
-			check(
-				`file_exists:${path}`,
-				absolutePath !== undefined && existsSync(absolutePath),
-				absolutePath ?? "非法路径",
-			),
-		);
+		checks.push(check(`file_exists:${path}`, absolutePath !== undefined, absolutePath ?? "非法路径"));
 	}
 	for (const expected of testCase.expect.filesContain ?? []) {
 		const absolutePath = resolveArtifact(channelDir, expected.path);
-		const content = absolutePath && existsSync(absolutePath) ? readFileSync(absolutePath, "utf8") : "";
-		checks.push(check(`file_contains:${expected.path}`, content.includes(expected.text), `应包含“${expected.text}”`));
+		let content: string | undefined;
+		let detail = `应包含“${expected.text}”`;
+		try {
+			if (absolutePath) content = readFileSync(absolutePath, "utf8");
+		} catch (error) {
+			detail = error instanceof Error ? error.message : String(error);
+		}
+		checks.push(check(`file_contains:${expected.path}`, content?.includes(expected.text) ?? false, detail));
 	}
-	if (testCase.expect.maxToolErrors !== undefined) {
-		checks.push(
-			check(
-				"tool_errors",
-				run.toolErrors <= testCase.expect.maxToolErrors,
-				`${run.toolErrors} <= ${testCase.expect.maxToolErrors}`,
-			),
-		);
+	{
+		const maximum = testCase.expect.maxToolErrors ?? 0;
+		checks.push(check("tool_errors", run.toolErrors <= maximum, `${run.toolErrors} <= ${maximum}`));
 	}
 	if (testCase.expect.maxDurationMs !== undefined) {
 		checks.push(

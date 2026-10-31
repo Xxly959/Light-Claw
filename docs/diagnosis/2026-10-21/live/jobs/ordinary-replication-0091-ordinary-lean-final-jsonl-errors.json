@@ -1,0 +1,1 @@
+{"arm":"ordinary-lean","kind":"lean","startGoal":false,"features":{"goals":true,"acceptance":true,"feishu":true,"controls":true,"scheduling":true,"optimization":true,"infrastructure":true},"sandbox":"docker","repetition":2,"seed":209475,"caseId":"final-jsonl-errors","id":"ordinary-replication-0091-ordinary-lean-final-jsonl-errors"}

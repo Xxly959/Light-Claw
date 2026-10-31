@@ -60,3 +60,10 @@ collect.sh
 /packages/lightclaw/docs/test-audit-*.md
 /packages/lightclaw/docs/optimization-acceptance-*.md
 /packages/lightclaw/docs/verification-design.zh-CN.md
+
+# Local reading entry; do not publish
+/本地学习资料.md
+
+# Local agent workspace and interview preparation notes; do not publish
+/.workbuddy/
+/packages/lightclaw/docs/lightclaw-explained.zh-CN.md

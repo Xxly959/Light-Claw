@@ -1,0 +1,157 @@
+{
+  "baseline_files": 4533,
+  "historical_diagnosis_files_unchanged": 3374,
+  "preexisting_files_deleted": [],
+  "staged_status_unchanged": true,
+  "changes": [
+    {
+      "path": ".github/workflows/ci.yml",
+      "existed_before": true,
+      "before_sha256": "ea7fbaa640546e0eccb5f43d2b7184733cfcec02b74884fbe6adb0d78dcf0e95",
+      "after_sha256": "c7ca24a91a5910f47d823f48f441f0f4fde151069d3a8271d9323e7e92375fb8"
+    },
+    {
+      "path": "docs/diagnosis/2026-10-21/analyze-live-v2.py",
+      "existed_before": false,
+      "before_sha256": null,
+      "after_sha256": "c5703b6a1ecadf3af87e1c67d076a6b08a94ece50f5528bc1c55cd9652329939"
+    },
+    {
+      "path": "docs/diagnosis/2026-10-21/live-attempts.v2.jsonl",
+      "existed_before": false,
+      "before_sha256": null,
+      "after_sha256": "bcc68fb74f1bbe7b66a2466cc5dda1e3881c2d5198a4418a8e775b03a706e5e7"
+    },
+    {
+      "path": "docs/diagnosis/2026-10-21/live-inputs.v2.json",
+      "existed_before": false,
+      "before_sha256": null,
+      "after_sha256": "fe5d80581df19aa9f00b4c384dfb9d23c67cbc7c115acb5ed5c818ff956f9860"
+    },
+    {
+      "path": "docs/diagnosis/2026-10-21/live-summary.v2.json",
+      "existed_before": false,
+      "before_sha256": null,
+      "after_sha256": "7a29e85de6dd5a3581db0d0f5f328183ba5651e829c69ac16d85c72147da564a"
+    },
+    {
+      "path": "docs/diagnosis/2026-10-21/report.v2.zh-CN.md",
+      "existed_before": false,
+      "before_sha256": null,
+      "after_sha256": "5121515b0c236cf889309bc2f705196347498228916de557309df752703280dd"
+    },
+    {
+      "path": "packages/lightclaw/CHANGELOG.md",
+      "existed_before": true,
+      "before_sha256": "4ed8d4da16eefbf31b649ce012de5e98e2e4127fbb203367c952fd7ee9697d3f",
+      "after_sha256": "017b0182001163e07ccd6d0c9970aa53e544e990083007d18fac527d4a5ec1f7"
+    },
+    {
+      "path": "packages/lightclaw/README.md",
+      "existed_before": true,
+      "before_sha256": "a75f24b56ea7e13c76bcd31b14b2701308c53b35ae8de1587a4c50ec8dc46473",
+      "after_sha256": "0a60e5ae7dd2c3e6b46ee005830be56ae44f485ecd7de0dc4cb85b2a1743859a"
+    },
+    {
+      "path": "packages/lightclaw/README.zh-CN.md",
+      "existed_before": true,
+      "before_sha256": "fad7247d1c46a3cfe892ae8af9af2643ef13cab5539a2e9acf9d49e72d3b3c07",
+      "after_sha256": "4ad07899533eb12d0b06ae278e4d4b5def5ece60ba42aea32589a15fe9308e89"
+    },
+    {
+      "path": "packages/lightclaw/package.json",
+      "existed_before": true,
+      "before_sha256": "8f00439167c11e51c9237633b70fa7f94257967fe75dbaf23cbc0e144b0eb597",
+      "after_sha256": "35de68840d2d896205c74222c999bc9ab4a43bc1049849a3dc733ada66e868a4"
+    },
+    {
+      "path": "packages/lightclaw/src/agent.ts",
+      "existed_before": true,
+      "before_sha256": "b8e41c83b3347da02560822dbb9e1b5d9068af28eeddce8aaf819396e81d3b3b",
+      "after_sha256": "10471c9ca5536933f80be02d61e12fcf66389a0d50e6b4e07913d50afaddd2c9"
+    },
+    {
+      "path": "packages/lightclaw/src/attachment-reader.py",
+      "existed_before": false,
+      "before_sha256": null,
+      "after_sha256": "ad86c894e42c9ba6aff6565d92f569752d2afadeb8ff0f133d82d6fd034042b0"
+    },
+    {
+      "path": "packages/lightclaw/src/attachments.ts",
+      "existed_before": false,
+      "before_sha256": null,
+      "after_sha256": "7184559cc7e535bbd0730ff5586805472dce9d5cfb5da3f0c60d44f47d636168"
+    },
+    {
+      "path": "packages/lightclaw/src/feishu.ts",
+      "existed_before": true,
+      "before_sha256": "dbf60baec2db8136e2706d6936a0adb3d23db6678b7044cd2ba617dd362b9b5c",
+      "after_sha256": "041581df0270c2cdffc7346dd9eb1c7a257fe1a42ac486d386a7489ba49ec3de"
+    },
+    {
+      "path": "packages/lightclaw/src/slack.ts",
+      "existed_before": true,
+      "before_sha256": "d695406eff5b131cfbdd474969b9059aeb804ac6342ca7c846b9761633a4bb6b",
+      "after_sha256": "051a29bd1ac09943733b3877acab5b0d893291bed0c3b22d913b61c3fa890602"
+    },
+    {
+      "path": "packages/lightclaw/src/tools/attach.ts",
+      "existed_before": true,
+      "before_sha256": "cd69be15a7864631b7e66fcdc361724397ed9ff96cb59bb4c01438890e1f0ae5",
+      "after_sha256": "b6ddb169ba36664e5368360dcadaabf579a51e5ccbee9d907b5b017ebdf9fc55"
+    },
+    {
+      "path": "packages/lightclaw/src/transport.ts",
+      "existed_before": true,
+      "before_sha256": "6e914312c502a18bf8465fc58b1d116ad27c17b2b0e0456c37f2713917548eb1",
+      "after_sha256": "832672aa487a62e2fdbf34fea78df9072ea0f9ca46843d0544a93d76afa78584"
+    },
+    {
+      "path": "packages/lightclaw/test/attachment-upload.test.ts",
+      "existed_before": false,
+      "before_sha256": null,
+      "after_sha256": "4c71c0e2cdf505a55c59085379ea0e456e1e2d3b9bff52ec3537eba5af43ec2a"
+    },
+    {
+      "path": "packages/lightclaw/test/diagnosis-statistics.test.ts",
+      "existed_before": false,
+      "before_sha256": null,
+      "after_sha256": "07c6af3ce84f4e9e7dcfb7eb7e7942b2d463d60993c43c5373aaa72e24e787e8"
+    },
+    {
+      "path": "packages/lightclaw/test/offline-entry.test.ts",
+      "existed_before": false,
+      "before_sha256": null,
+      "after_sha256": "cdee0f111edf157d822ab75517b637a828481ad80eec15f7698ff6dcdc96bb19"
+    },
+    {
+      "path": "packages/lightclaw/test/offline-setup.ts",
+      "existed_before": false,
+      "before_sha256": null,
+      "after_sha256": "be8e50059a1a68210a1bed3b06c90b910311a69c0dc695397ad3ca95bae3ac5b"
+    },
+    {
+      "path": "packages/lightclaw/test/runner-lifecycle.test.ts",
+      "existed_before": true,
+      "before_sha256": "2f343621531df9b6d8909d7d926da505e7a6a4412095556777cde7c96414e5d7",
+      "after_sha256": "77529b84ad6fce26e756b5b44bc672d75a6e8aa9c1af0d672d434e1799a2ea1d"
+    },
+    {
+      "path": "packages/lightclaw/vitest.config.ts",
+      "existed_before": true,
+      "before_sha256": "df4eb788a27942266e1f07b2b78137df1eca9d5211ffc710558e005b01d333b6",
+      "after_sha256": "1c8c448fed9b8b60eac54b4de0246a65a26c09288cb35265e8796ec86dc1966a"
+    },
+    {
+      "path": "docs/engineering-change-log.zh-CN.md",
+      "existed_before": true,
+      "before_sha256": "370446078bfc5f4763958aabe6605562c193af5fbd1f9909e0d63f090f16cc33",
+      "after_sha256": "d94dd04042b7d0d5e8184a6493331c4b452c5a4bbc31111356276ae0f412a3ba",
+      "baseline_method": "ignored file; original prefix reconstructed from this turn append-only entry boundary"
+    }
+  ],
+  "notes": [
+    "Changes compare against turn-start files, not HEAD.",
+    "Evidence directory and implementation plan are newly created workflow artifacts, excluded from this self-referential manifest."
+  ]
+}

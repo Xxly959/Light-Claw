@@ -1,0 +1,22 @@
+{
+  "passed": true,
+  "historicalHashesChecked": 75,
+  "baselineFilesChecked": 79,
+  "changedSourceAndTestFiles": [
+    "packages/lightclaw/src/agent.ts",
+    "packages/lightclaw/src/evals/optimize-cli.ts",
+    "packages/lightclaw/src/evals/optimizer.ts",
+    "packages/lightclaw/src/evals/runner.ts",
+    "packages/lightclaw/src/evals/types.ts",
+    "packages/lightclaw/test/agent-runner.test.ts",
+    "packages/lightclaw/test/eval-runner.test.ts",
+    "packages/lightclaw/test/prompt-optimization.test.ts",
+    "packages/lightclaw/test/runner-lifecycle.test.ts"
+  ],
+  "runs": 95,
+  "requests": 302,
+  "reportedTokens": 896763,
+  "sameSevenToolsPreserved": true,
+  "finalTasksUnchanged": true,
+  "currentAgentMatchesFixedV2": true
+}

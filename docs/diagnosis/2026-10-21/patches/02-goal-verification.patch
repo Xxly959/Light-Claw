@@ -1,0 +1,377 @@
+--- a/packages/lightclaw/src/goals/store.ts
++++ b/packages/lightclaw/src/goals/store.ts
+@@ -1,5 +1,6 @@
+ import { createHash, randomUUID } from "node:crypto";
+ import {
++	appendFileSync,
+ 	closeSync,
+ 	constants,
+ 	existsSync,
+@@ -25,6 +26,7 @@
+ 	GoalCreateInput,
+ 	GoalLimits,
+ 	GoalState,
++	GoalVerificationReport,
+ 	GoalVerificationRuntime,
+ } from "./types.js";
+ import { verifyGoalCompletion } from "./verifier.js";
+@@ -93,6 +95,7 @@
+ 	if (value.schemaVersion !== 2) throw new Error("schemaVersion 必须为2；旧目标需显式迁移");
+ 	assertText(value.ownerUserId, "ownerUserId");
+ 	assertCount(value.revision, "revision");
++	if (value.verificationVersion !== undefined) assertCount(value.verificationVersion, "verificationVersion");
+ 	assertRecord(value.acceptance, "acceptance");
+ 	let acceptance: GoalAcceptance = { mode: "manual" };
+ 	if (value.acceptance.mode === "manual") assertFields(value.acceptance, ["mode"]);
+@@ -203,7 +206,7 @@
+ 			!report ||
+ 			(value.completion.method === "automatic"
+ 				? report.status !== "passed"
+-				: value.completion.method !== "human" || report.status !== "inconclusive")
++				: !["human", "self_reported"].includes(String(value.completion.method)) || report.status !== "inconclusive")
+ 		)
+ 			throw new Error("completion 缺少匹配验证记录");
+ 		if (value.completion.method === "human") {
+@@ -222,7 +225,20 @@
+ 
+ 	private readonly channelDir: string;
+ 	private readonly limits: GoalLimits;
+-	constructor(options: { channelDir: string; controlChannelDir: string; limits: GoalLimits }) {
++	private readonly acceptanceEnabled: boolean;
++	private readonly controlsEnabled: boolean;
++	private readonly enabled: boolean;
++	constructor(options: {
++		channelDir: string;
++		controlChannelDir: string;
++		limits: GoalLimits;
++		enabled?: boolean;
++		acceptanceEnabled?: boolean;
++		controlsEnabled?: boolean;
++	}) {
++		this.enabled = options.enabled !== false;
++		this.acceptanceEnabled = options.acceptanceEnabled !== false;
++		this.controlsEnabled = options.controlsEnabled !== false;
+ 		this.channelDir = options.channelDir;
+ 		this.limits = options.limits;
+ 		const channel = physicalPath(options.channelDir);
+@@ -232,6 +248,7 @@
+ 	}
+ 
+ 	get(): GoalState | undefined {
++		if (!this.enabled) return undefined;
+ 		if (!existsSync(this.path)) {
+ 			if (existsSync(join(this.channelDir, "goal.json")) && !this.hasArchivedLegacy())
+ 				throw new Error(
+@@ -264,6 +281,7 @@
+ 	}
+ 
+ 	async create(input: GoalCreateInput, signal: AbortSignal): Promise<GoalState> {
++		if (!this.enabled) throw new Error("目标功能已关闭");
+ 		assertText(input.objective, "objective");
+ 		assertText(input.ownerUserId, "ownerUserId");
+ 		const current = this.get();
+@@ -279,6 +297,7 @@
+ 			schemaVersion: 2,
+ 			ownerUserId: input.ownerUserId,
+ 			revision: 0,
++			verificationVersion: 0,
+ 			acceptance: input.acceptance,
+ 			baselines,
+ 			verificationHistory: [],
+@@ -300,6 +319,10 @@
+ 	updateProgress(summary: string, evidence: string[] = []): GoalState {
+ 		this.requireStatus("active");
+ 		assertText(summary, "summary");
++		const current = this.get()!;
++		const cleanEvidence = evidence.map((item) => item.trim()).filter(Boolean);
++		if (current.lastProgress === summary.trim() && cleanEvidence.every((item) => current.evidence.includes(item)))
++			return current;
+ 		return this.update((goal) => ({
+ 			...goal,
+ 			lastProgress: summary.trim(),
+@@ -323,11 +346,28 @@
+ 			assertActive: () => {
+ 				runtime.assertActive();
+ 				const current = this.get();
+-				if (current?.id !== before.id || current.revision !== before.revision || current.status !== "active")
++				if (
++					current?.id !== before.id ||
++					(current.verificationVersion ?? current.revision) !== (before.verificationVersion ?? before.revision) ||
++					current.status !== "active"
++				)
+ 					throw new Error("验证申请已过期");
+ 			},
+ 		};
+-		const report = await verifyGoalCompletion(before, { summary: request.summary.trim(), evidence }, guarded);
++		const report: GoalVerificationReport = this.acceptanceEnabled
++			? await verifyGoalCompletion(before, { summary: request.summary.trim(), evidence }, guarded)
++			: {
++					attemptId: randomUUID(),
++					goalId: before.id,
++					revision: before.revision,
++					status: "inconclusive",
++					startedAt: new Date().toISOString(),
++					finishedAt: new Date().toISOString(),
++					summary: request.summary.trim(),
++					evidence,
++					checks: [],
++					snapshots: [],
++				};
+ 		let current = this.get();
+ 		if (report.status !== "aborted") {
+ 			try {
+@@ -350,26 +390,30 @@
+ 		const eligible =
+ 			report.status !== "aborted" &&
+ 			current.status === "active" &&
+-			current.revision === before.revision &&
++			(current.verificationVersion ?? current.revision) === (before.verificationVersion ?? before.revision) &&
+ 			!runtime.signal.aborted;
+ 		const next = this.update((goal) => ({
+ 			...goal,
+ 			verificationHistory: [...goal.verificationHistory, report].slice(-20),
+ 			...(eligible
+ 				? {
++						verificationVersion: (goal.verificationVersion ?? goal.revision) + 1,
+ 						lastProgress: request.summary.trim(),
+ 						evidence: [...goal.evidence, ...evidence].slice(-20),
+ 						status:
+-							report.status === "passed"
++							report.status === "passed" || !this.acceptanceEnabled
+ 								? "completed"
+ 								: report.status === "inconclusive"
+ 									? "awaiting_confirmation"
+ 									: "active",
+-						...(report.status === "passed"
++						...(report.status === "passed" || !this.acceptanceEnabled
+ 							? {
+ 									cycle: goal.cycle + 1,
+ 									completedAt: new Date().toISOString(),
+-									completion: { method: "automatic" as const, attemptId: report.attemptId },
++									completion: {
++										method: this.acceptanceEnabled ? ("automatic" as const) : ("self_reported" as const),
++										attemptId: report.attemptId,
++									},
+ 								}
+ 							: {}),
+ 					}
+@@ -407,10 +451,51 @@
+ 		}));
+ 	}
+ 
++	recordDispute(attemptId: string, userId: string, reason: string): void {
++		const goal = this.get();
++		assertText(reason, "reason");
++		if (reason.length > 2000) throw new Error("复核原因不能超过2000字符");
++		if (
++			!goal ||
++			goal.ownerUserId !== userId ||
++			!goal.verificationHistory.some((report) => report.attemptId === attemptId)
++		)
++			throw new Error("只有目标创建者能对已有验收申请记录复核");
++		this.assertProtectedDirectory();
++		const handle = openSync(
++			join(dirname(this.path), "verification-disputes.jsonl"),
++			constants.O_WRONLY | constants.O_APPEND | constants.O_CREAT | constants.O_NOFOLLOW,
++			0o600,
++		);
++		try {
++			appendFileSync(
++				handle,
++				`${JSON.stringify({
++					goalId: goal.id,
++					attemptId,
++					userId,
++					reason: reason
++						.trim()
++						.replace(/\bsk-[A-Za-z0-9_-]{8,}\b/g, "[REDACTED]")
++						.replace(/Bearer\s+\S+/gi, "Bearer [REDACTED]"),
++					timestamp: new Date().toISOString(),
++					status: "unreviewed",
++				})}\n`,
++			);
++		} finally {
++			closeSync(handle);
++		}
++	}
++
+ 	pause(reason = "用户暂停"): GoalState {
+ 		if (!["active", "awaiting_confirmation"].includes(this.get()?.status ?? ""))
+ 			throw new Error("只有进行中或待确认的目标可以暂停");
+-		return this.update((goal) => ({ ...goal, status: "paused", pauseReason: reason }));
++		return this.update((goal) => ({
++			...goal,
++			status: "paused",
++			verificationVersion: (goal.verificationVersion ?? goal.revision) + 1,
++			pauseReason: reason,
++		}));
+ 	}
+ 
+ 	resume(): GoalState {
+@@ -419,6 +504,7 @@
+ 		return this.update((goal) => ({
+ 			...goal,
+ 			status: "active",
++			verificationVersion: (goal.verificationVersion ?? goal.revision) + 1,
+ 			cycle: 0,
+ 			consecutiveFailures: 0,
+ 			staleCycles: 0,
+@@ -430,7 +516,11 @@
+ 		const status = this.get()?.status;
+ 		if (status !== "active" && status !== "paused" && status !== "awaiting_confirmation")
+ 			throw new Error("只有进行中或暂停的目标可以取消");
+-		return this.update((goal) => ({ ...goal, status: "cancelled" }));
++		return this.update((goal) => ({
++			...goal,
++			status: "cancelled",
++			verificationVersion: (goal.verificationVersion ?? goal.revision) + 1,
++		}));
+ 	}
+ 
+ 	recordCycle(failed: boolean, madeProgress: boolean): GoalState {
+@@ -442,6 +532,7 @@
+ 				consecutiveFailures: failed ? goal.consecutiveFailures + 1 : 0,
+ 				staleCycles: madeProgress ? 0 : goal.staleCycles + 1,
+ 			};
++			if (!this.controlsEnabled) return next;
+ 			if (next.cycle >= this.limits.maxCycles) return { ...next, status: "paused", pauseReason: "达到最大轮次" };
+ 			if (next.consecutiveFailures >= this.limits.maxFailures) {
+ 				return { ...next, status: "paused", pauseReason: "连续执行失败" };
+@@ -456,7 +547,12 @@
+ 	private update(transform: (goal: GoalState) => GoalState): GoalState {
+ 		const goal = this.get();
+ 		if (!goal) throw new Error("当前没有目标，请先发送 /goal <目标>");
+-		const next = { ...transform(goal), revision: goal.revision + 1, updatedAt: new Date().toISOString() };
++		const next = {
++			verificationVersion: goal.verificationVersion ?? goal.revision,
++			...transform(goal),
++			revision: goal.revision + 1,
++			updatedAt: new Date().toISOString(),
++		};
+ 		this.save(next);
+ 		return next;
+ 	}
+--- a/packages/lightclaw/src/goals/types.ts
++++ b/packages/lightclaw/src/goals/types.ts
+@@ -81,10 +81,16 @@
+ 	schemaVersion: 2;
+ 	ownerUserId: string;
+ 	revision: number;
++	verificationVersion?: number;
+ 	acceptance: GoalAcceptance;
+ 	baselines: GoalBaseline[];
+ 	verificationHistory: GoalVerificationReport[];
+-	completion?: { method: "automatic" | "human"; attemptId: string; confirmedBy?: string; confirmedAt?: string };
++	completion?: {
++		method: "automatic" | "human" | "self_reported";
++		attemptId: string;
++		confirmedBy?: string;
++		confirmedAt?: string;
++	};
+ 	id: string;
+ 	objective: string;
+ 	status: GoalStatus;
+--- a/packages/lightclaw/src/goals/commands.ts
++++ b/packages/lightclaw/src/goals/commands.ts
+@@ -18,6 +18,7 @@
+ 		`验收：${goal.acceptance.mode}`,
+ 		`目标：${goal.objective}`,
+ 		`状态：${goal.status}`,
++		`完成方式：${goal.completion?.method ?? "尚未完成"}`,
+ 		`轮次：${goal.cycle}`,
+ 		`最近进展：${goal.lastProgress ?? "暂无"}`,
+ 	];
+@@ -53,6 +54,16 @@
+ 		return { handled: true, startRun: false, response: formatGoalStatus(store.get()) };
+ 	}
+ 	if (context.origin !== "platform") throw new Error("目标控制命令必须来自真实平台用户");
++	if (argument.startsWith("dispute ")) {
++		const match = /^dispute\s+(\S+)\s+([\s\S]+)$/.exec(argument);
++		if (!match) throw new Error("用法：/goal dispute <attemptId> <原因>");
++		store.recordDispute(match[1], context.userId, match[2]);
++		return {
++			handled: true,
++			startRun: false,
++			response: "已记录验收争议，等待人工复核；原验证记录和目标状态保持不变。",
++		};
++	}
+ 	if (argument.startsWith("confirm")) {
+ 		const parts = argument.split(/\s+/);
+ 		if (parts.length !== 3 || parts[0] !== "confirm") throw new Error("用法：/goal confirm <goalId> <attemptId>");
+--- a/packages/lightclaw/src/tools/goal.ts
++++ b/packages/lightclaw/src/tools/goal.ts
+@@ -1,7 +1,7 @@
+ import type { AgentTool } from "@mariozechner/pi-agent-core";
+ import { Type } from "typebox";
+ import type { GoalStore } from "../goals/store.js";
+-import type { GoalVerificationRuntime } from "../goals/types.js";
++import type { GoalState, GoalVerificationReport, GoalVerificationRuntime } from "../goals/types.js";
+ 
+ const progressSchema = Type.Object({
+ 	summary: Type.String({ description: "本轮完成的工作或遇到的阻塞" }),
+@@ -15,6 +15,29 @@
+ 	},
+ 	{ additionalProperties: false },
+ );
++
++function rejectionDetails(goal: GoalState | undefined, report: GoalVerificationReport): string {
++	return (
++		report.checks
++			.filter((check) => check.status !== "passed")
++			.map((check) => {
++				const index = Number(check.checkId.split("-")[1]);
++				const rule =
++					goal?.acceptance.mode === "automatic"
++						? check.kind === "file"
++							? goal.acceptance.files[index]
++							: goal.acceptance.commands[index]
++						: undefined;
++				const condition = rule ? JSON.stringify(rule) : check.checkId;
++				const action =
++					check.kind === "file"
++						? "创建或修正此文件，使其满足上述 contains/changed 条件后重新申请"
++						: "检查命令依赖、退出码及 stdout 条件；修正后重新申请";
++				return `${condition}: ${check.reasonCode}${check.exitCode === undefined ? "" : ` (exit ${check.exitCode})`}；${action}`;
++			})
++			.join("\n") || "未得到可验证结果；检查目标状态、取消信号和验收来源后重新申请，或由创建者确认"
++	);
++}
+ 
+ export function createGoalTools(store: GoalStore, runtime: () => GoalVerificationRuntime) {
+ 	const progressTool: AgentTool<typeof progressSchema> = {
+@@ -42,10 +65,10 @@
+ 			const goal = outcome.goal;
+ 			const text =
+ 				goal?.status === "completed"
+-					? `目标已验证完成：${goal.objective}`
++					? `${goal.completion?.method === "self_reported" ? "目标由模型报告完成（验收已关闭，未验证）" : "目标已验证完成"}：${goal.objective}`
+ 					: goal?.status === "awaiting_confirmation"
+ 						? `等待目标创建者确认：/goal confirm ${goal.id} ${outcome.report.attemptId}`
+-						: `验收未通过：${outcome.report.status}；${outcome.report.checks.map((check) => check.reasonCode).join("、")}`;
++						: `验收未通过：${outcome.report.status}；${rejectionDetails(goal, outcome.report)}\n若验收判断有误，创建者可使用 /goal dispute ${outcome.report.attemptId} <原因> 记录复核。`;
+ 			return {
+ 				content: [{ type: "text", text }],
+ 				details: outcome,
+--- a/packages/lightclaw/src/observability.ts
++++ b/packages/lightclaw/src/observability.ts
+@@ -15,7 +15,7 @@
+ 	channelId: string;
+ 	attemptId?: string;
+ 	verificationStatus?: string;
+-	completionMethod?: "automatic" | "human";
++	completionMethod?: "automatic" | "human" | "self_reported";
+ 	verificationCommandCount?: number;
+ 	messageId?: string;
+ 	goalId?: string;
+@@ -33,5 +33,10 @@
+ export function appendAuditEvent(workspaceDir: string, event: RunAuditEvent): void {
+ 	const path = join(workspaceDir, "audit", "runs.jsonl");
+ 	mkdirSync(dirname(path), { recursive: true });
+-	appendFileSync(path, `${JSON.stringify({ ...event, timestamp: new Date().toISOString() })}\n`, "utf8");
++	const detail = event.detail
++		?.replace(/\bsk-[A-Za-z0-9_-]{8,}\b/g, "[REDACTED]")
++		.replace(/Bearer\s+[^\s;]+/gi, "Bearer [REDACTED]")
++		.replace(/((?:api[_-]?key|access[_-]?token|authorization)\s*[:=]\s*)[^\s;]+/gi, "$1[REDACTED]")
++		.slice(0, 8000);
++	appendFileSync(path, `${JSON.stringify({ ...event, detail, timestamp: new Date().toISOString() })}\n`, "utf8");
+ }

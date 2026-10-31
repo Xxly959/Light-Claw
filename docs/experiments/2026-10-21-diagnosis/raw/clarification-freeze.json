@@ -1,0 +1,15 @@
+{
+  "original": "读取scratch/input data/值.json，将数组中严格大于0的数各乘2，保持顺序，输出scratch/output data/结果.json数组。 所有输入文件必须保持原样。输出文件使用UTF-8，完成后简短说明。",
+  "clarified": "读取scratch/input data/值.json，先删除数组中所有小于或等于0的元素，再将保留下来的正数各乘2，保持顺序，输出scratch/output data/结果.json数组。 所有输入文件必须保持原样。输出文件使用UTF-8，完成后简短说明。",
+  "expected": {
+    "scratch/output data/结果.json": {
+      "json": [
+        4,
+        14,
+        4
+      ]
+    }
+  },
+  "repetitions": 3,
+  "note": "Known-case ambiguity diagnosis, not benchmark improvement."
+}

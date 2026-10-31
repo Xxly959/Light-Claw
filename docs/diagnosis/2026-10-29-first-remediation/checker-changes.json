@@ -1,0 +1,9 @@
+[
+  "packages/lightclaw/src/agent.ts",
+  "packages/lightclaw/src/attachments.ts",
+  "packages/lightclaw/src/feishu.ts",
+  "packages/lightclaw/test/attachment-upload.test.ts",
+  "packages/lightclaw/test/diagnosis-statistics.test.ts",
+  "packages/lightclaw/test/offline-setup.ts",
+  "packages/lightclaw/test/runner-lifecycle.test.ts"
+]

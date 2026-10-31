@@ -1,5 +1,6 @@
+import { createHash } from "node:crypto";
 import { Cron } from "croner";
-import { existsSync, type FSWatcher, mkdirSync, readdirSync, statSync, unlinkSync } from "fs";
+import { existsSync, type FSWatcher, mkdirSync, readdirSync, renameSync, unlinkSync } from "fs";
 import { readFile } from "fs/promises";
 import { join } from "path";
 import { closeWatcher, FS_WATCH_RETRY_DELAY_MS, watchWithErrorHandler } from "./fs-watch.js";
@@ -12,6 +13,7 @@ import type { ChatEvent } from "./transport.js";
  */
 export interface EventBotTarget {
 	enqueueEvent(event: ChatEvent): boolean;
+	readonly durableAdmission?: boolean;
 }
 
 // ============================================================================
@@ -48,12 +50,41 @@ export type LightClawEvent = ImmediateEvent | OneShotEvent | PeriodicEvent;
 const DEBOUNCE_MS = 100;
 const MAX_RETRIES = 3;
 const RETRY_BASE_MS = 100;
+const MAX_TIMER_DELAY_MS = 2_147_483_647;
+
+/** RFC3339-style ISO timestamp with timezone; reject Date.parse's calendar normalization. */
+function validOneShotDate(value: unknown): value is string {
+	if (typeof value !== "string") return false;
+	const parts = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:\.\d{1,3})?(Z|[+-]\d{2}:\d{2})$/.exec(value);
+	if (!parts) return false;
+	const [, yearText, monthText, dayText, hourText, minuteText, secondText, zone] = parts;
+	const [year, month, day, hour, minute, second] = [
+		yearText,
+		monthText,
+		dayText,
+		hourText,
+		minuteText,
+		secondText,
+	].map(Number);
+	const leap = year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0);
+	const days = [31, leap ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+	return (
+		month >= 1 &&
+		month <= 12 &&
+		day >= 1 &&
+		day <= days[month - 1] &&
+		hour <= 23 &&
+		minute <= 59 &&
+		second <= 59 &&
+		(zone === "Z" || (Number(zone.slice(1, 3)) <= 23 && Number(zone.slice(4)) <= 59)) &&
+		Number.isFinite(Date.parse(value))
+	);
+}
 
 export class EventsWatcher {
 	private timers: Map<string, NodeJS.Timeout> = new Map();
 	private crons: Map<string, Cron> = new Map();
 	private debounceTimers: Map<string, NodeJS.Timeout> = new Map();
-	private startTime: number;
 	private watcher: FSWatcher | null = null;
 	private watcherRetryTimer: NodeJS.Timeout | null = null;
 	private knownFiles: Set<string> = new Set();
@@ -62,9 +93,7 @@ export class EventsWatcher {
 	constructor(
 		private eventsDir: string,
 		private slack: EventBotTarget,
-	) {
-		this.startTime = Date.now();
-	}
+	) {}
 
 	/**
 	 * Start watching for events. Call this after SlackBot is ready.
@@ -251,8 +280,10 @@ export class EventsWatcher {
 		let lastError: Error | null = null;
 
 		for (let i = 0; i < MAX_RETRIES; i++) {
+			if (this.stopped) return;
 			try {
 				const content = await readFile(filePath, "utf-8");
+				if (this.stopped) return;
 				event = this.parseEvent(content, filename);
 				break;
 			} catch (err) {
@@ -263,12 +294,14 @@ export class EventsWatcher {
 			}
 		}
 
+		if (this.stopped) return;
 		if (!event) {
 			log.logWarning(`Failed to parse event file after ${MAX_RETRIES} retries: ${filename}`, lastError?.message);
-			this.deleteFile(filename);
+			this.deadLetter(filename);
 			return;
 		}
 
+		if (this.stopped) return;
 		this.knownFiles.add(filename);
 
 		// Schedule based on type
@@ -288,7 +321,15 @@ export class EventsWatcher {
 	private parseEvent(content: string, filename: string): LightClawEvent | null {
 		const data = JSON.parse(content);
 
-		if (!data.type || !data.channelId || !data.text) {
+		if (
+			!data ||
+			typeof data !== "object" ||
+			typeof data.type !== "string" ||
+			typeof data.channelId !== "string" ||
+			!data.channelId.trim() ||
+			typeof data.text !== "string" ||
+			!data.text.trim()
+		) {
 			throw new Error(`Missing required fields (type, channelId, text) in ${filename}`);
 		}
 
@@ -297,8 +338,8 @@ export class EventsWatcher {
 				return { type: "immediate", channelId: data.channelId, text: data.text };
 
 			case "one-shot":
-				if (!data.at) {
-					throw new Error(`Missing 'at' field for one-shot event in ${filename}`);
+				if (!validOneShotDate(data.at)) {
+					throw new Error(`Invalid 'at' field: expected ISO calendar timestamp with timezone in ${filename}`);
 				}
 				return { type: "one-shot", channelId: data.channelId, text: data.text, at: data.at };
 
@@ -323,21 +364,6 @@ export class EventsWatcher {
 	}
 
 	private handleImmediate(filename: string, event: ImmediateEvent): void {
-		const filePath = join(this.eventsDir, filename);
-
-		// Check if stale (created before harness started)
-		try {
-			const stat = statSync(filePath);
-			if (stat.mtimeMs < this.startTime) {
-				log.logInfo(`Stale immediate event, deleting: ${filename}`);
-				this.deleteFile(filename);
-				return;
-			}
-		} catch {
-			// File may have been deleted
-			return;
-		}
-
 		log.logInfo(`Executing immediate event: ${filename}`);
 		this.execute(filename, event);
 	}
@@ -347,22 +373,27 @@ export class EventsWatcher {
 		const now = Date.now();
 
 		if (atTime <= now) {
-			// Past - delete without executing
-			log.logInfo(`One-shot event in the past, deleting: ${filename}`);
-			this.deleteFile(filename);
+			// Catch up once after restart regardless of age; durable inbox admission controls expiry/deduplication.
+			log.logInfo(`One-shot event overdue, admitting for durable processing: ${filename}`);
+			this.execute(filename, event);
 			return;
 		}
 
 		const delay = atTime - now;
 		log.logInfo(`Scheduling one-shot event: ${filename} in ${Math.round(delay / 1000)}s`);
 
-		const timer = setTimeout(() => {
-			this.timers.delete(filename);
-			log.logInfo(`Executing one-shot event: ${filename}`);
-			this.execute(filename, event);
-		}, delay);
-
-		this.timers.set(filename, timer);
+		const scheduleChunk = () => {
+			if (this.stopped) return;
+			const remaining = atTime - Date.now();
+			if (remaining <= 0) {
+				this.timers.delete(filename);
+				log.logInfo(`Executing one-shot event: ${filename}`);
+				this.execute(filename, event);
+				return;
+			}
+			this.timers.set(filename, setTimeout(scheduleChunk, Math.min(remaining, MAX_TIMER_DELAY_MS)));
+		};
+		scheduleChunk();
 	}
 
 	private handlePeriodic(filename: string, event: PeriodicEvent): void {
@@ -378,7 +409,7 @@ export class EventsWatcher {
 			log.logInfo(`Scheduled periodic event: ${filename}, next run: ${next?.toISOString() ?? "unknown"}`);
 		} catch (err) {
 			log.logWarning(`Invalid cron schedule for ${filename}: ${event.schedule}`, String(err));
-			this.deleteFile(filename);
+			this.deadLetter(filename);
 		}
 	}
 
@@ -402,25 +433,38 @@ export class EventsWatcher {
 		// 创建与消息平台无关的合成事件
 		const syntheticEvent: ChatEvent = {
 			type: "mention",
+			origin: "scheduled",
 			channel: event.channelId,
 			user: "EVENT",
 			text: message,
-			ts: Date.now().toString(),
+			ts:
+				event.type === "periodic"
+					? `${filename}:${Date.now()}`
+					: `event-${createHash("sha256")
+							.update(JSON.stringify([filename, event]))
+							.digest("hex")}`,
 		};
 
 		// Enqueue for processing
 		const enqueued = this.slack.enqueueEvent(syntheticEvent);
 
-		if (enqueued && deleteAfter) {
+		if (enqueued && deleteAfter && this.slack.durableAdmission === true) {
 			// Delete file after successful enqueue (immediate and one-shot)
 			this.deleteFile(filename);
 		} else if (!enqueued) {
-			log.logWarning(`Event queue full, discarded: ${filename}`);
-			// Still delete immediate/one-shot even if discarded
-			if (deleteAfter) {
-				this.deleteFile(filename);
-			}
+			log.logWarning(`Event not admitted; source retained: ${filename}`);
 		}
+	}
+
+	private deadLetter(filename: string): void {
+		const directory = join(this.eventsDir, "dead-letter");
+		mkdirSync(directory, { recursive: true });
+		try {
+			renameSync(join(this.eventsDir, filename), join(directory, `${Date.now()}-${filename}`));
+		} catch (error) {
+			log.logWarning(`Event dead-letter failed: ${filename}`, String(error));
+		}
+		this.knownFiles.delete(filename);
 	}
 
 	private deleteFile(filename: string): void {

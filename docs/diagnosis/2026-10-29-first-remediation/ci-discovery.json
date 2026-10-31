@@ -1,0 +1,14 @@
+{
+  "workspace": "lightclaw",
+  "rootTest": "npm run test --workspaces --if-present",
+  "packageTest": "tsx ../../node_modules/vitest/dist/cli.js --run",
+  "requiredStep": {
+    "name": "LightClaw offline regressions (required workspace)",
+    "run": "npm run test --workspace lightclaw"
+  },
+  "nodeMatrix": [
+    "22.19.0",
+    "22"
+  ],
+  "testFiles": 37
+}

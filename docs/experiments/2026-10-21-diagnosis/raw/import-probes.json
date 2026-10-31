@@ -1,0 +1,3290 @@
+[
+  {
+    "repetition": 0,
+    "command": [
+      "rtk",
+      "proxy",
+      "node",
+      "--expose-gc",
+      "/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-diagnosis/probes/native-empty.mjs"
+    ],
+    "seconds": 0.24454579199664295,
+    "exitCode": 0,
+    "sample": {
+      "subject": "native-empty",
+      "exports": 0,
+      "node": "v22.23.0",
+      "memory": {
+        "rss": 43483136,
+        "heapTotal": 6438912,
+        "heapUsed": 3719896,
+        "external": 1612981,
+        "arrayBuffers": 10651
+      },
+      "heap": {
+        "total_heap_size": 6438912,
+        "total_heap_size_executable": 262144,
+        "total_physical_size": 5570560,
+        "total_available_size": 4341160808,
+        "used_heap_size": 3724736,
+        "heap_size_limit": 4345298944,
+        "malloced_memory": 147560,
+        "peak_malloced_memory": 233472,
+        "does_zap_garbage": 0,
+        "number_of_native_contexts": 1,
+        "number_of_detached_contexts": 0,
+        "total_global_handles_size": 8192,
+        "used_global_handles_size": 2464,
+        "external_memory": 1613021
+      },
+      "spaces": [
+        {
+          "space_name": "read_only_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "new_space",
+          "space_size": 2097152,
+          "space_used_size": 13664,
+          "space_available_size": 1017248,
+          "physical_space_size": 868352
+        },
+        {
+          "space_name": "old_space",
+          "space_size": 2899968,
+          "space_used_size": 2749784,
+          "space_available_size": 38080,
+          "physical_space_size": 3145728
+        },
+        {
+          "space_name": "code_space",
+          "space_size": 262144,
+          "space_used_size": 30208,
+          "space_available_size": 0,
+          "physical_space_size": 229376
+        },
+        {
+          "space_name": "shared_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "trusted_space",
+          "space_size": 901120,
+          "space_used_size": 690560,
+          "space_available_size": 192896,
+          "physical_space_size": 1048576
+        },
+        {
+          "space_name": "new_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 1030912,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "large_object_space",
+          "space_size": 278528,
+          "space_used_size": 262160,
+          "space_available_size": 0,
+          "physical_space_size": 278528
+        },
+        {
+          "space_name": "code_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "shared_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "trusted_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        }
+      ],
+      "commonJsModules": 0
+    }
+  },
+  {
+    "repetition": 0,
+    "command": [
+      "rtk",
+      "proxy",
+      "node",
+      "--expose-gc",
+      "--import",
+      "tsx",
+      "/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-diagnosis/probes/tsx-empty.mjs"
+    ],
+    "seconds": 0.3380428749951534,
+    "exitCode": 0,
+    "sample": {
+      "subject": "tsx-empty",
+      "exports": 0,
+      "node": "v22.23.0",
+      "memory": {
+        "rss": 82542592,
+        "heapTotal": 12206080,
+        "heapUsed": 6514976,
+        "external": 2431711,
+        "arrayBuffers": 17075
+      },
+      "heap": {
+        "total_heap_size": 12206080,
+        "total_heap_size_executable": 786432,
+        "total_physical_size": 10780672,
+        "total_available_size": 4337608456,
+        "used_heap_size": 6519912,
+        "heap_size_limit": 4345298944,
+        "malloced_memory": 286824,
+        "peak_malloced_memory": 6475776,
+        "does_zap_garbage": 0,
+        "number_of_native_contexts": 1,
+        "number_of_detached_contexts": 0,
+        "total_global_handles_size": 8192,
+        "used_global_handles_size": 4864,
+        "external_memory": 2431751
+      },
+      "spaces": [
+        {
+          "space_name": "read_only_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "new_space",
+          "space_size": 4194304,
+          "space_used_size": 13664,
+          "space_available_size": 2048160,
+          "physical_space_size": 2473984
+        },
+        {
+          "space_name": "old_space",
+          "space_size": 5783552,
+          "space_used_size": 4783624,
+          "space_available_size": 240088,
+          "physical_space_size": 6029312
+        },
+        {
+          "space_name": "code_space",
+          "space_size": 786432,
+          "space_used_size": 449504,
+          "space_available_size": 0,
+          "physical_space_size": 688128
+        },
+        {
+          "space_name": "shared_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "trusted_space",
+          "space_size": 1163264,
+          "space_used_size": 1032632,
+          "space_available_size": 108520,
+          "physical_space_size": 1310720
+        },
+        {
+          "space_name": "new_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 2097152,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "large_object_space",
+          "space_size": 278528,
+          "space_used_size": 262160,
+          "space_available_size": 0,
+          "physical_space_size": 278528
+        },
+        {
+          "space_name": "code_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "shared_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "trusted_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        }
+      ],
+      "commonJsModules": 11
+    }
+  },
+  {
+    "repetition": 0,
+    "command": [
+      "rtk",
+      "proxy",
+      "node",
+      "--expose-gc",
+      "--import",
+      "tsx",
+      "/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-diagnosis/probes/queue.mjs"
+    ],
+    "seconds": 0.33314283401705325,
+    "exitCode": 0,
+    "sample": {
+      "subject": "queue",
+      "exports": 1,
+      "node": "v22.23.0",
+      "memory": {
+        "rss": 84475904,
+        "heapTotal": 12206080,
+        "heapUsed": 6937952,
+        "external": 2450351,
+        "arrayBuffers": 25267
+      },
+      "heap": {
+        "total_heap_size": 12206080,
+        "total_heap_size_executable": 786432,
+        "total_physical_size": 11272192,
+        "total_available_size": 4337399312,
+        "used_heap_size": 6942888,
+        "heap_size_limit": 4345298944,
+        "malloced_memory": 286824,
+        "peak_malloced_memory": 7290880,
+        "does_zap_garbage": 0,
+        "number_of_native_contexts": 1,
+        "number_of_detached_contexts": 0,
+        "total_global_handles_size": 8192,
+        "used_global_handles_size": 5376,
+        "external_memory": 2450391
+      },
+      "spaces": [
+        {
+          "space_name": "read_only_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "new_space",
+          "space_size": 4194304,
+          "space_used_size": 14080,
+          "space_available_size": 2047744,
+          "physical_space_size": 2965504
+        },
+        {
+          "space_name": "old_space",
+          "space_size": 5783552,
+          "space_used_size": 5128840,
+          "space_available_size": 57216,
+          "physical_space_size": 6029312
+        },
+        {
+          "space_name": "code_space",
+          "space_size": 786432,
+          "space_used_size": 500992,
+          "space_available_size": 0,
+          "physical_space_size": 688128
+        },
+        {
+          "space_name": "shared_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "trusted_space",
+          "space_size": 1163264,
+          "space_used_size": 1058488,
+          "space_available_size": 82664,
+          "physical_space_size": 1310720
+        },
+        {
+          "space_name": "new_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 2097152,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "large_object_space",
+          "space_size": 278528,
+          "space_used_size": 262160,
+          "space_available_size": 0,
+          "physical_space_size": 278528
+        },
+        {
+          "space_name": "code_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "shared_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "trusted_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        }
+      ],
+      "commonJsModules": 11
+    }
+  },
+  {
+    "repetition": 0,
+    "command": [
+      "rtk",
+      "proxy",
+      "node",
+      "--expose-gc",
+      "--import",
+      "tsx",
+      "/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-diagnosis/probes/idle-cache.mjs"
+    ],
+    "seconds": 0.3239063340006396,
+    "exitCode": 0,
+    "sample": {
+      "subject": "idle-cache",
+      "exports": 2,
+      "node": "v22.23.0",
+      "memory": {
+        "rss": 84459520,
+        "heapTotal": 12206080,
+        "heapUsed": 6939816,
+        "external": 2450351,
+        "arrayBuffers": 25267
+      },
+      "heap": {
+        "total_heap_size": 12206080,
+        "total_heap_size_executable": 786432,
+        "total_physical_size": 11272192,
+        "total_available_size": 4337449064,
+        "used_heap_size": 6944752,
+        "heap_size_limit": 4345298944,
+        "malloced_memory": 286824,
+        "peak_malloced_memory": 7323648,
+        "does_zap_garbage": 0,
+        "number_of_native_contexts": 1,
+        "number_of_detached_contexts": 0,
+        "total_global_handles_size": 8192,
+        "used_global_handles_size": 5376,
+        "external_memory": 2450391
+      },
+      "spaces": [
+        {
+          "space_name": "read_only_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "new_space",
+          "space_size": 4194304,
+          "space_used_size": 14088,
+          "space_available_size": 2047736,
+          "physical_space_size": 2965504
+        },
+        {
+          "space_name": "old_space",
+          "space_size": 5783552,
+          "space_used_size": 5130488,
+          "space_available_size": 107176,
+          "physical_space_size": 6029312
+        },
+        {
+          "space_name": "code_space",
+          "space_size": 786432,
+          "space_used_size": 500992,
+          "space_available_size": 0,
+          "physical_space_size": 688128
+        },
+        {
+          "space_name": "shared_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "trusted_space",
+          "space_size": 1163264,
+          "space_used_size": 1058696,
+          "space_available_size": 82456,
+          "physical_space_size": 1310720
+        },
+        {
+          "space_name": "new_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 2097152,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "large_object_space",
+          "space_size": 278528,
+          "space_used_size": 262160,
+          "space_available_size": 0,
+          "physical_space_size": 278528
+        },
+        {
+          "space_name": "code_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "shared_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "trusted_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        }
+      ],
+      "commonJsModules": 11
+    }
+  },
+  {
+    "repetition": 0,
+    "command": [
+      "rtk",
+      "proxy",
+      "node",
+      "--expose-gc",
+      "--import",
+      "tsx",
+      "/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-diagnosis/probes/pi-ai.mjs"
+    ],
+    "seconds": 0.49278299999423325,
+    "exitCode": 0,
+    "sample": {
+      "subject": "pi-ai",
+      "exports": 53,
+      "node": "v22.23.0",
+      "memory": {
+        "rss": 134365184,
+        "heapTotal": 49889280,
+        "heapUsed": 13443304,
+        "external": 2443564,
+        "arrayBuffers": 25275
+      },
+      "heap": {
+        "total_heap_size": 49889280,
+        "total_heap_size_executable": 786432,
+        "total_physical_size": 32735232,
+        "total_available_size": 4329075648,
+        "used_heap_size": 13448016,
+        "heap_size_limit": 4345298944,
+        "malloced_memory": 286824,
+        "peak_malloced_memory": 13131776,
+        "does_zap_garbage": 0,
+        "number_of_native_contexts": 1,
+        "number_of_detached_contexts": 0,
+        "total_global_handles_size": 122880,
+        "used_global_handles_size": 48576,
+        "external_memory": 2443604
+      },
+      "spaces": [
+        {
+          "space_name": "read_only_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "new_space",
+          "space_size": 33554432,
+          "space_used_size": 16496,
+          "space_available_size": 16478096,
+          "physical_space_size": 16105472
+        },
+        {
+          "space_name": "old_space",
+          "space_size": 12599296,
+          "space_used_size": 10162568,
+          "space_available_size": 235560,
+          "physical_space_size": 12845056
+        },
+        {
+          "space_name": "code_space",
+          "space_size": 786432,
+          "space_used_size": 577376,
+          "space_available_size": 0,
+          "physical_space_size": 688128
+        },
+        {
+          "space_name": "shared_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "trusted_space",
+          "space_size": 1425408,
+          "space_used_size": 1245440,
+          "space_available_size": 153408,
+          "physical_space_size": 1572864
+        },
+        {
+          "space_name": "new_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 16777216,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "large_object_space",
+          "space_size": 1523712,
+          "space_used_size": 1467840,
+          "space_available_size": 0,
+          "physical_space_size": 1523712
+        },
+        {
+          "space_name": "code_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "shared_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "trusted_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        }
+      ],
+      "commonJsModules": 13
+    }
+  },
+  {
+    "repetition": 0,
+    "command": [
+      "rtk",
+      "proxy",
+      "node",
+      "--expose-gc",
+      "--import",
+      "tsx",
+      "/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-diagnosis/probes/agent-core.mjs"
+    ],
+    "seconds": 0.44067454198375344,
+    "exitCode": 0,
+    "sample": {
+      "subject": "agent-core",
+      "exports": 6,
+      "node": "v22.23.0",
+      "memory": {
+        "rss": 135315456,
+        "heapTotal": 49889280,
+        "heapUsed": 13589272,
+        "external": 2443564,
+        "arrayBuffers": 25275
+      },
+      "heap": {
+        "total_heap_size": 49889280,
+        "total_heap_size_executable": 786432,
+        "total_physical_size": 32489472,
+        "total_available_size": 4329074368,
+        "used_heap_size": 13593984,
+        "heap_size_limit": 4345298944,
+        "malloced_memory": 286824,
+        "peak_malloced_memory": 14327808,
+        "does_zap_garbage": 0,
+        "number_of_native_contexts": 1,
+        "number_of_detached_contexts": 0,
+        "total_global_handles_size": 131072,
+        "used_global_handles_size": 48896,
+        "external_memory": 2443604
+      },
+      "spaces": [
+        {
+          "space_name": "read_only_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "new_space",
+          "space_size": 33554432,
+          "space_used_size": 14120,
+          "space_available_size": 16480472,
+          "physical_space_size": 15859712
+        },
+        {
+          "space_name": "old_space",
+          "space_size": 12599296,
+          "space_used_size": 10305536,
+          "space_available_size": 235776,
+          "physical_space_size": 12845056
+        },
+        {
+          "space_name": "code_space",
+          "space_size": 786432,
+          "space_used_size": 578880,
+          "space_available_size": 0,
+          "physical_space_size": 688128
+        },
+        {
+          "space_name": "shared_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "trusted_space",
+          "space_size": 1425408,
+          "space_used_size": 1249312,
+          "space_available_size": 149536,
+          "physical_space_size": 1572864
+        },
+        {
+          "space_name": "new_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 16777216,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "large_object_space",
+          "space_size": 1523712,
+          "space_used_size": 1467840,
+          "space_available_size": 0,
+          "physical_space_size": 1523712
+        },
+        {
+          "space_name": "code_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "shared_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "trusted_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        }
+      ],
+      "commonJsModules": 13
+    }
+  },
+  {
+    "repetition": 0,
+    "command": [
+      "rtk",
+      "proxy",
+      "node",
+      "--expose-gc",
+      "--import",
+      "tsx",
+      "/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-diagnosis/probes/coding-root.mjs"
+    ],
+    "seconds": 0.8444441250176169,
+    "exitCode": 0,
+    "sample": {
+      "subject": "coding-root",
+      "exports": 127,
+      "node": "v22.23.0",
+      "memory": {
+        "rss": 226656256,
+        "heapTotal": 82329600,
+        "heapUsed": 44748776,
+        "external": 10013253,
+        "arrayBuffers": 171932
+      },
+      "heap": {
+        "total_heap_size": 82329600,
+        "total_heap_size_executable": 1572864,
+        "total_physical_size": 81788928,
+        "total_available_size": 4296531904,
+        "used_heap_size": 44753488,
+        "heap_size_limit": 4345298944,
+        "malloced_memory": 1081448,
+        "peak_malloced_memory": 16957440,
+        "does_zap_garbage": 0,
+        "number_of_native_contexts": 1,
+        "number_of_detached_contexts": 0,
+        "total_global_handles_size": 204800,
+        "used_global_handles_size": 68448,
+        "external_memory": 10013293
+      },
+      "spaces": [
+        {
+          "space_name": "read_only_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "new_space",
+          "space_size": 33554432,
+          "space_used_size": 19688,
+          "space_available_size": 16474904,
+          "physical_space_size": 32817152
+        },
+        {
+          "space_name": "old_space",
+          "space_size": 35143680,
+          "space_used_size": 31866856,
+          "space_available_size": 76904,
+          "physical_space_size": 35389440
+        },
+        {
+          "space_name": "code_space",
+          "space_size": 1572864,
+          "space_used_size": 1152064,
+          "space_available_size": 120512,
+          "physical_space_size": 1376256
+        },
+        {
+          "space_name": "shared_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "trusted_space",
+          "space_size": 2998272,
+          "space_used_size": 2853752,
+          "space_available_size": 91272,
+          "physical_space_size": 3145728
+        },
+        {
+          "space_name": "new_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 16777216,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "large_object_space",
+          "space_size": 9060352,
+          "space_used_size": 8882880,
+          "space_available_size": 0,
+          "physical_space_size": 9060352
+        },
+        {
+          "space_name": "code_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "shared_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "trusted_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        }
+      ],
+      "commonJsModules": 352
+    }
+  },
+  {
+    "repetition": 0,
+    "command": [
+      "rtk",
+      "proxy",
+      "node",
+      "--expose-gc",
+      "--import",
+      "tsx",
+      "/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-diagnosis/probes/coding-narrow.mjs"
+    ],
+    "seconds": 0.669326999981422,
+    "exitCode": 0,
+    "sample": {
+      "subject": "coding-narrow",
+      "exports": 14,
+      "node": "v22.23.0",
+      "memory": {
+        "rss": 239878144,
+        "heapTotal": 83378176,
+        "heapUsed": 44765168,
+        "external": 10013253,
+        "arrayBuffers": 171932
+      },
+      "heap": {
+        "total_heap_size": 83378176,
+        "total_heap_size_executable": 1835008,
+        "total_physical_size": 82804736,
+        "total_available_size": 4295340048,
+        "used_heap_size": 44769880,
+        "heap_size_limit": 4345298944,
+        "malloced_memory": 1081448,
+        "peak_malloced_memory": 18370560,
+        "does_zap_garbage": 0,
+        "number_of_native_contexts": 1,
+        "number_of_detached_contexts": 0,
+        "total_global_handles_size": 245760,
+        "used_global_handles_size": 68448,
+        "external_memory": 10013293
+      },
+      "spaces": [
+        {
+          "space_name": "read_only_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "new_space",
+          "space_size": 33554432,
+          "space_used_size": 15000,
+          "space_available_size": 16479592,
+          "physical_space_size": 32817152
+        },
+        {
+          "space_name": "old_space",
+          "space_size": 35930112,
+          "space_used_size": 31870488,
+          "space_available_size": 50552,
+          "physical_space_size": 36175872
+        },
+        {
+          "space_name": "code_space",
+          "space_size": 1835008,
+          "space_used_size": 1168320,
+          "space_available_size": 0,
+          "physical_space_size": 1605632
+        },
+        {
+          "space_name": "shared_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "trusted_space",
+          "space_size": 2998272,
+          "space_used_size": 2854944,
+          "space_available_size": 90168,
+          "physical_space_size": 3145728
+        },
+        {
+          "space_name": "new_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 16777216,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "large_object_space",
+          "space_size": 9060352,
+          "space_used_size": 8882880,
+          "space_available_size": 0,
+          "physical_space_size": 9060352
+        },
+        {
+          "space_name": "code_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "shared_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "trusted_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        }
+      ],
+      "commonJsModules": 352
+    }
+  },
+  {
+    "repetition": 0,
+    "command": [
+      "rtk",
+      "proxy",
+      "node",
+      "--expose-gc",
+      "--import",
+      "tsx",
+      "/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-diagnosis/probes/lightclaw.mjs"
+    ],
+    "seconds": 0.6866316249943338,
+    "exitCode": 0,
+    "sample": {
+      "subject": "lightclaw",
+      "exports": 5,
+      "node": "v22.23.0",
+      "memory": {
+        "rss": 226689024,
+        "heapTotal": 83902464,
+        "heapUsed": 45155600,
+        "external": 10013253,
+        "arrayBuffers": 171932
+      },
+      "heap": {
+        "total_heap_size": 83902464,
+        "total_heap_size_executable": 1835008,
+        "total_physical_size": 83820544,
+        "total_available_size": 4294795640,
+        "used_heap_size": 45160312,
+        "heap_size_limit": 4345298944,
+        "malloced_memory": 1081448,
+        "peak_malloced_memory": 16596992,
+        "does_zap_garbage": 0,
+        "number_of_native_contexts": 1,
+        "number_of_detached_contexts": 0,
+        "total_global_handles_size": 245760,
+        "used_global_handles_size": 69408,
+        "external_memory": 10013293
+      },
+      "spaces": [
+        {
+          "space_name": "read_only_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "new_space",
+          "space_size": 33554432,
+          "space_used_size": 14112,
+          "space_available_size": 16480480,
+          "physical_space_size": 33308672
+        },
+        {
+          "space_name": "old_space",
+          "space_size": 36454400,
+          "space_used_size": 32254832,
+          "space_available_size": 40184,
+          "physical_space_size": 36700160
+        },
+        {
+          "space_name": "code_space",
+          "space_size": 1835008,
+          "space_used_size": 1164672,
+          "space_available_size": 0,
+          "physical_space_size": 1605632
+        },
+        {
+          "space_name": "shared_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "trusted_space",
+          "space_size": 2998272,
+          "space_used_size": 2865568,
+          "space_available_size": 79528,
+          "physical_space_size": 3145728
+        },
+        {
+          "space_name": "new_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 16777216,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "large_object_space",
+          "space_size": 9060352,
+          "space_used_size": 8882880,
+          "space_available_size": 0,
+          "physical_space_size": 9060352
+        },
+        {
+          "space_name": "code_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "shared_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "trusted_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        }
+      ],
+      "commonJsModules": 352
+    }
+  },
+  {
+    "repetition": 1,
+    "command": [
+      "rtk",
+      "proxy",
+      "node",
+      "--expose-gc",
+      "--import",
+      "tsx",
+      "/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-diagnosis/probes/idle-cache.mjs"
+    ],
+    "seconds": 0.3183000000426546,
+    "exitCode": 0,
+    "sample": {
+      "subject": "idle-cache",
+      "exports": 2,
+      "node": "v22.23.0",
+      "memory": {
+        "rss": 84590592,
+        "heapTotal": 12468224,
+        "heapUsed": 6939976,
+        "external": 2450351,
+        "arrayBuffers": 25267
+      },
+      "heap": {
+        "total_heap_size": 12468224,
+        "total_heap_size_executable": 786432,
+        "total_physical_size": 11534336,
+        "total_available_size": 4337319744,
+        "used_heap_size": 6944912,
+        "heap_size_limit": 4345298944,
+        "malloced_memory": 286824,
+        "peak_malloced_memory": 7290880,
+        "does_zap_garbage": 0,
+        "number_of_native_contexts": 1,
+        "number_of_detached_contexts": 0,
+        "total_global_handles_size": 8192,
+        "used_global_handles_size": 5376,
+        "external_memory": 2450391
+      },
+      "spaces": [
+        {
+          "space_name": "read_only_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "new_space",
+          "space_size": 4194304,
+          "space_used_size": 14088,
+          "space_available_size": 2047736,
+          "physical_space_size": 2965504
+        },
+        {
+          "space_name": "old_space",
+          "space_size": 6045696,
+          "space_used_size": 5130648,
+          "space_available_size": 239992,
+          "physical_space_size": 6291456
+        },
+        {
+          "space_name": "code_space",
+          "space_size": 786432,
+          "space_used_size": 500992,
+          "space_available_size": 0,
+          "physical_space_size": 688128
+        },
+        {
+          "space_name": "shared_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "trusted_space",
+          "space_size": 1163264,
+          "space_used_size": 1058696,
+          "space_available_size": 82472,
+          "physical_space_size": 1310720
+        },
+        {
+          "space_name": "new_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 2097152,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "large_object_space",
+          "space_size": 278528,
+          "space_used_size": 262160,
+          "space_available_size": 0,
+          "physical_space_size": 278528
+        },
+        {
+          "space_name": "code_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "shared_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "trusted_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        }
+      ],
+      "commonJsModules": 11
+    }
+  },
+  {
+    "repetition": 1,
+    "command": [
+      "rtk",
+      "proxy",
+      "node",
+      "--expose-gc",
+      "--import",
+      "tsx",
+      "/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-diagnosis/probes/pi-ai.mjs"
+    ],
+    "seconds": 0.42513141699600965,
+    "exitCode": 0,
+    "sample": {
+      "subject": "pi-ai",
+      "exports": 53,
+      "node": "v22.23.0",
+      "memory": {
+        "rss": 137740288,
+        "heapTotal": 49889280,
+        "heapUsed": 13442648,
+        "external": 2443564,
+        "arrayBuffers": 25275
+      },
+      "heap": {
+        "total_heap_size": 49889280,
+        "total_heap_size_executable": 1048576,
+        "total_physical_size": 33685504,
+        "total_available_size": 4328846656,
+        "used_heap_size": 13447360,
+        "heap_size_limit": 4345298944,
+        "malloced_memory": 286824,
+        "peak_malloced_memory": 15294464,
+        "does_zap_garbage": 0,
+        "number_of_native_contexts": 1,
+        "number_of_detached_contexts": 0,
+        "total_global_handles_size": 139264,
+        "used_global_handles_size": 48576,
+        "external_memory": 2443604
+      },
+      "spaces": [
+        {
+          "space_name": "read_only_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "new_space",
+          "space_size": 33554432,
+          "space_used_size": 16496,
+          "space_available_size": 16478096,
+          "physical_space_size": 17088512
+        },
+        {
+          "space_name": "old_space",
+          "space_size": 12337152,
+          "space_used_size": 10162448,
+          "space_available_size": 6384,
+          "physical_space_size": 12582912
+        },
+        {
+          "space_name": "code_space",
+          "space_size": 1048576,
+          "space_used_size": 576992,
+          "space_available_size": 0,
+          "physical_space_size": 917504
+        },
+        {
+          "space_name": "shared_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "trusted_space",
+          "space_size": 1425408,
+          "space_used_size": 1245288,
+          "space_available_size": 153592,
+          "physical_space_size": 1572864
+        },
+        {
+          "space_name": "new_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 16777216,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "large_object_space",
+          "space_size": 1523712,
+          "space_used_size": 1467840,
+          "space_available_size": 0,
+          "physical_space_size": 1523712
+        },
+        {
+          "space_name": "code_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "shared_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "trusted_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        }
+      ],
+      "commonJsModules": 13
+    }
+  },
+  {
+    "repetition": 1,
+    "command": [
+      "rtk",
+      "proxy",
+      "node",
+      "--expose-gc",
+      "--import",
+      "tsx",
+      "/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-diagnosis/probes/agent-core.mjs"
+    ],
+    "seconds": 0.4197060419828631,
+    "exitCode": 0,
+    "sample": {
+      "subject": "agent-core",
+      "exports": 6,
+      "node": "v22.23.0",
+      "memory": {
+        "rss": 139771904,
+        "heapTotal": 49364992,
+        "heapUsed": 13589592,
+        "external": 2443564,
+        "arrayBuffers": 25275
+      },
+      "heap": {
+        "total_heap_size": 49364992,
+        "total_heap_size_executable": 1048576,
+        "total_physical_size": 32423936,
+        "total_available_size": 4329598560,
+        "used_heap_size": 13594304,
+        "heap_size_limit": 4345298944,
+        "malloced_memory": 286824,
+        "peak_malloced_memory": 15466496,
+        "does_zap_garbage": 0,
+        "number_of_native_contexts": 1,
+        "number_of_detached_contexts": 0,
+        "total_global_handles_size": 155648,
+        "used_global_handles_size": 48896,
+        "external_memory": 2443604
+      },
+      "spaces": [
+        {
+          "space_name": "read_only_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "new_space",
+          "space_size": 33554432,
+          "space_used_size": 14120,
+          "space_available_size": 16480472,
+          "physical_space_size": 16351232
+        },
+        {
+          "space_name": "old_space",
+          "space_size": 11812864,
+          "space_used_size": 10305848,
+          "space_available_size": 235656,
+          "physical_space_size": 12058624
+        },
+        {
+          "space_name": "code_space",
+          "space_size": 1048576,
+          "space_used_size": 578880,
+          "space_available_size": 0,
+          "physical_space_size": 917504
+        },
+        {
+          "space_name": "shared_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "trusted_space",
+          "space_size": 1425408,
+          "space_used_size": 1249320,
+          "space_available_size": 149560,
+          "physical_space_size": 1572864
+        },
+        {
+          "space_name": "new_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 16777216,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "large_object_space",
+          "space_size": 1523712,
+          "space_used_size": 1467840,
+          "space_available_size": 0,
+          "physical_space_size": 1523712
+        },
+        {
+          "space_name": "code_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "shared_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "trusted_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        }
+      ],
+      "commonJsModules": 13
+    }
+  },
+  {
+    "repetition": 1,
+    "command": [
+      "rtk",
+      "proxy",
+      "node",
+      "--expose-gc",
+      "--import",
+      "tsx",
+      "/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-diagnosis/probes/coding-root.mjs"
+    ],
+    "seconds": 0.6632061669952236,
+    "exitCode": 0,
+    "sample": {
+      "subject": "coding-root",
+      "exports": 127,
+      "node": "v22.23.0",
+      "memory": {
+        "rss": 223002624,
+        "heapTotal": 83640320,
+        "heapUsed": 44800312,
+        "external": 10013253,
+        "arrayBuffers": 171932
+      },
+      "heap": {
+        "total_heap_size": 83640320,
+        "total_heap_size_executable": 1835008,
+        "total_physical_size": 82329600,
+        "total_available_size": 4295094544,
+        "used_heap_size": 44805024,
+        "heap_size_limit": 4345298944,
+        "malloced_memory": 1081448,
+        "peak_malloced_memory": 16826368,
+        "does_zap_garbage": 0,
+        "number_of_native_contexts": 1,
+        "number_of_detached_contexts": 0,
+        "total_global_handles_size": 196608,
+        "used_global_handles_size": 68448,
+        "external_memory": 10013293
+      },
+      "spaces": [
+        {
+          "space_name": "read_only_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "new_space",
+          "space_size": 33554432,
+          "space_used_size": 19688,
+          "space_available_size": 16474904,
+          "physical_space_size": 32079872
+        },
+        {
+          "space_name": "old_space",
+          "space_size": 36192256,
+          "space_used_size": 31879464,
+          "space_available_size": 80064,
+          "physical_space_size": 36438016
+        },
+        {
+          "space_name": "code_space",
+          "space_size": 1835008,
+          "space_used_size": 1181568,
+          "space_available_size": 0,
+          "physical_space_size": 1605632
+        },
+        {
+          "space_name": "shared_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "trusted_space",
+          "space_size": 2998272,
+          "space_used_size": 2863176,
+          "space_available_size": 81984,
+          "physical_space_size": 3145728
+        },
+        {
+          "space_name": "new_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 16777216,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "large_object_space",
+          "space_size": 9060352,
+          "space_used_size": 8882880,
+          "space_available_size": 0,
+          "physical_space_size": 9060352
+        },
+        {
+          "space_name": "code_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "shared_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "trusted_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        }
+      ],
+      "commonJsModules": 352
+    }
+  },
+  {
+    "repetition": 1,
+    "command": [
+      "rtk",
+      "proxy",
+      "node",
+      "--expose-gc",
+      "--import",
+      "tsx",
+      "/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-diagnosis/probes/coding-narrow.mjs"
+    ],
+    "seconds": 0.6695512079750188,
+    "exitCode": 0,
+    "sample": {
+      "subject": "coding-narrow",
+      "exports": 14,
+      "node": "v22.23.0",
+      "memory": {
+        "rss": 225886208,
+        "heapTotal": 82853888,
+        "heapUsed": 44769592,
+        "external": 10013253,
+        "arrayBuffers": 171932
+      },
+      "heap": {
+        "total_heap_size": 82853888,
+        "total_heap_size_executable": 1835008,
+        "total_physical_size": 82034688,
+        "total_available_size": 4295840056,
+        "used_heap_size": 44774304,
+        "heap_size_limit": 4345298944,
+        "malloced_memory": 1081448,
+        "peak_malloced_memory": 13795328,
+        "does_zap_garbage": 0,
+        "number_of_native_contexts": 1,
+        "number_of_detached_contexts": 0,
+        "total_global_handles_size": 237568,
+        "used_global_handles_size": 68448,
+        "external_memory": 10013293
+      },
+      "spaces": [
+        {
+          "space_name": "read_only_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "new_space",
+          "space_size": 33554432,
+          "space_used_size": 15000,
+          "space_available_size": 16479592,
+          "physical_space_size": 32571392
+        },
+        {
+          "space_name": "old_space",
+          "space_size": 35405824,
+          "space_used_size": 31872816,
+          "space_available_size": 26880,
+          "physical_space_size": 35651584
+        },
+        {
+          "space_name": "code_space",
+          "space_size": 1835008,
+          "space_used_size": 1169760,
+          "space_available_size": 0,
+          "physical_space_size": 1605632
+        },
+        {
+          "space_name": "shared_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "trusted_space",
+          "space_size": 2998272,
+          "space_used_size": 2855600,
+          "space_available_size": 89560,
+          "physical_space_size": 3145728
+        },
+        {
+          "space_name": "new_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 16777216,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "large_object_space",
+          "space_size": 9060352,
+          "space_used_size": 8882880,
+          "space_available_size": 0,
+          "physical_space_size": 9060352
+        },
+        {
+          "space_name": "code_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "shared_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "trusted_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        }
+      ],
+      "commonJsModules": 352
+    }
+  },
+  {
+    "repetition": 1,
+    "command": [
+      "rtk",
+      "proxy",
+      "node",
+      "--expose-gc",
+      "--import",
+      "tsx",
+      "/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-diagnosis/probes/lightclaw.mjs"
+    ],
+    "seconds": 0.6758016250096262,
+    "exitCode": 0,
+    "sample": {
+      "subject": "lightclaw",
+      "exports": 5,
+      "node": "v22.23.0",
+      "memory": {
+        "rss": 224575488,
+        "heapTotal": 83116032,
+        "heapUsed": 45158864,
+        "external": 10013253,
+        "arrayBuffers": 171932
+      },
+      "heap": {
+        "total_heap_size": 83116032,
+        "total_heap_size_executable": 1835008,
+        "total_physical_size": 83034112,
+        "total_available_size": 4295633328,
+        "used_heap_size": 45163576,
+        "heap_size_limit": 4345298944,
+        "malloced_memory": 1081448,
+        "peak_malloced_memory": 15781888,
+        "does_zap_garbage": 0,
+        "number_of_native_contexts": 1,
+        "number_of_detached_contexts": 0,
+        "total_global_handles_size": 196608,
+        "used_global_handles_size": 69408,
+        "external_memory": 10013293
+      },
+      "spaces": [
+        {
+          "space_name": "read_only_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "new_space",
+          "space_size": 33554432,
+          "space_used_size": 14112,
+          "space_available_size": 16480480,
+          "physical_space_size": 33308672
+        },
+        {
+          "space_name": "old_space",
+          "space_size": 35667968,
+          "space_used_size": 32256696,
+          "space_available_size": 91432,
+          "physical_space_size": 35913728
+        },
+        {
+          "space_name": "code_space",
+          "space_size": 1835008,
+          "space_used_size": 1166080,
+          "space_available_size": 0,
+          "physical_space_size": 1605632
+        },
+        {
+          "space_name": "shared_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "trusted_space",
+          "space_size": 2998272,
+          "space_used_size": 2865560,
+          "space_available_size": 79512,
+          "physical_space_size": 3145728
+        },
+        {
+          "space_name": "new_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 16777216,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "large_object_space",
+          "space_size": 9060352,
+          "space_used_size": 8882880,
+          "space_available_size": 0,
+          "physical_space_size": 9060352
+        },
+        {
+          "space_name": "code_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "shared_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "trusted_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        }
+      ],
+      "commonJsModules": 352
+    }
+  },
+  {
+    "repetition": 1,
+    "command": [
+      "rtk",
+      "proxy",
+      "node",
+      "--expose-gc",
+      "/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-diagnosis/probes/native-empty.mjs"
+    ],
+    "seconds": 0.2487404170096852,
+    "exitCode": 0,
+    "sample": {
+      "subject": "native-empty",
+      "exports": 0,
+      "node": "v22.23.0",
+      "memory": {
+        "rss": 43401216,
+        "heapTotal": 6701056,
+        "heapUsed": 3719896,
+        "external": 1612981,
+        "arrayBuffers": 10651
+      },
+      "heap": {
+        "total_heap_size": 6701056,
+        "total_heap_size_executable": 262144,
+        "total_physical_size": 5832704,
+        "total_available_size": 4341101552,
+        "used_heap_size": 3724736,
+        "heap_size_limit": 4345298944,
+        "malloced_memory": 147560,
+        "peak_malloced_memory": 233472,
+        "does_zap_garbage": 0,
+        "number_of_native_contexts": 1,
+        "number_of_detached_contexts": 0,
+        "total_global_handles_size": 8192,
+        "used_global_handles_size": 2464,
+        "external_memory": 1613021
+      },
+      "spaces": [
+        {
+          "space_name": "read_only_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "new_space",
+          "space_size": 2097152,
+          "space_used_size": 13664,
+          "space_available_size": 1017248,
+          "physical_space_size": 868352
+        },
+        {
+          "space_name": "old_space",
+          "space_size": 3162112,
+          "space_used_size": 2749784,
+          "space_available_size": 240968,
+          "physical_space_size": 3407872
+        },
+        {
+          "space_name": "code_space",
+          "space_size": 262144,
+          "space_used_size": 30208,
+          "space_available_size": 0,
+          "physical_space_size": 229376
+        },
+        {
+          "space_name": "shared_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "trusted_space",
+          "space_size": 901120,
+          "space_used_size": 690560,
+          "space_available_size": 192896,
+          "physical_space_size": 1048576
+        },
+        {
+          "space_name": "new_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 1030912,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "large_object_space",
+          "space_size": 278528,
+          "space_used_size": 262160,
+          "space_available_size": 0,
+          "physical_space_size": 278528
+        },
+        {
+          "space_name": "code_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "shared_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "trusted_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        }
+      ],
+      "commonJsModules": 0
+    }
+  },
+  {
+    "repetition": 1,
+    "command": [
+      "rtk",
+      "proxy",
+      "node",
+      "--expose-gc",
+      "--import",
+      "tsx",
+      "/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-diagnosis/probes/tsx-empty.mjs"
+    ],
+    "seconds": 0.3218549999874085,
+    "exitCode": 0,
+    "sample": {
+      "subject": "tsx-empty",
+      "exports": 0,
+      "node": "v22.23.0",
+      "memory": {
+        "rss": 82821120,
+        "heapTotal": 12206080,
+        "heapUsed": 6514832,
+        "external": 2431711,
+        "arrayBuffers": 17075
+      },
+      "heap": {
+        "total_heap_size": 12206080,
+        "total_heap_size_executable": 786432,
+        "total_physical_size": 10780672,
+        "total_available_size": 4337608448,
+        "used_heap_size": 6519768,
+        "heap_size_limit": 4345298944,
+        "malloced_memory": 286824,
+        "peak_malloced_memory": 6463488,
+        "does_zap_garbage": 0,
+        "number_of_native_contexts": 1,
+        "number_of_detached_contexts": 0,
+        "total_global_handles_size": 8192,
+        "used_global_handles_size": 4864,
+        "external_memory": 2431751
+      },
+      "spaces": [
+        {
+          "space_name": "read_only_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "new_space",
+          "space_size": 4194304,
+          "space_used_size": 13664,
+          "space_available_size": 2048160,
+          "physical_space_size": 2473984
+        },
+        {
+          "space_name": "old_space",
+          "space_size": 5783552,
+          "space_used_size": 4783480,
+          "space_available_size": 240088,
+          "physical_space_size": 6029312
+        },
+        {
+          "space_name": "code_space",
+          "space_size": 786432,
+          "space_used_size": 449504,
+          "space_available_size": 0,
+          "physical_space_size": 688128
+        },
+        {
+          "space_name": "shared_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "trusted_space",
+          "space_size": 1163264,
+          "space_used_size": 1032632,
+          "space_available_size": 108512,
+          "physical_space_size": 1310720
+        },
+        {
+          "space_name": "new_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 2097152,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "large_object_space",
+          "space_size": 278528,
+          "space_used_size": 262160,
+          "space_available_size": 0,
+          "physical_space_size": 278528
+        },
+        {
+          "space_name": "code_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "shared_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "trusted_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        }
+      ],
+      "commonJsModules": 11
+    }
+  },
+  {
+    "repetition": 1,
+    "command": [
+      "rtk",
+      "proxy",
+      "node",
+      "--expose-gc",
+      "--import",
+      "tsx",
+      "/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-diagnosis/probes/queue.mjs"
+    ],
+    "seconds": 0.31352495797909796,
+    "exitCode": 0,
+    "sample": {
+      "subject": "queue",
+      "exports": 1,
+      "node": "v22.23.0",
+      "memory": {
+        "rss": 84492288,
+        "heapTotal": 12468224,
+        "heapUsed": 6938040,
+        "external": 2450351,
+        "arrayBuffers": 25267
+      },
+      "heap": {
+        "total_heap_size": 12468224,
+        "total_heap_size_executable": 786432,
+        "total_physical_size": 11534336,
+        "total_available_size": 4337600920,
+        "used_heap_size": 6942960,
+        "heap_size_limit": 4345298944,
+        "malloced_memory": 286824,
+        "peak_malloced_memory": 7344128,
+        "does_zap_garbage": 0,
+        "number_of_native_contexts": 1,
+        "number_of_detached_contexts": 0,
+        "total_global_handles_size": 8192,
+        "used_global_handles_size": 5376,
+        "external_memory": 2450391
+      },
+      "spaces": [
+        {
+          "space_name": "read_only_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "new_space",
+          "space_size": 4194304,
+          "space_used_size": 14080,
+          "space_available_size": 2047744,
+          "physical_space_size": 2965504
+        },
+        {
+          "space_name": "old_space",
+          "space_size": 6045696,
+          "space_used_size": 5128912,
+          "space_available_size": 520952,
+          "physical_space_size": 6291456
+        },
+        {
+          "space_name": "code_space",
+          "space_size": 786432,
+          "space_used_size": 500992,
+          "space_available_size": 0,
+          "physical_space_size": 688128
+        },
+        {
+          "space_name": "shared_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "trusted_space",
+          "space_size": 1163264,
+          "space_used_size": 1058488,
+          "space_available_size": 82664,
+          "physical_space_size": 1310720
+        },
+        {
+          "space_name": "new_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 2097152,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "large_object_space",
+          "space_size": 278528,
+          "space_used_size": 262160,
+          "space_available_size": 0,
+          "physical_space_size": 278528
+        },
+        {
+          "space_name": "code_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "shared_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "trusted_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        }
+      ],
+      "commonJsModules": 11
+    }
+  },
+  {
+    "repetition": 2,
+    "command": [
+      "rtk",
+      "proxy",
+      "node",
+      "--expose-gc",
+      "--import",
+      "tsx",
+      "/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-diagnosis/probes/coding-root.mjs"
+    ],
+    "seconds": 0.678294959012419,
+    "exitCode": 0,
+    "sample": {
+      "subject": "coding-root",
+      "exports": 127,
+      "node": "v22.23.0",
+      "memory": {
+        "rss": 228196352,
+        "heapTotal": 83378176,
+        "heapUsed": 44780600,
+        "external": 10013253,
+        "arrayBuffers": 171932
+      },
+      "heap": {
+        "total_heap_size": 83378176,
+        "total_heap_size_executable": 1835008,
+        "total_physical_size": 82804736,
+        "total_available_size": 4295365792,
+        "used_heap_size": 44785312,
+        "heap_size_limit": 4345298944,
+        "malloced_memory": 1081448,
+        "peak_malloced_memory": 24322048,
+        "does_zap_garbage": 0,
+        "number_of_native_contexts": 1,
+        "number_of_detached_contexts": 0,
+        "total_global_handles_size": 221184,
+        "used_global_handles_size": 68448,
+        "external_memory": 10013293
+      },
+      "spaces": [
+        {
+          "space_name": "read_only_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "new_space",
+          "space_size": 33554432,
+          "space_used_size": 19688,
+          "space_available_size": 16474904,
+          "physical_space_size": 32817152
+        },
+        {
+          "space_name": "old_space",
+          "space_size": 35930112,
+          "space_used_size": 31872920,
+          "space_available_size": 84720,
+          "physical_space_size": 36175872
+        },
+        {
+          "space_name": "code_space",
+          "space_size": 1835008,
+          "space_used_size": 1172864,
+          "space_available_size": 0,
+          "physical_space_size": 1605632
+        },
+        {
+          "space_name": "shared_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "trusted_space",
+          "space_size": 2998272,
+          "space_used_size": 2858712,
+          "space_available_size": 86432,
+          "physical_space_size": 3145728
+        },
+        {
+          "space_name": "new_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 16777216,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "large_object_space",
+          "space_size": 9060352,
+          "space_used_size": 8882880,
+          "space_available_size": 0,
+          "physical_space_size": 9060352
+        },
+        {
+          "space_name": "code_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "shared_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "trusted_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        }
+      ],
+      "commonJsModules": 352
+    }
+  },
+  {
+    "repetition": 2,
+    "command": [
+      "rtk",
+      "proxy",
+      "node",
+      "--expose-gc",
+      "--import",
+      "tsx",
+      "/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-diagnosis/probes/coding-narrow.mjs"
+    ],
+    "seconds": 0.6763238330022432,
+    "exitCode": 0,
+    "sample": {
+      "subject": "coding-narrow",
+      "exports": 14,
+      "node": "v22.23.0",
+      "memory": {
+        "rss": 230244352,
+        "heapTotal": 83378176,
+        "heapUsed": 44770696,
+        "external": 10013253,
+        "arrayBuffers": 171932
+      },
+      "heap": {
+        "total_heap_size": 83378176,
+        "total_heap_size_executable": 1835008,
+        "total_physical_size": 83050496,
+        "total_available_size": 4295385320,
+        "used_heap_size": 44775408,
+        "heap_size_limit": 4345298944,
+        "malloced_memory": 1081448,
+        "peak_malloced_memory": 15450112,
+        "does_zap_garbage": 0,
+        "number_of_native_contexts": 1,
+        "number_of_detached_contexts": 0,
+        "total_global_handles_size": 286720,
+        "used_global_handles_size": 68448,
+        "external_memory": 10013293
+      },
+      "spaces": [
+        {
+          "space_name": "read_only_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "new_space",
+          "space_size": 33554432,
+          "space_used_size": 15000,
+          "space_available_size": 16479592,
+          "physical_space_size": 33062912
+        },
+        {
+          "space_name": "old_space",
+          "space_size": 35930112,
+          "space_used_size": 31873480,
+          "space_available_size": 96528,
+          "physical_space_size": 36175872
+        },
+        {
+          "space_name": "code_space",
+          "space_size": 1835008,
+          "space_used_size": 1170144,
+          "space_available_size": 0,
+          "physical_space_size": 1605632
+        },
+        {
+          "space_name": "shared_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "trusted_space",
+          "space_size": 2998272,
+          "space_used_size": 2855656,
+          "space_available_size": 89464,
+          "physical_space_size": 3145728
+        },
+        {
+          "space_name": "new_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 16777216,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "large_object_space",
+          "space_size": 9060352,
+          "space_used_size": 8882880,
+          "space_available_size": 0,
+          "physical_space_size": 9060352
+        },
+        {
+          "space_name": "code_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "shared_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "trusted_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        }
+      ],
+      "commonJsModules": 352
+    }
+  },
+  {
+    "repetition": 2,
+    "command": [
+      "rtk",
+      "proxy",
+      "node",
+      "--expose-gc",
+      "--import",
+      "tsx",
+      "/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-diagnosis/probes/lightclaw.mjs"
+    ],
+    "seconds": 0.6803877920028754,
+    "exitCode": 0,
+    "sample": {
+      "subject": "lightclaw",
+      "exports": 5,
+      "node": "v22.23.0",
+      "memory": {
+        "rss": 233259008,
+        "heapTotal": 82591744,
+        "heapUsed": 45168904,
+        "external": 10013253,
+        "arrayBuffers": 171932
+      },
+      "heap": {
+        "total_heap_size": 82591744,
+        "total_heap_size_executable": 1835008,
+        "total_physical_size": 81772544,
+        "total_available_size": 4296649616,
+        "used_heap_size": 45173616,
+        "heap_size_limit": 4345298944,
+        "malloced_memory": 1081448,
+        "peak_malloced_memory": 16936960,
+        "does_zap_garbage": 0,
+        "number_of_native_contexts": 1,
+        "number_of_detached_contexts": 0,
+        "total_global_handles_size": 245760,
+        "used_global_handles_size": 69408,
+        "external_memory": 10013293
+      },
+      "spaces": [
+        {
+          "space_name": "read_only_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "new_space",
+          "space_size": 33554432,
+          "space_used_size": 14112,
+          "space_available_size": 16480480,
+          "physical_space_size": 32571392
+        },
+        {
+          "space_name": "old_space",
+          "space_size": 35143680,
+          "space_used_size": 32260384,
+          "space_available_size": 585208,
+          "physical_space_size": 35389440
+        },
+        {
+          "space_name": "code_space",
+          "space_size": 1835008,
+          "space_used_size": 1170592,
+          "space_available_size": 0,
+          "physical_space_size": 1605632
+        },
+        {
+          "space_name": "shared_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "trusted_space",
+          "space_size": 2998272,
+          "space_used_size": 2867400,
+          "space_available_size": 77744,
+          "physical_space_size": 3145728
+        },
+        {
+          "space_name": "new_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 16777216,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "large_object_space",
+          "space_size": 9060352,
+          "space_used_size": 8882880,
+          "space_available_size": 0,
+          "physical_space_size": 9060352
+        },
+        {
+          "space_name": "code_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "shared_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "trusted_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        }
+      ],
+      "commonJsModules": 352
+    }
+  },
+  {
+    "repetition": 2,
+    "command": [
+      "rtk",
+      "proxy",
+      "node",
+      "--expose-gc",
+      "/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-diagnosis/probes/native-empty.mjs"
+    ],
+    "seconds": 0.24698208400513977,
+    "exitCode": 0,
+    "sample": {
+      "subject": "native-empty",
+      "exports": 0,
+      "node": "v22.23.0",
+      "memory": {
+        "rss": 43450368,
+        "heapTotal": 6438912,
+        "heapUsed": 3719896,
+        "external": 1612981,
+        "arrayBuffers": 10651
+      },
+      "heap": {
+        "total_heap_size": 6438912,
+        "total_heap_size_executable": 262144,
+        "total_physical_size": 5570560,
+        "total_available_size": 4341160808,
+        "used_heap_size": 3724736,
+        "heap_size_limit": 4345298944,
+        "malloced_memory": 147560,
+        "peak_malloced_memory": 233472,
+        "does_zap_garbage": 0,
+        "number_of_native_contexts": 1,
+        "number_of_detached_contexts": 0,
+        "total_global_handles_size": 8192,
+        "used_global_handles_size": 2464,
+        "external_memory": 1613021
+      },
+      "spaces": [
+        {
+          "space_name": "read_only_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "new_space",
+          "space_size": 2097152,
+          "space_used_size": 13664,
+          "space_available_size": 1017248,
+          "physical_space_size": 868352
+        },
+        {
+          "space_name": "old_space",
+          "space_size": 2899968,
+          "space_used_size": 2749784,
+          "space_available_size": 38080,
+          "physical_space_size": 3145728
+        },
+        {
+          "space_name": "code_space",
+          "space_size": 262144,
+          "space_used_size": 30208,
+          "space_available_size": 0,
+          "physical_space_size": 229376
+        },
+        {
+          "space_name": "shared_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "trusted_space",
+          "space_size": 901120,
+          "space_used_size": 690560,
+          "space_available_size": 192896,
+          "physical_space_size": 1048576
+        },
+        {
+          "space_name": "new_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 1030912,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "large_object_space",
+          "space_size": 278528,
+          "space_used_size": 262160,
+          "space_available_size": 0,
+          "physical_space_size": 278528
+        },
+        {
+          "space_name": "code_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "shared_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "trusted_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        }
+      ],
+      "commonJsModules": 0
+    }
+  },
+  {
+    "repetition": 2,
+    "command": [
+      "rtk",
+      "proxy",
+      "node",
+      "--expose-gc",
+      "--import",
+      "tsx",
+      "/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-diagnosis/probes/tsx-empty.mjs"
+    ],
+    "seconds": 0.32512270798906684,
+    "exitCode": 0,
+    "sample": {
+      "subject": "tsx-empty",
+      "exports": 0,
+      "node": "v22.23.0",
+      "memory": {
+        "rss": 82739200,
+        "heapTotal": 12206080,
+        "heapUsed": 6514904,
+        "external": 2431711,
+        "arrayBuffers": 17075
+      },
+      "heap": {
+        "total_heap_size": 12206080,
+        "total_heap_size_executable": 786432,
+        "total_physical_size": 10780672,
+        "total_available_size": 4337608456,
+        "used_heap_size": 6519840,
+        "heap_size_limit": 4345298944,
+        "malloced_memory": 286824,
+        "peak_malloced_memory": 6463488,
+        "does_zap_garbage": 0,
+        "number_of_native_contexts": 1,
+        "number_of_detached_contexts": 0,
+        "total_global_handles_size": 8192,
+        "used_global_handles_size": 4864,
+        "external_memory": 2431751
+      },
+      "spaces": [
+        {
+          "space_name": "read_only_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "new_space",
+          "space_size": 4194304,
+          "space_used_size": 13664,
+          "space_available_size": 2048160,
+          "physical_space_size": 2473984
+        },
+        {
+          "space_name": "old_space",
+          "space_size": 5783552,
+          "space_used_size": 4783552,
+          "space_available_size": 240088,
+          "physical_space_size": 6029312
+        },
+        {
+          "space_name": "code_space",
+          "space_size": 786432,
+          "space_used_size": 449504,
+          "space_available_size": 0,
+          "physical_space_size": 688128
+        },
+        {
+          "space_name": "shared_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "trusted_space",
+          "space_size": 1163264,
+          "space_used_size": 1032632,
+          "space_available_size": 108520,
+          "physical_space_size": 1310720
+        },
+        {
+          "space_name": "new_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 2097152,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "large_object_space",
+          "space_size": 278528,
+          "space_used_size": 262160,
+          "space_available_size": 0,
+          "physical_space_size": 278528
+        },
+        {
+          "space_name": "code_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "shared_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "trusted_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        }
+      ],
+      "commonJsModules": 11
+    }
+  },
+  {
+    "repetition": 2,
+    "command": [
+      "rtk",
+      "proxy",
+      "node",
+      "--expose-gc",
+      "--import",
+      "tsx",
+      "/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-diagnosis/probes/queue.mjs"
+    ],
+    "seconds": 0.31613075005589053,
+    "exitCode": 0,
+    "sample": {
+      "subject": "queue",
+      "exports": 1,
+      "node": "v22.23.0",
+      "memory": {
+        "rss": 84574208,
+        "heapTotal": 12206080,
+        "heapUsed": 6938144,
+        "external": 2450351,
+        "arrayBuffers": 25267
+      },
+      "heap": {
+        "total_heap_size": 12206080,
+        "total_heap_size_executable": 786432,
+        "total_physical_size": 11272192,
+        "total_available_size": 4337470120,
+        "used_heap_size": 6943080,
+        "heap_size_limit": 4345298944,
+        "malloced_memory": 286824,
+        "peak_malloced_memory": 7290880,
+        "does_zap_garbage": 0,
+        "number_of_native_contexts": 1,
+        "number_of_detached_contexts": 0,
+        "total_global_handles_size": 8192,
+        "used_global_handles_size": 5376,
+        "external_memory": 2450391
+      },
+      "spaces": [
+        {
+          "space_name": "read_only_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "new_space",
+          "space_size": 4194304,
+          "space_used_size": 14080,
+          "space_available_size": 2047744,
+          "physical_space_size": 2965504
+        },
+        {
+          "space_name": "old_space",
+          "space_size": 5783552,
+          "space_used_size": 5129032,
+          "space_available_size": 128024,
+          "physical_space_size": 6029312
+        },
+        {
+          "space_name": "code_space",
+          "space_size": 786432,
+          "space_used_size": 500992,
+          "space_available_size": 0,
+          "physical_space_size": 688128
+        },
+        {
+          "space_name": "shared_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "trusted_space",
+          "space_size": 1163264,
+          "space_used_size": 1058488,
+          "space_available_size": 82664,
+          "physical_space_size": 1310720
+        },
+        {
+          "space_name": "new_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 2097152,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "large_object_space",
+          "space_size": 278528,
+          "space_used_size": 262160,
+          "space_available_size": 0,
+          "physical_space_size": 278528
+        },
+        {
+          "space_name": "code_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "shared_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "trusted_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        }
+      ],
+      "commonJsModules": 11
+    }
+  },
+  {
+    "repetition": 2,
+    "command": [
+      "rtk",
+      "proxy",
+      "node",
+      "--expose-gc",
+      "--import",
+      "tsx",
+      "/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-diagnosis/probes/idle-cache.mjs"
+    ],
+    "seconds": 0.33071120898239315,
+    "exitCode": 0,
+    "sample": {
+      "subject": "idle-cache",
+      "exports": 2,
+      "node": "v22.23.0",
+      "memory": {
+        "rss": 84312064,
+        "heapTotal": 12468224,
+        "heapUsed": 6939696,
+        "external": 2450351,
+        "arrayBuffers": 25267
+      },
+      "heap": {
+        "total_heap_size": 12468224,
+        "total_heap_size_executable": 786432,
+        "total_physical_size": 11780096,
+        "total_available_size": 4337187048,
+        "used_heap_size": 6944632,
+        "heap_size_limit": 4345298944,
+        "malloced_memory": 286824,
+        "peak_malloced_memory": 7290880,
+        "does_zap_garbage": 0,
+        "number_of_native_contexts": 1,
+        "number_of_detached_contexts": 0,
+        "total_global_handles_size": 8192,
+        "used_global_handles_size": 5376,
+        "external_memory": 2450391
+      },
+      "spaces": [
+        {
+          "space_name": "read_only_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "new_space",
+          "space_size": 4194304,
+          "space_used_size": 14088,
+          "space_available_size": 2047736,
+          "physical_space_size": 3211264
+        },
+        {
+          "space_name": "old_space",
+          "space_size": 6045696,
+          "space_used_size": 5130368,
+          "space_available_size": 107312,
+          "physical_space_size": 6291456
+        },
+        {
+          "space_name": "code_space",
+          "space_size": 786432,
+          "space_used_size": 500992,
+          "space_available_size": 0,
+          "physical_space_size": 688128
+        },
+        {
+          "space_name": "shared_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "trusted_space",
+          "space_size": 1163264,
+          "space_used_size": 1058696,
+          "space_available_size": 82456,
+          "physical_space_size": 1310720
+        },
+        {
+          "space_name": "new_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 2097152,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "large_object_space",
+          "space_size": 278528,
+          "space_used_size": 262160,
+          "space_available_size": 0,
+          "physical_space_size": 278528
+        },
+        {
+          "space_name": "code_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "shared_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "trusted_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        }
+      ],
+      "commonJsModules": 11
+    }
+  },
+  {
+    "repetition": 2,
+    "command": [
+      "rtk",
+      "proxy",
+      "node",
+      "--expose-gc",
+      "--import",
+      "tsx",
+      "/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-diagnosis/probes/pi-ai.mjs"
+    ],
+    "seconds": 0.4206816669902764,
+    "exitCode": 0,
+    "sample": {
+      "subject": "pi-ai",
+      "exports": 53,
+      "node": "v22.23.0",
+      "memory": {
+        "rss": 138608640,
+        "heapTotal": 50413568,
+        "heapUsed": 13442704,
+        "external": 2443564,
+        "arrayBuffers": 25275
+      },
+      "heap": {
+        "total_heap_size": 50413568,
+        "total_heap_size_executable": 786432,
+        "total_physical_size": 34242560,
+        "total_available_size": 4328551544,
+        "used_heap_size": 13447416,
+        "heap_size_limit": 4345298944,
+        "malloced_memory": 286824,
+        "peak_malloced_memory": 15319040,
+        "does_zap_garbage": 0,
+        "number_of_native_contexts": 1,
+        "number_of_detached_contexts": 0,
+        "total_global_handles_size": 139264,
+        "used_global_handles_size": 48576,
+        "external_memory": 2443604
+      },
+      "spaces": [
+        {
+          "space_name": "read_only_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "new_space",
+          "space_size": 33554432,
+          "space_used_size": 16496,
+          "space_available_size": 16478096,
+          "physical_space_size": 17088512
+        },
+        {
+          "space_name": "old_space",
+          "space_size": 13123584,
+          "space_used_size": 10162472,
+          "space_available_size": 235656,
+          "physical_space_size": 13369344
+        },
+        {
+          "space_name": "code_space",
+          "space_size": 786432,
+          "space_used_size": 576992,
+          "space_available_size": 0,
+          "physical_space_size": 688128
+        },
+        {
+          "space_name": "shared_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "trusted_space",
+          "space_size": 1425408,
+          "space_used_size": 1245320,
+          "space_available_size": 153496,
+          "physical_space_size": 1572864
+        },
+        {
+          "space_name": "new_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 16777216,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "large_object_space",
+          "space_size": 1523712,
+          "space_used_size": 1467840,
+          "space_available_size": 0,
+          "physical_space_size": 1523712
+        },
+        {
+          "space_name": "code_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "shared_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "trusted_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        }
+      ],
+      "commonJsModules": 13
+    }
+  },
+  {
+    "repetition": 2,
+    "command": [
+      "rtk",
+      "proxy",
+      "node",
+      "--expose-gc",
+      "--import",
+      "tsx",
+      "/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-diagnosis/probes/agent-core.mjs"
+    ],
+    "seconds": 0.4263493749895133,
+    "exitCode": 0,
+    "sample": {
+      "subject": "agent-core",
+      "exports": 6,
+      "node": "v22.23.0",
+      "memory": {
+        "rss": 137756672,
+        "heapTotal": 50413568,
+        "heapUsed": 13589272,
+        "external": 2443564,
+        "arrayBuffers": 25275
+      },
+      "heap": {
+        "total_heap_size": 50413568,
+        "total_heap_size_executable": 786432,
+        "total_physical_size": 32768000,
+        "total_available_size": 4328549952,
+        "used_heap_size": 13593984,
+        "heap_size_limit": 4345298944,
+        "malloced_memory": 286824,
+        "peak_malloced_memory": 15466496,
+        "does_zap_garbage": 0,
+        "number_of_native_contexts": 1,
+        "number_of_detached_contexts": 0,
+        "total_global_handles_size": 163840,
+        "used_global_handles_size": 48896,
+        "external_memory": 2443604
+      },
+      "spaces": [
+        {
+          "space_name": "read_only_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "new_space",
+          "space_size": 33554432,
+          "space_used_size": 14120,
+          "space_available_size": 16480472,
+          "physical_space_size": 15613952
+        },
+        {
+          "space_name": "old_space",
+          "space_size": 13123584,
+          "space_used_size": 10305536,
+          "space_available_size": 235656,
+          "physical_space_size": 13369344
+        },
+        {
+          "space_name": "code_space",
+          "space_size": 786432,
+          "space_used_size": 578880,
+          "space_available_size": 0,
+          "physical_space_size": 688128
+        },
+        {
+          "space_name": "shared_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "trusted_space",
+          "space_size": 1425408,
+          "space_used_size": 1249312,
+          "space_available_size": 149528,
+          "physical_space_size": 1572864
+        },
+        {
+          "space_name": "new_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 16777216,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "large_object_space",
+          "space_size": 1523712,
+          "space_used_size": 1467840,
+          "space_available_size": 0,
+          "physical_space_size": 1523712
+        },
+        {
+          "space_name": "code_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "shared_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        },
+        {
+          "space_name": "trusted_large_object_space",
+          "space_size": 0,
+          "space_used_size": 0,
+          "space_available_size": 0,
+          "physical_space_size": 0
+        }
+      ],
+      "commonJsModules": 13
+    }
+  }
+]

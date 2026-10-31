@@ -1,0 +1,13 @@
+{
+  "sameQualityHalfTokenAndLatency": {
+    "accepted": false,
+    "reasons": [
+      "训练集均分未严格提高"
+    ]
+  },
+  "customSystemPromptStillGetsHostCwdAppended": true,
+  "reproducedPrompt": "Docker working directory: /workspace\nCurrent date: 2026-10-21\nCurrent working directory: /host-path-that-is-not-in-container",
+  "candidateGeneratorReceivedActualMissingCommandError": false,
+  "candidateGeneratorReceivedActualSystemPrompt": false,
+  "note": "Counterfactual report checks policy, not an achieved 50% saving; no model API calls."
+}

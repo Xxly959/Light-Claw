@@ -1,0 +1,26 @@
+{
+  "sourceFiles": 688,
+  "tracked": 578,
+  "untracked": 110,
+  "hashesVerified": true,
+  "packageFiles": 18,
+  "packageBytes": 48894,
+  "packageSha256": "a0be38c5398c0ada98c429445ea2be6e7162deadef20f8e0271936019559df94",
+  "unpackedNativeHelp": {
+    "exit": 0,
+    "scope": "native source material tool only, not Agent/bin acceptance"
+  },
+  "cleanInstall": {
+    "exit": 1,
+    "status": "NOT VERIFIED",
+    "reason": "ENOTCACHED @anthropic-ai/sandbox-runtime"
+  },
+  "compiledDist": {
+    "exit": 1,
+    "status": "NOT VERIFIED",
+    "buildRun": false
+  },
+  "realPlatform": "NOT VERIFIED",
+  "realDocker": "NOT VERIFIED",
+  "published": false
+}

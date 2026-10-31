@@ -1,7 +1,9 @@
-import { existsSync, mkdirSync, readFileSync } from "fs";
-import { appendFile, writeFile } from "fs/promises";
+import { existsSync, lstatSync, mkdirSync, readFileSync } from "fs";
 import { join } from "path";
+import { downloadAttachment } from "./attachment-download.js";
+import { assertChannelId } from "./goals/control.js";
 import * as log from "./log.js";
+import { appendConversationLine, resourceNumber } from "./resource-policy.js";
 
 export interface Attachment {
 	original: string; // original filename from uploader
@@ -53,10 +55,13 @@ export class ChannelStore {
 	 * Get or create the directory for a channel/DM
 	 */
 	getChannelDir(channelId: string): string {
+		assertChannelId(channelId);
 		const dir = join(this.workingDir, channelId);
 		if (!existsSync(dir)) {
 			mkdirSync(dir, { recursive: true });
 		}
+		if (lstatSync(dir).isSymbolicLink() || !lstatSync(dir).isDirectory())
+			throw new Error("Channel storage directory must not be linked");
 		return dir;
 	}
 
@@ -81,7 +86,10 @@ export class ChannelStore {
 		files: Array<{ name?: string; url_private_download?: string; url_private?: string }>,
 		timestamp: string,
 	): Attachment[] {
+		assertChannelId(channelId);
 		const attachments: Attachment[] = [];
+		const downloads: PendingDownload[] = [];
+		const capacity = resourceNumber("DOWNLOAD_QUEUE_MAX", 32) - this.pendingDownloads.length;
 
 		for (const file of files) {
 			const url = file.url_private_download || file.url_private;
@@ -99,11 +107,13 @@ export class ChannelStore {
 				local: localPath,
 			});
 
-			// Queue for background download
-			this.pendingDownloads.push({ channelId, localPath, url });
+			// Preflight the complete batch without mutating the live queue on rejection.
+			if (downloads.length >= capacity) throw new Error("Attachment download queue full");
+			downloads.push({ channelId, localPath, url });
 		}
 
-		// Trigger background download
+		this.pendingDownloads.push(...downloads);
+		// Trigger background download only after the whole batch has been accepted.
 		this.processDownloadQueue();
 
 		return attachments;
@@ -119,10 +129,6 @@ export class ChannelStore {
 		if (this.recentlyLogged.has(dedupeKey)) {
 			return false; // Already logged
 		}
-
-		// Mark as logged and schedule cleanup after 60 seconds
-		this.recentlyLogged.set(dedupeKey, Date.now());
-		setTimeout(() => this.recentlyLogged.delete(dedupeKey), 60000);
 
 		const logPath = join(this.getChannelDir(channelId), "log.jsonl");
 
@@ -141,7 +147,10 @@ export class ChannelStore {
 		}
 
 		const line = `${JSON.stringify(message)}\n`;
-		await appendFile(logPath, line, "utf-8");
+		appendConversationLine(logPath, line);
+		this.recentlyLogged.set(dedupeKey, Date.now());
+		const cleanup = setTimeout(() => this.recentlyLogged.delete(dedupeKey), 60000);
+		cleanup.unref();
 		return true;
 	}
 
@@ -212,25 +221,6 @@ export class ChannelStore {
 	 */
 	private async downloadAttachment(localPath: string, url: string): Promise<void> {
 		if (!this.botToken) throw new Error("当前消息平台未配置附件下载凭证");
-		const filePath = join(this.workingDir, localPath);
-
-		// Ensure directory exists
-		const dir = join(this.workingDir, localPath.substring(0, localPath.lastIndexOf("/")));
-		if (!existsSync(dir)) {
-			mkdirSync(dir, { recursive: true });
-		}
-
-		const response = await fetch(url, {
-			headers: {
-				Authorization: `Bearer ${this.botToken}`,
-			},
-		});
-
-		if (!response.ok) {
-			throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-		}
-
-		const buffer = await response.arrayBuffer();
-		await writeFile(filePath, Buffer.from(buffer));
+		await downloadAttachment(join(this.workingDir, localPath), url, this.botToken);
 	}
 }

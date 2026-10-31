@@ -1,0 +1,153 @@
+{
+  "pre-check": [
+    {
+      "file": "packages/lightclaw/src/channel-queue.ts",
+      "astEquivalentExceptImportOrderAndCosmeticParentheses": true
+    },
+    {
+      "file": "packages/lightclaw/src/durable-inbox.ts",
+      "astEquivalentExceptImportOrderAndCosmeticParentheses": true
+    },
+    {
+      "file": "packages/lightclaw/src/durable-state.ts",
+      "astEquivalentExceptImportOrderAndCosmeticParentheses": true
+    },
+    {
+      "file": "packages/lightclaw/src/events.ts",
+      "astEquivalentExceptImportOrderAndCosmeticParentheses": true
+    },
+    {
+      "file": "packages/lightclaw/src/feishu.ts",
+      "astEquivalentExceptImportOrderAndCosmeticParentheses": true
+    },
+    {
+      "file": "packages/lightclaw/src/goals/control.ts",
+      "astEquivalentExceptImportOrderAndCosmeticParentheses": true
+    },
+    {
+      "file": "packages/lightclaw/src/idle-cache.ts",
+      "astEquivalentExceptImportOrderAndCosmeticParentheses": true
+    },
+    {
+      "file": "packages/lightclaw/src/main.ts",
+      "astEquivalentExceptImportOrderAndCosmeticParentheses": true
+    },
+    {
+      "file": "packages/lightclaw/src/operations.ts",
+      "astEquivalentExceptImportOrderAndCosmeticParentheses": true
+    },
+    {
+      "file": "packages/lightclaw/src/queued-events.ts",
+      "astEquivalentExceptImportOrderAndCosmeticParentheses": true
+    },
+    {
+      "file": "packages/lightclaw/src/sandbox.ts",
+      "astEquivalentExceptImportOrderAndCosmeticParentheses": true
+    },
+    {
+      "file": "packages/lightclaw/src/slack.ts",
+      "astEquivalentExceptImportOrderAndCosmeticParentheses": true
+    },
+    {
+      "file": "packages/lightclaw/src/transport.ts",
+      "astEquivalentExceptImportOrderAndCosmeticParentheses": true
+    },
+    {
+      "file": "packages/lightclaw/test/docker-cancellation.test.ts",
+      "astEquivalentExceptImportOrderAndCosmeticParentheses": true
+    },
+    {
+      "file": "packages/lightclaw/test/durable-admission.test.ts",
+      "astEquivalentExceptImportOrderAndCosmeticParentheses": true
+    },
+    {
+      "file": "packages/lightclaw/test/durable-work.test.ts",
+      "astEquivalentExceptImportOrderAndCosmeticParentheses": true
+    },
+    {
+      "file": "packages/lightclaw/test/fixtures/recovery-worker.ts",
+      "astEquivalentExceptImportOrderAndCosmeticParentheses": true
+    },
+    {
+      "file": "packages/lightclaw/test/goal-control.test.ts",
+      "astEquivalentExceptImportOrderAndCosmeticParentheses": true
+    },
+    {
+      "file": "packages/lightclaw/test/instance-lock.test.ts",
+      "astEquivalentExceptImportOrderAndCosmeticParentheses": true
+    },
+    {
+      "file": "packages/lightclaw/test/recovery-faults.test.ts",
+      "astEquivalentExceptImportOrderAndCosmeticParentheses": true
+    }
+  ],
+  "pre-check2": [
+    {
+      "file": "packages/lightclaw/src/channel-queue.ts",
+      "astEquivalentExceptImportOrderAndCosmeticParentheses": true
+    },
+    {
+      "file": "packages/lightclaw/src/durable-inbox.ts",
+      "astEquivalentExceptImportOrderAndCosmeticParentheses": true
+    },
+    {
+      "file": "packages/lightclaw/src/feishu.ts",
+      "astEquivalentExceptImportOrderAndCosmeticParentheses": true
+    },
+    {
+      "file": "packages/lightclaw/src/main.ts",
+      "astEquivalentExceptImportOrderAndCosmeticParentheses": true
+    },
+    {
+      "file": "packages/lightclaw/src/queued-events.ts",
+      "astEquivalentExceptImportOrderAndCosmeticParentheses": true
+    },
+    {
+      "file": "packages/lightclaw/src/sandbox.ts",
+      "astEquivalentExceptImportOrderAndCosmeticParentheses": true
+    },
+    {
+      "file": "packages/lightclaw/src/slack.ts",
+      "astEquivalentExceptImportOrderAndCosmeticParentheses": true
+    },
+    {
+      "file": "packages/lightclaw/src/transport.ts",
+      "astEquivalentExceptImportOrderAndCosmeticParentheses": true
+    },
+    {
+      "file": "packages/lightclaw/test/docker-live.test.ts",
+      "astEquivalentExceptImportOrderAndCosmeticParentheses": true
+    },
+    {
+      "file": "packages/lightclaw/test/durable-admission.test.ts",
+      "astEquivalentExceptImportOrderAndCosmeticParentheses": true
+    },
+    {
+      "file": "packages/lightclaw/test/fixtures/recovery-worker.ts",
+      "astEquivalentExceptImportOrderAndCosmeticParentheses": true
+    },
+    {
+      "file": "packages/lightclaw/test/main-lifecycle.test.ts",
+      "astEquivalentExceptImportOrderAndCosmeticParentheses": true
+    },
+    {
+      "file": "packages/lightclaw/test/platform-notifications.test.ts",
+      "astEquivalentExceptImportOrderAndCosmeticParentheses": true
+    },
+    {
+      "file": "packages/lightclaw/test/recovery-faults.test.ts",
+      "astEquivalentExceptImportOrderAndCosmeticParentheses": true
+    }
+  ],
+  "pre-check3": [],
+  "pre-check4": [
+    {
+      "file": "packages/lightclaw/src/main.ts",
+      "review": "manually inspected complete unified diff; whitespace/line wrapping only"
+    },
+    {
+      "file": "packages/lightclaw/test/main-lifecycle.test.ts",
+      "review": "manually inspected complete unified diff; whitespace/line wrapping only"
+    }
+  ]
+}

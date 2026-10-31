@@ -1,0 +1,1 @@
+{"arm":"upstream-host","kind":"upstream","features":{"goals":false,"acceptance":false,"feishu":false,"controls":false,"scheduling":false,"optimization":false,"infrastructure":false},"sandbox":"host","repetition":3,"seed":314204,"caseId":"final-multi-file-consistency","id":"noise-host-0044-upstream-host-final-multi-file-consistency"}

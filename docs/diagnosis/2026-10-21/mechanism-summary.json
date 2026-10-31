@@ -1,0 +1,80 @@
+{
+  "scope": "deterministic filesystem/goal mechanism; no LLM, no Docker calls, no quality or cost estimate",
+  "summary": [
+    {
+      "scenario": "actionable-rejection",
+      "arms": {
+        "before": {
+          "runs": 5,
+          "correct_behavior": 0,
+          "observed_success_variance": 0
+        },
+        "after": {
+          "runs": 5,
+          "correct_behavior": 5,
+          "observed_success_variance": 0
+        }
+      }
+    },
+    {
+      "scenario": "progress-during-verification",
+      "arms": {
+        "before": {
+          "runs": 5,
+          "correct_behavior": 0,
+          "observed_success_variance": 0
+        },
+        "after": {
+          "runs": 5,
+          "correct_behavior": 5,
+          "observed_success_variance": 0
+        }
+      }
+    },
+    {
+      "scenario": "duplicate-progress",
+      "arms": {
+        "before": {
+          "runs": 5,
+          "correct_behavior": 0,
+          "observed_success_variance": 0
+        },
+        "after": {
+          "runs": 5,
+          "correct_behavior": 5,
+          "observed_success_variance": 0
+        }
+      }
+    },
+    {
+      "scenario": "pause-resume-during-verification",
+      "arms": {
+        "before": {
+          "runs": 5,
+          "correct_behavior": 5,
+          "observed_success_variance": 0
+        },
+        "after": {
+          "runs": 5,
+          "correct_behavior": 5,
+          "observed_success_variance": 0
+        }
+      }
+    },
+    {
+      "scenario": "artifact-changed-during-verification",
+      "arms": {
+        "before": {
+          "runs": 5,
+          "correct_behavior": 5,
+          "observed_success_variance": 0
+        },
+        "after": {
+          "runs": 5,
+          "correct_behavior": 5,
+          "observed_success_variance": 0
+        }
+      }
+    }
+  ]
+}

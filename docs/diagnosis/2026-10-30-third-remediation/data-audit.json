@@ -1,0 +1,12 @@
+{
+  "tasks": 36,
+  "families": 36,
+  "splitCounts": {
+    "development": 13,
+    "selection": 12,
+    "blind": 11
+  },
+  "nearDuplicates": [],
+  "method": "NFKC four-character shingles; common response-protocol suffix removed; threshold 0.55; family split checked independently",
+  "sourceLimit": "hand-authored synthetic tasks, not natural user samples"
+}

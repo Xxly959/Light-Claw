@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "sourceFilesUnchanged": 52,
+  "queueRounds": 130,
+  "queueTasksIncludingWarmup": 54600,
+  "cacheProcesses": 12,
+  "cacheRuns": 8448,
+  "promptRunsVerified": 132,
+  "promptComplete": true,
+  "independentArtifactAndUsageRecomputation": true
+}

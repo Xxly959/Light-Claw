@@ -1,0 +1,47 @@
+{
+  "completedAt": "2026-10-21T15:21:34.943Z",
+  "finished": 3,
+  "planned": 3,
+  "reserved": 15,
+  "reportedTokens": 51290,
+  "stopped": false,
+  "budgetLimited": false,
+  "results": [
+    {
+      "id": "pilot2-0002-pilot-current-train-orders",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "pilot2-0002-pilot-current-train-orders",
+        "success": false,
+        "tokens": 10856,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "pilot2-0000-pilot-upstream-train-orders",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "pilot2-0000-pilot-upstream-train-orders",
+        "success": false,
+        "tokens": 16624,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "pilot2-0001-pilot-old-train-orders",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "pilot2-0001-pilot-old-train-orders",
+        "success": false,
+        "tokens": 23810,
+        "modelRequests": 6
+      }
+    }
+  ]
+}

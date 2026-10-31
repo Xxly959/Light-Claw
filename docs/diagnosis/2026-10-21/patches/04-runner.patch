@@ -1,0 +1,232 @@
+--- a/packages/lightclaw/src/agent.ts
++++ b/packages/lightclaw/src/agent.ts
+@@ -25,7 +25,7 @@
+ import { mkdir, writeFile } from "fs/promises";
+ import { homedir } from "os";
+ import { join, resolve } from "path";
+-import type { LightClawConfig } from "./config.js";
++import { featureEnabled, type LightClawConfig } from "./config.js";
+ import { createLightClawSettingsManager, syncLogToSessionManager } from "./context.js";
+ import { formatGoalPrompt } from "./goals/prompt.js";
+ import type { GoalStore } from "./goals/store.js";
+@@ -70,6 +70,8 @@
+ 	tools?: AgentTool[];
+ 	apiKey?: string;
+ 	quiet?: boolean;
++	/** Sent only through the OpenAI-compatible API; provider determinism is not guaranteed. */
++	evaluationSeed?: number;
+ }
+ 
+ type RunnerLogger = Pick<
+@@ -338,6 +340,7 @@
+ 	transport: LightClawConfig["transport"],
+ 	promptInstructions?: string,
+ 	capabilities?: string,
++	goalsEnabled = true,
+ ): string {
+ 	const channelPath = `${workspacePath}/${channelId}`;
+ 	const isDocker = sandboxConfig.type === "docker";
+@@ -414,7 +417,7 @@
+ - attach: Share files to the current chat
+ 
+ Each tool requires a "label" parameter (shown to user).
+-${formatGoalPrompt(goalStore.get())}
++${goalsEnabled ? formatGoalPrompt(goalStore.get()) : ""}
+ ${promptInstructions ? `\n## 可迭代行为指令\n${promptInstructions}` : ""}`;
+ }
+ 
+@@ -515,13 +518,18 @@
+  * Sets up the session and subscribes to events once.
+  */
+ export function createAgentRunner(
+-	sandboxConfig: SandboxConfig,
++	requestedSandboxConfig: SandboxConfig,
+ 	channelId: string,
+ 	channelDir: string,
+ 	config: LightClawConfig,
+ 	goalStore: GoalStore,
+ 	overrides: AgentRunnerOverrides = {},
+ ): AgentRunner {
++	const sandboxConfig: SandboxConfig = featureEnabled(config, "infrastructure")
++		? requestedSandboxConfig
++		: { type: "host" };
++	const controlsEnabled = featureEnabled(config, "controls");
++	const promptInstructions = featureEnabled(config, "optimization") ? config.promptInstructions : undefined;
+ 	const runnerLog: RunnerLogger = overrides.quiet ? silentRunnerLogger : log;
+ 	const executor = createExecutor(sandboxConfig, config.bashTimeoutSeconds ?? 120);
+ 	const model = overrides.model ?? resolveModel(config);
+@@ -536,7 +544,7 @@
+ 	let verificationCommandCount = 0;
+ 
+ 	// Create tools
+-	const tools =
++	const allTools =
+ 		overrides.tools ??
+ 		createLightClawTools(
+ 			executor,
+@@ -565,6 +573,8 @@
+ 			},
+ 		);
+ 
++	const tools = featureEnabled(config, "goals") ? allTools : allTools.filter((tool) => !tool.name.startsWith("goal_"));
++
+ 	// Initial system prompt (will be updated each run with fresh memory/channels/users/skills)
+ 	const memory = getMemory(channelDir);
+ 	const skills = loadLightClawSkills(channelDir, workspacePath);
+@@ -579,7 +589,9 @@
+ 		skills,
+ 		goalStore,
+ 		config.transport,
+-		config.promptInstructions,
++		promptInstructions,
++		undefined,
++		featureEnabled(config, "goals"),
+ 	);
+ 
+ 	// Create session manager and settings manager
+@@ -654,8 +666,20 @@
+ 	};
+ 	const streamModel = agent.streamFn;
+ 	agent.streamFn = (requestModel, context, options) => {
+-		if (!abortRequested && !budgetReason && !options?.signal?.aborted)
+-			return streamModel(requestModel, context, options);
++		if (!abortRequested && !budgetReason && !options?.signal?.aborted) {
++			if (overrides.evaluationSeed === undefined) return streamModel(requestModel, context, options);
++			if (requestModel.api !== "openai-completions")
++				throw new Error("当前 API 不支持本评估器的 seed 注入；不能声称已完成多种子评估");
++			return streamModel(requestModel, context, {
++				...options,
++				onPayload: async (payload, selectedModel) => {
++					const updated = (await options?.onPayload?.(payload, selectedModel)) ?? payload;
++					if (typeof updated !== "object" || updated === null || Array.isArray(updated))
++						throw new Error("seed 需要对象形式的请求载荷");
++					return { ...updated, seed: overrides.evaluationSeed };
++				},
++			});
++		}
+ 		const stream = createAssistantMessageEventStream();
+ 		const message: AssistantMessage = {
+ 			role: "assistant",
+@@ -682,12 +706,12 @@
+ 	const assertRunActive = () => {
+ 		if (!running || disposed || abortRequested || verificationAbort.signal.aborted)
+ 			throw new Error("Run cancelled before verification");
+-		if (Date.now() >= deadline) exhaustBudget("Run duration budget exhausted");
++		if (controlsEnabled && Date.now() >= deadline) exhaustBudget("Run duration budget exhausted");
+ 		if (budgetReason) throw new Error(budgetReason);
+ 	};
+ 	const reserveToolExecution = () => {
+ 		assertRunActive();
+-		if (permittedTools >= (config.maxRunToolCalls ?? 100))
++		if (controlsEnabled && permittedTools >= (config.maxRunToolCalls ?? 100))
+ 			exhaustBudget(`Run tool call budget exhausted (${config.maxRunToolCalls ?? 100})`);
+ 		assertRunActive();
+ 		permittedTools++;
+@@ -722,6 +746,7 @@
+ 		errorMessage: undefined as string | undefined,
+ 		toolCalls: 0,
+ 		toolErrors: 0,
++		terminalGoalText: undefined as string | undefined,
+ 	};
+ 
+ 	// Subscribe to events ONCE
+@@ -752,6 +777,20 @@
+ 			pendingTools.delete(agentEvent.toolCallId);
+ 
+ 			const durationMs = pending ? Date.now() - pending.startTime : 0;
++
++			if (!agentEvent.isError && agentEvent.toolName === "goal_complete" && agentEvent.result.terminate) {
++				const outcome = agentEvent.result.details;
++				if (
++					typeof outcome === "object" &&
++					outcome !== null &&
++					"committed" in outcome &&
++					outcome.committed === true
++				) {
++					const goal = goalStore.get();
++					if (goal?.status === "completed" || goal?.status === "awaiting_confirmation")
++						runState.terminalGoalText = `${resultStr}\n${goal.lastProgress ?? ""}`.trim();
++				}
++			}
+ 
+ 			if (agentEvent.isError) {
+ 				runState.toolErrors++;
+@@ -809,7 +848,7 @@
+ 						runState.totalUsage.output +
+ 						runState.totalUsage.cacheRead +
+ 						runState.totalUsage.cacheWrite;
+-					if (tokens >= (config.maxRunTokens ?? 100_000)) {
++					if (controlsEnabled && tokens >= (config.maxRunTokens ?? 100_000)) {
+ 						exhaustBudget(`Run token budget exhausted (${tokens} >= ${config.maxRunTokens ?? 100_000})`);
+ 					}
+ 				}
+@@ -874,7 +913,7 @@
+ 			abortRequested = false;
+ 			verificationAbort = new AbortController();
+ 			verificationCommandCount = 0;
+-			deadline = Date.now() + (config.maxRunDurationMs ?? 300_000);
++			deadline = controlsEnabled ? Date.now() + (config.maxRunDurationMs ?? 300_000) : Number.POSITIVE_INFINITY;
+ 			let deliveryError: string | undefined;
+ 			const ctx = withTimedChatContext(inputContext, config.platformTimeoutMs ?? 30_000, (error) => {
+ 				deliveryError ??= error.message;
+@@ -936,8 +975,9 @@
+ 					skills,
+ 					goalStore,
+ 					config.transport,
+-					config.promptInstructions,
++					promptInstructions,
+ 					capabilities,
++					featureEnabled(config, "goals"),
+ 				);
+ 				session.setActiveToolsByName(tools.map((tool) => tool.name));
+ 
+@@ -958,6 +998,7 @@
+ 				};
+ 				runState.stopReason = "stop";
+ 				runState.errorMessage = undefined;
++				runState.terminalGoalText = undefined;
+ 				runState.toolCalls = 0;
+ 				runState.toolErrors = 0;
+ 
+@@ -1039,13 +1080,14 @@
+ 				};
+ 				await writeFile(join(channelDir, "last_prompt.jsonl"), JSON.stringify(debugContext, null, 2));
+ 
+-				const remainingMs = (config.maxRunDurationMs ?? 300_000) - (Date.now() - startedAt);
++				const remainingMs = deadline - Date.now();
+ 				if (remainingMs <= 0) exhaustBudget("Run duration budget exhausted during setup");
+ 				else if (!abortRequested) {
+-					budgetTimer = setTimeout(
+-						() => exhaustBudget(`Run duration budget exhausted (${config.maxRunDurationMs ?? 300_000}ms)`),
+-						remainingMs,
+-					);
++					if (controlsEnabled)
++						budgetTimer = setTimeout(
++							() => exhaustBudget(`Run duration budget exhausted (${config.maxRunDurationMs ?? 300_000}ms)`),
++							remainingMs,
++						);
+ 					await session.prompt(
+ 						userMessage,
+ 						imageAttachments.length > 0 ? { images: imageAttachments } : undefined,
+@@ -1060,6 +1102,10 @@
+ 					runState.errorMessage = budgetReason;
+ 				}
+ 				if (abortRequested) runState.stopReason = "aborted";
++				// A committed terminating tool ends a successful run without a final model message.
++				// Keep the provider's original toolUse event in the persisted session.
++				if (runState.stopReason === "toolUse" && runState.terminalGoalText && !abortRequested && !budgetReason)
++					runState.stopReason = "stop";
+ 
+ 				// Wait for queued messages
+ 				await queueChain;
+@@ -1082,7 +1128,9 @@
+ 						lastAssistant?.content
+ 							.filter((c): c is { type: "text"; text: string } => c.type === "text")
+ 							.map((c) => c.text)
+-							.join("\n") || "";
++							.join("\n") ||
++						runState.terminalGoalText ||
++						"";
+ 
+ 					// Check for [SILENT] marker - delete message and thread instead of posting
+ 					if (finalText.trim() === "[SILENT]" || finalText.trim().startsWith("[SILENT]")) {

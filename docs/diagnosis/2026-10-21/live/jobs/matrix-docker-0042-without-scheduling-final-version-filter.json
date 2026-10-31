@@ -1,0 +1,1 @@
+{"arm":"without-scheduling","kind":"current","features":{"goals":true,"acceptance":true,"feishu":true,"controls":true,"scheduling":false,"optimization":true,"infrastructure":true},"repetition":0,"seed":17,"caseId":"final-version-filter","id":"matrix-docker-0042-without-scheduling-final-version-filter"}

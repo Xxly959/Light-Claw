@@ -1,0 +1,142 @@
+ M .github/workflows/ci.yml
+ M .gitignore
+ M AGENTS.md
+D  LEARNING_PROGRESS.md
+ M README.md
+ M package-lock.json
+ M packages/ai/test/github-copilot-anthropic.test.ts
+ M packages/ai/test/openai-completions-tool-choice.test.ts
+ M packages/coding-agent/test/agent-session-auto-compaction-queue.test.ts
+ M packages/coding-agent/test/agent-session-concurrent.test.ts
+ M packages/coding-agent/test/tools.test.ts
+ M packages/lightclaw/CHANGELOG.md
+ M packages/lightclaw/README.md
+ M packages/lightclaw/README.zh-CN.md
+ M packages/lightclaw/docs/architecture.zh-CN.md
+ M packages/lightclaw/docs/evaluation.zh-CN.md
+ M packages/lightclaw/docs/goals.zh-CN.md
+D  packages/lightclaw/docs/project-introduction.zh-CN.md
+ M packages/lightclaw/package.json
+ M packages/lightclaw/src/agent.ts
+ M packages/lightclaw/src/config.ts
+ M packages/lightclaw/src/download.ts
+ M packages/lightclaw/src/evals/cli.ts
+ M packages/lightclaw/src/evals/optimize-cli.ts
+ M packages/lightclaw/src/evals/optimizer.ts
+ M packages/lightclaw/src/evals/runner.ts
+ M packages/lightclaw/src/evals/scoring.ts
+ M packages/lightclaw/src/evals/types.ts
+ M packages/lightclaw/src/events.ts
+ M packages/lightclaw/src/feishu.ts
+ M packages/lightclaw/src/goals/commands.ts
+ M packages/lightclaw/src/goals/prompt.ts
+ M packages/lightclaw/src/goals/store.ts
+ M packages/lightclaw/src/goals/types.ts
+ M packages/lightclaw/src/log.ts
+ M packages/lightclaw/src/main.ts
+ M packages/lightclaw/src/observability.ts
+ M packages/lightclaw/src/sandbox.ts
+ M packages/lightclaw/src/slack.ts
+ M packages/lightclaw/src/store.ts
+ M packages/lightclaw/src/tools/attach.ts
+ M packages/lightclaw/src/tools/bash.ts
+ M packages/lightclaw/src/tools/goal.ts
+ M packages/lightclaw/src/tools/index.ts
+ M packages/lightclaw/src/tools/write.ts
+ M packages/lightclaw/src/transport.ts
+ M packages/lightclaw/test/config.test.ts
+ M packages/lightclaw/test/evals.test.ts
+ M packages/lightclaw/test/feishu.test.ts
+ M packages/lightclaw/test/goals.test.ts
+?? .workbuddy/
+?? docs/
+?? packages/lightclaw/docs/deployment.zh-CN.md
+?? packages/lightclaw/docs/lightclaw-explained.zh-CN.md
+?? packages/lightclaw/docs/performance-benchmark.zh-CN.md
+?? packages/lightclaw/docs/recovery.zh-CN.md
+?? packages/lightclaw/docs/reliability-evaluation.zh-CN.md
+?? packages/lightclaw/docs/resources.zh-CN.md
+?? packages/lightclaw/docs/troubleshooting.zh-CN.md
+?? packages/lightclaw/evals/holdout.json
+?? packages/lightclaw/evals/reliability/
+?? packages/lightclaw/scripts/local-release.mjs
+?? packages/lightclaw/src/attachment-download.ts
+?? packages/lightclaw/src/attachment-reader.py
+?? packages/lightclaw/src/attachments.ts
+?? packages/lightclaw/src/authorization.ts
+?? packages/lightclaw/src/benchmark/
+?? packages/lightclaw/src/channel-queue.ts
+?? packages/lightclaw/src/docker-supervisor.py
+?? packages/lightclaw/src/durable-inbox.ts
+?? packages/lightclaw/src/durable-state.ts
+?? packages/lightclaw/src/evals/reliability/
+?? packages/lightclaw/src/features.ts
+?? packages/lightclaw/src/goals/acceptance.ts
+?? packages/lightclaw/src/goals/artifact.ts
+?? packages/lightclaw/src/goals/control.ts
+?? packages/lightclaw/src/goals/migrate-cli.ts
+?? packages/lightclaw/src/goals/migration.ts
+?? packages/lightclaw/src/goals/verifier.ts
+?? packages/lightclaw/src/health.ts
+?? packages/lightclaw/src/idle-cache.ts
+?? packages/lightclaw/src/index.ts
+?? packages/lightclaw/src/operations.ts
+?? packages/lightclaw/src/platform-operations.ts
+?? packages/lightclaw/src/platform-text.ts
+?? packages/lightclaw/src/queued-events.ts
+?? packages/lightclaw/src/redaction.ts
+?? packages/lightclaw/src/resource-policy.ts
+?? packages/lightclaw/src/runtime.ts
+?? packages/lightclaw/src/sdk-logger.ts
+?? packages/lightclaw/src/timeouts.ts
+?? packages/lightclaw/src/validation.ts
+?? packages/lightclaw/test/agent-runner.test.ts
+?? packages/lightclaw/test/attachment-upload.test.ts
+?? packages/lightclaw/test/audit-redaction.test.ts
+?? packages/lightclaw/test/benchmark.test.ts
+?? packages/lightclaw/test/channel-queue.test.ts
+?? packages/lightclaw/test/deployment-entry.test.ts
+?? packages/lightclaw/test/diagnosis-controls.test.ts
+?? packages/lightclaw/test/diagnosis-statistics.test.ts
+?? packages/lightclaw/test/docker-cancellation.test.ts
+?? packages/lightclaw/test/docker-live.test.ts
+?? packages/lightclaw/test/docker-validation.test.ts
+?? packages/lightclaw/test/durable-admission.test.ts
+?? packages/lightclaw/test/durable-work.test.ts
+?? packages/lightclaw/test/eval-runner.test.ts
+?? packages/lightclaw/test/eval-validation.test.ts
+?? packages/lightclaw/test/evaluation-seed.test.ts
+?? packages/lightclaw/test/event-boundaries.test.ts
+?? packages/lightclaw/test/feature-runner.test.ts
+?? packages/lightclaw/test/fixtures/
+?? packages/lightclaw/test/goal-acceptance.test.ts
+?? packages/lightclaw/test/goal-artifact.test.ts
+?? packages/lightclaw/test/goal-commands.test.ts
+?? packages/lightclaw/test/goal-control.test.ts
+?? packages/lightclaw/test/goal-migration.test.ts
+?? packages/lightclaw/test/goal-terminal-delivery.test.ts
+?? packages/lightclaw/test/goal-tool-discovery.test.ts
+?? packages/lightclaw/test/goal-verification.test.ts
+?? packages/lightclaw/test/idle-cache.test.ts
+?? packages/lightclaw/test/instance-lock.test.ts
+?? packages/lightclaw/test/main-lifecycle.test.ts
+?? packages/lightclaw/test/offline-entry.test.ts
+?? packages/lightclaw/test/offline-setup.ts
+?? packages/lightclaw/test/optimizer-noise.test.ts
+?? packages/lightclaw/test/output-tools.test.ts
+?? packages/lightclaw/test/packaging.test.ts
+?? packages/lightclaw/test/platform-contract.test.ts
+?? packages/lightclaw/test/platform-notifications.test.ts
+?? packages/lightclaw/test/platform-text.test.ts
+?? packages/lightclaw/test/prompt-optimization.test.ts
+?? packages/lightclaw/test/queued-events.test.ts
+?? packages/lightclaw/test/recovery-faults.test.ts
+?? packages/lightclaw/test/reliability-controller.test.ts
+?? packages/lightclaw/test/reliability-statistics.test.ts
+?? packages/lightclaw/test/reliability-system.test.ts
+?? packages/lightclaw/test/resource-policy.test.ts
+?? packages/lightclaw/test/runner-lifecycle.test.ts
+?? packages/lightclaw/test/runtime-evaluation.test.ts
+?? packages/lightclaw/test/sandbox.test.ts
+?? packages/lightclaw/test/timeouts.test.ts
+?? packages/lightclaw/vitest.config.ts

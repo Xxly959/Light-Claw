@@ -1,0 +1,875 @@
+{
+  "completedAt": "2026-10-21T15:33:04.303Z",
+  "finished": 72,
+  "planned": 72,
+  "reserved": 297,
+  "reportedTokens": 816530,
+  "stopped": false,
+  "budgetLimited": false,
+  "results": [
+    {
+      "id": "after-0000-before-terminal-fix-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0000-before-terminal-fix-final-inventory-join",
+        "success": false,
+        "tokens": 10956,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0001-fixed-all-on-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0001-fixed-all-on-final-inventory-join",
+        "success": true,
+        "tokens": 10969,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0002-fixed-all-on-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0002-fixed-all-on-final-money-csv",
+        "success": true,
+        "tokens": 10826,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0004-before-terminal-fix-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0004-before-terminal-fix-final-stable-dedup",
+        "success": false,
+        "tokens": 10598,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0005-fixed-all-on-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0005-fixed-all-on-final-stable-dedup",
+        "success": true,
+        "tokens": 10735,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0003-before-terminal-fix-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0003-before-terminal-fix-final-money-csv",
+        "success": false,
+        "tokens": 10859,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0007-before-terminal-fix-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0007-before-terminal-fix-final-markdown-section",
+        "success": false,
+        "tokens": 11268,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0006-fixed-all-on-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0006-fixed-all-on-final-markdown-section",
+        "success": true,
+        "tokens": 14374,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "after-0008-before-terminal-fix-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0008-before-terminal-fix-final-nested-config",
+        "success": false,
+        "tokens": 11134,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0009-fixed-all-on-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0009-fixed-all-on-final-nested-config",
+        "success": true,
+        "tokens": 11022,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0010-fixed-all-on-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0010-fixed-all-on-final-version-filter",
+        "success": true,
+        "tokens": 10763,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0011-before-terminal-fix-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0011-before-terminal-fix-final-version-filter",
+        "success": false,
+        "tokens": 10867,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0012-before-terminal-fix-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0012-before-terminal-fix-final-jsonl-errors",
+        "success": false,
+        "tokens": 11157,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0013-fixed-all-on-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0013-fixed-all-on-final-jsonl-errors",
+        "success": true,
+        "tokens": 11209,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0014-fixed-all-on-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0014-fixed-all-on-final-unicode-path",
+        "success": true,
+        "tokens": 10853,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0015-before-terminal-fix-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0015-before-terminal-fix-final-unicode-path",
+        "success": false,
+        "tokens": 10853,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0016-before-terminal-fix-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0016-before-terminal-fix-final-multi-file-consistency",
+        "success": false,
+        "tokens": 10802,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0017-fixed-all-on-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0017-fixed-all-on-final-multi-file-consistency",
+        "success": true,
+        "tokens": 10790,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0019-before-terminal-fix-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0019-before-terminal-fix-final-null-vs-missing",
+        "success": false,
+        "tokens": 10863,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0018-fixed-all-on-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0018-fixed-all-on-final-null-vs-missing",
+        "success": true,
+        "tokens": 10738,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0020-before-terminal-fix-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0020-before-terminal-fix-final-range-boundaries",
+        "success": false,
+        "tokens": 10851,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0021-fixed-all-on-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0021-fixed-all-on-final-range-boundaries",
+        "success": true,
+        "tokens": 10905,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0022-fixed-all-on-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0022-fixed-all-on-final-text-replacement",
+        "success": true,
+        "tokens": 10744,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0023-before-terminal-fix-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0023-before-terminal-fix-final-text-replacement",
+        "success": false,
+        "tokens": 10665,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0024-fixed-all-on-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0024-fixed-all-on-final-inventory-join",
+        "success": true,
+        "tokens": 11049,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0025-before-terminal-fix-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0025-before-terminal-fix-final-inventory-join",
+        "success": false,
+        "tokens": 10988,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0026-before-terminal-fix-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0026-before-terminal-fix-final-money-csv",
+        "success": false,
+        "tokens": 10832,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0027-fixed-all-on-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0027-fixed-all-on-final-money-csv",
+        "success": true,
+        "tokens": 10987,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0028-fixed-all-on-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0028-fixed-all-on-final-stable-dedup",
+        "success": true,
+        "tokens": 10674,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0029-before-terminal-fix-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0029-before-terminal-fix-final-stable-dedup",
+        "success": false,
+        "tokens": 10592,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0030-before-terminal-fix-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0030-before-terminal-fix-final-markdown-section",
+        "success": false,
+        "tokens": 11362,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0031-fixed-all-on-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0031-fixed-all-on-final-markdown-section",
+        "success": true,
+        "tokens": 14207,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "after-0032-fixed-all-on-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0032-fixed-all-on-final-nested-config",
+        "success": true,
+        "tokens": 11036,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0033-before-terminal-fix-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0033-before-terminal-fix-final-nested-config",
+        "success": false,
+        "tokens": 10814,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0034-before-terminal-fix-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0034-before-terminal-fix-final-version-filter",
+        "success": false,
+        "tokens": 10836,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0035-fixed-all-on-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0035-fixed-all-on-final-version-filter",
+        "success": true,
+        "tokens": 10804,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0036-fixed-all-on-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0036-fixed-all-on-final-jsonl-errors",
+        "success": true,
+        "tokens": 11254,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0037-before-terminal-fix-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0037-before-terminal-fix-final-jsonl-errors",
+        "success": false,
+        "tokens": 11161,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0038-before-terminal-fix-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0038-before-terminal-fix-final-unicode-path",
+        "success": false,
+        "tokens": 10847,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0039-fixed-all-on-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0039-fixed-all-on-final-unicode-path",
+        "success": true,
+        "tokens": 10832,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0040-fixed-all-on-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0040-fixed-all-on-final-multi-file-consistency",
+        "success": true,
+        "tokens": 10865,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0041-before-terminal-fix-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0041-before-terminal-fix-final-multi-file-consistency",
+        "success": false,
+        "tokens": 17553,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "after-0043-fixed-all-on-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0043-fixed-all-on-final-null-vs-missing",
+        "success": true,
+        "tokens": 10858,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0042-before-terminal-fix-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0042-before-terminal-fix-final-null-vs-missing",
+        "success": false,
+        "tokens": 10693,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0044-fixed-all-on-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0044-fixed-all-on-final-range-boundaries",
+        "success": true,
+        "tokens": 10869,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0045-before-terminal-fix-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0045-before-terminal-fix-final-range-boundaries",
+        "success": false,
+        "tokens": 10872,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0046-before-terminal-fix-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0046-before-terminal-fix-final-text-replacement",
+        "success": false,
+        "tokens": 10857,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0047-fixed-all-on-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0047-fixed-all-on-final-text-replacement",
+        "success": true,
+        "tokens": 10771,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0048-before-terminal-fix-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0048-before-terminal-fix-final-inventory-join",
+        "success": false,
+        "tokens": 11018,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0049-fixed-all-on-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0049-fixed-all-on-final-inventory-join",
+        "success": true,
+        "tokens": 10962,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0050-fixed-all-on-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0050-fixed-all-on-final-money-csv",
+        "success": true,
+        "tokens": 10826,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0051-before-terminal-fix-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0051-before-terminal-fix-final-money-csv",
+        "success": false,
+        "tokens": 10930,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0052-before-terminal-fix-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0052-before-terminal-fix-final-stable-dedup",
+        "success": false,
+        "tokens": 10623,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0053-fixed-all-on-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0053-fixed-all-on-final-stable-dedup",
+        "success": true,
+        "tokens": 10557,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0054-fixed-all-on-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0054-fixed-all-on-final-markdown-section",
+        "success": true,
+        "tokens": 11046,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0055-before-terminal-fix-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0055-before-terminal-fix-final-markdown-section",
+        "success": false,
+        "tokens": 11299,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0056-before-terminal-fix-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0056-before-terminal-fix-final-nested-config",
+        "success": false,
+        "tokens": 11152,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0057-fixed-all-on-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0057-fixed-all-on-final-nested-config",
+        "success": true,
+        "tokens": 10997,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0058-fixed-all-on-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0058-fixed-all-on-final-version-filter",
+        "success": true,
+        "tokens": 10832,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0059-before-terminal-fix-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0059-before-terminal-fix-final-version-filter",
+        "success": false,
+        "tokens": 10908,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0061-fixed-all-on-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0061-fixed-all-on-final-jsonl-errors",
+        "success": true,
+        "tokens": 11222,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0060-before-terminal-fix-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0060-before-terminal-fix-final-jsonl-errors",
+        "success": false,
+        "tokens": 18227,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "after-0062-fixed-all-on-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0062-fixed-all-on-final-unicode-path",
+        "success": true,
+        "tokens": 21628,
+        "modelRequests": 7
+      }
+    },
+    {
+      "id": "after-0063-before-terminal-fix-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0063-before-terminal-fix-final-unicode-path",
+        "success": false,
+        "tokens": 10876,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0064-before-terminal-fix-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0064-before-terminal-fix-final-multi-file-consistency",
+        "success": false,
+        "tokens": 10881,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0065-fixed-all-on-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0065-fixed-all-on-final-multi-file-consistency",
+        "success": true,
+        "tokens": 10833,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0066-fixed-all-on-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0066-fixed-all-on-final-null-vs-missing",
+        "success": true,
+        "tokens": 10837,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0067-before-terminal-fix-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0067-before-terminal-fix-final-null-vs-missing",
+        "success": false,
+        "tokens": 11165,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0068-before-terminal-fix-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0068-before-terminal-fix-final-range-boundaries",
+        "success": false,
+        "tokens": 10868,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0069-fixed-all-on-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0069-fixed-all-on-final-range-boundaries",
+        "success": true,
+        "tokens": 10921,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0070-fixed-all-on-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0070-fixed-all-on-final-text-replacement",
+        "success": true,
+        "tokens": 10708,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "after-0071-before-terminal-fix-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "after-0071-before-terminal-fix-final-text-replacement",
+        "success": false,
+        "tokens": 10800,
+        "modelRequests": 4
+      }
+    }
+  ]
+}

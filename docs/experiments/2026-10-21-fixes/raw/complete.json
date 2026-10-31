@@ -1,0 +1,18 @@
+{
+  "completedAt": "2026-10-21T09:26:57.089Z",
+  "datasetHash": "bba7b8705373fc1a27979472708a42715e473f9f7206b728c9c310b81228a409",
+  "runs": 72,
+  "requestCount": 230,
+  "reportedTokens": 686600,
+  "node": "v24.19.0",
+  "fixedParameters": {
+    "thinking": "disabled",
+    "taskTemperature": 0.2,
+    "maxTokens": 2048
+  },
+  "sandbox": {
+    "type": "docker",
+    "container": "lightclaw-fixes-20261021"
+  },
+  "note": "Model cost fields are unknown placeholders; no money savings inferred."
+}

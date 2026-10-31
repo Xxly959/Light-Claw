@@ -1,0 +1,2850 @@
+--- batch2-before/docs/engineering-change-log.zh-CN.md
++++ batch2-after/docs/engineering-change-log.zh-CN.md
+@@ -1537,3 +1537,40 @@
+ 证据：从旧 metrics AST 抽取函数喂入单一虚构 timeout=true/code=0/success=true 样本，观测 n=1、successes=1、external_timeouts=1。新增 diagnosis-statistics.test.ts 4 项通过，覆盖冲突、完整计划分母、缺失控制器/记录/用量、未启动/启动未知、预创建文件、进度证据、重复身份和不可覆盖输出。真实历史数据仅离线重算：rtk proxy python3 docs/diagnosis/2026-10-21/analyze-live-v2.py 与最终 --check 均退出 0。正式计划/启动证据/控制器各 1008，完整记录 938，缺失 70；终态成功 513、任务失败 422、超时 73，和为 1008。ordinary 成功 39/108、超时 69/108，冲突记录不再双计。记录缺失的 70 项不消失于失败分母，缺少用量不按零成本处理。
+ 
+ 独立只读审查发现 policy.terminal_priority 实为枚举列表，已更名 terminal_states，重生成仅本批 v2 输出并 --check 通过。计划/解释文档属于本项流程记录。本轮未发起新实验，不重评产物语义、不估计新因果收益；没有独立 PID 启动日志，实际启动仅能由已有 worker/控制器证据识别。完整历史诊断目录基线文件哈希不变；未解决的缺失记录/用量保留为未知。
++
++
++## 2026-10-30：第二批整改——内核锁与正常关闭收敛
++
++起点：先读取 AGENTS.md 和引用 RTK.md、检查 Git 状态及第一批实物。第二批基线 `/tmp/lightclaw-batch2-20261030/` 保存4552文件哈希（包含被忽略的本工程记录）、相关文件快照与起点暂存状态；第一批清单文件当时全部匹配，包test/CI步骤实际存在，v2统计 --check 当场通过。本批不认领既有修改，不提交、推送或发布。
++
++确认缺陷：goals/control.ts 使用 wx 文件令牌，进程 SIGKILL 后留下 instance.lock，后续实例只能人工删锁；main.ts 收到信号即 close缓存/释放锁/退出，没有先收敛任务。修改 control.ts：父进程打开稳定 inode，用短生命周期宿主 Python 对继承 fd3 加非阻塞 flock，父进程保留同一 open-file-description；内核在关闭描述符/进程退出时释放，既不按超时抢锁也不 unlink 锁文件。真实临时目录回归旧实现3项均失败，修复后陈旧文件、活实例互斥、SIGTERM和SIGKILL释放均通过。旧令牌2项单测由真实进程锁3项回归替代，保留其余控制路径测试。
++
++修改 main.ts、channel-queue.ts、idle-cache.ts、slack.ts/feishu.ts：正常关闭停止接纳/事件watcher，保留持久queued、取消runner，等待内存队列/入口任务及底层平台请求收敛，关闭传输与缓存，最后释放锁。异步目标准备/平台确认返回后再检查 stopping，防止取消扫描后重置 stopRequested 并启动新 runner。包装超时不能证明底层HTTP已结束，因此跟踪原始平台Promise；新增80ms故障时序（包装50ms已超时）仍持锁，gate收敛后才释放，新目标保持active且runner未启动。Docker终止无法确认则正常关闭失败并保留锁等待人工处理。
++
++验证命令从 packages/lightclaw 执行 rtk proxy npx tsx ../../node_modules/vitest/dist/cli.js --run test/instance-lock.test.ts test/goal-control.test.ts，以及主入口相关具体回归；最终43文件完整命令与输出在 docs/diagnosis/2026-10-30-second-remediation/verification.zh-CN.md 和 regressions.log。主入口24项通过，内核锁3项、控制路径5项通过。POSIX/宿主Python和可信本地控制目录是前提；升级必须先停止旧版实例，不混用旧文件锁与新内核锁。不宣称NFS、断电或主机内核崩溃恢复。
++
++## 2026-10-30：第二批整改——持久接纳、消费与未知状态隔离
++
++根因：普通消息和合成事件仅进入内存队列；events.ts 对一次性事件无论接纳或拒绝都可能删除唯一源文件，旧 immediate/过期 one-shot 在启动时直接删除。新增 durable-state.ts/durable-inbox.ts，修改 queued-events.ts、events.ts、transport.ts、main.ts 和两平台适配器。接纳和拒绝使用一份原子持久决定，私有临时文件+文件fsync+rename+目录fsync；只有持久接纳成功才返回true。ID来自来源/频道/消息标识并固定内容指纹，重复完成消息不执行，变更载荷拒绝。平台启动期间只落盘不派发，避免先接入平台后把新运行任务当作崩溃任务。普通消息的Socket ACK在持久接纳/拒绝决定之后；写入失败不会进入执行，飞书持久失败向SDK传播，不在内存去重集合中吞掉重投。
++
++queued重启保留原截止时间恢复；内存容量收缩后从持久backlog继续消费，不把原接纳项改成拒绝。running中断变unknown，最多3次显式执行尝试、失败上限进dead；拒绝/到期/死信全部保留，无自动无限重试。unknown/dead频道阻止排队跟进和active目标间接续跑，须停机持同锁核对并显式retry/resolve。paused、awaiting_confirmation和终态不自动恢复。独立审查发现最初仅阻挡合成恢复却先重放queued的漏洞，现已在派发和入口双重隔离，并有真实main回归。审查还发现durable Slack mention stop条件误改，新增用例先复现失败后修正，原立即停止功能保留。
++
++一次性事件ID稳定为文件名/有效载荷摘要；仅持久接纳后删源，内存接纳和拒绝均保留；过期但未接纳的一次性事件会尝试接纳，无效事件移入dead-letter，重复同文件/同内容不重复执行。周期停机漏触发不在本批补发范围。新增durable-admission6项全部通过：接纳前落盘、排队重启、磁盘接纳失败不执行、拒绝/到期、事件源保留、缩容排空、启动期间缓冲和unknown隔离；durable-work4项验证持久状态/有界人工重试/操作账本。
++
++本批只提供单实例小型本地journal，没有多实例调度或分布式事务。completed表示请求已消费，不伪装成任务语义成功。旧版无inbox的active目标及历史平台重投仍存在至少一次/无法证明已消费的窗口；任意bash需人工核对，提示词不能保证不重复。长期记录清理未扩建，源文件和日志仍有磁盘保留成本，未测量性能改善。
++
++## 2026-10-30：第二批整改——受控外部副作用与独立进程故障矩阵
++
++新增 operations.ts：scope+业务步骤键形成稳定ID、请求指纹防止换载荷；持久prepared/started/succeeded/unknown/manual与回执，恢复先查询独立服务。found复用回执；absent仅在adapter声明服务端原子去重（含在途重试）时以同ID重发；无法确认则manual，不自动重发。提供get及人工确认接口。主入口最终通知接入同一账本；真实平台不能按此ID查询，设置replaySafe=false保留unknown/manual，不声称全部通知/流式回复和bash都被幂等化。
++
++test/fixtures/mock-operation-service.py 是独立loopback HTTP mock服务，按ID原子保存效果与回执，worker使用真实GoalStore/inbox/OperationJournal；recovery-faults.test.ts覆盖操作前SIGKILL、服务成功但进度未保存时SIGKILL、真实目标completed后通知前SIGKILL、排队期间SIGKILL、服务成功后SIGTERM。各次重启最终外部效果均为1，同回执通知可解释，目标状态completed；再运行一次效果仍不增加。fixture扩展到真实GoalStore时曾漏acceptance及误给manual添加files/commands，按实际GoalAcceptance联合类型修正，未降低生产验证规则。受控mock服务故障5项通过；不是平台、付费模型、任意脚本或真实业务幂等证明。
++
++## 2026-10-30：第二批整改——Docker容器内监督与验证边界
++
++根因：DockerExecutor把docker exec当宿主shell命令，取消仅杀本地CLI，无法证明容器内任务停止。新增docker-supervisor.py，重用sandbox.ts输出归档/捕获逻辑；每次UUID任务有独立进程组、stdin心跳/EOF监督、执行期限、取消tombstone及启动/取消共同文件锁。Linux使用subreaper追踪脱组/双fork的孤儿后代，按/proc祖先关系及任务标记扫描，以出生标识+pidfd终止，停止确认不单独信任复用PGID。独立审查指出清除环境且setsid的子进程会逃过最初方案，现已加强机制，并在真实容器测试中保留此场景。监督器丢失或无法确认退出会报未确认，正常关闭保留锁。Python脚本列入package.json发布文件；README、恢复文档及Unreleased CHANGELOG更新依赖与边界。
++
++Docker实际预检：rtk proxy docker info --format '{{.ServerVersion}}'，提升后仍为daemon无法连接。本批没有启动Docker daemon、拉镜像、构建镜像或操作现有业务容器；创建容器/网络/卷均0。完成离线协议测试4项：真实macOS子进程持续写文件，取消/超时及宿主SIGTERM/SIGKILL后父子写入停止且文件大小稳定，不仅检查Promise/本地CLI。test/docker-live.test.ts保留4项显式启用测试，仅创建带唯一标签的lightclaw-batch2-*资源并在清理前校验；本次跳过，不能算通过。Linux subreaper/pidfd和脱组清标记场景未获真实容器实测；macOS离线进程组分支不替代它。
++
++最终验证：从包根逐项列出43个新增/修改/直接相关LightClaw文件，42文件通过、1文件跳过；364项通过、4项真实Docker跳过、0失败。完整命令及输出在本批verification与regressions.log。rtk proxy npm run check最终退出0，完整输出check-final.log（根Biome/tsgo/browser smoke及web-ui/example全部通过）。检查器20/14文件格式变化按检查前快照重放并逐项AST审查（仅import排序/无语义括号归一化），最后main与主入口回归2文件的完整diff人工审查仅格式换行，checker-review.json记录。rtk proxy git diff --check及第一批v2统计--check退出0。用户授权的进程检查只筛选本批夹具，不导出其他命令行；清理记录未发现本批worker/服务/监督器残留。故障矩阵、源差异清单和完整日志在 docs/diagnosis/2026-10-30-second-remediation/。
++
++所有改善均为上述本地机制/故障证据，没有虚构性能或费用收益；进程崩溃恢复不等于断电持久性，文件fsync/rename未做断电、NFS或磁盘损坏验证。未提交、推送或发布。
+--- batch2-before/packages/lightclaw/CHANGELOG.md
++++ batch2-after/packages/lightclaw/CHANGELOG.md
+@@ -3,6 +3,8 @@
+ ## [Unreleased]
+ 
+ ### Breaking Changes
++
++- All runtime modes require host POSIX/Python flock support; stop older instances before upgrading. Docker execution requires container Python with Linux subreaper/pidfd support and confirms task termination before reporting cancellation.
+ 
+ - Attachment uploads require host Python 3 on POSIX, accept only current-channel paths, reject links and non-regular files, and enforce a 20 MiB limit. Transport upload paths are now channel-relative.
+ 
+@@ -14,6 +16,9 @@
+ - Required independent holdout cases and at least five repetitions for prompt optimization, with schema 2 reports retaining every evaluation and rejection reason.
+ 
+ ### Added
++
++- Persist message and one-shot event admission, consumption, deadlines, bounded manual retries and uncertain/dead-letter outcomes in the protected control directory.
++- Add stable-ID controlled operation records, service result reconciliation and manual resolution, with an independent mock-service process fault matrix.
+ 
+ - Added seven independent diagnostic feature switches and an owner-only goal verification dispute log.
+ 
+@@ -41,6 +46,10 @@
+ - Surfaced Slack rate limits and request failures without automatic retries after uncertain delivery.
+ 
+ ### Fixed
++
++- Replace stale file-token locks with kernel ownership released on process exit; stop admission and drain/cancel in-flight work before unlock.
++- Retain queued work across restarts, isolate uncertain execution before follow-up/goal replay, and delete one-shot sources only after durable admission.
++- Supervise Docker execution trees inside the container, with host-liveness monitoring and cancellation/exit confirmation.
+ 
+ - Enforce attachment authorization at both platform read boundaries using pinned directory/file descriptors and upload only bounded, verified bytes.
+ - Run LightClaw offline regressions through the workspace test script and an explicit required CI step, with isolated user configuration and blocked Node network access.
+--- batch2-before/packages/lightclaw/README.md
++++ batch2-after/packages/lightclaw/README.md
+@@ -207,3 +207,7 @@
+ Attachment uploads require **host Python 3.9+ on POSIX (Linux/macOS)**, including when tools run in Docker. Missing dependencies fail closed. Only regular files in the current channel directory are authorized, up to 20 MiB each; traversal, other channels, shared files, symlinks and multiple hard links are rejected. The attach tool accepts channel-relative paths or the current channel's host/container absolute prefix; transport `uploadFile` accepts channel-relative paths only. A Python standard-library reader pins each directory with `dir_fd` and `O_NOFOLLOW`, reads the same file descriptor with a size limit and change checks, and supplies bytes to the SDK. The configured root, its ancestors, interpreter and installation must be trusted. This does not isolate arbitrary host shell execution. Windows is unsupported for attachment reads.
+ 
+ CI explicitly runs the LightClaw workspace test script. Tests isolate HOME/credentials and block Node TCP/fetch access; models and platform APIs use faux/mock implementations. For targeted local regression runs, follow AGENTS.md and select explicit test files. Historical experiment accounting is available in `docs/diagnosis/2026-10-21/analyze-live-v2.py`; `--check` verifies versioned outputs without writing or calling models.
++
++## Single-instance recovery
++
++The runtime holds a kernel flock through a parent-owned descriptor, persists accepted messages/events before dispatch, and retains interrupted execution as unknown for manual reconciliation. Controlled operations use stable IDs and service result queries. Docker tasks are supervised inside the container and cancellation requires exit confirmation. Host POSIX/Python support is required; Docker additionally requires container Python and Linux subreaper/pidfd support. Arbitrary bash side effects do not gain exactly-once guarantees. See [recovery semantics and validation boundaries](docs/recovery.zh-CN.md).
+--- batch2-before/packages/lightclaw/README.zh-CN.md
++++ batch2-after/packages/lightclaw/README.zh-CN.md
+@@ -69,6 +69,10 @@
+ ```
+ 
+ 包级 `test` 脚本由根 workspace 测试入口发现，CI 另有必跑的 LightClaw 步骤，防止再次被 `--if-present` 静默跳过。测试使用临时 HOME、移除继承的凭证变量、阻止 Node TCP/fetch 请求，模型与平台调用使用 faux/mock。统计回归调用 Python 标准库读取虚构 JSON；历史数据重算入口为 `docs/diagnosis/2026-10-21/analyze-live-v2.py`，`--check` 只读验证已生成 v2 文件，不调用模型。
++
++## 崩溃恢复与受控执行
++
++运行时通过内核锁保持单实例；消息和一次性事件先持久接纳，执行中断保留 unknown 并等待人工核对。受控操作使用稳定 ID 和服务结果查询；任意 bash 的外部副作用仍需人工检查。Docker 使用容器内监督器确认取消。依赖、状态、人工恢复和实测边界见[恢复说明](docs/recovery.zh-CN.md)。
+ 
+ ## 运行 Agent 评测
+ 
+--- batch2-before/packages/lightclaw/docs/recovery.zh-CN.md
++++ batch2-after/packages/lightclaw/docs/recovery.zh-CN.md
+@@ -0,0 +1,63 @@
++# 单实例恢复与受控副作用
++
++LightClaw 仍是单实例个人 Agent。控制目录中的状态只由持有同一内核锁的实例写入；没有租约、多节点调度或分布式事务。
++
++## 进程锁和关闭
++
++`goals/control.ts` 打开稳定的 `instance.lock` 文件，以继承给宿主 Python 的 fd 3 调用非阻塞 `flock`。Python 与 Node 共享同一 open-file-description；辅助进程退出后，Node 的描述符继续持锁。Node 正常退出、SIGKILL 或崩溃时，内核关闭描述符并释放锁。锁文件保留在磁盘上，文件存在不再表示实例存活，不根据文件时间、PID 或超时删除它。
++
++宿主需要 POSIX 和 Python 3.9+。控制目录、祖先目录及解释器必须可信，锁文件禁止符号链接和多硬链接。文件系统必须正确支持本地 flock；网络文件系统未验证。升级前停止所有旧版实例，旧版的 `wx` 文件令牌不参与新内核锁，不能混跑。
++
++SIGINT/SIGTERM 的正常关闭顺序：停止接纳和事件 watcher，关闭待执行内存队列（持久 queued 项保留），取消全部当前 runner，等待队列、已进入处理函数的请求及底层平台请求收敛（包装超时不算底层已结束），关闭缓存，再释放锁。异步命令准备返回后仍检查 stopping，不会在取消扫描后启动新 runner。Docker 任务退出无法确认时，正常关闭失败并保留锁等待人工检查；强制 SIGKILL 属于崩溃路径。
++
++## 持久接纳与消费
++
++控制目录下 `.inbox/<sha256>.json` 保存来源、频道、原消息/事件、来源 ID、请求指纹、排队截止时间、执行尝试数及状态。ID 来自平台种类、origin、频道和消息 ts；同 ID 不同内容拒绝。文件用私有临时文件、文件 fsync、rename 和目录 fsync 写入，成功后才返回任务已接纳。平台 ACK 与业务任务完成是不同层次；容量拒绝会保存 rejected 并发送未接纳通知。持久写失败不会调用执行函数；飞书会把失败抛回 SDK，Slack 不会执行后续 ACK 语句。平台重投策略和真实消息交付未在本批连接平台验证。
++
++| 状态 | 重启行为 |
++|---|---|
++| queued | 截止未到则按频道恢复；保留原截止时间；内存容量缩小时从持久 backlog 继续消费 |
++| running | 改为 unknown，保留执行窗口与原消息，不自动重试 |
++| completed | 已消费，重复消息不再执行；这不是任务质量成功标记，目标/审计另有结果 |
++| rejected | 未接纳、不自动重试，保留决定 |
++| expired | 尚未开始且已到期、不执行、不自动重试 |
++| unknown | 副作用不确定，阻止同频道后续排队项及目标自动续跑，等待人工核对 |
++| dead | 执行尝试上限（默认 3）或显式死信，保留记录并阻止不经核对的续跑 |
++
++没有自动无限重试。`DurableInbox.retry(id, true)` 是明确的人工重试，对 unknown/dead 必须确认已核对副作用；达到执行尝试上限会拒绝。已核对且无需重试的记录可用 `finish(id, "completed", "人工核对说明")` 结束隔离。操作这些 API 前先停止应用并取得同一个 `acquireControlLock(controlDir)`，不要直接改正在运行实例的 JSON。过期/拒绝项需要显式 retry 或新消息，重复投递不会重置决定。
++
++启动时先恢复历史记录，再接收平台事件；平台启动期间的新消息只落盘不派发，准备好后与历史 queued 项一起消费。未知频道的后续消息可以落盘，但不绕过隔离开始执行。记录保留而非自动清空；长期磁盘保留策略未在本批扩展。
++
++一次性与 immediate 事件的 ID 固定为文件名及有效载荷的摘要，重启前后相同；只有 `durableAdmission=true` 的接纳成功后才删除源文件。内存接纳或拒绝均保留源文件。启动前创建的 immediate 和已到期但未接纳的 one-shot 会尝试持久接纳，不再直接删除。若要再次创建内容相同的新事件，应使用新文件名/新的 at。无效事件保留在 `events/dead-letter/`。周期事件按每次触发产生独立记录；本批不实现停机期间所有错过周期的补发。
++
++## 目标恢复与重复窗口
++
++仅 active 目标可在无未知任务隔离时自动恢复；paused、awaiting_confirmation、completed、cancelled 保持原状态。普通消息恢复不会擅自恢复暂停或待人工确认的目标。若某次执行已改变外部系统，但在目标进度/本地结果提交前崩溃，重跑相同自然语言任务可能重复操作。新的 inbox 把已开始执行的中断任务隔离为 unknown，旧版本没有 inbox 的 active 目标仍保留原有至少一次恢复窗口。旧版消息日志不等于消费账本，首次升级时平台重投的历史消息也无法由新 inbox 证明已完成，需人工核对；本批不伪造历史接纳记录。
++
++任意 bash（包括 curl、邮件、数据库写入、其他脚本）无法通用查询结果或保证幂等，不能承诺 exactly-once。人工恢复必须检查实际系统结果；提示词中的“不重复”不构成工程保证。模型或脚本自己换一个业务步骤键也不能保持同一操作身份。
++
++## 受控操作账本
++
++`operations.ts` 的 `OperationJournal.execute(scope, key, request, service)` 将稳定业务 scope/step key 派生为 operation ID，并固定请求指纹，保存 prepared → started → succeeded。失败/丢失回执为 unknown；再次执行相同 ID 时先调用服务 `query(id)`：
++
++- found：保存同一回执，不再执行副作用。
++- absent 且 adapter 明确声明 `replaySafe=true`：以同 ID 重发。该声明要求服务端对并发、在途和重试原子去重，单靠“先查再发”不够。
++- unknown、查询失败或服务不支持安全重发：保存 manual，不自动发第二次。`resolveManually(id, independentlyVerifiedResult)` 可记录人工确认结果。
++
++记录在 `.operations/`，可通过 `get(id)` 查询。一个实例对每个控制目录使用一个 journal；不要绕过实例锁并发创建写者。adapter 必须自行实现请求期限、认证和结果查询契约。真实主入口的最终通知通过同一账本；目前 Feishu/Slack 通知 adapter 不能按此 ID 独立查询，故 `replaySafe=false`，不把不确定的通知自动重发。流式回复、任意平台 API、bash 和所有既有工具并未因此获得统一的副作用幂等保证。
++
++故障测试的独立 loopback mock 服务按 operation ID 原子保存副作用和回执，支持查询；真实 GoalStore 与操作账本在独立工作进程中执行，在操作前、服务成功但进度未保存、目标完成但通知未发时终止进程，再启动查询/收敛。它是明确选定 adapter 的工程证据，不是所有业务系统的事务证明。
++
++## Docker 取消
++
++`DockerExecutor` 将每次执行标为 UUID，在容器内启动 Python 监督器及独立进程组。宿主 Node 直接写 stdin 心跳；宿主消失、EOF、取消标记或期限到达都会触发停止。取消请求通过独立 docker exec 创建持久取消 tombstone；与启动使用同一文件锁，避免取消已确认后延迟启动任务。
++
++Linux 监督器使用 subreaper 让双重 fork / setsid 的孤儿后代归属自身，通过 `/proc` 的祖先关系及任务标记发现成员，使用进程出生标识和 pidfd 安全终止；清理不单独信任可能复用的 PGID。所有已识别任务成员退出后才返回 STOPPED，宿主才报告取消完成。正常 shell 退出后也会清理后台子进程。独立监督器消失而任务退出无法证明时返回未确认，主入口正常关闭不释放锁。
++
++Docker 需要容器内 Python 3.9+、Linux subreaper 与 pidfd 支持；当前 Dockerfile 原本安装 Python，本批没有构建或修改业务容器。运行元数据与取消 tombstone 位于容器 `/tmp/lightclaw-exec/<uuid>`，保留用于诊断，不自动复用 UUID。它保护本次执行树；任务主动向另一个服务/其他容器派发工作、利用更高权限逃逸或破坏监督器/其元数据的行为不能获得同样保证。该机制不把任意 bash 变为事务。
++
++本次 Docker daemon 不可用。macOS 离线 shim 测试真实运行相同监督器并验证父/后台子进程文件停止增长，覆盖 cancel、timeout、宿主 SIGTERM/SIGKILL；其中 macOS 使用进程组回退，**没有验证 Linux subreaper/pidfd 或真实容器**。`test/docker-live.test.ts` 保留 4 项显式启用的真实容器测试，包含脱组且清除标记的子进程；仅创建 `lightclaw-batch2-*`、带唯一标签的资源，清理前再次校验标签，镜像只用本地已有镜像（`--pull=never`）。启用方法和实际缺口见本批验证报告。
++
++## 持久性边界
++
++本批验证的是进程退出、SIGTERM、SIGKILL 和原子文件状态恢复。新 journal 的 fsync/rename 增强本地提交顺序，GoalStore 仍沿用既有原子 rename；未做断电、磁盘损坏、NFS、主机内核崩溃或生产平台测试。不以进程崩溃测试宣称断电后不丢数据。
+--- batch2-before/packages/lightclaw/package.json
++++ batch2-after/packages/lightclaw/package.json
+@@ -15,6 +15,7 @@
+ 	"files": [
+ 		"dist",
+ 		"src/attachment-reader.py",
++		"src/docker-supervisor.py",
+ 		"evals",
+ 		"CHANGELOG.md",
+ 		"Dockerfile",
+--- batch2-before/packages/lightclaw/src/channel-queue.ts
++++ batch2-after/packages/lightclaw/src/channel-queue.ts
+@@ -26,6 +26,8 @@
+ export class ChannelQueue {
+ 	private readonly queue: QueueItem[] = [];
+ 	private processing = false;
++	private closed = false;
++	private readonly idleWaiters: Array<() => void> = [];
+ 	private readonly counts: QueueStatistics = {
+ 		accepted: 0,
+ 		rejected: 0,
+@@ -52,8 +54,12 @@
+ 		return completion;
+ 	}
+ 
++	canAccept(): boolean {
++		return !this.closed && (this.options.enabled === false || this.queue.length < this.options.maxPending);
++	}
++
+ 	tryEnqueue(work: QueuedWork, onExpired?: () => Promise<void>): Promise<void> | undefined {
+-		if (this.options.enabled !== false && this.queue.length >= this.options.maxPending) {
++		if (this.closed || (this.options.enabled !== false && this.queue.length >= this.options.maxPending)) {
+ 			this.counts.rejected++;
+ 			return undefined;
+ 		}
+@@ -83,6 +89,19 @@
+ 		}
+ 		void this.processNext();
+ 		return completed;
++	}
++
++	/** Pending work remains in the persistent inbox; never starts during shutdown. */
++	close(): void {
++		this.closed = true;
++		for (const item of this.queue.splice(0)) {
++			if (item.timer) clearTimeout(item.timer);
++			item.resolve();
++		}
++	}
++	async drain(): Promise<void> {
++		if (!this.processing) return;
++		await new Promise<void>((resolve) => this.idleWaiters.push(resolve));
+ 	}
+ 
+ 	statistics(): QueueStatistics {
+@@ -125,6 +144,7 @@
+ 			}
+ 		} finally {
+ 			this.processing = false;
++			for (const resolve of this.idleWaiters.splice(0)) resolve();
+ 		}
+ 	}
+ }
+--- batch2-before/packages/lightclaw/src/docker-supervisor.py
++++ batch2-after/packages/lightclaw/src/docker-supervisor.py
+@@ -0,0 +1,162 @@
++"""Per-exec POSIX supervisor. stdin heartbeats bind the task to its host owner."""
++import ctypes
++import fcntl
++import json
++import os
++import pathlib
++import select
++import signal
++import subprocess
++import sys
++import time
++
++mode, identity, root_name = sys.argv[1:4]
++if len(identity) != 36 or any(c not in "0123456789abcdef-" for c in identity):
++    raise ValueError("invalid task identity")
++root = pathlib.Path(root_name) / identity
++root.mkdir(parents=True, exist_ok=True, mode=0o700)
++cancelled = root / "cancel"
++state_path = root / "state.json"
++
++
++def state():
++    try:
++        return json.loads(state_path.read_text())
++    except FileNotFoundError:
++        return {}
++
++
++def save(value):
++    temporary = root / f"state-{os.getpid()}.tmp"
++    temporary.write_text(json.dumps(value))
++    temporary.replace(state_path)
++
++
++def process_table():
++    table = {}
++    for proc in pathlib.Path("/proc").glob("[0-9]*"):
++        try:
++            data = (proc / "stat").read_text().split(") ", 1)[1].split()
++            table[int(proc.name)] = (int(data[1]), data[0], data[19])
++        except (FileNotFoundError, ProcessLookupError, PermissionError):
++            continue
++    return table
++
++
++def members(pgid):
++    found = []
++    if pathlib.Path("/proc").is_dir():
++        table = process_table()
++        current = state()
++        supervisor = current.get("supervisor")
++        owner = table.get(supervisor)
++        if supervisor and (not owner or owner[2] != current.get("birth")):
++            if current.get("status") != "stopped":
++                raise RuntimeError("supervisor identity lost; descendant exit cannot be confirmed")
++        tree = {supervisor} if owner and owner[2] == current.get("birth") else set()
++        while True:
++            descendants = {pid for pid, (parent, _, _) in table.items() if parent in tree}
++            if descendants <= tree:
++                break
++            tree |= descendants
++        for pid, (_, status, _) in table.items():
++            if status == "Z" or pid == supervisor:
++                continue
++            tagged = False
++            try:
++                tagged = f"LIGHTCLAW_TASK_ID={identity}".encode() in pathlib.Path(f"/proc/{pid}/environ").read_bytes().split(b"\0")
++            except (FileNotFoundError, ProcessLookupError, PermissionError):
++                pass
++            if pid in tree or tagged:
++                found.append((pid, table[pid][2]))
++    elif pgid and state().get("status") != "stopped":
++        # Offline POSIX fallback. Linux uses a subreaper + ancestry, even for tag-cleared daemons.
++        for line in subprocess.check_output(["ps", "-axo", "pid=,pgid=,stat="], text=True).splitlines():
++            pid, group, status = line.split()
++            if int(group) == pgid and not status.startswith("Z"):
++                found.append((int(pid), None))
++    return found
++
++
++def stop(pgid):
++    deadline = time.monotonic() + 3
++    while True:
++        alive = members(pgid)
++        if not alive:
++            return
++        for pid, birth in alive:
++            try:
++                if birth is not None:
++                    descriptor = os.pidfd_open(pid)
++                    try:
++                        if process_table().get(pid, (0, "", None))[2] == birth:
++                            signal.pidfd_send_signal(descriptor, signal.SIGKILL)
++                    finally:
++                        os.close(descriptor)
++                else:
++                    os.kill(pid, signal.SIGKILL)
++            except ProcessLookupError:
++                pass
++        if time.monotonic() >= deadline:
++            raise RuntimeError("task exit unconfirmed")
++        time.sleep(0.025)
++
++
++if mode == "cancel":
++    with (root / "guard").open("a") as guard:
++        fcntl.flock(guard, fcntl.LOCK_EX)
++        cancelled.touch(exist_ok=True)
++        current = state()
++    if current.get("status") != "stopped":
++        stop(current.get("pgid"))
++    # Tombstone prevents a delayed docker exec from launching after confirmation.
++    print("STOPPED", flush=True)
++elif mode == "run":
++    timeout, command = float(sys.argv[4]), sys.argv[5]
++    if pathlib.Path("/proc").is_dir():
++        if not hasattr(os, "pidfd_open") or not hasattr(signal, "pidfd_send_signal"):
++            raise RuntimeError("Linux pidfd support required for safe cancellation")
++        # Reparent double-forked / setsid / tag-cleared descendants to this supervisor.
++        if ctypes.CDLL(None, use_errno=True).prctl(36, 1, 0, 0, 0) != 0:
++            raise RuntimeError("Linux child subreaper unavailable")
++    birth = process_table().get(os.getpid(), (0, "", None))[2]
++    with (root / "guard").open("a") as guard:
++        fcntl.flock(guard, fcntl.LOCK_EX)
++        if cancelled.exists():
++            sys.exit(125)
++        save({"id": identity, "status": "starting"})
++        env = dict(os.environ, LIGHTCLAW_TASK_ID=identity)
++        child = subprocess.Popen(["sh", "-c", command], start_new_session=True, env=env)
++        save({"id": identity, "status": "running", "pgid": child.pid, "supervisor": os.getpid(), "birth": birth})
++    started = last_heartbeat = time.monotonic()
++    reason = "completed"
++    def interrupted(_signal, _frame):
++        cancelled.touch(exist_ok=True)
++    signal.signal(signal.SIGTERM, interrupted)
++    signal.signal(signal.SIGINT, interrupted)
++    try:
++        while child.poll() is None:
++            now = time.monotonic()
++            if cancelled.exists():
++                reason = "cancelled"
++                break
++            if now - started >= timeout:
++                reason = "timeout"
++                break
++            if now - last_heartbeat >= 1.5:
++                reason = "host_lost"
++                break
++            ready, _, _ = select.select([sys.stdin.buffer], [], [], 0.1)
++            if ready:
++                if not os.read(sys.stdin.fileno(), 4096):
++                    reason = "host_lost"
++                    break
++                last_heartbeat = time.monotonic()
++    finally:
++        # Also stop background children after their shell exits normally.
++        stop(child.pid)
++        child.wait()
++        save({"id": identity, "status": "stopped", "pgid": child.pid, "reason": reason, "code": child.returncode})
++    sys.exit(child.returncode if reason == "completed" and child.returncode >= 0 else 124)
++else:
++    raise ValueError("unknown supervisor mode")
+--- batch2-before/packages/lightclaw/src/durable-inbox.ts
++++ batch2-after/packages/lightclaw/src/durable-inbox.ts
+@@ -0,0 +1,142 @@
++import { existsSync, mkdirSync, readdirSync, readFileSync } from "node:fs";
++import { join } from "node:path";
++import { requestFingerprint, stableId, writeDurableJson } from "./durable-state.js";
++import type { ChatEvent } from "./transport.js";
++
++export type InboxStatus = "queued" | "running" | "completed" | "rejected" | "expired" | "dead" | "unknown";
++export interface InboxRecord {
++	version: 1;
++	id: string;
++	event: ChatEvent;
++	isEvent: boolean;
++	fingerprint: string;
++	status: InboxStatus;
++	acceptedAt: number;
++	expiresAt: number;
++	attempts: number;
++	detail?: string;
++}
++const statuses: InboxStatus[] = ["queued", "running", "completed", "rejected", "expired", "dead", "unknown"];
++/** One instance owns this local journal under the process kernel lock. */
++export class DurableInbox {
++	accepting = true;
++	dispatchPaused = false;
++	stopAdmission(): void {
++		this.accepting = false;
++	}
++	constructor(
++		private readonly directory: string,
++		private readonly maxAttempts = 3,
++	) {
++		mkdirSync(directory, { recursive: true, mode: 0o700 });
++	}
++	private path(id: string): string {
++		if (!/^[a-f0-9]{64}$/.test(id)) throw new Error("Invalid inbox ID");
++		return join(this.directory, `${id}.json`);
++	}
++	get(id: string): InboxRecord | undefined {
++		if (!existsSync(this.path(id))) return undefined;
++		const r = JSON.parse(readFileSync(this.path(id), "utf8")) as InboxRecord;
++		if (
++			r.version !== 1 ||
++			r.id !== id ||
++			!statuses.includes(r.status) ||
++			!r.event ||
++			!Number.isSafeInteger(r.attempts) ||
++			!Number.isFinite(r.expiresAt)
++		)
++			throw new Error(`Corrupt inbox record ${id}`);
++		return r;
++	}
++	list(): InboxRecord[] {
++		return readdirSync(this.directory)
++			.filter((n) => /^[a-f0-9]{64}\.json$/.test(n))
++			.map((n) => this.get(n.slice(0, -5))!)
++			.sort((a, b) => a.acceptedAt - b.acceptedAt || a.id.localeCompare(b.id));
++	}
++	unresolvedChannels(): Set<string> {
++		return new Set(
++			this.list()
++				.filter((r) => ["unknown", "dead"].includes(r.status))
++				.map((r) => r.event.channel),
++		);
++	}
++
++	admit(
++		source: string,
++		event: ChatEvent,
++		isEvent: boolean,
++		maxWaitMs: number,
++		now = Date.now(),
++		initialStatus: "queued" | "rejected" = "queued",
++	): InboxRecord {
++		const id = stableId(source, event.origin, event.channel, event.ts);
++		const fingerprint = requestFingerprint({ event, isEvent });
++		const existing = this.get(id);
++		if (existing) {
++			if (existing.fingerprint !== fingerprint) throw new Error("Inbox identity reused for a different payload");
++			return existing;
++		}
++		const record: InboxRecord = {
++			version: 1,
++			id,
++			event,
++			isEvent,
++			fingerprint,
++			status: initialStatus,
++			acceptedAt: now,
++			expiresAt: now + maxWaitMs,
++			attempts: 0,
++		};
++		writeDurableJson(this.path(id), record);
++		return record;
++	}
++	start(id: string): boolean {
++		const r = this.get(id);
++		if (!r || r.status !== "queued") return false;
++		if (r.attempts >= this.maxAttempts) {
++			this.finish(id, "dead", "attempt limit");
++			return false;
++		}
++		if (r.expiresAt <= Date.now()) {
++			this.finish(id, "expired", "queue deadline before start");
++			return false;
++		}
++		writeDurableJson(this.path(id), { ...r, status: "running", attempts: r.attempts + 1 });
++		return true;
++	}
++	finish(id: string, status: Exclude<InboxStatus, "running" | "queued">, detail?: string): void {
++		const r = this.get(id);
++		if (!r) throw new Error("Missing inbox record");
++		writeDurableJson(this.path(id), {
++			...r,
++			status: status === "unknown" && r.attempts >= this.maxAttempts ? "dead" : status,
++			detail,
++		});
++	}
++	recover(now = Date.now()): InboxRecord[] {
++		for (const r of this.list()) {
++			if (r.status === "running")
++				this.finish(
++					r.id,
++					"unknown",
++					"Process interrupted after execution began; inspect side effects before manual retry",
++				);
++			else if (r.status === "queued" && r.expiresAt <= now)
++				this.finish(r.id, "expired", "queue deadline across restart");
++		}
++		return this.list().filter((r) => r.status === "queued");
++	}
++	retry(id: string, manualAcknowledgement = false): InboxRecord {
++		const r = this.get(id);
++		if (!r) throw new Error("Missing inbox record");
++		if (["unknown", "dead"].includes(r.status) && !manualAcknowledgement)
++			throw new Error("manual acknowledgement of uncertain side effects required");
++		if (!["rejected", "expired", "dead", "unknown"].includes(r.status))
++			throw new Error("Inbox record is not retryable");
++		if (r.attempts >= this.maxAttempts) throw new Error("attempt limit reached; retained as dead/unknown");
++		const next: InboxRecord = { ...r, status: "queued", expiresAt: Date.now() + 300_000, detail: "explicit retry" };
++		writeDurableJson(this.path(id), next);
++		return next;
++	}
++}
+--- batch2-before/packages/lightclaw/src/durable-state.ts
++++ batch2-after/packages/lightclaw/src/durable-state.ts
+@@ -0,0 +1,49 @@
++import { createHash, randomUUID } from "node:crypto";
++import { closeSync, fsyncSync, mkdirSync, openSync, renameSync, unlinkSync, writeFileSync } from "node:fs";
++import { dirname } from "node:path";
++
++/** Local single-writer state: an atomic old/new file across process crashes. */
++export function writeDurableJson(path: string, value: unknown): void {
++	const directory = dirname(path);
++	mkdirSync(directory, { recursive: true, mode: 0o700 });
++	const temporary = `${path}.${randomUUID()}.tmp`;
++	const fd = openSync(temporary, "wx", 0o600);
++	try {
++		writeFileSync(fd, `${JSON.stringify(value, null, 2)}\n`);
++		fsyncSync(fd);
++	} catch (error) {
++		try {
++			unlinkSync(temporary);
++		} catch {}
++		throw error;
++	} finally {
++		closeSync(fd);
++	}
++	renameSync(temporary, path);
++	const parent = openSync(directory, "r");
++	try {
++		fsyncSync(parent);
++	} finally {
++		closeSync(parent);
++	}
++}
++
++export function stableId(...parts: string[]): string {
++	return createHash("sha256").update(JSON.stringify(parts)).digest("hex");
++}
++
++export function requestFingerprint(value: unknown): string {
++	const canonical = (item: unknown): unknown => {
++		if (Array.isArray(item)) return item.map(canonical);
++		if (item && typeof item === "object")
++			return Object.fromEntries(
++				Object.entries(item)
++					.sort(([a], [b]) => a.localeCompare(b))
++					.map(([key, v]) => [key, canonical(v)]),
++			);
++		return item;
++	};
++	const text = JSON.stringify(canonical(value));
++	if (text === undefined) throw new Error("Request must be JSON serializable");
++	return stableId(text);
++}
+--- batch2-before/packages/lightclaw/src/events.ts
++++ batch2-after/packages/lightclaw/src/events.ts
+@@ -1,5 +1,6 @@
++import { createHash } from "node:crypto";
+ import { Cron } from "croner";
+-import { existsSync, type FSWatcher, mkdirSync, readdirSync, statSync, unlinkSync } from "fs";
++import { existsSync, type FSWatcher, mkdirSync, readdirSync, renameSync, unlinkSync } from "fs";
+ import { readFile } from "fs/promises";
+ import { join } from "path";
+ import { closeWatcher, FS_WATCH_RETRY_DELAY_MS, watchWithErrorHandler } from "./fs-watch.js";
+@@ -12,6 +13,7 @@
+  */
+ export interface EventBotTarget {
+ 	enqueueEvent(event: ChatEvent): boolean;
++	readonly durableAdmission?: boolean;
+ }
+ 
+ // ============================================================================
+@@ -53,7 +55,6 @@
+ 	private timers: Map<string, NodeJS.Timeout> = new Map();
+ 	private crons: Map<string, Cron> = new Map();
+ 	private debounceTimers: Map<string, NodeJS.Timeout> = new Map();
+-	private startTime: number;
+ 	private watcher: FSWatcher | null = null;
+ 	private watcherRetryTimer: NodeJS.Timeout | null = null;
+ 	private knownFiles: Set<string> = new Set();
+@@ -62,9 +63,7 @@
+ 	constructor(
+ 		private eventsDir: string,
+ 		private slack: EventBotTarget,
+-	) {
+-		this.startTime = Date.now();
+-	}
++	) {}
+ 
+ 	/**
+ 	 * Start watching for events. Call this after SlackBot is ready.
+@@ -265,10 +264,11 @@
+ 
+ 		if (!event) {
+ 			log.logWarning(`Failed to parse event file after ${MAX_RETRIES} retries: ${filename}`, lastError?.message);
+-			this.deleteFile(filename);
++			this.deadLetter(filename);
+ 			return;
+ 		}
+ 
++		if (this.stopped) return;
+ 		this.knownFiles.add(filename);
+ 
+ 		// Schedule based on type
+@@ -323,21 +323,6 @@
+ 	}
+ 
+ 	private handleImmediate(filename: string, event: ImmediateEvent): void {
+-		const filePath = join(this.eventsDir, filename);
+-
+-		// Check if stale (created before harness started)
+-		try {
+-			const stat = statSync(filePath);
+-			if (stat.mtimeMs < this.startTime) {
+-				log.logInfo(`Stale immediate event, deleting: ${filename}`);
+-				this.deleteFile(filename);
+-				return;
+-			}
+-		} catch {
+-			// File may have been deleted
+-			return;
+-		}
+-
+ 		log.logInfo(`Executing immediate event: ${filename}`);
+ 		this.execute(filename, event);
+ 	}
+@@ -348,8 +333,8 @@
+ 
+ 		if (atTime <= now) {
+ 			// Past - delete without executing
+-			log.logInfo(`One-shot event in the past, deleting: ${filename}`);
+-			this.deleteFile(filename);
++			log.logInfo(`One-shot event overdue, admitting for durable processing: ${filename}`);
++			this.execute(filename, event);
+ 			return;
+ 		}
+ 
+@@ -378,7 +363,7 @@
+ 			log.logInfo(`Scheduled periodic event: ${filename}, next run: ${next?.toISOString() ?? "unknown"}`);
+ 		} catch (err) {
+ 			log.logWarning(`Invalid cron schedule for ${filename}: ${event.schedule}`, String(err));
+-			this.deleteFile(filename);
++			this.deadLetter(filename);
+ 		}
+ 	}
+ 
+@@ -406,22 +391,34 @@
+ 			channel: event.channelId,
+ 			user: "EVENT",
+ 			text: message,
+-			ts: Date.now().toString(),
++			ts:
++				event.type === "periodic"
++					? `${filename}:${Date.now()}`
++					: `event-${createHash("sha256")
++							.update(JSON.stringify([filename, event]))
++							.digest("hex")}`,
+ 		};
+ 
+ 		// Enqueue for processing
+ 		const enqueued = this.slack.enqueueEvent(syntheticEvent);
+ 
+-		if (enqueued && deleteAfter) {
++		if (enqueued && deleteAfter && this.slack.durableAdmission === true) {
+ 			// Delete file after successful enqueue (immediate and one-shot)
+ 			this.deleteFile(filename);
+ 		} else if (!enqueued) {
+-			log.logWarning(`Event queue full, discarded: ${filename}`);
+-			// Still delete immediate/one-shot even if discarded
+-			if (deleteAfter) {
+-				this.deleteFile(filename);
+-			}
+-		}
++			log.logWarning(`Event not admitted; source retained: ${filename}`);
++		}
++	}
++
++	private deadLetter(filename: string): void {
++		const directory = join(this.eventsDir, "dead-letter");
++		mkdirSync(directory, { recursive: true });
++		try {
++			renameSync(join(this.eventsDir, filename), join(directory, `${Date.now()}-${filename}`));
++		} catch (error) {
++			log.logWarning(`Event dead-letter failed: ${filename}`, String(error));
++		}
++		this.knownFiles.delete(filename);
+ 	}
+ 
+ 	private deleteFile(filename: string): void {
+--- batch2-before/packages/lightclaw/src/feishu.ts
++++ batch2-after/packages/lightclaw/src/feishu.ts
+@@ -3,6 +3,7 @@
+ import { basename, join } from "path";
+ import { readChannelAttachment } from "./attachments.js";
+ import { ChannelQueue, type ChannelQueueOptions } from "./channel-queue.js";
++import type { DurableInbox } from "./durable-inbox.js";
+ import { IdleResourceCache } from "./idle-cache.js";
+ import * as log from "./log.js";
+ import { observePlatformOperation } from "./platform-operations.js";
+@@ -19,6 +20,7 @@
+ 	appId: string; // cli_xxxxxxxx
+ 	appSecret: string;
+ 	workingDir: string;
++	inbox?: DurableInbox;
+ 	store: ChannelStore;
+ 	platformTimeoutMs?: number;
+ 	schedulingEnabled?: boolean;
+@@ -80,6 +82,26 @@
+ 
+ export class FeishuBot implements ChatTransport {
+ 	readonly kind = "feishu" as const;
++	readonly inbox?: DurableInbox;
++	readonly queueWaitMs: number;
++	get queueCapacity(): number {
++		return this.queueOptions.maxPending;
++	}
++	get durableAdmission(): boolean {
++		return this.inbox !== undefined;
++	}
++	async stop(): Promise<void> {
++		this.inbox?.stopAdmission();
++		const queues = this.queues.values();
++		for (const queue of queues) queue.close();
++		await Promise.all(queues.map((queue) => queue.drain()));
++		this.queues.close();
++		this.ws.close();
++	}
++	enqueueAccepted(event: ChatEvent, isEvent: boolean): boolean {
++		return enqueueChatEvent(() => this.getQueue(event.channel), event, this.handler, this, isEvent);
++	}
++
+ 	private client: Lark.Client;
+ 	private ws: Lark.WSClient;
+ 	private handler: ChatHandler;
+@@ -111,6 +133,8 @@
+ 		this.handler = handler;
+ 		this.platformTimeoutMs = config.platformTimeoutMs ?? 30_000;
+ 		this.workingDir = config.workingDir;
++		this.inbox = config.inbox;
++		this.queueWaitMs = config.queueMaxWaitMs ?? 300_000;
+ 		this.store = config.store;
+ 		const httpInstance = createFeishuHttpClient(config.platformTimeoutMs ?? 30_000);
+ 
+@@ -322,9 +346,11 @@
+ 			if (!message?.message_id || !message.chat_id) return;
+ 
+ 			// Feishu may re-push; dedupe on message_id (never event_id).
+-			if (this.seenMessageIds.has(message.message_id)) return;
+-			this.seenMessageIds.add(message.message_id);
+-			if (this.seenMessageIds.size > 2000) this.seenMessageIds.clear();
++			if (!this.inbox) {
++				if (this.seenMessageIds.has(message.message_id)) return;
++				this.seenMessageIds.add(message.message_id);
++				if (this.seenMessageIds.size > 2000) this.seenMessageIds.clear();
++			}
+ 
+ 			// Ignore our own messages, otherwise we loop forever.
+ 			if (data.sender?.sender_type === "bot") return;
+@@ -385,13 +411,10 @@
+ 				);
+ 				return;
+ 			}
+-			if (this.handler.isRunning(message.chat_id)) {
+-				this.enqueueEvent(event);
+-			} else {
+-				enqueueChatEvent(() => this.getQueue(event.channel), event, this.handler, this);
+-			}
++			enqueueChatEvent(() => this.getQueue(event.channel), event, this.handler, this);
+ 		} catch (err) {
+ 			log.logWarning("[feishu] onMessage error", err instanceof Error ? err.message : String(err));
++			if (this.inbox) throw err; // Let the SDK observe persistence failure; do not claim acceptance.
+ 		}
+ 	}
+ 
+--- batch2-before/packages/lightclaw/src/goals/control.ts
++++ batch2-after/packages/lightclaw/src/goals/control.ts
+@@ -1,6 +1,6 @@
+ import { execFileSync } from "node:child_process";
+-import { createHash, randomUUID } from "node:crypto";
+-import { existsSync, lstatSync, mkdirSync, readFileSync, realpathSync, unlinkSync, writeFileSync } from "node:fs";
++import { createHash } from "node:crypto";
++import { closeSync, constants, existsSync, fstatSync, lstatSync, mkdirSync, openSync, realpathSync } from "node:fs";
+ import { homedir } from "node:os";
+ import { dirname, join, resolve, sep } from "node:path";
+ import type { SandboxConfig } from "../sandbox.js";
+@@ -87,22 +87,32 @@
+ 	}
+ 	if (!workspaceMounted) throw new Error("Docker 缺少当前工作区的 /workspace 挂载");
+ }
++/** Kernel flock is attached to the shared open-file-description, not the helper PID. */
+ export function acquireControlLock(controlDir: string): { release(): void } {
+ 	const root = physicalPath(controlDir);
+ 	mkdirSync(root, { recursive: true, mode: 0o700 });
+ 	const path = join(root, "instance.lock");
+-	const token = randomUUID();
++	const fd = openSync(path, constants.O_CREAT | constants.O_RDWR | constants.O_NOFOLLOW, 0o600);
+ 	try {
+-		writeFileSync(path, token, { flag: "wx", mode: 0o600 });
++		const stat = fstatSync(fd);
++		if (!stat.isFile() || stat.nlink !== 1) throw new Error("锁文件必须是单链接普通文件");
++		// Node retains fd; helper fd 3 is a duplicate of the SAME open description.
++		// flock remains held after helper exit, and the kernel releases it on parent exit.
++		execFileSync("python3", ["-I", "-c", "import fcntl; fcntl.flock(3, fcntl.LOCK_EX | fcntl.LOCK_NB)"], {
++			stdio: ["ignore", "pipe", "pipe", fd],
++			timeout: 5000,
++		});
+ 	} catch (error) {
+-		throw new Error(`控制目录被占用：${path}；停止所有实例后检查并手动移除陈旧锁`, { cause: error });
++		closeSync(fd);
++		throw new Error(`控制目录锁不可用：${path}；已有活实例或宿主Python/POSIX锁不可用`, { cause: error });
+ 	}
+ 	let released = false;
+ 	return {
+ 		release() {
+-			if (released) return;
+-			released = true;
+-			if (existsSync(path) && readFileSync(path, "utf8") === token) unlinkSync(path);
++			if (!released) {
++				released = true;
++				closeSync(fd);
++			}
+ 		},
+ 	};
+ }
+--- batch2-before/packages/lightclaw/src/idle-cache.ts
++++ batch2-after/packages/lightclaw/src/idle-cache.ts
+@@ -34,6 +34,9 @@
+ 
+ 	get size(): number {
+ 		return this.entries.size;
++	}
++	values(): T[] {
++		return [...this.entries.values()].map((entry) => entry.value);
+ 	}
+ 	peek(key: string): T | undefined {
+ 		return this.entries.get(key)?.value;
+--- batch2-before/packages/lightclaw/src/main.ts
++++ batch2-after/packages/lightclaw/src/main.ts
+@@ -6,6 +6,7 @@
+ import { type AgentRunner, getOrCreateRunner, releaseRunner } from "./agent.js";
+ import { loadConfig } from "./config.js";
+ import { downloadChannel } from "./download.js";
++import { DurableInbox } from "./durable-inbox.js";
+ import { createEventsWatcher } from "./events.js";
+ import { featureEnabled } from "./features.js";
+ import { FeishuBot } from "./feishu.js";
+@@ -21,7 +22,8 @@
+ import { CacheCapacityError, IdleResourceCache } from "./idle-cache.js";
+ import * as log from "./log.js";
+ import { type RunAuditEvent, appendAuditEvent as writeAuditEvent } from "./observability.js";
+-import { parseSandboxArg, type SandboxConfig, validateSandbox } from "./sandbox.js";
++import { OperationJournal } from "./operations.js";
++import { assertNoUnconfirmedDockerTasks, parseSandboxArg, type SandboxConfig, validateSandbox } from "./sandbox.js";
+ import { SlackBot } from "./slack.js";
+ import { ChannelStore } from "./store.js";
+ import { OperationTimeoutError, withTimeout } from "./timeouts.js";
+@@ -89,8 +91,25 @@
+ await validateSandbox(sandbox);
+ mkdirSync(workingDir, { recursive: true });
+ const controlDir = resolveControlDirectory(workingDir, config.controlDir);
+-if (featureEnabled(config, "goals")) await assertControlIsolation(workingDir, controlDir, sandbox);
+-const controlLock = featureEnabled(config, "goals") ? acquireControlLock(controlDir) : { release() {} };
++await assertControlIsolation(workingDir, controlDir, sandbox);
++const controlLock = acquireControlLock(controlDir);
++const inbox = new DurableInbox(join(controlDir, ".inbox"));
++inbox.recover();
++inbox.dispatchPaused = true;
++const operations = new OperationJournal(join(controlDir, ".operations"));
++let stopping = false;
++const inFlight = new Set<Promise<void>>();
++const platformRequests = new Set<Promise<unknown>>();
++function trackPlatformRequest<T>(operation: () => Promise<T>): Promise<T> {
++	const request = Promise.resolve().then(operation);
++	platformRequests.add(request);
++	void request.then(
++		() => platformRequests.delete(request),
++		() => platformRequests.delete(request),
++	);
++	return request;
++}
++
+ process.once("exit", () => controlLock.release());
+ function goalStore(channelId: string): GoalStore {
+ 	return new GoalStore({
+@@ -160,7 +179,11 @@
+ 	const send = async <T>(operation: () => Promise<T>): Promise<T> => {
+ 		if (expired) throw expired;
+ 		try {
+-			return await withTimeout(operation, config.platformTimeoutMs ?? 30_000, "chat request");
++			return await withTimeout(
++				() => trackPlatformRequest(operation),
++				config.platformTimeoutMs ?? 30_000,
++				"chat request",
++			);
+ 		} catch (error) {
+ 			if (error instanceof OperationTimeoutError) expired = error;
+ 			throw error;
+@@ -251,7 +274,7 @@
+ 
+ async function deliver(channelId: string, phase: string, operation: () => Promise<unknown>): Promise<boolean> {
+ 	try {
+-		await withTimeout(operation, config.platformTimeoutMs ?? 30_000, phase);
++		await withTimeout(() => trackPlatformRequest(operation), config.platformTimeoutMs ?? 30_000, phase);
+ 		return true;
+ 	} catch (error) {
+ 		const detail = `${phase}: ${error instanceof Error ? error.message : String(error)}`;
+@@ -273,7 +296,7 @@
+ 	});
+ }
+ 
+-const handler: ChatHandler = {
++const executionHandler: ChatHandler = {
+ 	isRunning: (channelId) => channelStates.peek(channelId)?.running ?? false,
+ 
+ 	async handleQueueFailure(event, transport, reason) {
+@@ -309,6 +332,13 @@
+ 	},
+ 
+ 	async handleEvent(event, transport, isEvent) {
++		if (
++			inbox.unresolvedChannels().has(event.channel) &&
++			!isImmediateGoalControl(event) &&
++			!/^\/goal\s+(status|confirm|reject)\b/.test(event.text.trim())
++		) {
++			throw new Error("频道有执行结果未知的任务；先检查副作用并人工处理 inbox 记录，再重试");
++		}
+ 		let state: ChannelState;
+ 		let command: GoalCommandResult;
+ 		try {
+@@ -345,6 +375,7 @@
+ 			);
+ 			return;
+ 		}
++		if (stopping) throw new Error("Shutdown before command execution");
+ 		state.inUse++;
+ 		try {
+ 			if (command.handled) {
+@@ -368,13 +399,15 @@
+ 					command.response &&
+ 					!(await deliver(event.channel, "command", () => transport.postMessage(event.channel, command.response!)))
+ 				) {
+-					if (command.startRun) pauseActive(state, event.channel, "目标确认消息投递失败，发送 /goal resume 重试");
++					if (command.startRun && !stopping)
++						pauseActive(state, event.channel, "目标确认消息投递失败，发送 /goal resume 重试");
+ 					return;
+ 				}
+ 
+ 				if (!command.startRun) return;
+ 			}
+ 
++			if (stopping) throw new Error("Shutdown before runner start");
+ 			state.running = true;
+ 			state.stopRequested = false;
+ 			let currentEvent = command.goal ? { ...event, text: command.goal.objective } : event;
+@@ -386,12 +419,14 @@
+ 						pauseActive(state, event.channel, "平台投递失败，发送 /goal resume 重试");
+ 						break;
+ 					}
+-					if (state.stopRequested) break;
++					if (state.stopRequested || stopping) break;
+ 					const startedAt = Date.now();
+ 					let result: Awaited<ReturnType<AgentRunner["run"]>>;
+ 					try {
+ 						result = await state.runner.run(ctx, state.store);
++						if (stopping) break;
+ 					} catch (error) {
++						if (stopping) break;
+ 						const detail = error instanceof Error ? error.message : String(error);
+ 						appendAuditEvent(workingDir, {
+ 							type: "run_finished",
+@@ -469,7 +504,21 @@
+ 						);
+ 						break;
+ 					}
+-					if (!(await deliver(event.channel, "final-update", () => ctx.setWorking(false)))) {
++					const notification = await operations.execute(
++						`notification:${event.channel}:${event.origin}:${event.ts}`,
++						`final:${after?.id ?? "ordinary"}:${after?.revision ?? 0}:${after?.cycle ?? 0}`,
++						{ goalId: after?.id ?? null, status: after?.status ?? "ordinary", cycle: after?.cycle ?? null },
++						{
++							replaySafe: false,
++							query: async () => ({ status: "unknown" }),
++							execute: async () => {
++								if (!(await deliver(event.channel, "final-update", () => ctx.setWorking(false))))
++									throw new Error("Final notification outcome unknown");
++								return { delivered: true };
++							},
++						},
++					);
++					if (notification.status !== "succeeded") {
+ 						pauseActive(state, event.channel, "结果已保存但平台投递失败，发送 /goal resume 重试");
+ 						await deliver(event.channel, "delivery-notice", () =>
+ 							transport.postMessage(
+@@ -525,6 +574,22 @@
+ 	},
+ };
+ 
++const handler: ChatHandler = {
++	...executionHandler,
++	handleEvent(event, transport, isEvent) {
++		if (stopping) return Promise.reject(new Error("Instance is stopping; work retained for recovery"));
++		const work = executionHandler.handleEvent(event, transport, isEvent).then(() => {
++			if (stopping) throw new Error("Shutdown interrupted work; inspect saved state before retry");
++		});
++		inFlight.add(work);
++		void work.then(
++			() => inFlight.delete(work),
++			() => inFlight.delete(work),
++		);
++		return work;
++	},
++};
++
+ log.logStartup(workingDir, sandbox.type === "host" ? "host" : `docker:${sandbox.container}`);
+ const sharedStore = createStore();
+ const transport: ChatTransport =
+@@ -532,6 +597,7 @@
+ 		? new SlackBot(handler, {
+ 				...config.slack,
+ 				workingDir,
++				inbox,
+ 				store: sharedStore,
+ 				platformTimeoutMs: config.platformTimeoutMs,
+ 				schedulingEnabled: featureEnabled(config, "scheduling"),
+@@ -543,6 +609,7 @@
+ 		: new FeishuBot(handler, {
+ 				...config.feishu!,
+ 				workingDir,
++				inbox,
+ 				store: sharedStore,
+ 				platformTimeoutMs: config.platformTimeoutMs,
+ 				schedulingEnabled: featureEnabled(config, "scheduling"),
+@@ -551,46 +618,93 @@
+ 				channelCacheMaxEntries: config.channelCacheMaxEntries,
+ 				channelCacheIdleTtlMs: config.channelCacheIdleTtlMs,
+ 			});
++
+ const eventsWatcher = createEventsWatcher(workingDir, transport);
+-eventsWatcher.start();
+-
++let shutdownPromise: Promise<void> | undefined;
++export function shutdown(): Promise<void> {
++	if (shutdownPromise) return shutdownPromise;
++	stopping = true;
++	inbox.stopAdmission();
++	eventsWatcher.stop();
++	for (const state of channelStates.values()) {
++		state.stopRequested = true;
++		state.runner.abort();
++		// Keep active goals recoverable on process restart; user pause/cancel remains distinct.
++	}
++	shutdownPromise = (async () => {
++		await transport.stop?.();
++		await Promise.allSettled([...inFlight]);
++		// A wrapper timeout does not prove the native platform request has settled.
++		while (platformRequests.size) await Promise.allSettled([...platformRequests]);
++		channelStates.close();
++		assertNoUnconfirmedDockerTasks();
++		controlLock.release();
++	})();
++	return shutdownPromise;
++}
+ for (const signal of ["SIGINT", "SIGTERM"] as const) {
+ 	process.on(signal, () => {
+-		log.logInfo("LightClaw 正在关闭...");
+-		eventsWatcher.stop();
+-		channelStates.close();
+-		controlLock.release();
+-		process.exit(0);
++		log.logInfo("LightClaw 正在停止接纳并收敛在途任务...");
++		void shutdown().then(
++			() => process.exit(0),
++			(error) => {
++				console.error("关闭未确认；保留实例锁，需人工检查：", error);
++				process.exitCode = 1;
++				setInterval(() => {}, 60_000);
++			},
++		);
+ 	});
+ }
+ 
+-await transport.start();
+-
+-const recoveryChannels = new Set(
+-	(featureEnabled(config, "goals")
+-		? [...readdirSync(controlDir, { withFileTypes: true }), ...readdirSync(workingDir, { withFileTypes: true })]
+-		: []
+-	)
+-		.filter((entry) => entry.isDirectory())
+-		.map((entry) => entry.name),
+-);
+-for (const channelId of featureEnabled(config, "goals") ? recoveryChannels : []) {
+-	const channelDir = join(workingDir, channelId);
+-	if (!existsSync(join(channelDir, "goal.json")) && !existsSync(join(controlDir, channelId, "goal.json"))) continue;
+-	try {
+-		const goal = goalStore(channelId).get();
+-		if (goal?.status !== "active") continue;
+-		transport.enqueueEvent({
+-			type: "dm",
+-			origin: "recovery",
+-			channel: channelId,
+-			ts: `goal-recovery-${Date.now()}`,
+-			user: "lightclaw",
+-			text: "[LightClaw 崩溃恢复] 读取已保存进展，继续推进长期目标。",
+-		});
+-	} catch (error) {
+-		const detail = error instanceof Error ? error.message : String(error);
+-		log.logWarning(`[${channelId}] Goal recovery skipped`, detail);
+-		appendAuditEvent(workingDir, { type: "goal_state_invalid", channelId, detail });
++try {
++	await transport.start();
++	if (stopping) throw new Error("Startup interrupted by shutdown");
++	inbox.dispatchPaused = false;
++	// Replay only persisted queued requests. Interrupted executions become unknown/manual.
++	const recovered = inbox.list().filter((record) => record.status === "queued");
++	const unresolvedChannels = inbox.unresolvedChannels();
++	for (const record of recovered) {
++		if (unresolvedChannels.has(record.event.channel)) continue;
++		if (transport.enqueueAccepted) transport.enqueueAccepted(record.event, record.isEvent);
++		else transport.enqueueEvent(record.event);
+ 	}
+-}
++	eventsWatcher.start();
++	const blockedChannels = new Set(
++		inbox
++			.list()
++			.filter((r) => ["queued", "running", "unknown"].includes(r.status))
++			.map((r) => r.event.channel),
++	);
++	const recoveryChannels = new Set(
++		(featureEnabled(config, "goals")
++			? [...readdirSync(controlDir, { withFileTypes: true }), ...readdirSync(workingDir, { withFileTypes: true })]
++			: []
++		)
++			.filter((entry) => entry.isDirectory() && !entry.name.startsWith("."))
++			.map((entry) => entry.name),
++	);
++	for (const channelId of recoveryChannels) {
++		const channelDir = join(workingDir, channelId);
++		if (!existsSync(join(channelDir, "goal.json")) && !existsSync(join(controlDir, channelId, "goal.json"))) continue;
++		try {
++			const goal = goalStore(channelId).get();
++			if (goal?.status !== "active") continue;
++			if (blockedChannels.has(channelId)) continue;
++			transport.enqueueEvent({
++				type: "dm",
++				origin: "recovery",
++				channel: channelId,
++				ts: `goal-recovery-${goal.id}-${goal.cycle}`,
++				user: "lightclaw",
++				text: "[LightClaw 崩溃恢复] 读取已保存进展，检查已发生副作用后继续推进长期目标。",
++			});
++		} catch (error) {
++			const detail = error instanceof Error ? error.message : String(error);
++			log.logWarning(`[${channelId}] Goal recovery skipped`, detail);
++			appendAuditEvent(workingDir, { type: "goal_state_invalid", channelId, detail });
++		}
++	}
++} catch (error) {
++	await shutdown();
++	throw error;
++}
+--- batch2-before/packages/lightclaw/src/operations.ts
++++ batch2-after/packages/lightclaw/src/operations.ts
+@@ -0,0 +1,111 @@
++import { existsSync, mkdirSync, readFileSync } from "node:fs";
++import { join } from "node:path";
++import { requestFingerprint, stableId, writeDurableJson } from "./durable-state.js";
++
++export type OperationQuery = { status: "found"; result: unknown } | { status: "absent" | "unknown" };
++export interface OperationService {
++	/** True only when the service atomically deduplicates this ID, including concurrent/in-flight retries. */
++	replaySafe: boolean;
++	execute(operationId: string, request: unknown): Promise<unknown>;
++	query(operationId: string): Promise<OperationQuery>;
++}
++export interface OperationRecord {
++	version: 1;
++	id: string;
++	scope: string;
++	key: string;
++	request: unknown;
++	fingerprint: string;
++	status: "prepared" | "started" | "succeeded" | "unknown" | "manual";
++	result?: unknown;
++	detail?: string;
++}
++export class OperationJournal {
++	private readonly active = new Map<string, Promise<OperationRecord>>();
++	constructor(private readonly directory: string) {
++		mkdirSync(directory, { recursive: true, mode: 0o700 });
++	}
++	get(id: string): OperationRecord | undefined {
++		if (!/^[a-f0-9]{64}$/.test(id)) throw new Error("Invalid operation ID");
++		const path = join(this.directory, `${id}.json`);
++		if (!existsSync(path)) return undefined;
++		const r = JSON.parse(readFileSync(path, "utf8")) as OperationRecord;
++		if (
++			r.version !== 1 ||
++			r.id !== id ||
++			!["prepared", "started", "succeeded", "unknown", "manual"].includes(r.status)
++		)
++			throw new Error("Corrupt operation record");
++		return r;
++	}
++	private save(record: OperationRecord): OperationRecord {
++		writeDurableJson(join(this.directory, `${record.id}.json`), record);
++		return record;
++	}
++	async execute(scope: string, key: string, request: unknown, service: OperationService): Promise<OperationRecord> {
++		const id = stableId(scope, key);
++		const existing = this.active.get(id);
++		if (existing) {
++			await existing;
++			return this.execute(scope, key, request, service);
++		}
++		const pending = this.run(id, scope, key, request, service);
++		this.active.set(id, pending);
++		try {
++			return await pending;
++		} finally {
++			this.active.delete(id);
++		}
++	}
++	private async run(
++		id: string,
++		scope: string,
++		key: string,
++		request: unknown,
++		service: OperationService,
++	): Promise<OperationRecord> {
++		const fingerprint = requestFingerprint(request);
++		let record = this.get(id) ?? this.save({ version: 1, id, scope, key, request, fingerprint, status: "prepared" });
++		if (record.fingerprint !== fingerprint) throw new Error("Operation ID reused with different request");
++		if (record.status === "succeeded" || record.status === "manual") return record;
++		if (record.status !== "prepared") {
++			let query: OperationQuery;
++			try {
++				query = await service.query(id);
++			} catch {
++				query = { status: "unknown" };
++			}
++			if (query.status === "found")
++				return this.save({
++					...record,
++					status: "succeeded",
++					result: query.result,
++					detail: "reconciled by service query",
++				});
++			if (query.status !== "absent" || !service.replaySafe)
++				return this.save({
++					...record,
++					status: "manual",
++					detail: "Service cannot confirm a replay-safe outcome; manual reconciliation required",
++				});
++		}
++		record = this.save({ ...record, status: "started" });
++		try {
++			const result = await service.execute(id, request);
++			return this.save({ ...record, status: "succeeded", result });
++		} catch (error) {
++			return this.save({
++				...record,
++				status: "unknown",
++				detail: error instanceof Error ? error.message : String(error),
++			});
++		}
++	}
++	/** Operator records independently verified outcome; never auto-reissues an uncertain action. */
++	resolveManually(id: string, result: unknown): OperationRecord {
++		const record = this.get(id);
++		if (!record || !["manual", "unknown", "started"].includes(record.status))
++			throw new Error("Operation is not awaiting reconciliation");
++		return this.save({ ...record, status: "succeeded", result, detail: "operator confirmed external outcome" });
++	}
++}
+--- batch2-before/packages/lightclaw/src/queued-events.ts
++++ batch2-after/packages/lightclaw/src/queued-events.ts
+@@ -1,7 +1,10 @@
+ import type { ChannelQueue } from "./channel-queue.js";
++import type { DurableInbox } from "./durable-inbox.js";
+ import { CacheCapacityError } from "./idle-cache.js";
+ import * as log from "./log.js";
+ import type { ChatEvent, ChatHandler, ChatTransport } from "./transport.js";
++
++const scheduled = new WeakMap<DurableInbox, Set<string>>();
+ 
+ export function enqueueChatEvent(
+ 	queueSource: ChannelQueue | (() => ChannelQueue),
+@@ -10,31 +13,88 @@
+ 	transport: ChatTransport,
+ 	isEvent = false,
+ ): boolean {
+-	const report = async (reason: "full" | "expired"): Promise<void> => {
++	const inbox = transport.inbox;
++	const report = async (reason: "full" | "expired") => {
+ 		try {
+ 			await handler.handleQueueFailure(event, transport, reason);
+ 		} catch (error) {
+-			log.logWarning(
+-				`[${event.channel}] Queue failure reporting failed`,
+-				error instanceof Error ? error.message : String(error),
+-			);
++			log.logWarning(`[${event.channel}] Queue failure reporting failed`, String(error));
+ 		}
+ 	};
+-	let queue: ChannelQueue;
++	if (inbox && !inbox.accepting) {
++		void report("full");
++		return false;
++	}
++	let queue: ChannelQueue | undefined;
+ 	try {
+ 		queue = typeof queueSource === "function" ? queueSource() : queueSource;
+ 	} catch (error) {
+ 		if (!(error instanceof CacheCapacityError)) throw error;
++	}
++	const pending = inbox ? (scheduled.get(inbox) ?? new Set<string>()) : undefined;
++	if (inbox && pending) scheduled.set(inbox, pending);
++	const paused = inbox && (inbox.dispatchPaused || inbox.unresolvedChannels().has(event.channel));
++	const waiting = paused
++		? inbox.list().filter((r) => r.event.channel === event.channel && r.status === "queued").length
++		: 0;
++	const capacity = queue?.canAccept() && (!paused || waiting < (transport.queueCapacity ?? 5));
++	// New rejection is one durable decision, never a transient queued record followed by async rejection.
++	const record = inbox?.admit(
++		transport.kind,
++		event,
++		isEvent,
++		transport.queueWaitMs ?? 300_000,
++		Date.now(),
++		capacity ? "queued" : "rejected",
++	);
++	if (record && record.status !== "queued") {
++		if (record.status === "rejected") void report("full");
++		return !["rejected", "expired"].includes(record.status);
++	}
++	if (!capacity || !queue) {
++		if (record?.status !== "queued") void report("full");
++		// A previously accepted item stays queued until capacity is available; it is never revoked.
++		return record?.status === "queued";
++	}
++	if (paused || (record && pending?.has(record.id))) return true;
++	if (record) pending?.add(record.id);
++	const completion = queue.tryEnqueue(
++		async () => {
++			if (record && inbox && !inbox.start(record.id)) {
++				await report("expired");
++				return;
++			}
++			try {
++				await handler.handleEvent(event, transport, isEvent);
++				if (record) inbox?.finish(record.id, "completed");
++			} catch (error) {
++				if (record)
++					inbox?.finish(record.id, "unknown", `Execution uncertain; inspect side effects: ${String(error)}`);
++				throw error;
++			}
++		},
++		async () => {
++			if (record) inbox?.finish(record.id, "expired", "queue wait expired before execution");
++			await report("expired");
++		},
++	);
++	if (!completion) {
++		if (record) inbox?.finish(record.id, "rejected", "queue closed before dispatch");
+ 		void report("full");
+ 		return false;
+ 	}
+-	const completion = queue.tryEnqueue(
+-		() => handler.handleEvent(event, transport, isEvent),
+-		() => report("expired"),
+-	);
+-	if (!completion) {
+-		void report("full");
+-		return false;
+-	}
++	const currentQueue = queue;
++	void completion
++		.then(() => {
++			if (record) pending?.delete(record.id);
++			if (!inbox?.accepting || inbox.dispatchPaused || inbox.unresolvedChannels().has(event.channel)) return;
++			// Drain persisted backlog after restart, including when configured in-memory capacity shrank.
++			for (const next of inbox.list()) {
++				if (!currentQueue.canAccept()) break;
++				if (next.event.channel === event.channel && next.status === "queued" && !pending?.has(next.id))
++					enqueueChatEvent(currentQueue, next.event, handler, transport, next.isEvent);
++			}
++		})
++		.catch((error) => log.logWarning("Persistent queue pump failed", String(error)));
+ 	return true;
+ }
+--- batch2-before/packages/lightclaw/src/sandbox.ts
++++ batch2-after/packages/lightclaw/src/sandbox.ts
+@@ -1,9 +1,10 @@
+ import { spawn } from "node:child_process";
+ import { randomUUID } from "node:crypto";
+-import { createWriteStream, type WriteStream } from "node:fs";
++import { createWriteStream, readFileSync, type WriteStream } from "node:fs";
+ import { tmpdir } from "node:os";
+ import { join } from "node:path";
+ import { finished } from "node:stream/promises";
++import { fileURLToPath } from "node:url";
+ 
+ export type SandboxConfig = { type: "host" } | { type: "docker"; container: string };
+ 
+@@ -132,115 +133,150 @@
+ 		) {
+ 			throw new Error("Command timeout must be a positive finite number within the Node timer range");
+ 		}
+-		return new Promise((resolve, reject) => {
+-			const shell = process.platform === "win32" ? "cmd" : "sh";
+-			const shellArgs = process.platform === "win32" ? ["/c"] : ["-c"];
+-
+-			const child = spawn(shell, [...shellArgs, command], {
+-				detached: true,
+-				stdio: ["ignore", "pipe", "pipe"],
+-			});
+-
+-			let stdout = "";
+-			let stderr = "";
+-			let timedOut = false;
+-			let executionError: Error | undefined;
+-			let archiveError: unknown;
+-			let archive: WriteStream | undefined;
+-			let archiveDone: Promise<void> | undefined;
+-			let fullOutputPath: string | undefined;
+-
+-			const kill = () => {
+-				if (child.pid) killProcessTree(child.pid);
+-			};
+-			const writeArchive = (data: string) => {
+-				if (archive && !archive.write(data)) {
+-					child.stdout?.pause();
+-					child.stderr?.pause();
+-				}
+-			};
+-			const collect = (kind: "stdout" | "stderr", data: string) => {
+-				const previous = kind === "stdout" ? stdout : stderr;
+-				if (!archive && Buffer.byteLength(previous + data, "utf8") > MAX_CAPTURE_BYTES) {
+-					fullOutputPath = join(tmpdir(), `lightclaw-exec-${randomUUID()}.log`);
+-					archive = createWriteStream(fullOutputPath, { flags: "wx", mode: 0o600 });
+-					archive.on("drain", () => {
+-						child.stdout?.resume();
+-						child.stderr?.resume();
+-					});
+-					archiveDone = finished(archive).catch((error: unknown) => {
+-						archiveError = error;
+-						kill();
+-						child.stdout?.resume();
+-						child.stderr?.resume();
+-					});
+-					writeArchive(stdout && stderr ? `${stdout}\n${stderr}` : stdout || stderr);
+-				}
+-				writeArchive(data);
+-				if (kind === "stdout") stdout = captureTail(stdout + data);
+-				else stderr = captureTail(stderr + data);
+-			};
+-
+-			const timeoutHandle =
+-				options?.timeout && options.timeout > 0
+-					? setTimeout(() => {
+-							timedOut = true;
+-							kill();
+-						}, options.timeout * 1000)
+-					: undefined;
+-
+-			const onAbort = kill;
+-
+-			if (options?.signal) {
+-				if (options.signal.aborted) {
+-					onAbort();
+-				} else {
+-					options.signal.addEventListener("abort", onAbort, { once: true });
+-				}
+-			}
+-
+-			child.stdout?.setEncoding("utf8").on("data", (data: string) => collect("stdout", data));
+-			child.stderr?.setEncoding("utf8").on("data", (data: string) => collect("stderr", data));
+-			child.on("error", (error) => {
+-				executionError = error;
+-			});
+-
+-			const finalize = async (code: number | null) => {
+-				if (timeoutHandle) clearTimeout(timeoutHandle);
+-				if (options?.signal) {
+-					options.signal.removeEventListener("abort", onAbort);
+-				}
+-				if (archive) archive.end();
+-				await archiveDone;
+-				if (archiveError)
+-					throw new Error(`Command output archive failed: ${String(archiveError)}`, { cause: archiveError });
+-				if (executionError) throw executionError;
+-				const preview = `${stdout}\n${stderr}${fullOutputPath ? `\nFull output: ${fullOutputPath}` : ""}`.trim();
+-				if (options?.signal?.aborted) {
+-					throw new Error(`${preview}\nCommand aborted`.trim(), { cause: options.signal.reason });
+-				}
+-
+-				if (timedOut) {
+-					throw new Error(`${preview}\nCommand timed out after ${options?.timeout} seconds`.trim());
+-				}
+-
+-				resolve({
+-					stdout,
+-					stderr,
+-					code: code ?? 128,
+-					outputTruncated: fullOutputPath !== undefined,
+-					fullOutputPath,
+-				});
+-			};
+-			child.on("close", (code) => {
+-				void finalize(code).catch(reject);
+-			});
+-		});
++		const shell = process.platform === "win32" ? "cmd" : "sh";
++		return executeProcess(shell, [process.platform === "win32" ? "/c" : "-c", command], options);
+ 	}
+ 
+ 	getWorkspacePath(hostPath: string): string {
+ 		return hostPath;
+ 	}
++}
++
++interface ProcessHooks {
++	cancel(): Promise<void>;
++}
++function executeProcess(
++	program: string,
++	args: string[],
++	options: ExecOptions,
++	hooks?: ProcessHooks,
++): Promise<ExecResult> {
++	return new Promise((resolve, reject) => {
++		const child = spawn(program, args, { detached: true, stdio: [hooks ? "pipe" : "ignore", "pipe", "pipe"] });
++		child.stdin?.on("error", () => {});
++		const heartbeat = hooks
++			? setInterval(() => {
++					if (!child.stdin?.destroyed) child.stdin?.write("alive\n");
++				}, 250)
++			: undefined;
++		heartbeat?.unref();
++
++		let stdout = "";
++		let stderr = "";
++		let timedOut = false;
++		let executionError: Error | undefined;
++		let archiveError: unknown;
++		let archive: WriteStream | undefined;
++		let archiveDone: Promise<void> | undefined;
++		let fullOutputPath: string | undefined;
++
++		let stopPromise: Promise<void> | undefined;
++		let stopError: unknown;
++		const kill = () => {
++			if (hooks) {
++				stopPromise ??= hooks
++					.cancel()
++					.catch((error) => {
++						stopError = error;
++					})
++					.finally(() => {
++						if (child.pid) killProcessTree(child.pid);
++					});
++			} else if (child.pid) killProcessTree(child.pid);
++		};
++		const writeArchive = (data: string) => {
++			if (archive && !archive.write(data)) {
++				child.stdout?.pause();
++				child.stderr?.pause();
++			}
++		};
++		const collect = (kind: "stdout" | "stderr", data: string) => {
++			const previous = kind === "stdout" ? stdout : stderr;
++			if (!archive && Buffer.byteLength(previous + data, "utf8") > MAX_CAPTURE_BYTES) {
++				fullOutputPath = join(tmpdir(), `lightclaw-exec-${randomUUID()}.log`);
++				archive = createWriteStream(fullOutputPath, { flags: "wx", mode: 0o600 });
++				archive.on("drain", () => {
++					child.stdout?.resume();
++					child.stderr?.resume();
++				});
++				archiveDone = finished(archive).catch((error: unknown) => {
++					archiveError = error;
++					kill();
++					child.stdout?.resume();
++					child.stderr?.resume();
++				});
++				writeArchive(stdout && stderr ? `${stdout}\n${stderr}` : stdout || stderr);
++			}
++			writeArchive(data);
++			if (kind === "stdout") stdout = captureTail(stdout + data);
++			else stderr = captureTail(stderr + data);
++		};
++
++		const timeoutHandle =
++			options?.timeout && options.timeout > 0
++				? setTimeout(() => {
++						timedOut = true;
++						kill();
++					}, options.timeout * 1000)
++				: undefined;
++
++		const onAbort = kill;
++
++		if (options?.signal) {
++			if (options.signal.aborted) {
++				onAbort();
++			} else {
++				options.signal.addEventListener("abort", onAbort, { once: true });
++			}
++		}
++
++		child.stdout?.setEncoding("utf8").on("data", (data: string) => collect("stdout", data));
++		child.stderr?.setEncoding("utf8").on("data", (data: string) => collect("stderr", data));
++		child.on("error", (error) => {
++			executionError = error;
++		});
++
++		const finalize = async (code: number | null) => {
++			if (heartbeat) clearInterval(heartbeat);
++			child.stdin?.end();
++			await stopPromise;
++			if (stopError) throw new Error("Container task termination unconfirmed", { cause: stopError });
++			if (timeoutHandle) clearTimeout(timeoutHandle);
++			if (options?.signal) {
++				options.signal.removeEventListener("abort", onAbort);
++			}
++			if (archive) archive.end();
++			await archiveDone;
++			if (archiveError)
++				throw new Error(`Command output archive failed: ${String(archiveError)}`, { cause: archiveError });
++			if (executionError) throw executionError;
++			const preview = `${stdout}\n${stderr}${fullOutputPath ? `\nFull output: ${fullOutputPath}` : ""}`.trim();
++			if (options?.signal?.aborted) {
++				throw new Error(`${preview}\nCommand aborted`.trim(), { cause: options.signal.reason });
++			}
++
++			if (timedOut) {
++				throw new Error(`${preview}\nCommand timed out after ${options?.timeout} seconds`.trim());
++			}
++
++			resolve({
++				stdout,
++				stderr,
++				code: code ?? 128,
++				outputTruncated: fullOutputPath !== undefined,
++				fullOutputPath,
++			});
++		};
++		child.on("close", (code) => {
++			void finalize(code).catch(reject);
++		});
++	});
++}
++
++const unconfirmedDockerTasks = new Set<string>();
++export function assertNoUnconfirmedDockerTasks(): void {
++	if (unconfirmedDockerTasks.size)
++		throw new Error(`Container task exit remains unconfirmed: ${[...unconfirmedDockerTasks].join(", ")}`);
+ }
+ 
+ class DockerExecutor implements Executor {
+@@ -250,10 +286,58 @@
+ 	) {}
+ 
+ 	async exec(command: string, options?: ExecOptions): Promise<ExecResult> {
+-		// 容器名经过白名单校验，命令正文经过 shell 转义，避免宿主机命令注入。
+-		const dockerCmd = `docker exec ${this.container} sh -c ${shellEscape(command)}`;
+-		const hostExecutor = new HostExecutor(this.defaultTimeoutSeconds);
+-		return hostExecutor.exec(dockerCmd, options);
++		if (!/^[a-zA-Z0-9][a-zA-Z0-9_.-]*$/.test(this.container)) throw new Error("Invalid container name");
++		const timeout = options?.timeout ?? this.defaultTimeoutSeconds;
++		if (!Number.isFinite(timeout) || timeout <= 0 || timeout > MAX_EXEC_TIMEOUT_SECONDS)
++			throw new Error("Command timeout must be a positive finite number within the Node timer range");
++		if (options?.signal?.aborted) throw new Error("Command aborted", { cause: options.signal.reason });
++		const identity = randomUUID();
++		const script = readFileSync(fileURLToPath(new URL("../src/docker-supervisor.py", import.meta.url)), "utf8");
++		const root = "/tmp/lightclaw-exec";
++		const cancel = async () => {
++			const result = await new HostExecutor(10).exec(
++				`docker exec ${this.container} python3 -I -u -c ${shellEscape(script)} cancel ${identity} ${root}`,
++				{ timeout: 10 },
++			);
++			if (result.code !== 0 || !result.stdout.includes("STOPPED"))
++				throw new Error("Container task exit could not be confirmed");
++			unconfirmedDockerTasks.delete(identity);
++		};
++		unconfirmedDockerTasks.add(identity);
++		try {
++			const result = await executeProcess(
++				"docker",
++				[
++					"exec",
++					"-i",
++					this.container,
++					"python3",
++					"-I",
++					"-u",
++					"-c",
++					script,
++					"run",
++					identity,
++					root,
++					String(timeout + 1),
++					command,
++				],
++				{ ...options, timeout },
++				{ cancel },
++			);
++			if (result.code !== 0) await cancel();
++			unconfirmedDockerTasks.delete(identity);
++			return result;
++		} catch (error) {
++			try {
++				if (unconfirmedDockerTasks.has(identity)) await cancel();
++			} catch (cleanupError) {
++				throw new Error("Container task termination unconfirmed; keep instance locked for inspection", {
++					cause: cleanupError,
++				});
++			}
++			throw error;
++		}
+ 	}
+ 
+ 	getWorkspacePath(_hostPath: string): string {
+--- batch2-before/packages/lightclaw/src/slack.ts
++++ batch2-after/packages/lightclaw/src/slack.ts
+@@ -4,6 +4,7 @@
+ import { basename, join } from "path";
+ import { readChannelAttachment } from "./attachments.js";
+ import { ChannelQueue, type ChannelQueueOptions } from "./channel-queue.js";
++import type { DurableInbox } from "./durable-inbox.js";
+ import { IdleResourceCache } from "./idle-cache.js";
+ import * as log from "./log.js";
+ import { observePlatformOperation } from "./platform-operations.js";
+@@ -27,6 +28,26 @@
+ 
+ export class SlackBot implements ChatTransport {
+ 	readonly kind = "slack" as const;
++	readonly inbox?: DurableInbox;
++	readonly queueWaitMs: number;
++	get queueCapacity(): number {
++		return this.queueOptions.maxPending;
++	}
++	get durableAdmission(): boolean {
++		return this.inbox !== undefined;
++	}
++	async stop(): Promise<void> {
++		this.inbox?.stopAdmission();
++		const queues = this.queues.values();
++		for (const queue of queues) queue.close();
++		await Promise.all(queues.map((queue) => queue.drain()));
++		this.queues.close();
++		await this.socketClient.disconnect();
++	}
++	enqueueAccepted(event: ChatEvent, isEvent: boolean): boolean {
++		return enqueueChatEvent(() => this.getQueue(event.channel), event, this.handler, this, isEvent);
++	}
++
+ 	private socketClient: SocketModeClient;
+ 	private webClient: WebClient;
+ 	private handler: LightClawHandler;
+@@ -47,6 +68,7 @@
+ 			appToken: string;
+ 			botToken: string;
+ 			workingDir: string;
++			inbox?: DurableInbox;
+ 			store: ChannelStore;
+ 			platformTimeoutMs?: number;
+ 			schedulingEnabled?: boolean;
+@@ -72,6 +94,8 @@
+ 		this.handler = handler;
+ 		this.platformTimeoutMs = config.platformTimeoutMs ?? 30_000;
+ 		this.workingDir = config.workingDir;
++		this.inbox = config.inbox;
++		this.queueWaitMs = config.queueMaxWaitMs ?? 300_000;
+ 		this.store = config.store;
+ 		this.socketClient = new SocketModeClient({ appToken: config.appToken });
+ 		this.webClient = new WebClient(config.botToken, {
+@@ -224,7 +248,7 @@
+ 			slackEvent.attachments = this.logUserMessage(slackEvent);
+ 
+ 			// Only trigger processing for messages AFTER startup (not replayed old messages)
+-			if (this.startupTs && e.ts < this.startupTs) {
++			if (!this.inbox && this.startupTs && e.ts < this.startupTs) {
+ 				log.logInfo(
+ 					`[${e.channel}] Logged old message (pre-startup), not triggering: ${slackEvent.text.substring(0, 30)}`,
+ 				);
+@@ -267,7 +291,7 @@
+ 			}
+ 
+ 			// SYNC: Check if busy
+-			if (this.handler.isRunning(e.channel)) {
++			if (!this.inbox && this.handler.isRunning(e.channel)) {
+ 				void observePlatformOperation(
+ 					() => this.postMessage(e.channel, "_Already working. Say `@lightclaw stop` to cancel._"),
+ 					this.workingDir,
+@@ -333,7 +357,7 @@
+ 			slackEvent.attachments = this.logUserMessage(slackEvent);
+ 
+ 			// Only trigger processing for messages AFTER startup (not replayed old messages)
+-			if (this.startupTs && e.ts < this.startupTs) {
++			if (!this.inbox && this.startupTs && e.ts < this.startupTs) {
+ 				log.logInfo(`[${e.channel}] Skipping old message (pre-startup): ${slackEvent.text.substring(0, 30)}`);
+ 				ack();
+ 				return;
+@@ -375,7 +399,7 @@
+ 					return;
+ 				}
+ 
+-				if (this.handler.isRunning(e.channel)) {
++				if (!this.inbox && this.handler.isRunning(e.channel)) {
+ 					void observePlatformOperation(
+ 						() => this.postMessage(e.channel, "_Already working. Say `stop` to cancel._"),
+ 						this.workingDir,
+--- batch2-before/packages/lightclaw/src/transport.ts
++++ batch2-after/packages/lightclaw/src/transport.ts
+@@ -1,3 +1,4 @@
++import type { DurableInbox } from "./durable-inbox.js";
+ import type { Attachment } from "./store.js";
+ 
+ export type ChatEventOrigin = "platform" | "scheduled" | "recovery" | "continuation";
+@@ -26,6 +27,11 @@
+ 
+ export interface ChatTransport {
+ 	readonly kind: "feishu" | "slack";
++	readonly inbox?: DurableInbox;
++	readonly queueWaitMs?: number;
++	readonly queueCapacity?: number;
++	readonly durableAdmission?: boolean;
++	stop?(): Promise<void>;
+ 	start(): Promise<void>;
+ 	getUser(userId: string): ChatUser | undefined;
+ 	getChannel(channelId: string): ChatChannel | undefined;
+@@ -39,6 +45,7 @@
+ 	uploadFile(channel: string, filePath: string, title?: string): Promise<void>;
+ 	logBotResponse(channel: string, text: string, messageId: string): void;
+ 	enqueueEvent(event: ChatEvent): boolean;
++	enqueueAccepted?(event: ChatEvent, isEvent: boolean): boolean;
+ }
+ 
+ export interface ChatContext {
+--- batch2-before/packages/lightclaw/test/docker-cancellation.test.ts
++++ batch2-after/packages/lightclaw/test/docker-cancellation.test.ts
+@@ -0,0 +1,74 @@
++import { type ChildProcess, spawn } from "node:child_process";
++import { chmodSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
++import { tmpdir } from "node:os";
++import { join } from "node:path";
++import { fileURLToPath } from "node:url";
++import { afterEach, expect, it, vi } from "vitest";
++import { createExecutor } from "../src/sandbox.js";
++
++const roots: string[] = [];
++const children: ChildProcess[] = [];
++afterEach(() => {
++	vi.unstubAllEnvs();
++	for (const child of children.splice(0)) child.kill("SIGKILL");
++	for (const root of roots.splice(0)) rmSync(root, { recursive: true, force: true });
++});
++const pause = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
++function fixture() {
++	const root = mkdtempSync(join(tmpdir(), "lightclaw-docker-offline-"));
++	roots.push(root);
++	const bin = join(root, "bin");
++	mkdirSync(bin);
++	const executable = join(bin, "docker");
++	// Transport shim executes the actual Python supervisor locally. This is NOT Docker evidence.
++	writeFileSync(
++		executable,
++		`#!/usr/bin/env python3\nimport os,sys\na=sys.argv[1:]\nassert a.pop(0)=='exec'\nif a[0]=='-i':a.pop(0)\nassert a.pop(0)=='batch2-offline'\nassert a[0]=='python3'\na=[v.replace('/tmp/lightclaw-exec', ${JSON.stringify(join(root, "tasks"))}) for v in a]\nos.execvp(a[0],a)\n`,
++	);
++	chmodSync(executable, 0o700);
++	vi.stubEnv("PATH", `${bin}:${process.env.PATH}`);
++	const log = join(root, "writes");
++	const command = `while :; do echo child >> '${log}'; sleep 0.03; done & while :; do echo parent >> '${log}'; sleep 0.03; done`;
++	return { root, log, command, executor: createExecutor({ type: "docker", container: "batch2-offline" }, 10) };
++}
++async function writing(path: string) {
++	await vi.waitFor(() => expect(existsSync(path) && statSync(path).size > 20).toBe(true), { timeout: 3000 });
++}
++async function stopped(path: string) {
++	const size = statSync(path).size;
++	await pause(250);
++	expect(statSync(path).size).toBe(size);
++}
++it("cancellation confirms that both shell and background child stopped writing", async () => {
++	const f = fixture();
++	const signal = new AbortController();
++	const run = f.executor.exec(f.command, { signal: signal.signal });
++	const result = expect(run).rejects.toThrow("aborted");
++	await writing(f.log);
++	signal.abort();
++	await result;
++	await stopped(f.log);
++	expect(readFileSync(f.log, "utf8")).toContain("parent");
++	expect(readFileSync(f.log, "utf8")).toContain("child");
++});
++it("timeout stops actual task bytes, not only the host client", async () => {
++	const f = fixture();
++	await expect(f.executor.exec(f.command, { timeout: 0.4 })).rejects.toThrow("timed out");
++	await stopped(f.log);
++});
++it.each(["SIGTERM", "SIGKILL"] as const)("owner %s loses heartbeat and the task stops writing", async (signal) => {
++	const f = fixture();
++	const source = fileURLToPath(new URL("../src/sandbox.ts", import.meta.url));
++	const code = `import {createExecutor} from ${JSON.stringify(source)}; await createExecutor({type:'docker',container:'batch2-offline'},30).exec(process.argv[1]);`;
++	const child = spawn(process.execPath, ["--import", "tsx", "--input-type=module", "-e", code, f.command], {
++		stdio: ["ignore", "ignore", "pipe"],
++		env: { ...process.env },
++	});
++	children.push(child);
++	await writing(f.log);
++	const exited = new Promise((resolve) => child.once("exit", resolve));
++	child.kill(signal);
++	await exited;
++	await pause(1800);
++	await stopped(f.log);
++});
+--- batch2-before/packages/lightclaw/test/docker-live.test.ts
++++ batch2-after/packages/lightclaw/test/docker-live.test.ts
+@@ -0,0 +1,112 @@
++import { type ChildProcess, execFileSync, spawn } from "node:child_process";
++import { randomUUID } from "node:crypto";
++import { existsSync, mkdtempSync, readFileSync, rmSync, statSync } from "node:fs";
++import { tmpdir } from "node:os";
++import { join } from "node:path";
++import { fileURLToPath } from "node:url";
++import { afterEach, expect, it, vi } from "vitest";
++import { createExecutor } from "../src/sandbox.js";
++
++const resources: Array<{ id: string; label: string; root: string }> = [];
++const owners: ChildProcess[] = [];
++const labelKey = "io.lightclaw.batch2-test";
++const docker = (args: string[]) => execFileSync("docker", args, { encoding: "utf8", timeout: 15_000 });
++const quote = (s: string) => `'${s.replace(/'/g, "'\\''")}'`;
++afterEach(async () => {
++	for (const child of owners.splice(0))
++		if (child.exitCode === null && child.signalCode === null) {
++			const exited = new Promise((resolve) => child.once("exit", resolve));
++			child.kill("SIGKILL");
++			await exited;
++		}
++	for (const r of resources.splice(0)) {
++		const label = docker(["inspect", "-f", `{{index .Config.Labels ${JSON.stringify(labelKey)}}}`, r.id]).trim();
++		if (label !== r.label) throw new Error("Refusing cleanup: resource ownership label mismatch");
++		docker(["rm", "-f", r.id]);
++		rmSync(r.root, { recursive: true, force: true });
++	}
++});
++// Explicit opt-in only. Default CI and local offline suite never contact Docker.
++it.skipIf(process.env.LIGHTCLAW_DOCKER_FAULT_TESTS !== "1").each(["cancel", "timeout", "SIGTERM", "SIGKILL"] as const)(
++	"real isolated Docker task stops descendants: %s",
++	async (mode) => {
++		const root = mkdtempSync(join(tmpdir(), "lightclaw-batch2-live-"));
++		const label = randomUUID();
++		const name = `lightclaw-batch2-${label}`;
++		let id: string;
++		try {
++			id = docker([
++				"run",
++				"--pull=never",
++				"-d",
++				"--name",
++				name,
++				"--label",
++				`${labelKey}=${label}`,
++				"--network=none",
++				"--read-only",
++				"--cpus=1",
++				"--memory=128m",
++				"--pids-limit=64",
++				"--cap-drop=ALL",
++				"--security-opt=no-new-privileges",
++				"--user",
++				`${process.getuid?.() ?? 1000}:${process.getgid?.() ?? 1000}`,
++				"--tmpfs",
++				"/tmp:rw,nosuid,nodev,size=16m",
++				"--mount",
++				`type=bind,source=${root},target=/workspace`,
++				process.env.LIGHTCLAW_DOCKER_TEST_IMAGE ?? "lightclaw-sandbox:local",
++				"sh",
++				"-c",
++				"while :; do sleep 3600; done",
++			]).trim();
++		} catch (error) {
++			rmSync(root, { recursive: true, force: true });
++			throw error;
++		}
++		if (!/^[a-f0-9]{64}$/.test(id)) throw new Error("Invalid created container ID");
++		resources.push({ id, label, root });
++		const log = join(root, "writes");
++		const detached =
++			"import time; f=open('/workspace/writes','a'); [(f.write('detached\\n'),f.flush(),time.sleep(.03)) for _ in iter(int,1)]";
++		const launch = `import subprocess; subprocess.Popen(['python3','-c',${JSON.stringify(detached)}],start_new_session=True,env={'PATH':'/usr/local/bin:/usr/bin:/bin'})`;
++		const command = `python3 -c ${quote(launch)}; while :; do echo parent >> /workspace/writes; sleep .03; done`;
++		const waitWriting = async () => {
++			await vi.waitFor(() => expect(existsSync(log) && readFileSync(log, "utf8").includes("detached")).toBe(true), {
++				timeout: 5000,
++			});
++		};
++		if (mode === "cancel") {
++			const controller = new AbortController();
++			const result = createExecutor({ type: "docker", container: id }, 10).exec(command, {
++				signal: controller.signal,
++			});
++			const done = expect(result).rejects.toThrow("aborted");
++			await waitWriting();
++			controller.abort();
++			await done;
++		} else if (mode === "timeout") {
++			await expect(createExecutor({ type: "docker", container: id }).exec(command, { timeout: 1 })).rejects.toThrow(
++				"timed out",
++			);
++			await waitWriting();
++		} else {
++			const source = fileURLToPath(new URL("../src/sandbox.ts", import.meta.url));
++			const code = `import {createExecutor} from ${JSON.stringify(source)}; await createExecutor({type:'docker',container:process.argv[1]},30).exec(process.argv[2]);`;
++			const child = spawn(process.execPath, ["--import", "tsx", "--input-type=module", "-e", code, id, command], {
++				stdio: ["ignore", "ignore", "pipe"],
++			});
++			owners.push(child);
++			await waitWriting();
++			const exited = new Promise((resolve) => child.once("exit", resolve));
++			child.kill(mode);
++			await exited;
++			await new Promise((r) => setTimeout(r, 2000));
++		}
++		const size = statSync(log).size;
++		await new Promise((r) => setTimeout(r, 400));
++		expect(statSync(log).size).toBe(size);
++	},
++	15_000,
++);
+--- batch2-before/packages/lightclaw/test/durable-admission.test.ts
++++ batch2-after/packages/lightclaw/test/durable-admission.test.ts
+@@ -0,0 +1,178 @@
++import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
++import { tmpdir } from "node:os";
++import { join } from "node:path";
++import { afterEach, expect, it, vi } from "vitest";
++import { ChannelQueue } from "../src/channel-queue.js";
++import { DurableInbox } from "../src/durable-inbox.js";
++import { EventsWatcher } from "../src/events.js";
++import { enqueueChatEvent } from "../src/queued-events.js";
++import type { ChatEvent, ChatHandler, ChatTransport } from "../src/transport.js";
++
++const roots: string[] = [];
++const watchers: EventsWatcher[] = [];
++afterEach(() => {
++	for (const watcher of watchers.splice(0)) watcher.stop();
++	vi.useRealTimers();
++	for (const dir of roots.splice(0)) rmSync(dir, { recursive: true, force: true });
++});
++const event: ChatEvent = {
++	origin: "platform",
++	type: "dm",
++	channel: "channel",
++	ts: "1",
++	user: "fictional",
++	text: "work",
++};
++function fixture() {
++	const dir = mkdtempSync(join(tmpdir(), "lightclaw-admission-"));
++	roots.push(dir);
++	const inbox = new DurableInbox(join(dir, "inbox"));
++	const queue = new ChannelQueue(undefined, { maxPending: 1, maxWaitMs: 30 });
++	const handler: ChatHandler = {
++		isRunning: () => false,
++		handleStop: async () => {},
++		handleEvent: async () => {},
++		handleQueueFailure: async () => {},
++	};
++	const transport: ChatTransport = {
++		kind: "slack",
++		inbox,
++		durableAdmission: true,
++		queueWaitMs: 60_000,
++		start: async () => {},
++		getUser: () => undefined,
++		getChannel: () => undefined,
++		getAllUsers: () => [],
++		getAllChannels: () => [],
++		postMessage: async () => "mock",
++		updateMessage: async () => {},
++		deleteMessage: async () => {},
++		postInThread: async () => "mock",
++		uploadFile: async () => {},
++		logBotResponse: () => {},
++		enqueueEvent: (e) => enqueueChatEvent(queue, e, handler, transport, true),
++	};
++	return { dir, inbox, queue, handler, transport };
++}
++it("persists acceptance before running and retains queued work across shutdown/restart", async () => {
++	const f = fixture();
++	let release!: () => void;
++	const head = f.queue.enqueue(
++		() =>
++			new Promise<void>((r) => {
++				release = r;
++			}),
++	);
++	expect(enqueueChatEvent(f.queue, event, f.handler, f.transport)).toBe(true);
++	const stored = f.inbox.list()[0];
++	expect(stored.status).toBe("queued");
++	f.inbox.stopAdmission();
++	f.queue.close();
++	expect(enqueueChatEvent(f.queue, { ...event, ts: "2" }, f.handler, f.transport)).toBe(false);
++	release();
++	await head;
++	await f.queue.drain();
++	const recovered = new DurableInbox(join(f.dir, "inbox"));
++	expect(recovered.recover().map((r) => r.id)).toEqual([stored.id]);
++	let executed = 0;
++	f.handler.handleEvent = async () => {
++		executed++;
++	};
++	const nextQueue = new ChannelQueue();
++	const transport = { ...f.transport, inbox: recovered };
++	expect(enqueueChatEvent(nextQueue, event, f.handler, transport)).toBe(true);
++	await nextQueue.drain();
++	expect(executed).toBe(1);
++	expect(recovered.get(stored.id)?.status).toBe("completed");
++	expect(enqueueChatEvent(nextQueue, event, f.handler, transport)).toBe(true);
++	await nextQueue.drain();
++	expect(executed).toBe(1);
++});
++it("records capacity rejection and expiry without silently executing either", async () => {
++	const f = fixture();
++	let release!: () => void;
++	const head = f.queue.enqueue(
++		() =>
++			new Promise<void>((r) => {
++				release = r;
++			}),
++	);
++	expect(enqueueChatEvent(f.queue, event, f.handler, f.transport)).toBe(true);
++	expect(enqueueChatEvent(f.queue, { ...event, ts: "2" }, f.handler, f.transport)).toBe(false);
++	await vi.waitFor(() =>
++		expect(
++			f.inbox
++				.list()
++				.map((r) => r.status)
++				.sort(),
++		).toEqual(["expired", "rejected"]),
++	);
++	release();
++	await head;
++});
++it("does not acknowledge acceptance or execute when persistence fails", () => {
++	const f = fixture();
++	rmSync(join(f.dir, "inbox"), { recursive: true });
++	writeFileSync(join(f.dir, "inbox"), "blocked");
++	expect(() => enqueueChatEvent(f.queue, event, f.handler, f.transport)).toThrow();
++	expect(f.queue.statistics().accepted).toBe(0);
++});
++it("retains an event source after memory-only enqueue or rejection, and removes it only after durable acceptance", async () => {
++	const f = fixture();
++	const events = join(f.dir, "events");
++	mkdirSync(events);
++	const path = join(events, "once.json");
++	const body = { type: "one-shot", at: "2020-01-01T00:00:00Z", channelId: "channel", text: "fictional overdue work" };
++	writeFileSync(path, JSON.stringify(body));
++	const memory = new EventsWatcher(events, { enqueueEvent: () => true });
++	watchers.push(memory);
++	memory.start();
++	await new Promise((r) => setTimeout(r, 50));
++	expect(existsSync(path)).toBe(true);
++	memory.stop();
++	const durable = new EventsWatcher(events, f.transport);
++	watchers.push(durable);
++	durable.start();
++	await vi.waitFor(() => expect(existsSync(path)).toBe(false));
++	const record = f.inbox.list()[0];
++	expect(record.event.origin).toBe("scheduled");
++	expect(record.status).toBe("completed");
++	expect(readFileSync(join(f.dir, "inbox", `${record.id}.json`), "utf8")).toContain("fictional overdue work");
++});
++
++it("drains a durable backlog after restart even with a smaller memory queue", async () => {
++	const f = fixture();
++	for (const ts of ["1", "2", "3", "4"]) f.inbox.admit("slack", { ...event, ts }, false, 60_000);
++	const ran: string[] = [];
++	f.handler.handleEvent = async (e) => {
++		ran.push(e.ts);
++		await new Promise((r) => setTimeout(r, 5));
++	};
++	for (const r of f.inbox.recover()) expect(enqueueChatEvent(f.queue, r.event, f.handler, f.transport)).toBe(true);
++	await vi.waitFor(() => expect(ran).toEqual(["1", "2", "3", "4"]));
++	await f.queue.drain();
++	expect(f.inbox.list().every((r) => r.status === "completed")).toBe(true);
++});
++it("persists startup arrivals without dispatching them, and holds follow-ups behind unknown work", async () => {
++	const f = fixture();
++	let ran = 0;
++	f.handler.handleEvent = async () => {
++		ran++;
++	};
++	f.inbox.dispatchPaused = true;
++	expect(enqueueChatEvent(f.queue, event, f.handler, f.transport)).toBe(true);
++	expect(ran).toBe(0);
++	const first = f.inbox.list()[0];
++	f.inbox.dispatchPaused = false;
++	f.inbox.start(first.id);
++	f.inbox.recover();
++	expect(enqueueChatEvent(f.queue, { ...event, ts: "2" }, f.handler, f.transport)).toBe(true);
++	await Promise.resolve();
++	expect(ran).toBe(0);
++	expect(
++		f.inbox
++			.list()
++			.map((r) => r.status)
++			.sort(),
++	).toEqual(["queued", "unknown"]);
++});
+--- batch2-before/packages/lightclaw/test/durable-work.test.ts
++++ batch2-after/packages/lightclaw/test/durable-work.test.ts
+@@ -0,0 +1,102 @@
++import { mkdtempSync, rmSync } from "node:fs";
++import { tmpdir } from "node:os";
++import { join } from "node:path";
++import { afterEach, expect, it } from "vitest";
++import { DurableInbox } from "../src/durable-inbox.js";
++import { OperationJournal, type OperationService } from "../src/operations.js";
++import type { ChatEvent } from "../src/transport.js";
++
++const roots: string[] = [];
++afterEach(() => {
++	for (const p of roots.splice(0)) rmSync(p, { recursive: true, force: true });
++});
++function root() {
++	const p = mkdtempSync(join(tmpdir(), "lightclaw-durable-"));
++	roots.push(p);
++	return p;
++}
++const event: ChatEvent = {
++	origin: "platform",
++	type: "dm",
++	channel: "channel",
++	user: "fictional",
++	ts: "1",
++	text: "work",
++};
++it("recovers queued work, preserves deduplication and quarantines interrupted execution", () => {
++	const dir = root();
++	const first = new DurableInbox(dir);
++	const a = first.admit("slack", event, false, 60_000);
++	const b = first.admit("slack", { ...event, ts: "2" }, false, 60_000);
++	first.start(a.id);
++	const next = new DurableInbox(dir);
++	const queued = next.recover();
++	expect(queued.map((r) => r.id)).toEqual([b.id]);
++	expect(next.get(a.id)?.status).toBe("unknown");
++	expect(next.admit("slack", event, false, 60_000).id).toBe(a.id);
++	expect(next.get(a.id)?.status).toBe("unknown");
++	expect(() => next.retry(a.id)).toThrow("manual");
++	next.retry(a.id, true);
++	next.start(a.id);
++	next.finish(a.id, "dead", "injected");
++	next.retry(a.id, true);
++	next.start(a.id);
++	next.finish(a.id, "dead", "injected");
++	expect(() => next.retry(a.id, true)).toThrow("attempt");
++});
++it("retains expired and rejected outcomes and refuses changed payload for a duplicate identity", () => {
++	const inbox = new DurableInbox(root());
++	const item = inbox.admit("feishu", event, true, 1, 100);
++	expect(inbox.recover(102)).toEqual([]);
++	expect(inbox.get(item.id)?.status).toBe("expired");
++	expect(() => inbox.admit("feishu", { ...event, text: "changed" }, true, 10)).toThrow("identity");
++});
++it("uses stable external IDs, queries uncertain effects, and never silently retries an unknown service", async () => {
++	const dir = root();
++	let writes = 0;
++	const effects = new Map<string, unknown>();
++	const service: OperationService = {
++		replaySafe: true,
++		execute: async (id, request) => {
++			writes++;
++			effects.set(id, request);
++			throw new Error("response lost after external success");
++		},
++		query: async (id) => (effects.has(id) ? { status: "found", result: effects.get(id) } : { status: "absent" }),
++	};
++	const first = await new OperationJournal(dir).execute("goal", "step-1", { value: 1 }, service);
++	expect(first.status).toBe("unknown");
++	const next = await new OperationJournal(dir).execute("goal", "step-1", { value: 1 }, service);
++	expect(next.status).toBe("succeeded");
++	expect(next.id).toBe(first.id);
++	expect(writes).toBe(1);
++	await expect(new OperationJournal(dir).execute("goal", "step-1", { value: 2 }, service)).rejects.toThrow("request");
++	const unknown: OperationService = {
++		replaySafe: false,
++		execute: async () => {
++			throw new Error("lost");
++		},
++		query: async () => ({ status: "unknown" }),
++	};
++	const journal = new OperationJournal(dir);
++	await journal.execute("goal", "unknown", {}, unknown);
++	expect((await new OperationJournal(dir).execute("goal", "unknown", {}, unknown)).status).toBe("manual");
++});
++it("serializes concurrent callers and safely reuses a saved success before notification", async () => {
++	const journal = new OperationJournal(root());
++	let writes = 0;
++	const service: OperationService = {
++		replaySafe: true,
++		query: async () => ({ status: "absent" }),
++		execute: async () => {
++			writes++;
++			return { receipt: "r1" };
++		},
++	};
++	const records = await Promise.all([
++		journal.execute("task", "send", {}, service),
++		journal.execute("task", "send", {}, service),
++	]);
++	expect(records.map((r) => r.status)).toEqual(["succeeded", "succeeded"]);
++	expect(writes).toBe(1);
++});
+--- batch2-before/packages/lightclaw/test/fixtures/mock-operation-service.py
++++ batch2-after/packages/lightclaw/test/fixtures/mock-operation-service.py
+@@ -0,0 +1,47 @@
++"""Independent loopback mock service with atomic ID deduplication and result query."""
++import http.server
++import json
++import os
++import pathlib
++import sys
++import threading
++root = pathlib.Path(sys.argv[1])
++root.mkdir(parents=True, exist_ok=True)
++path = root / "effects.json"
++mutex = threading.Lock()
++class Handler(http.server.BaseHTTPRequestHandler):
++    def log_message(self, *args):
++        pass
++    def reply(self, status, data):
++        body = json.dumps(data).encode()
++        self.send_response(status)
++        self.send_header("Content-Type", "application/json")
++        self.send_header("Content-Length", str(len(body)))
++        self.end_headers()
++        self.wfile.write(body)
++    def do_GET(self):
++        identity = self.path.split("/")[-1]
++        with mutex:
++            data = json.loads(path.read_text()) if path.exists() else {}
++        self.reply(200, {"status": "found", "result": data[identity]["result"]} if identity in data else {"status": "absent"})
++    def do_POST(self):
++        identity = self.path.split("/")[-1]
++        request = json.loads(self.rfile.read(int(self.headers["Content-Length"])))
++        with mutex:
++            data = json.loads(path.read_text()) if path.exists() else {}
++            if identity not in data:
++                data[identity] = {"request": request, "result": {"receipt": identity, "effect_number": len(data) + 1}}
++                tmp = path.with_suffix(".tmp")
++                with tmp.open("w") as stream:
++                    json.dump(data, stream)
++                    stream.flush()
++                    os.fsync(stream.fileno())
++                tmp.replace(path)
++            if data[identity]["request"] != request:
++                self.reply(409, {"error": "identity conflict"})
++                return
++            result = data[identity]["result"]
++        self.reply(200, result)
++server = http.server.ThreadingHTTPServer(("127.0.0.1", 0), Handler)
++print(server.server_port, flush=True)
++server.serve_forever()
+--- batch2-before/packages/lightclaw/test/fixtures/recovery-worker.ts
++++ batch2-after/packages/lightclaw/test/fixtures/recovery-worker.ts
+@@ -0,0 +1,89 @@
++import { writeFileSync } from "node:fs";
++import { join } from "node:path";
++import { DurableInbox } from "../../src/durable-inbox.js";
++import { acquireControlLock } from "../../src/goals/control.js";
++import { GoalStore } from "../../src/goals/store.js";
++import { OperationJournal, type OperationQuery, type OperationService } from "../../src/operations.js";
++
++const [root, endpoint, phase] = process.argv.slice(2);
++if (!/^http:\/\/127\.0\.0\.1:\d+$/.test(endpoint)) throw new Error("Mock loopback endpoint required");
++const lock = acquireControlLock(join(root, "control"));
++const inbox = new DurableInbox(join(root, "control", "inbox"));
++const record = inbox.admit(
++	"mock",
++	{ origin: "platform", channel: "channel", type: "dm", ts: "message-1", user: "fictional", text: "controlled step" },
++	false,
++	60_000,
++);
++const goals = new GoalStore({
++	channelDir: join(root, "workspace", "channel"),
++	controlChannelDir: join(root, "control", "channel"),
++	limits: { maxCycles: 8, maxFailures: 2, maxStaleCycles: 2 },
++});
++if (!goals.get())
++	await goals.create(
++		{
++			objective: "controlled fictional effect",
++			ownerUserId: "fictional",
++			acceptance: { mode: "manual" },
++		},
++		new AbortController().signal,
++	);
++const checkpoint = async (name: string) => {
++	console.log(name);
++	await new Promise<void>(() => {
++		setInterval(() => {}, 1000);
++	});
++};
++if (phase === "queued") await checkpoint("QUEUED");
++const service: OperationService = {
++	replaySafe: true,
++	query: async (id) => (await (await fetch(`${endpoint}/operations/${id}`)).json()) as OperationQuery,
++	execute: async (id, request) => {
++		if (phase === "before-operation") await checkpoint("BEFORE_OPERATION");
++		const response = await fetch(`${endpoint}/operations/${id}`, {
++			method: "POST",
++			headers: { "Content-Type": "application/json" },
++			body: JSON.stringify(request),
++		});
++		if (!response.ok) throw new Error(`mock service error ${response.status}`);
++		const receipt: unknown = await response.json();
++		if (phase === "effect-before-progress") await checkpoint("EFFECT_SAVED");
++		return receipt;
++	},
++};
++inbox.recover();
++if (inbox.get(record.id)?.status === "queued") inbox.start(record.id);
++const result = await new OperationJournal(join(root, "control", "operations")).execute(
++	"goal-id",
++	"business-step-1",
++	{ action: "fictional-credit", amount: 7 },
++	service,
++);
++if (result.status !== "succeeded") throw new Error(`unresolved ${result.status}`);
++if (goals.get()?.status !== "completed") {
++	const completion = await goals.requestCompletion(
++		{ summary: "mock effect reconciled", evidence: [result.id] },
++		{
++			channelDir: join(root, "workspace", "channel"),
++			sandbox: { type: "host" },
++			signal: new AbortController().signal,
++			assertActive: () => {},
++			reserveCommand: () => ({ timeoutSeconds: 1 }),
++			executor: {
++				getWorkspacePath: (path) => path,
++				exec: async () => {
++					throw new Error("mock flow has no shell command");
++				},
++			},
++		},
++	);
++	if (!completion.goal) throw new Error("missing goal completion");
++	await goals.confirm(completion.goal.id, completion.report.attemptId, "fictional", new AbortController().signal);
++}
++writeFileSync(join(root, "saved-result.json"), JSON.stringify(result));
++if (phase === "state-before-notification") await checkpoint("STATE_SAVED");
++writeFileSync(join(root, "notification.json"), JSON.stringify({ operationId: result.id, receipt: result.result }));
++inbox.finish(record.id, "completed", "controlled mock result reconciled; no arbitrary shell replay");
++console.log("DONE");
++lock.release();
+--- batch2-before/packages/lightclaw/test/goal-control.test.ts
++++ batch2-after/packages/lightclaw/test/goal-control.test.ts
+@@ -3,7 +3,6 @@
+ import { join } from "node:path";
+ import { afterEach, describe, expect, it, vi } from "vitest";
+ import {
+-	acquireControlLock,
+ 	assertControlIsolation,
+ 	resolveControlChannelDirectory,
+ 	resolveControlDirectory,
+@@ -57,21 +56,6 @@
+ 		});
+ 		await expect(assertControlIsolation(workspace, control, { type: "docker", container: "mock" })).rejects.toThrow();
+ 	});
+-	it("holds one owner token and never releases a replacement lock", () => {
+-		const root = mkdtempSync(join(tmpdir(), "control-lock-"));
+-		roots.push(root);
+-		const lock = acquireControlLock(root);
+-		expect(() => acquireControlLock(root)).toThrow();
+-		writeFileSync(join(root, "instance.lock"), "replacement");
+-		lock.release();
+-		expect(() => acquireControlLock(root)).toThrow();
+-	});
+-	it("releases its own lock", () => {
+-		const root = mkdtempSync(join(tmpdir(), "control-lock-"));
+-		roots.push(root);
+-		acquireControlLock(root).release();
+-		acquireControlLock(root).release();
+-	});
+ });
+ 
+ it("rejects a filesystem-root control directory and root mount coverage", async () => {
+--- batch2-before/packages/lightclaw/test/instance-lock.test.ts
++++ batch2-after/packages/lightclaw/test/instance-lock.test.ts
+@@ -0,0 +1,51 @@
++import { type ChildProcess, spawn } from "node:child_process";
++import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
++import { tmpdir } from "node:os";
++import { join } from "node:path";
++import { fileURLToPath } from "node:url";
++import { afterEach, expect, it } from "vitest";
++import { acquireControlLock } from "../src/goals/control.js";
++
++const roots: string[] = [];
++const children: ChildProcess[] = [];
++afterEach(() => {
++	for (const p of children.splice(0)) p.kill("SIGKILL");
++	for (const p of roots.splice(0)) rmSync(p, { recursive: true, force: true });
++});
++function root() {
++	const p = mkdtempSync(join(tmpdir(), "lightclaw-lock-"));
++	roots.push(p);
++	return p;
++}
++it("reuses a stale file and excludes a live owner without unlinking", () => {
++	const dir = root();
++	writeFileSync(join(dir, "instance.lock"), "old-crashed-token");
++	const first = acquireControlLock(dir);
++	try {
++		expect(() => acquireControlLock(dir)).toThrow();
++	} finally {
++		first.release();
++	}
++	acquireControlLock(dir).release();
++});
++it.each(["SIGTERM", "SIGKILL"] as const)("kernel releases ownership after owner %s", async (signal) => {
++	const dir = root();
++	const module = fileURLToPath(new URL("../src/goals/control.ts", import.meta.url));
++	const code = `import {acquireControlLock} from ${JSON.stringify(module)}; acquireControlLock(process.argv[1]); console.log("LOCKED");setInterval(()=>{},1000);`;
++	const child = spawn(process.execPath, ["--import", "tsx", "--input-type=module", "-e", code, dir], {
++		stdio: ["ignore", "pipe", "pipe"],
++	});
++	children.push(child);
++	await new Promise<void>((resolve, reject) => {
++		child.stdout?.once("data", () => resolve());
++		child.once("error", reject);
++		child.once("exit", (code) => {
++			if (code) reject(new Error("owner exited early"));
++		});
++	});
++	expect(() => acquireControlLock(dir)).toThrow();
++	const exited = new Promise((resolve) => child.once("exit", resolve));
++	child.kill(signal);
++	await exited;
++	acquireControlLock(dir).release();
++});
+--- batch2-before/packages/lightclaw/test/main-lifecycle.test.ts
++++ batch2-after/packages/lightclaw/test/main-lifecycle.test.ts
+@@ -3,6 +3,8 @@
+ import { afterAll, afterEach, describe, expect, it, vi } from "vitest";
+ import type { AgentRunner, AgentRunResult } from "../src/agent.js";
+ import type { LightClawConfig } from "../src/config.js";
++import { DurableInbox } from "../src/durable-inbox.js";
++import { acquireControlLock } from "../src/goals/control.js";
+ import type { GoalStore } from "../src/goals/store.js";
+ import type { GoalState } from "../src/goals/types.js";
+ import type { ChatContext, ChatEvent, ChatHandler, ChatTransport } from "../src/transport.js";
+@@ -141,6 +143,40 @@
+ 				}),
+ 			);
+ 		}
++
++		mkdirSync(join(audit.control, "recovery-unknown"));
++		writeFileSync(
++			join(audit.control, "recovery-unknown", "goal.json"),
++			readFileSync(join(audit.control, "recovery-active", "goal.json"), "utf8"),
++		);
++		const inbox = new DurableInbox(join(audit.control, ".inbox"));
++		const uncertain = inbox.admit(
++			"feishu",
++			{
++				origin: "platform",
++				channel: "recovery-unknown",
++				type: "dm",
++				ts: "interrupted",
++				user: "audit-user",
++				text: "work",
++			},
++			false,
++			60_000,
++		);
++		inbox.start(uncertain.id);
++		inbox.admit(
++			"feishu",
++			{
++				origin: "platform",
++				channel: "recovery-unknown",
++				type: "dm",
++				ts: "follow-up",
++				user: "audit-user",
++				text: "continue",
++			},
++			false,
++			60_000,
++		);
+ 		mkdirSync(join(audit.control, "broken"));
+ 		writeFileSync(join(audit.control, "broken", "goal.json"), "{}");
+ 		mkdirSync(join(audit.directory, "legacy"));
+@@ -189,7 +225,7 @@
+ 	},
+ }));
+ 
+-import "../src/main.js";
++import { shutdown } from "../src/main.js";
+ 
+ function handler(): ChatHandler {
+ 	if (!audit.state.handler) throw new Error("main did not construct transport");
+@@ -591,3 +627,66 @@
+ 	expect(goal(channel)?.status).toBe(control === "cancel" ? "cancelled" : "paused");
+ 	expect(audit.state.calls.get(channel)).toBe(1);
+ });
++
++it("quarantines queued follow-ups in a channel with uncertain interrupted work", async () => {
++	const inbox = new DurableInbox(join(audit.control, ".inbox"));
++	expect(
++		inbox
++			.list()
++			.map((r) => r.status)
++			.sort(),
++	).toEqual(["queued", "unknown"]);
++	expect(audit.state.recovery.some((e) => e.channel === "recovery-unknown")).toBe(false);
++	expect(audit.state.calls.get("recovery-unknown")).toBeUndefined();
++	await expect(
++		handler().handleEvent(
++			{
++				origin: "platform",
++				type: "dm",
++				channel: "recovery-unknown",
++				user: "audit-user",
++				ts: "new-followup",
++				text: "continue",
++			},
++			transport(),
++		),
++	).rejects.toThrow("未知");
++	expect(audit.state.calls.get("recovery-unknown")).toBeUndefined();
++});
++
++it("shutdown waits for in-flight preparation and never starts a runner after the abort sweep", async () => {
++	const started = deferred<void>();
++	const release = deferred<void>();
++	audit.state.hangPost = (channel, text) => {
++		if (channel === "shutdown-preparing" && text.includes("目标")) {
++			started.resolve();
++			return release.promise;
++		}
++		return undefined;
++	};
++	const work = execute("shutdown-preparing", "/goal fictional shutdown work");
++	const handled = work.catch(() => {});
++	await started.promise;
++	const stopped = shutdown();
++	let closed = false;
++	void stopped.then(() => {
++		closed = true;
++	});
++	await new Promise<void>((resolve) => setTimeout(resolve, 80));
++	// The notification wrapper has timed out, but the underlying request is still in flight.
++	expect(closed).toBe(false);
++	expect(() => acquireControlLock(audit.control)).toThrow();
++	release.resolve();
++	await handled;
++	await stopped;
++	expect(audit.state.calls.get("shutdown-preparing")).toBeUndefined();
++	expect(goal("shutdown-preparing")?.status).toBe("active");
++	expect(messages("shutdown-preparing").join(" ")).not.toContain("目标命令失败");
++	acquireControlLock(audit.control).release();
++	await expect(
++		handler().handleEvent(
++			{ origin: "platform", type: "dm", channel: "closed", user: "audit-user", ts: "closed", text: "new work" },
++			transport(),
++		),
++	).rejects.toThrow("stopping");
++});
+--- batch2-before/packages/lightclaw/test/platform-notifications.test.ts
++++ batch2-after/packages/lightclaw/test/platform-notifications.test.ts
+@@ -2,6 +2,7 @@
+ import { tmpdir } from "node:os";
+ import { join } from "node:path";
+ import { afterEach, describe, expect, it, vi } from "vitest";
++import { DurableInbox } from "../src/durable-inbox.js";
+ import { FeishuBot } from "../src/feishu.js";
+ import { GoalStore } from "../src/goals/store.js";
+ import { observePlatformOperation } from "../src/platform-operations.js";
+@@ -287,3 +288,34 @@
+ 		expect(store.get()?.status).toBe(platform === "feishu" ? "cancelled" : "paused");
+ 	},
+ );
++
++it("durable Slack mentions still interrupt active work with stop", async () => {
++	const directory = mkdtempSync(join(tmpdir(), "lightclaw-durable-stop-"));
++	cleanups.push(() => rmSync(directory, { recursive: true, force: true }));
++	let stopped = false;
++	const handler: ChatHandler = {
++		isRunning: () => true,
++		handleStop: async () => {
++			stopped = true;
++		},
++		handleEvent: async () => {},
++		handleQueueFailure: async () => {},
++	};
++	const bot = new SlackBot(handler, {
++		appToken: "mock",
++		botToken: "mock",
++		workingDir: directory,
++		store: new ChannelStore({ workingDir: directory }),
++		inbox: new DurableInbox(join(directory, "inbox")),
++	});
++	const hooks = bot as unknown as { setupEventHandlers(): void; queues: { close(): void } };
++	cleanups.push(() => hooks.queues.close());
++	hooks.setupEventHandlers();
++	const callback = socket.callbacks.get("app_mention");
++	if (!callback) throw new Error("missing callback");
++	callback({
++		event: { channel: "C1", ts: "1", user: "mock-user", text: "stop", channel_type: "channel" },
++		ack: () => {},
++	});
++	await vi.waitFor(() => expect(stopped).toBe(true), { timeout: 100 });
++});
+--- batch2-before/packages/lightclaw/test/recovery-faults.test.ts
++++ batch2-after/packages/lightclaw/test/recovery-faults.test.ts
+@@ -0,0 +1,92 @@
++import { type ChildProcess, spawn } from "node:child_process";
++import { existsSync, mkdtempSync, readFileSync, rmSync } from "node:fs";
++import { tmpdir } from "node:os";
++import { join } from "node:path";
++import { fileURLToPath } from "node:url";
++import { afterEach, expect, it } from "vitest";
++
++const roots: string[] = [];
++const children: ChildProcess[] = [];
++afterEach(async () => {
++	for (const child of children.splice(0))
++		if (child.exitCode === null && child.signalCode === null) {
++			const exited = new Promise((resolve) => child.once("exit", resolve));
++			child.kill("SIGKILL");
++			await exited;
++		}
++	for (const root of roots.splice(0)) rmSync(root, { recursive: true, force: true });
++});
++function line(child: ChildProcess, expected?: string): Promise<string> {
++	return new Promise((resolve, reject) => {
++		let text = "",
++			error = "";
++		const timer = setTimeout(() => reject(new Error(`checkpoint timeout ${text} ${error}`)), 5000);
++		child.stderr?.on("data", (data) => {
++			error += data;
++		});
++		child.stdout?.on("data", (data) => {
++			text += data;
++			if (text.includes("\n") && (!expected || text.includes(expected))) {
++				clearTimeout(timer);
++				resolve(text.trim());
++			}
++		});
++		child.on("exit", (code) => {
++			clearTimeout(timer);
++			if (code) reject(new Error(`worker ${code}: ${error}`));
++		});
++	});
++}
++it.each([
++	["before-operation", "BEFORE_OPERATION", "SIGKILL"],
++	["effect-before-progress", "EFFECT_SAVED", "SIGKILL"],
++	["state-before-notification", "STATE_SAVED", "SIGKILL"],
++	["queued", "QUEUED", "SIGKILL"],
++	["effect-before-progress", "EFFECT_SAVED", "SIGTERM"],
++] as const)("recovers %s after %s (%s) with one externally recorded side effect", async (phase, checkpoint, signal) => {
++	const root = mkdtempSync(join(tmpdir(), "lightclaw-fault-mock-"));
++	roots.push(root);
++	const serverScript = fileURLToPath(new URL("./fixtures/mock-operation-service.py", import.meta.url));
++	const workerScript = fileURLToPath(new URL("./fixtures/recovery-worker.ts", import.meta.url));
++	const server = spawn("python3", ["-I", "-u", serverScript, join(root, "external-service")], {
++		stdio: ["ignore", "pipe", "pipe"],
++	});
++	children.push(server);
++	const port = await line(server);
++	const endpoint = `http://127.0.0.1:${port}`;
++	const start = (step: string) => {
++		const child = spawn(process.execPath, ["--import", "tsx", workerScript, root, endpoint, step], {
++			stdio: ["ignore", "pipe", "pipe"],
++		});
++		children.push(child);
++		return child;
++	};
++	const first = start(phase);
++	await line(first, checkpoint);
++	const exited = new Promise((resolve) => first.once("exit", resolve));
++	first.kill(signal);
++	await exited;
++	const effectFile = join(root, "external-service", "effects.json");
++	if (phase === "before-operation" || phase === "queued") expect(existsSync(effectFile)).toBe(false);
++	else expect(Object.keys(JSON.parse(readFileSync(effectFile, "utf8")))).toHaveLength(1);
++	if (phase === "state-before-notification") {
++		expect(existsSync(join(root, "saved-result.json"))).toBe(true);
++		expect(JSON.parse(readFileSync(join(root, "control", "channel", "goal.json"), "utf8")).status).toBe("completed");
++		expect(existsSync(join(root, "notification.json"))).toBe(false);
++	}
++	const next = start("recover");
++	await line(next, "DONE");
++	await new Promise<void>((resolve, reject) =>
++		next.exitCode !== null
++			? resolve()
++			: next.once("exit", (code) => (code === 0 ? resolve() : reject(new Error(`recovery exit ${code}`)))),
++	);
++	const effects = JSON.parse(readFileSync(join(root, "external-service", "effects.json"), "utf8"));
++	expect(Object.keys(effects)).toHaveLength(1);
++	expect(JSON.parse(readFileSync(join(root, "control", "channel", "goal.json"), "utf8")).status).toBe("completed");
++	const notification = JSON.parse(readFileSync(join(root, "notification.json"), "utf8"));
++	expect(notification.operationId).toBe(Object.keys(effects)[0]);
++	const again = start("recover");
++	await line(again, "DONE");
++	expect(JSON.parse(readFileSync(join(root, "external-service", "effects.json"), "utf8"))).toEqual(effects);
++});

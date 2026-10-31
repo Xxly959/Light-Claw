@@ -1,0 +1,1 @@
+{"arm":"only-optimization","kind":"current","features":{"goals":false,"acceptance":false,"feishu":false,"controls":false,"scheduling":false,"optimization":true,"infrastructure":false},"repetition":2,"seed":209475,"caseId":"final-nested-config","id":"matrix-host-0201-only-optimization-final-nested-config"}

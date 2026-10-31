@@ -1,0 +1,1 @@
+{"arm":"only-infrastructure","kind":"current","features":{"goals":false,"acceptance":false,"feishu":false,"controls":false,"scheduling":false,"optimization":false,"infrastructure":true},"repetition":1,"seed":104746,"caseId":"final-range-boundaries","id":"matrix-docker-0183-only-infrastructure-final-range-boundaries"}

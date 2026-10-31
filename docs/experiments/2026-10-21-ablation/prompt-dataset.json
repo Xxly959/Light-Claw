@@ -1,0 +1,420 @@
+[
+  {
+    "split": "training",
+    "id": "train-orders",
+    "prompt": "读取scratch/orders.csv，只统计status=paid的订单，用整数分计算总额；输出scratch/summary.json，且只含paid_count和total_cents两个数值字段。 所有输入文件必须保持原样。输出文件使用UTF-8，完成后简短说明。",
+    "fixtures": {
+      "scratch/orders.csv": "id,status,amount_cents\na,paid,1299\nb,cancelled,9999\nc,paid,201\nd,paid,0\n"
+    },
+    "outputs": {
+      "scratch/summary.json": {
+        "json": {
+          "paid_count": 3,
+          "total_cents": 1500
+        }
+      }
+    }
+  },
+  {
+    "split": "training",
+    "id": "train-contacts",
+    "prompt": "读取scratch/contacts.json，将email去除两端空格并转小写后去重，保留首次出现的记录及其name，输出scratch/clean.json，格式为对象数组，只保留name和规范化email。 所有输入文件必须保持原样。输出文件使用UTF-8，完成后简短说明。",
+    "fixtures": {
+      "scratch/contacts.json": "[\n  {\n    \"name\": \"甲\",\n    \"email\": \" A@EXAMPLE.COM \"\n  },\n  {\n    \"name\": \"乙\",\n    \"email\": \"a@example.com\"\n  },\n  {\n    \"name\": \"丙\",\n    \"email\": \"B@example.com\"\n  }\n]\n"
+    },
+    "outputs": {
+      "scratch/clean.json": {
+        "json": [
+          {
+            "name": "甲",
+            "email": "a@example.com"
+          },
+          {
+            "name": "丙",
+            "email": "b@example.com"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "split": "training",
+    "id": "train-merge",
+    "prompt": "读取scratch/base.json和scratch/override.json，进行浅合并，同名键以override为准，null必须保留。输出scratch/merged.json。 所有输入文件必须保持原样。输出文件使用UTF-8，完成后简短说明。",
+    "fixtures": {
+      "scratch/base.json": "{\n  \"enabled\": true,\n  \"limit\": 5,\n  \"note\": \"old\"\n}\n",
+      "scratch/override.json": "{\n  \"enabled\": false,\n  \"note\": null\n}\n"
+    },
+    "outputs": {
+      "scratch/merged.json": {
+        "json": {
+          "enabled": false,
+          "limit": 5,
+          "note": null
+        }
+      }
+    }
+  },
+  {
+    "split": "training",
+    "id": "train-markdown",
+    "prompt": "读取scratch/notes.md，提取所有以'- [ ] '开头的未完成项，去掉该前缀，保持顺序；输出scratch/todo.json，格式为字符串数组。 所有输入文件必须保持原样。输出文件使用UTF-8，完成后简短说明。",
+    "fixtures": {
+      "scratch/notes.md": "# 计划\n- [x] 已完成\n- [ ] 检查配置\n普通行\n- [ ] 补充测试\n"
+    },
+    "outputs": {
+      "scratch/todo.json": {
+        "json": [
+          "检查配置",
+          "补充测试"
+        ]
+      }
+    }
+  },
+  {
+    "split": "training",
+    "id": "train-version-sort",
+    "prompt": "读取scratch/versions.json，按三段十进制版本号数值从小到大排序，保留重复项；输出scratch/sorted.json。不能按字符串字典序排序。 所有输入文件必须保持原样。输出文件使用UTF-8，完成后简短说明。",
+    "fixtures": {
+      "scratch/versions.json": "[\n  \"1.10.0\",\n  \"1.2.9\",\n  \"2.0.0\",\n  \"1.2.10\",\n  \"1.2.9\"\n]\n"
+    },
+    "outputs": {
+      "scratch/sorted.json": {
+        "json": [
+          "1.2.9",
+          "1.2.9",
+          "1.2.10",
+          "1.10.0",
+          "2.0.0"
+        ]
+      }
+    }
+  },
+  {
+    "split": "training",
+    "id": "train-invalid-lines",
+    "prompt": "逐行读取scratch/events.jsonl，跳过非法JSON行，对合法对象的整数value求和。输出scratch/result.json且只含sum和invalid_lines；invalid_lines为非法行的1-based行号数组。 所有输入文件必须保持原样。输出文件使用UTF-8，完成后简短说明。",
+    "fixtures": {
+      "scratch/events.jsonl": "{\"value\":3}\nnot-json\n{\"value\":-2}\n{\"value\":7}\n"
+    },
+    "outputs": {
+      "scratch/result.json": {
+        "json": {
+          "sum": 8,
+          "invalid_lines": [
+            2
+          ]
+        }
+      }
+    }
+  },
+  {
+    "split": "selection",
+    "id": "select-diff",
+    "prompt": "比较scratch/old.json和scratch/new.json，只输出值发生变化且两边均存在的键，按键字典序排序，写入scratch/changed.json字符串数组。 所有输入文件必须保持原样。输出文件使用UTF-8，完成后简短说明。",
+    "fixtures": {
+      "scratch/old.json": "{\n  \"a\": 1,\n  \"b\": true,\n  \"c\": null\n}\n",
+      "scratch/new.json": "{\n  \"a\": 2,\n  \"b\": true,\n  \"c\": \"new\",\n  \"d\": 4\n}\n"
+    },
+    "outputs": {
+      "scratch/changed.json": {
+        "json": [
+          "a",
+          "c"
+        ]
+      }
+    }
+  },
+  {
+    "split": "selection",
+    "id": "select-latest",
+    "prompt": "读取scratch/records.json，对每个id保留revision最大的记录，按id升序输出到scratch/latest.json；只保留id、revision和value三个字段。 所有输入文件必须保持原样。输出文件使用UTF-8，完成后简短说明。",
+    "fixtures": {
+      "scratch/records.json": "[\n  {\n    \"id\": \"b\",\n    \"revision\": 1,\n    \"value\": \"old\"\n  },\n  {\n    \"id\": \"a\",\n    \"revision\": 4,\n    \"value\": \"A\"\n  },\n  {\n    \"id\": \"b\",\n    \"revision\": 3,\n    \"value\": \"new\"\n  }\n]\n"
+    },
+    "outputs": {
+      "scratch/latest.json": {
+        "json": [
+          {
+            "id": "a",
+            "revision": 4,
+            "value": "A"
+          },
+          {
+            "id": "b",
+            "revision": 3,
+            "value": "new"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "split": "selection",
+    "id": "select-space-path",
+    "prompt": "读取scratch/input data/值.json，将数组中严格大于0的数各乘2，保持顺序，输出scratch/output data/结果.json数组。 所有输入文件必须保持原样。输出文件使用UTF-8，完成后简短说明。",
+    "fixtures": {
+      "scratch/input data/值.json": "[\n  0,\n  2,\n  -4,\n  7,\n  2\n]\n"
+    },
+    "outputs": {
+      "scratch/output data/结果.json": {
+        "json": [
+          4,
+          14,
+          4
+        ]
+      }
+    }
+  },
+  {
+    "split": "selection",
+    "id": "select-two-artifacts",
+    "prompt": "读取scratch/items.json，将active=true的id按升序写入scratch/active.json数组，同时写scratch/count.json对象，只含count，值为active条数。 所有输入文件必须保持原样。输出文件使用UTF-8，完成后简短说明。",
+    "fixtures": {
+      "scratch/items.json": "[\n  {\n    \"id\": \"z\",\n    \"active\": true\n  },\n  {\n    \"id\": \"a\",\n    \"active\": false\n  },\n  {\n    \"id\": \"m\",\n    \"active\": true\n  }\n]\n"
+    },
+    "outputs": {
+      "scratch/active.json": {
+        "json": [
+          "m",
+          "z"
+        ]
+      },
+      "scratch/count.json": {
+        "json": {
+          "count": 2
+        }
+      }
+    }
+  },
+  {
+    "split": "final",
+    "id": "final-inventory-join",
+    "prompt": "读取scratch/stock.json和scratch/reserved.json，按sku求available=库存-预留；不存在的预留按0，忽略仅预留中存在的sku，允许负数。按sku升序输出scratch/available.json对象数组，只含sku与available。 所有输入文件必须保持原样。输出文件使用UTF-8，完成后简短说明。",
+    "fixtures": {
+      "scratch/stock.json": "{\n  \"B\": 7,\n  \"A\": 2,\n  \"C\": 0\n}\n",
+      "scratch/reserved.json": "{\n  \"A\": 3,\n  \"B\": 2,\n  \"X\": 9\n}\n"
+    },
+    "outputs": {
+      "scratch/available.json": {
+        "json": [
+          {
+            "sku": "A",
+            "available": -1
+          },
+          {
+            "sku": "B",
+            "available": 5
+          },
+          {
+            "sku": "C",
+            "available": 0
+          }
+        ]
+      }
+    }
+  },
+  {
+    "split": "final",
+    "id": "final-money-csv",
+    "prompt": "读取scratch/transactions.csv，以整数分累计每个account的收入减退款（kind=refund为减），按account升序写scratch/balances.json，格式为account到整数余额的对象。 所有输入文件必须保持原样。输出文件使用UTF-8，完成后简短说明。",
+    "fixtures": {
+      "scratch/transactions.csv": "account,kind,cents\nx,income,101\ny,income,999\nx,refund,20\ny,refund,1000\nx,income,9\n"
+    },
+    "outputs": {
+      "scratch/balances.json": {
+        "json": {
+          "x": 90,
+          "y": -1
+        }
+      }
+    }
+  },
+  {
+    "split": "final",
+    "id": "final-stable-dedup",
+    "prompt": "读取scratch/tags.json，各字符串trim后按大小写敏感去重，保留首次出现顺序，删除空字符串，输出scratch/tags-clean.json。 所有输入文件必须保持原样。输出文件使用UTF-8，完成后简短说明。",
+    "fixtures": {
+      "scratch/tags.json": "[\n  \" A \",\n  \"\",\n  \"a\",\n  \"A\",\n  \" B\",\n  \"a \",\n  \"  \",\n  \"B\"\n]\n"
+    },
+    "outputs": {
+      "scratch/tags-clean.json": {
+        "json": [
+          "A",
+          "a",
+          "B"
+        ]
+      }
+    }
+  },
+  {
+    "split": "final",
+    "id": "final-markdown-section",
+    "prompt": "读取scratch/report.md，只提取'## 风险'标题下面、下一个二级标题之前的正文，去掉首尾空白，写入scratch/risk.txt；不要包含标题。 所有输入文件必须保持原样。输出文件使用UTF-8，完成后简短说明。",
+    "fixtures": {
+      "scratch/report.md": "# 报告\n## 结果\n通过。\n## 风险\n\n需要人工复核。\n- 外部接口未测\n\n## 后续\n发布。\n"
+    },
+    "outputs": {
+      "scratch/risk.txt": {
+        "textTrimmed": "需要人工复核。\n- 外部接口未测"
+      }
+    }
+  },
+  {
+    "split": "final",
+    "id": "final-nested-config",
+    "prompt": "读取scratch/config.json，生成scratch/config-new.json：只把service.timeout改为45，并在service内新增retries=2，其余字段和值必须完整保留。 所有输入文件必须保持原样。输出文件使用UTF-8，完成后简短说明。",
+    "fixtures": {
+      "scratch/config.json": "{\n  \"service\": {\n    \"timeout\": 10,\n    \"enabled\": false,\n    \"label\": null\n  },\n  \"owners\": [\n    \"甲\",\n    \"乙\"\n  ],\n  \"version\": 3\n}\n"
+    },
+    "outputs": {
+      "scratch/config-new.json": {
+        "json": {
+          "service": {
+            "timeout": 45,
+            "enabled": false,
+            "label": null,
+            "retries": 2
+          },
+          "owners": [
+            "甲",
+            "乙"
+          ],
+          "version": 3
+        }
+      }
+    }
+  },
+  {
+    "split": "final",
+    "id": "final-version-filter",
+    "prompt": "读取scratch/releases.json，去掉以'-beta'结尾的版本，再按三段整数版本从大到小排序，输出scratch/stable.json，保留重复。 所有输入文件必须保持原样。输出文件使用UTF-8，完成后简短说明。",
+    "fixtures": {
+      "scratch/releases.json": "[\n  \"2.9.0\",\n  \"2.10.0\",\n  \"3.0.0-beta\",\n  \"2.10.1\",\n  \"2.10.0\"\n]\n"
+    },
+    "outputs": {
+      "scratch/stable.json": {
+        "json": [
+          "2.10.1",
+          "2.10.0",
+          "2.10.0",
+          "2.9.0"
+        ]
+      }
+    }
+  },
+  {
+    "split": "final",
+    "id": "final-jsonl-errors",
+    "prompt": "读取scratch/log.jsonl，跳过空白行和非法JSON；只对level=error的合法对象收集code，保持出现顺序。输出scratch/errors.json且只含codes数组及invalid_lines数组，后者为非法非空行的1-based行号。 所有输入文件必须保持原样。输出文件使用UTF-8，完成后简短说明。",
+    "fixtures": {
+      "scratch/log.jsonl": "{\"level\":\"info\",\"code\":\"I\"}\n\n{broken}\n{\"level\":\"error\",\"code\":\"E2\"}\n{\"level\":\"error\",\"code\":\"E1\"}\n"
+    },
+    "outputs": {
+      "scratch/errors.json": {
+        "json": {
+          "codes": [
+            "E2",
+            "E1"
+          ],
+          "invalid_lines": [
+            3
+          ]
+        }
+      }
+    }
+  },
+  {
+    "split": "final",
+    "id": "final-unicode-path",
+    "prompt": "读取scratch/资料 文件/名单.json，按score降序排列，同分按name升序，输出scratch/结果 文件/top.json，只保留前3条完整记录。 所有输入文件必须保持原样。输出文件使用UTF-8，完成后简短说明。",
+    "fixtures": {
+      "scratch/资料 文件/名单.json": "[\n  {\n    \"name\": \"b\",\n    \"score\": 9\n  },\n  {\n    \"name\": \"a\",\n    \"score\": 9\n  },\n  {\n    \"name\": \"z\",\n    \"score\": 12\n  },\n  {\n    \"name\": \"c\",\n    \"score\": 1\n  }\n]\n"
+    },
+    "outputs": {
+      "scratch/结果 文件/top.json": {
+        "json": [
+          {
+            "name": "z",
+            "score": 12
+          },
+          {
+            "name": "a",
+            "score": 9
+          },
+          {
+            "name": "b",
+            "score": 9
+          }
+        ]
+      }
+    }
+  },
+  {
+    "split": "final",
+    "id": "final-multi-file-consistency",
+    "prompt": "读取scratch/users.json，将enabled=true的用户名按字典序写入scratch/enabled.json数组；同时生成scratch/manifest.json，只含file='enabled.json'与count两个字段，count必须等于数组长度。 所有输入文件必须保持原样。输出文件使用UTF-8，完成后简短说明。",
+    "fixtures": {
+      "scratch/users.json": "[\n  {\n    \"name\": \"c\",\n    \"enabled\": false\n  },\n  {\n    \"name\": \"b\",\n    \"enabled\": true\n  },\n  {\n    \"name\": \"a\",\n    \"enabled\": true\n  }\n]\n"
+    },
+    "outputs": {
+      "scratch/enabled.json": {
+        "json": [
+          "a",
+          "b"
+        ]
+      },
+      "scratch/manifest.json": {
+        "json": {
+          "file": "enabled.json",
+          "count": 2
+        }
+      }
+    }
+  },
+  {
+    "split": "final",
+    "id": "final-null-vs-missing",
+    "prompt": "读取scratch/rows.json，只保留显式拥有note键且note值为null的记录，按id升序输出scratch/null-notes.json字符串id数组。缺少note与空字符串都不能算null。 所有输入文件必须保持原样。输出文件使用UTF-8，完成后简短说明。",
+    "fixtures": {
+      "scratch/rows.json": "[\n  {\n    \"id\": \"b\",\n    \"note\": null\n  },\n  {\n    \"id\": \"a\"\n  },\n  {\n    \"id\": \"c\",\n    \"note\": \"\"\n  },\n  {\n    \"id\": \"d\",\n    \"note\": null\n  }\n]\n"
+    },
+    "outputs": {
+      "scratch/null-notes.json": {
+        "json": [
+          "b",
+          "d"
+        ]
+      }
+    }
+  },
+  {
+    "split": "final",
+    "id": "final-range-boundaries",
+    "prompt": "读取scratch/measurements.json，只统计10<=value<20的记录，输出scratch/stats.json，只含count和sum两个数值字段，sum为这些value之和。 所有输入文件必须保持原样。输出文件使用UTF-8，完成后简短说明。",
+    "fixtures": {
+      "scratch/measurements.json": "[\n  {\n    \"value\": 9\n  },\n  {\n    \"value\": 10\n  },\n  {\n    \"value\": 19\n  },\n  {\n    \"value\": 20\n  },\n  {\n    \"value\": 15\n  },\n  {\n    \"value\": -1\n  }\n]\n"
+    },
+    "outputs": {
+      "scratch/stats.json": {
+        "json": {
+          "count": 3,
+          "sum": 44
+        }
+      }
+    }
+  },
+  {
+    "split": "final",
+    "id": "final-text-replacement",
+    "prompt": "读取scratch/template.txt，将全部字面量'{{NAME}}'替换为'LightClaw'，其他字符（包括大括号和空行）保持不变，结果写scratch/rendered.txt。 所有输入文件必须保持原样。输出文件使用UTF-8，完成后简短说明。",
+    "fixtures": {
+      "scratch/template.txt": "Hello {{NAME}}\n\n{{NAME}}: {keep}\n{{name}}\n"
+    },
+    "outputs": {
+      "scratch/rendered.txt": {
+        "textExact": "Hello LightClaw\n\nLightClaw: {keep}\n{{name}}\n"
+      }
+    }
+  }
+]

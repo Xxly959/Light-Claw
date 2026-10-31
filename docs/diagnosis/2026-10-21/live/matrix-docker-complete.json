@@ -1,0 +1,3452 @@
+{
+  "completedAt": "2026-10-21T15:46:38.257Z",
+  "finished": 288,
+  "planned": 288,
+  "reserved": 1167,
+  "reportedTokens": 3343096,
+  "stopped": false,
+  "budgetLimited": false,
+  "results": [
+    {
+      "id": "matrix-docker-0001-without-goals-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0001-without-goals-final-inventory-join",
+        "success": true,
+        "tokens": 6357,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0000-only-infrastructure-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0000-only-infrastructure-final-inventory-join",
+        "success": true,
+        "tokens": 6381,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0002-without-acceptance-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0002-without-acceptance-final-inventory-join",
+        "success": false,
+        "tokens": 11219,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0004-without-controls-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0004-without-controls-final-inventory-join",
+        "success": false,
+        "tokens": 10867,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0003-without-feishu-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0003-without-feishu-final-inventory-join",
+        "success": false,
+        "tokens": 10842,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0005-without-scheduling-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0005-without-scheduling-final-inventory-join",
+        "success": false,
+        "tokens": 10969,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0006-without-optimization-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0006-without-optimization-final-inventory-join",
+        "success": false,
+        "tokens": 10718,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0008-old-all-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0008-old-all-final-money-csv",
+        "success": false,
+        "tokens": 24015,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "matrix-docker-0007-old-all-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0007-old-all-final-inventory-join",
+        "success": false,
+        "tokens": 28990,
+        "modelRequests": 7
+      }
+    },
+    {
+      "id": "matrix-docker-0009-without-optimization-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0009-without-optimization-final-money-csv",
+        "success": false,
+        "tokens": 10867,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0010-without-scheduling-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0010-without-scheduling-final-money-csv",
+        "success": false,
+        "tokens": 10924,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0011-without-controls-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0011-without-controls-final-money-csv",
+        "success": false,
+        "tokens": 10964,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0012-without-feishu-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0012-without-feishu-final-money-csv",
+        "success": false,
+        "tokens": 10945,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0014-without-goals-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0014-without-goals-final-money-csv",
+        "success": true,
+        "tokens": 6311,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0015-only-infrastructure-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0015-only-infrastructure-final-money-csv",
+        "success": true,
+        "tokens": 6305,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0013-without-acceptance-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0013-without-acceptance-final-money-csv",
+        "success": false,
+        "tokens": 11009,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0016-only-infrastructure-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0016-only-infrastructure-final-stable-dedup",
+        "success": true,
+        "tokens": 6263,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0017-without-goals-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0017-without-goals-final-stable-dedup",
+        "success": true,
+        "tokens": 6304,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0018-without-acceptance-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0018-without-acceptance-final-stable-dedup",
+        "success": false,
+        "tokens": 10675,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0019-without-feishu-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0019-without-feishu-final-stable-dedup",
+        "success": false,
+        "tokens": 10897,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0020-without-controls-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0020-without-controls-final-stable-dedup",
+        "success": false,
+        "tokens": 10635,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0021-without-scheduling-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0021-without-scheduling-final-stable-dedup",
+        "success": false,
+        "tokens": 10497,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0022-without-optimization-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0022-without-optimization-final-stable-dedup",
+        "success": false,
+        "tokens": 10673,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0023-old-all-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0023-old-all-final-stable-dedup",
+        "success": false,
+        "tokens": 23908,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "matrix-docker-0025-without-optimization-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0025-without-optimization-final-markdown-section",
+        "success": false,
+        "tokens": 14322,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "matrix-docker-0024-old-all-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0024-old-all-final-markdown-section",
+        "success": false,
+        "tokens": 28672,
+        "modelRequests": 7
+      }
+    },
+    {
+      "id": "matrix-docker-0026-without-scheduling-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0026-without-scheduling-final-markdown-section",
+        "success": false,
+        "tokens": 11248,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0027-without-controls-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0027-without-controls-final-markdown-section",
+        "success": false,
+        "tokens": 11354,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0028-without-feishu-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0028-without-feishu-final-markdown-section",
+        "success": false,
+        "tokens": 11070,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0030-without-goals-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0030-without-goals-final-markdown-section",
+        "success": true,
+        "tokens": 6469,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0031-only-infrastructure-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0031-only-infrastructure-final-markdown-section",
+        "success": true,
+        "tokens": 6613,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0029-without-acceptance-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0029-without-acceptance-final-markdown-section",
+        "success": false,
+        "tokens": 14658,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "matrix-docker-0032-only-infrastructure-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0032-only-infrastructure-final-nested-config",
+        "success": true,
+        "tokens": 6508,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0033-without-goals-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0033-without-goals-final-nested-config",
+        "success": true,
+        "tokens": 6494,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0034-without-acceptance-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0034-without-acceptance-final-nested-config",
+        "success": false,
+        "tokens": 11423,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0035-without-feishu-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0035-without-feishu-final-nested-config",
+        "success": false,
+        "tokens": 11064,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0036-without-controls-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0036-without-controls-final-nested-config",
+        "success": false,
+        "tokens": 11039,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0037-without-scheduling-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0037-without-scheduling-final-nested-config",
+        "success": false,
+        "tokens": 11425,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0038-without-optimization-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0038-without-optimization-final-nested-config",
+        "success": false,
+        "tokens": 11104,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0040-old-all-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0040-old-all-final-version-filter",
+        "success": false,
+        "tokens": 24166,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "matrix-docker-0039-old-all-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0039-old-all-final-nested-config",
+        "success": false,
+        "tokens": 28709,
+        "modelRequests": 7
+      }
+    },
+    {
+      "id": "matrix-docker-0041-without-optimization-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0041-without-optimization-final-version-filter",
+        "success": false,
+        "tokens": 10763,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0042-without-scheduling-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0042-without-scheduling-final-version-filter",
+        "success": false,
+        "tokens": 10896,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0043-without-controls-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0043-without-controls-final-version-filter",
+        "success": false,
+        "tokens": 10844,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0044-without-feishu-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0044-without-feishu-final-version-filter",
+        "success": false,
+        "tokens": 10878,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0046-without-goals-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0046-without-goals-final-version-filter",
+        "success": true,
+        "tokens": 6284,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0047-only-infrastructure-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0047-only-infrastructure-final-version-filter",
+        "success": true,
+        "tokens": 6267,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0045-without-acceptance-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0045-without-acceptance-final-version-filter",
+        "success": false,
+        "tokens": 10755,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0048-only-infrastructure-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0048-only-infrastructure-final-jsonl-errors",
+        "success": true,
+        "tokens": 8712,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0049-without-goals-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0049-without-goals-final-jsonl-errors",
+        "success": true,
+        "tokens": 6496,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0050-without-acceptance-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0050-without-acceptance-final-jsonl-errors",
+        "success": false,
+        "tokens": 11163,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0051-without-feishu-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0051-without-feishu-final-jsonl-errors",
+        "success": false,
+        "tokens": 11331,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0052-without-controls-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0052-without-controls-final-jsonl-errors",
+        "success": false,
+        "tokens": 11111,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0053-without-scheduling-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0053-without-scheduling-final-jsonl-errors",
+        "success": false,
+        "tokens": 11290,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0054-without-optimization-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0054-without-optimization-final-jsonl-errors",
+        "success": false,
+        "tokens": 11177,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0055-old-all-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0055-old-all-final-jsonl-errors",
+        "success": false,
+        "tokens": 24235,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "matrix-docker-0057-without-optimization-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0057-without-optimization-final-unicode-path",
+        "success": false,
+        "tokens": 10840,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0056-old-all-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0056-old-all-final-unicode-path",
+        "success": false,
+        "tokens": 29055,
+        "modelRequests": 7
+      }
+    },
+    {
+      "id": "matrix-docker-0058-without-scheduling-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0058-without-scheduling-final-unicode-path",
+        "success": false,
+        "tokens": 10868,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0059-without-controls-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0059-without-controls-final-unicode-path",
+        "success": false,
+        "tokens": 10840,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0060-without-feishu-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0060-without-feishu-final-unicode-path",
+        "success": false,
+        "tokens": 10873,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0061-without-acceptance-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0061-without-acceptance-final-unicode-path",
+        "success": false,
+        "tokens": 10831,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0062-without-goals-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0062-without-goals-final-unicode-path",
+        "success": true,
+        "tokens": 6373,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0063-only-infrastructure-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0063-only-infrastructure-final-unicode-path",
+        "success": true,
+        "tokens": 6231,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0065-without-goals-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0065-without-goals-final-multi-file-consistency",
+        "success": true,
+        "tokens": 6345,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0064-only-infrastructure-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0064-only-infrastructure-final-multi-file-consistency",
+        "success": true,
+        "tokens": 6360,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0066-without-acceptance-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0066-without-acceptance-final-multi-file-consistency",
+        "success": false,
+        "tokens": 10802,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0068-without-controls-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0068-without-controls-final-multi-file-consistency",
+        "success": false,
+        "tokens": 10983,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0067-without-feishu-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0067-without-feishu-final-multi-file-consistency",
+        "success": false,
+        "tokens": 10794,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0069-without-scheduling-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0069-without-scheduling-final-multi-file-consistency",
+        "success": false,
+        "tokens": 10806,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0070-without-optimization-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0070-without-optimization-final-multi-file-consistency",
+        "success": false,
+        "tokens": 10811,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0071-old-all-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0071-old-all-final-multi-file-consistency",
+        "success": false,
+        "tokens": 23929,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "matrix-docker-0072-old-all-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0072-old-all-final-null-vs-missing",
+        "success": false,
+        "tokens": 23732,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "matrix-docker-0073-without-optimization-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0073-without-optimization-final-null-vs-missing",
+        "success": false,
+        "tokens": 10841,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0074-without-scheduling-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0074-without-scheduling-final-null-vs-missing",
+        "success": false,
+        "tokens": 10861,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0075-without-controls-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0075-without-controls-final-null-vs-missing",
+        "success": false,
+        "tokens": 10866,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0076-without-feishu-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0076-without-feishu-final-null-vs-missing",
+        "success": false,
+        "tokens": 10845,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0077-without-acceptance-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0077-without-acceptance-final-null-vs-missing",
+        "success": false,
+        "tokens": 10876,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0078-without-goals-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0078-without-goals-final-null-vs-missing",
+        "success": true,
+        "tokens": 6270,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0079-only-infrastructure-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0079-only-infrastructure-final-null-vs-missing",
+        "success": true,
+        "tokens": 6303,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0080-only-infrastructure-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0080-only-infrastructure-final-range-boundaries",
+        "success": true,
+        "tokens": 6367,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0081-without-goals-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0081-without-goals-final-range-boundaries",
+        "success": true,
+        "tokens": 6309,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0082-without-acceptance-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0082-without-acceptance-final-range-boundaries",
+        "success": false,
+        "tokens": 10862,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0084-without-controls-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0084-without-controls-final-range-boundaries",
+        "success": false,
+        "tokens": 10889,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0083-without-feishu-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0083-without-feishu-final-range-boundaries",
+        "success": false,
+        "tokens": 10895,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0085-without-scheduling-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0085-without-scheduling-final-range-boundaries",
+        "success": false,
+        "tokens": 10884,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0086-without-optimization-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0086-without-optimization-final-range-boundaries",
+        "success": false,
+        "tokens": 10857,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0087-old-all-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0087-old-all-final-range-boundaries",
+        "success": false,
+        "tokens": 24112,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "matrix-docker-0088-old-all-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0088-old-all-final-text-replacement",
+        "success": false,
+        "tokens": 23517,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "matrix-docker-0089-without-optimization-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0089-without-optimization-final-text-replacement",
+        "success": false,
+        "tokens": 10937,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0090-without-scheduling-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0090-without-scheduling-final-text-replacement",
+        "success": false,
+        "tokens": 10823,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0091-without-controls-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0091-without-controls-final-text-replacement",
+        "success": false,
+        "tokens": 10801,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0092-without-feishu-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0092-without-feishu-final-text-replacement",
+        "success": false,
+        "tokens": 10715,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0093-without-acceptance-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0093-without-acceptance-final-text-replacement",
+        "success": false,
+        "tokens": 10794,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0094-without-goals-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0094-without-goals-final-text-replacement",
+        "success": true,
+        "tokens": 6055,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0095-only-infrastructure-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0095-only-infrastructure-final-text-replacement",
+        "success": true,
+        "tokens": 6100,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0098-without-scheduling-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0098-without-scheduling-final-inventory-join",
+        "success": false,
+        "tokens": 10935,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0097-without-optimization-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0097-without-optimization-final-inventory-join",
+        "success": false,
+        "tokens": 11009,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0096-old-all-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0096-old-all-final-inventory-join",
+        "success": false,
+        "tokens": 24416,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "matrix-docker-0099-without-controls-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0099-without-controls-final-inventory-join",
+        "success": false,
+        "tokens": 10981,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0100-without-feishu-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0100-without-feishu-final-inventory-join",
+        "success": false,
+        "tokens": 10955,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0101-without-acceptance-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0101-without-acceptance-final-inventory-join",
+        "success": false,
+        "tokens": 11240,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0102-without-goals-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0102-without-goals-final-inventory-join",
+        "success": true,
+        "tokens": 6387,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0103-only-infrastructure-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0103-only-infrastructure-final-inventory-join",
+        "success": true,
+        "tokens": 6396,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0104-only-infrastructure-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0104-only-infrastructure-final-money-csv",
+        "success": true,
+        "tokens": 6299,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0105-without-goals-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0105-without-goals-final-money-csv",
+        "success": true,
+        "tokens": 6330,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0106-without-acceptance-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0106-without-acceptance-final-money-csv",
+        "success": false,
+        "tokens": 10845,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0107-without-feishu-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0107-without-feishu-final-money-csv",
+        "success": false,
+        "tokens": 10855,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0108-without-controls-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0108-without-controls-final-money-csv",
+        "success": false,
+        "tokens": 10832,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0109-without-scheduling-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0109-without-scheduling-final-money-csv",
+        "success": false,
+        "tokens": 10850,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0110-without-optimization-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0110-without-optimization-final-money-csv",
+        "success": false,
+        "tokens": 10870,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0111-old-all-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0111-old-all-final-money-csv",
+        "success": false,
+        "tokens": 28454,
+        "modelRequests": 7
+      }
+    },
+    {
+      "id": "matrix-docker-0112-old-all-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0112-old-all-final-stable-dedup",
+        "success": false,
+        "tokens": 23707,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "matrix-docker-0113-without-optimization-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0113-without-optimization-final-stable-dedup",
+        "success": false,
+        "tokens": 10612,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0115-without-controls-final-stable-dedup",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "matrix-docker-0114-without-scheduling-final-stable-dedup",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "matrix-docker-0116-without-feishu-final-stable-dedup",
+      "code": null,
+      "signal": "SIGKILL",
+      "timeout": true,
+      "summary": null
+    },
+    {
+      "id": "matrix-docker-0118-without-goals-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0118-without-goals-final-stable-dedup",
+        "success": true,
+        "tokens": 6007,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0119-only-infrastructure-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0119-only-infrastructure-final-stable-dedup",
+        "success": true,
+        "tokens": 6262,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0117-without-acceptance-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0117-without-acceptance-final-stable-dedup",
+        "success": false,
+        "tokens": 10648,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0121-without-goals-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0121-without-goals-final-markdown-section",
+        "success": false,
+        "tokens": 1832,
+        "modelRequests": 2
+      }
+    },
+    {
+      "id": "matrix-docker-0120-only-infrastructure-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0120-only-infrastructure-final-markdown-section",
+        "success": false,
+        "tokens": 1816,
+        "modelRequests": 2
+      }
+    },
+    {
+      "id": "matrix-docker-0122-without-acceptance-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0122-without-acceptance-final-markdown-section",
+        "success": false,
+        "tokens": 0,
+        "modelRequests": 2
+      }
+    },
+    {
+      "id": "matrix-docker-0124-without-controls-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0124-without-controls-final-markdown-section",
+        "success": false,
+        "tokens": 11354,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0123-without-feishu-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0123-without-feishu-final-markdown-section",
+        "success": false,
+        "tokens": 15298,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "matrix-docker-0125-without-scheduling-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0125-without-scheduling-final-markdown-section",
+        "success": false,
+        "tokens": 14367,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "matrix-docker-0126-without-optimization-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0126-without-optimization-final-markdown-section",
+        "success": false,
+        "tokens": 11376,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0127-old-all-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0127-old-all-final-markdown-section",
+        "success": false,
+        "tokens": 34156,
+        "modelRequests": 8
+      }
+    },
+    {
+      "id": "matrix-docker-0129-without-optimization-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0129-without-optimization-final-nested-config",
+        "success": false,
+        "tokens": 11053,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0128-old-all-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0128-old-all-final-nested-config",
+        "success": false,
+        "tokens": 28562,
+        "modelRequests": 7
+      }
+    },
+    {
+      "id": "matrix-docker-0130-without-scheduling-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0130-without-scheduling-final-nested-config",
+        "success": false,
+        "tokens": 11162,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0131-without-controls-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0131-without-controls-final-nested-config",
+        "success": false,
+        "tokens": 11205,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0132-without-feishu-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0132-without-feishu-final-nested-config",
+        "success": false,
+        "tokens": 11055,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0133-without-acceptance-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0133-without-acceptance-final-nested-config",
+        "success": false,
+        "tokens": 11167,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0134-without-goals-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0134-without-goals-final-nested-config",
+        "success": true,
+        "tokens": 6701,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0135-only-infrastructure-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0135-only-infrastructure-final-nested-config",
+        "success": true,
+        "tokens": 6537,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0137-without-goals-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0137-without-goals-final-version-filter",
+        "success": true,
+        "tokens": 6103,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0136-only-infrastructure-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0136-only-infrastructure-final-version-filter",
+        "success": true,
+        "tokens": 6223,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0138-without-acceptance-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0138-without-acceptance-final-version-filter",
+        "success": false,
+        "tokens": 10872,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0140-without-controls-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0140-without-controls-final-version-filter",
+        "success": false,
+        "tokens": 10858,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0139-without-feishu-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0139-without-feishu-final-version-filter",
+        "success": false,
+        "tokens": 10863,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0141-without-scheduling-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0141-without-scheduling-final-version-filter",
+        "success": false,
+        "tokens": 10867,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0142-without-optimization-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0142-without-optimization-final-version-filter",
+        "success": false,
+        "tokens": 10813,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0143-old-all-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0143-old-all-final-version-filter",
+        "success": false,
+        "tokens": 24126,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "matrix-docker-0145-without-optimization-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0145-without-optimization-final-jsonl-errors",
+        "success": false,
+        "tokens": 11147,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0144-old-all-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0144-old-all-final-jsonl-errors",
+        "success": false,
+        "tokens": 24218,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "matrix-docker-0146-without-scheduling-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0146-without-scheduling-final-jsonl-errors",
+        "success": false,
+        "tokens": 11134,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0147-without-controls-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0147-without-controls-final-jsonl-errors",
+        "success": false,
+        "tokens": 11113,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0148-without-feishu-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0148-without-feishu-final-jsonl-errors",
+        "success": false,
+        "tokens": 11186,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0149-without-acceptance-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0149-without-acceptance-final-jsonl-errors",
+        "success": false,
+        "tokens": 11089,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0150-without-goals-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0150-without-goals-final-jsonl-errors",
+        "success": true,
+        "tokens": 6517,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0152-only-infrastructure-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0152-only-infrastructure-final-unicode-path",
+        "success": true,
+        "tokens": 6582,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0151-only-infrastructure-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0151-only-infrastructure-final-jsonl-errors",
+        "success": true,
+        "tokens": 8837,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0153-without-goals-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0153-without-goals-final-unicode-path",
+        "success": true,
+        "tokens": 6420,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0154-without-acceptance-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0154-without-acceptance-final-unicode-path",
+        "success": false,
+        "tokens": 10867,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0155-without-feishu-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0155-without-feishu-final-unicode-path",
+        "success": false,
+        "tokens": 10822,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0156-without-controls-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0156-without-controls-final-unicode-path",
+        "success": false,
+        "tokens": 10888,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0157-without-scheduling-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0157-without-scheduling-final-unicode-path",
+        "success": false,
+        "tokens": 10830,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0158-without-optimization-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0158-without-optimization-final-unicode-path",
+        "success": false,
+        "tokens": 10838,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0159-old-all-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0159-old-all-final-unicode-path",
+        "success": false,
+        "tokens": 29447,
+        "modelRequests": 7
+      }
+    },
+    {
+      "id": "matrix-docker-0161-without-optimization-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0161-without-optimization-final-multi-file-consistency",
+        "success": false,
+        "tokens": 10983,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0160-old-all-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0160-old-all-final-multi-file-consistency",
+        "success": false,
+        "tokens": 28183,
+        "modelRequests": 7
+      }
+    },
+    {
+      "id": "matrix-docker-0162-without-scheduling-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0162-without-scheduling-final-multi-file-consistency",
+        "success": false,
+        "tokens": 10791,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0163-without-controls-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0163-without-controls-final-multi-file-consistency",
+        "success": false,
+        "tokens": 10984,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0164-without-feishu-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0164-without-feishu-final-multi-file-consistency",
+        "success": false,
+        "tokens": 10798,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0166-without-goals-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0166-without-goals-final-multi-file-consistency",
+        "success": true,
+        "tokens": 6319,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0165-without-acceptance-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0165-without-acceptance-final-multi-file-consistency",
+        "success": false,
+        "tokens": 10990,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0167-only-infrastructure-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0167-only-infrastructure-final-multi-file-consistency",
+        "success": true,
+        "tokens": 6288,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0168-only-infrastructure-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0168-only-infrastructure-final-null-vs-missing",
+        "success": true,
+        "tokens": 6277,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0169-without-goals-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0169-without-goals-final-null-vs-missing",
+        "success": true,
+        "tokens": 6257,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0170-without-acceptance-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0170-without-acceptance-final-null-vs-missing",
+        "success": false,
+        "tokens": 10847,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0171-without-feishu-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0171-without-feishu-final-null-vs-missing",
+        "success": false,
+        "tokens": 10781,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0172-without-controls-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0172-without-controls-final-null-vs-missing",
+        "success": false,
+        "tokens": 10863,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0173-without-scheduling-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0173-without-scheduling-final-null-vs-missing",
+        "success": false,
+        "tokens": 10857,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0174-without-optimization-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0174-without-optimization-final-null-vs-missing",
+        "success": false,
+        "tokens": 10843,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0175-old-all-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0175-old-all-final-null-vs-missing",
+        "success": false,
+        "tokens": 23800,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "matrix-docker-0177-without-optimization-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0177-without-optimization-final-range-boundaries",
+        "success": false,
+        "tokens": 10892,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0176-old-all-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0176-old-all-final-range-boundaries",
+        "success": false,
+        "tokens": 23850,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "matrix-docker-0178-without-scheduling-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0178-without-scheduling-final-range-boundaries",
+        "success": false,
+        "tokens": 10810,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0179-without-controls-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0179-without-controls-final-range-boundaries",
+        "success": false,
+        "tokens": 10848,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0180-without-feishu-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0180-without-feishu-final-range-boundaries",
+        "success": false,
+        "tokens": 10892,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0181-without-acceptance-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0181-without-acceptance-final-range-boundaries",
+        "success": false,
+        "tokens": 10856,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0182-without-goals-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0182-without-goals-final-range-boundaries",
+        "success": true,
+        "tokens": 6176,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0183-only-infrastructure-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0183-only-infrastructure-final-range-boundaries",
+        "success": true,
+        "tokens": 6273,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0184-only-infrastructure-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0184-only-infrastructure-final-text-replacement",
+        "success": true,
+        "tokens": 6074,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0185-without-goals-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0185-without-goals-final-text-replacement",
+        "success": true,
+        "tokens": 6063,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0186-without-acceptance-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0186-without-acceptance-final-text-replacement",
+        "success": false,
+        "tokens": 10730,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0187-without-feishu-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0187-without-feishu-final-text-replacement",
+        "success": false,
+        "tokens": 10868,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0188-without-controls-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0188-without-controls-final-text-replacement",
+        "success": false,
+        "tokens": 10919,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0189-without-scheduling-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0189-without-scheduling-final-text-replacement",
+        "success": false,
+        "tokens": 10957,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0190-without-optimization-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0190-without-optimization-final-text-replacement",
+        "success": false,
+        "tokens": 10757,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0191-old-all-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0191-old-all-final-text-replacement",
+        "success": false,
+        "tokens": 23550,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "matrix-docker-0192-only-infrastructure-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0192-only-infrastructure-final-inventory-join",
+        "success": true,
+        "tokens": 6372,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0193-without-goals-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0193-without-goals-final-inventory-join",
+        "success": true,
+        "tokens": 6395,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0194-without-acceptance-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0194-without-acceptance-final-inventory-join",
+        "success": false,
+        "tokens": 11018,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0195-without-feishu-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0195-without-feishu-final-inventory-join",
+        "success": false,
+        "tokens": 11173,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0196-without-controls-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0196-without-controls-final-inventory-join",
+        "success": false,
+        "tokens": 11023,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0197-without-scheduling-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0197-without-scheduling-final-inventory-join",
+        "success": false,
+        "tokens": 10953,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0198-without-optimization-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0198-without-optimization-final-inventory-join",
+        "success": false,
+        "tokens": 10903,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0201-without-optimization-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0201-without-optimization-final-money-csv",
+        "success": false,
+        "tokens": 10881,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0199-old-all-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0199-old-all-final-inventory-join",
+        "success": false,
+        "tokens": 24304,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "matrix-docker-0200-old-all-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0200-old-all-final-money-csv",
+        "success": false,
+        "tokens": 23978,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "matrix-docker-0202-without-scheduling-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0202-without-scheduling-final-money-csv",
+        "success": false,
+        "tokens": 10938,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0203-without-controls-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0203-without-controls-final-money-csv",
+        "success": false,
+        "tokens": 10839,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0204-without-feishu-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0204-without-feishu-final-money-csv",
+        "success": false,
+        "tokens": 10932,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0205-without-acceptance-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0205-without-acceptance-final-money-csv",
+        "success": false,
+        "tokens": 10884,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0206-without-goals-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0206-without-goals-final-money-csv",
+        "success": true,
+        "tokens": 8571,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0207-only-infrastructure-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0207-only-infrastructure-final-money-csv",
+        "success": true,
+        "tokens": 6329,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0208-only-infrastructure-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0208-only-infrastructure-final-stable-dedup",
+        "success": true,
+        "tokens": 6278,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0209-without-goals-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0209-without-goals-final-stable-dedup",
+        "success": true,
+        "tokens": 5993,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0210-without-acceptance-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0210-without-acceptance-final-stable-dedup",
+        "success": false,
+        "tokens": 10583,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0211-without-feishu-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0211-without-feishu-final-stable-dedup",
+        "success": false,
+        "tokens": 10563,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0212-without-controls-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0212-without-controls-final-stable-dedup",
+        "success": false,
+        "tokens": 10622,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0213-without-scheduling-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0213-without-scheduling-final-stable-dedup",
+        "success": false,
+        "tokens": 10579,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0214-without-optimization-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0214-without-optimization-final-stable-dedup",
+        "success": false,
+        "tokens": 10620,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0215-old-all-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0215-old-all-final-stable-dedup",
+        "success": false,
+        "tokens": 23789,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "matrix-docker-0216-old-all-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0216-old-all-final-markdown-section",
+        "success": false,
+        "tokens": 24490,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "matrix-docker-0217-without-optimization-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0217-without-optimization-final-markdown-section",
+        "success": false,
+        "tokens": 11333,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0218-without-scheduling-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0218-without-scheduling-final-markdown-section",
+        "success": false,
+        "tokens": 11289,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0220-without-feishu-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0220-without-feishu-final-markdown-section",
+        "success": false,
+        "tokens": 11337,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0219-without-controls-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0219-without-controls-final-markdown-section",
+        "success": false,
+        "tokens": 11333,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0221-without-acceptance-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0221-without-acceptance-final-markdown-section",
+        "success": false,
+        "tokens": 11396,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0222-without-goals-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0222-without-goals-final-markdown-section",
+        "success": true,
+        "tokens": 6784,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0224-only-infrastructure-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0224-only-infrastructure-final-nested-config",
+        "success": true,
+        "tokens": 6478,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0223-only-infrastructure-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0223-only-infrastructure-final-markdown-section",
+        "success": true,
+        "tokens": 6630,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0225-without-goals-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0225-without-goals-final-nested-config",
+        "success": true,
+        "tokens": 6551,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0227-without-feishu-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0227-without-feishu-final-nested-config",
+        "success": false,
+        "tokens": 11210,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0226-without-acceptance-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0226-without-acceptance-final-nested-config",
+        "success": false,
+        "tokens": 11178,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0228-without-controls-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0228-without-controls-final-nested-config",
+        "success": false,
+        "tokens": 11289,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0230-without-optimization-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0230-without-optimization-final-nested-config",
+        "success": false,
+        "tokens": 11183,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0229-without-scheduling-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0229-without-scheduling-final-nested-config",
+        "success": false,
+        "tokens": 11203,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0231-old-all-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0231-old-all-final-nested-config",
+        "success": false,
+        "tokens": 23791,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "matrix-docker-0233-without-optimization-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0233-without-optimization-final-version-filter",
+        "success": false,
+        "tokens": 10802,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0232-old-all-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0232-old-all-final-version-filter",
+        "success": false,
+        "tokens": 28694,
+        "modelRequests": 7
+      }
+    },
+    {
+      "id": "matrix-docker-0234-without-scheduling-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0234-without-scheduling-final-version-filter",
+        "success": false,
+        "tokens": 10771,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0235-without-controls-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0235-without-controls-final-version-filter",
+        "success": false,
+        "tokens": 10754,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0236-without-feishu-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0236-without-feishu-final-version-filter",
+        "success": false,
+        "tokens": 10773,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0238-without-goals-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0238-without-goals-final-version-filter",
+        "success": true,
+        "tokens": 6347,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0237-without-acceptance-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0237-without-acceptance-final-version-filter",
+        "success": false,
+        "tokens": 10846,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0239-only-infrastructure-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0239-only-infrastructure-final-version-filter",
+        "success": true,
+        "tokens": 6266,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0240-only-infrastructure-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0240-only-infrastructure-final-jsonl-errors",
+        "success": true,
+        "tokens": 6449,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0241-without-goals-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0241-without-goals-final-jsonl-errors",
+        "success": true,
+        "tokens": 6536,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0242-without-acceptance-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0242-without-acceptance-final-jsonl-errors",
+        "success": false,
+        "tokens": 11209,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0243-without-feishu-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0243-without-feishu-final-jsonl-errors",
+        "success": false,
+        "tokens": 11182,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0244-without-controls-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0244-without-controls-final-jsonl-errors",
+        "success": false,
+        "tokens": 11181,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0245-without-scheduling-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0245-without-scheduling-final-jsonl-errors",
+        "success": false,
+        "tokens": 11239,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0246-without-optimization-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0246-without-optimization-final-jsonl-errors",
+        "success": false,
+        "tokens": 22290,
+        "modelRequests": 7
+      }
+    },
+    {
+      "id": "matrix-docker-0247-old-all-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0247-old-all-final-jsonl-errors",
+        "success": false,
+        "tokens": 24183,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "matrix-docker-0249-without-optimization-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0249-without-optimization-final-unicode-path",
+        "success": false,
+        "tokens": 11074,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0248-old-all-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0248-old-all-final-unicode-path",
+        "success": false,
+        "tokens": 28553,
+        "modelRequests": 7
+      }
+    },
+    {
+      "id": "matrix-docker-0250-without-scheduling-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0250-without-scheduling-final-unicode-path",
+        "success": false,
+        "tokens": 10855,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0251-without-controls-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0251-without-controls-final-unicode-path",
+        "success": false,
+        "tokens": 11028,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0252-without-feishu-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0252-without-feishu-final-unicode-path",
+        "success": false,
+        "tokens": 10841,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0253-without-acceptance-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0253-without-acceptance-final-unicode-path",
+        "success": false,
+        "tokens": 11025,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0254-without-goals-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0254-without-goals-final-unicode-path",
+        "success": true,
+        "tokens": 6433,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0255-only-infrastructure-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0255-only-infrastructure-final-unicode-path",
+        "success": true,
+        "tokens": 6390,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0256-only-infrastructure-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0256-only-infrastructure-final-multi-file-consistency",
+        "success": true,
+        "tokens": 6422,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0257-without-goals-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0257-without-goals-final-multi-file-consistency",
+        "success": true,
+        "tokens": 6337,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0258-without-acceptance-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0258-without-acceptance-final-multi-file-consistency",
+        "success": false,
+        "tokens": 10878,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0259-without-feishu-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0259-without-feishu-final-multi-file-consistency",
+        "success": false,
+        "tokens": 10808,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0260-without-controls-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0260-without-controls-final-multi-file-consistency",
+        "success": false,
+        "tokens": 10803,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0261-without-scheduling-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0261-without-scheduling-final-multi-file-consistency",
+        "success": false,
+        "tokens": 10900,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0262-without-optimization-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0262-without-optimization-final-multi-file-consistency",
+        "success": false,
+        "tokens": 10689,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0263-old-all-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0263-old-all-final-multi-file-consistency",
+        "success": false,
+        "tokens": 28340,
+        "modelRequests": 7
+      }
+    },
+    {
+      "id": "matrix-docker-0265-without-optimization-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0265-without-optimization-final-null-vs-missing",
+        "success": false,
+        "tokens": 10957,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0264-old-all-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0264-old-all-final-null-vs-missing",
+        "success": false,
+        "tokens": 28496,
+        "modelRequests": 7
+      }
+    },
+    {
+      "id": "matrix-docker-0267-without-controls-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0267-without-controls-final-null-vs-missing",
+        "success": false,
+        "tokens": 10705,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0266-without-scheduling-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0266-without-scheduling-final-null-vs-missing",
+        "success": false,
+        "tokens": 10728,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0268-without-feishu-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0268-without-feishu-final-null-vs-missing",
+        "success": false,
+        "tokens": 10736,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0270-without-goals-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0270-without-goals-final-null-vs-missing",
+        "success": true,
+        "tokens": 6260,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0269-without-acceptance-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0269-without-acceptance-final-null-vs-missing",
+        "success": false,
+        "tokens": 10868,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0271-only-infrastructure-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0271-only-infrastructure-final-null-vs-missing",
+        "success": true,
+        "tokens": 6271,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0272-only-infrastructure-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0272-only-infrastructure-final-range-boundaries",
+        "success": true,
+        "tokens": 6070,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0273-without-goals-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0273-without-goals-final-range-boundaries",
+        "success": true,
+        "tokens": 6336,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0274-without-acceptance-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0274-without-acceptance-final-range-boundaries",
+        "success": false,
+        "tokens": 10835,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0275-without-feishu-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0275-without-feishu-final-range-boundaries",
+        "success": false,
+        "tokens": 10902,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0276-without-controls-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0276-without-controls-final-range-boundaries",
+        "success": false,
+        "tokens": 10834,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0277-without-scheduling-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0277-without-scheduling-final-range-boundaries",
+        "success": false,
+        "tokens": 10815,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0278-without-optimization-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0278-without-optimization-final-range-boundaries",
+        "success": false,
+        "tokens": 10901,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0279-old-all-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0279-old-all-final-range-boundaries",
+        "success": false,
+        "tokens": 23856,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "matrix-docker-0280-old-all-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0280-old-all-final-text-replacement",
+        "success": false,
+        "tokens": 23540,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "matrix-docker-0281-without-optimization-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0281-without-optimization-final-text-replacement",
+        "success": false,
+        "tokens": 10657,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0282-without-scheduling-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0282-without-scheduling-final-text-replacement",
+        "success": false,
+        "tokens": 10777,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0283-without-controls-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0283-without-controls-final-text-replacement",
+        "success": false,
+        "tokens": 10535,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0284-without-feishu-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0284-without-feishu-final-text-replacement",
+        "success": false,
+        "tokens": 10780,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0285-without-acceptance-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0285-without-acceptance-final-text-replacement",
+        "success": false,
+        "tokens": 10859,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "matrix-docker-0286-without-goals-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0286-without-goals-final-text-replacement",
+        "success": true,
+        "tokens": 6135,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "matrix-docker-0287-only-infrastructure-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "matrix-docker-0287-only-infrastructure-final-text-replacement",
+        "success": true,
+        "tokens": 6127,
+        "modelRequests": 3
+      }
+    }
+  ]
+}

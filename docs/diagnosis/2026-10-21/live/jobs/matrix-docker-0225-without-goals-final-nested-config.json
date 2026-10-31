@@ -1,0 +1,1 @@
+{"arm":"without-goals","kind":"current","features":{"goals":false,"acceptance":true,"feishu":true,"controls":true,"scheduling":true,"optimization":true,"infrastructure":true},"repetition":2,"seed":209475,"caseId":"final-nested-config","id":"matrix-docker-0225-without-goals-final-nested-config"}

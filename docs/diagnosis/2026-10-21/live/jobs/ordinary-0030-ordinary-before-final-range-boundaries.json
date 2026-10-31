@@ -1,0 +1,1 @@
+{"arm":"ordinary-before","kind":"current","startGoal":false,"features":{"goals":true,"acceptance":true,"feishu":true,"controls":true,"scheduling":true,"optimization":true,"infrastructure":true},"sandbox":"docker","repetition":0,"seed":17,"caseId":"final-range-boundaries","id":"ordinary-0030-ordinary-before-final-range-boundaries"}

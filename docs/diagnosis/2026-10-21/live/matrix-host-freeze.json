@@ -1,0 +1,4502 @@
+{
+  "mode": "matrix-host",
+  "frozenAt": "2026-10-22T00:06:54.107Z",
+  "node": "v24.19.0",
+  "model": "deepseek-flash",
+  "temperature": 0.2,
+  "max_tokens": 2048,
+  "thinking": "disabled",
+  "seeds": [
+    17,
+    104746,
+    209475
+  ],
+  "maxRequests": 1500,
+  "maxReportedTokens": 5000000,
+  "maxConcurrentTasks": 3,
+  "productLimits": {
+    "durationMs": 300000,
+    "toolCalls": 100,
+    "tokens": 100000,
+    "bashTimeoutSeconds": 120
+  },
+  "perTaskExternalTimeoutMs": 120000,
+  "perTaskExternalRequestLimit": 30,
+  "note": "Token ceiling checked before dispatch; up to three in-flight requests may exceed it. Prices unknown. No candidate generated. Goal-enabled arms create equivalent file-existence acceptance and use the production-equivalent outer loop adapter. Queue and actual IM delivery are outside this runner experiment.",
+  "datasetSha256": "b7a5f92c8a38e92d3d5d01712901c9203914a4c8bd26056a0a195f2c8839bc84",
+  "image": "sha256:061401acf8127a73b139afcecc1a1713d84e61cd9318d155f64802beef304809",
+  "leanSourceHashes": {
+    "validation.ts": "d97f2c8e667d9968897f895d038687139d8103589f7e4091fcaf8d215295177c",
+    "slack.ts": "d695406eff5b131cfbdd474969b9059aeb804ac6342ca7c846b9761633a4bb6b",
+    "main.ts": "4cfd5250f3e605887c095778e99a886d20cefceb4a26d462c8b0c69aa1ed56dc",
+    "channel-queue.ts": "8f8033b741949036b14ab9b4d8552d9ba2afcc0fc79c7105c31327a4b60122aa",
+    "feishu.ts": "dbf60baec2db8136e2706d6936a0adb3d23db6678b7044cd2ba617dd362b9b5c",
+    "agent.ts": "b8e41c83b3347da02560822dbb9e1b5d9068af28eeddce8aaf819396e81d3b3b",
+    "context.ts": "46a0ebfe8c8e31262a83800aa8e9b77959180b340b75dcb8687faa433430ce07",
+    "idle-cache.ts": "bc16692fcf7d7207cafeec9be89d6ee00b8feb810b2b1fae2d644db90ef1202f",
+    "sandbox.ts": "55526b1a9d49d548a8c972c13c41368f1e25401b75df83b9c9955855114e0979",
+    "presentation.ts": "37d30b4174bd556f59d9036bd86a87c46d964950a78804d81d732a9f167b66ad",
+    "queued-events.ts": "cf4c626552e2f0b29068d86fcd623451fdcfa9108e52c949b37dfe048ec815a4",
+    "timeouts.ts": "54bc8237442ceb4130f109a2a17af9a6840c852518899d1ab69dd4ab13891224",
+    "observability.ts": "7c5e4a4ba1264ac03201ee283f66875164fb98d2ae00f4a08f3a8fcfaa6480c0",
+    "features.ts": "0722fb568ab0c400aebe55eede9c2da7a6394dfde56ed5dcdb1940a9001c1d0c",
+    "fs-watch.ts": "f40e22497371b59286e516eeff70495b20a099daef160c82cc1c196cf637df41",
+    "download.ts": "698583f3f88a739fc88a1c40089b976a30b7f2c9bf70429a2fb9134c22121573",
+    "events.ts": "2c74dce6482df7c9a564756b4f322e143c11db1b2e36f2fe3a500e4205cfb0c8",
+    "log.ts": "6dcad2f4cc64503b89d674ec56a0ae1533618469cfa109546feccda77bddad5f",
+    "transport.ts": "6e914312c502a18bf8465fc58b1d116ad27c17b2b0e0456c37f2713917548eb1",
+    "config.ts": "932a1b897d44894fdd39a7682483fb08135c3a583456615f767bb68881ca3ee4",
+    "platform-operations.ts": "22aa182fe1be47decc045c6506d4b1f7d84bd2e0ca4e7af59da6825ddf5cdc35",
+    "store.ts": "0d7b4a47be04832eec59c35ee261469045683fc743953d87e1fc4b7244a67e6e",
+    "benchmark/report.ts": "0248dd6f46e7f22e8f6a51cc15afed8322fc5b97c1ddb2b8871f26d75e4fcc0d",
+    "benchmark/statistics.ts": "e8d4c372013f57e0a9a5614700bb72e7957f067b1bf0e3ce9ec128124af80e8d",
+    "benchmark/resources.ts": "c61d8da4434ca8a791095fad19e1ffd8e1391bd1becf89e47e0706f19915bd6e",
+    "benchmark/environment.ts": "13f4a1d27580c8935789557cfd4a4a7201f7538cf7f89bf644de258849250fd0",
+    "benchmark/cli.ts": "fca4d531403cafc4259c4528faa1ce353d9575f7666103011b89dbb68d1a9665",
+    "benchmark/workload.ts": "73bf83a32c323106e44743153039c96308d89d03d5e772ec767efc597b3c469b",
+    "benchmark/types.ts": "15d2ebe78b4483d4ba45fa6d94977c9c00b2f767ea81589515779e302fbc2159",
+    "evals/optimizer.ts": "73532b7b3be841f4b0471b9c6e971ad14f2bca723d9be576c8ff3a5becc2d6e8",
+    "evals/cli.ts": "9913bf3370df2b9c3982a0cc32adac0bd3a29d0a345719f868df3014a1405cdc",
+    "evals/optimize-cli.ts": "5ba4684090490a4645d285ff1f68a6c0ad031fafd11770235297fc37aed42981",
+    "evals/types.ts": "203eca8ec829d8a5e6488f6bf3317aa3b44643d6dc75d7239fbbf3726f33b92c",
+    "evals/scoring.ts": "bc8efa08bb7af6165c67d940984e7e249861f85bad20fb79b9cfc37138960329",
+    "evals/runner.ts": "cda562aa134b617b8d347311933b22d91d12035a67cd97483e4e418c45db6f60",
+    "tools/read.ts": "7bec778bccaea4cf9c8ed71f9b3471fb736fc1e16fb6013e21ce89041e9be8e9",
+    "tools/goal.ts": "d015c8322d2829c9a93468fe8ca5af51cfde604d486bbe6dd8c349d4be90095a",
+    "tools/edit.ts": "3ee69dfb4a96f7cf0415e48ed6956af20dc0c63e0769cf46770909a2e0bacdc4",
+    "tools/attach.ts": "cd69be15a7864631b7e66fcdc361724397ed9ff96cb59bb4c01438890e1f0ae5",
+    "tools/bash.ts": "0898418e40ef4ef3e64e377e112fb3acd78e9b2bdd351de439261ac28aef7667",
+    "tools/index.ts": "08de09b9820dfb7db48ef0f2242d543b1fa738ffdcbfa68422fce6a48623ee86",
+    "tools/write.ts": "900ad5967eb22d61fbdc38508fe7aab81726adb5da328c42581ca8984aa2949a",
+    "tools/truncate.ts": "64a77728c26c87eb9f93e470ed553116107aae047f2f0d516ca7c644bffcf10c",
+    "goals/verifier.ts": "2a1a81a42ba31608aba8c20229107f573047659f5185d9cc932b8db72e9da727",
+    "goals/commands.ts": "1e5b71c255937c24fca07153342a2d7e725a09fc2df8f48d430f2ef777d023a4",
+    "goals/migration.ts": "d3e80865f3ba31e2a7a215a511a5df28a7709fff617e36a8b48fe2405115cf08",
+    "goals/prompt.ts": "deda5a55c1969ac2d43f66c4a9bb3d1c478428e08607b4777079e3b3afe842d8",
+    "goals/types.ts": "2ddc1cc9c51d4b1a6a4b82f7cbe29aee8ab0460aff1d0fb280d84bc82f8b69a3",
+    "goals/control.ts": "44417fe45e4804fba556f26fdbe068c116148ef185f3914bda8779a25037120e",
+    "goals/acceptance.ts": "ddd32fca59a9fa79ef87a1b110fce30597554d46c13ff3bd4634475a034c6437",
+    "goals/artifact.ts": "dc8697ad02e7fee89fadaa2b09e30891c66c1928831d89de927049879855df9d",
+    "goals/store.ts": "b1a6ae9c62659913d21271b371bde7774662cdafcfa5a2f4967c815e758a67a8",
+    "goals/migrate-cli.ts": "35c75d2ec0aa6a8fc2cce7e24210f3a72151a3a4b5258e9529930aecb030b724"
+  },
+  "fixedSourceHashes": {
+    "validation.ts": "d97f2c8e667d9968897f895d038687139d8103589f7e4091fcaf8d215295177c",
+    "slack.ts": "d695406eff5b131cfbdd474969b9059aeb804ac6342ca7c846b9761633a4bb6b",
+    "main.ts": "4cfd5250f3e605887c095778e99a886d20cefceb4a26d462c8b0c69aa1ed56dc",
+    "channel-queue.ts": "8f8033b741949036b14ab9b4d8552d9ba2afcc0fc79c7105c31327a4b60122aa",
+    "feishu.ts": "dbf60baec2db8136e2706d6936a0adb3d23db6678b7044cd2ba617dd362b9b5c",
+    "agent.ts": "c35a65f6f32233b557b72b94ff2302da2049ed8d4a9bcecee883b3be8c6a8a40",
+    "context.ts": "46a0ebfe8c8e31262a83800aa8e9b77959180b340b75dcb8687faa433430ce07",
+    "idle-cache.ts": "bc16692fcf7d7207cafeec9be89d6ee00b8feb810b2b1fae2d644db90ef1202f",
+    "sandbox.ts": "55526b1a9d49d548a8c972c13c41368f1e25401b75df83b9c9955855114e0979",
+    "presentation.ts": "37d30b4174bd556f59d9036bd86a87c46d964950a78804d81d732a9f167b66ad",
+    "queued-events.ts": "cf4c626552e2f0b29068d86fcd623451fdcfa9108e52c949b37dfe048ec815a4",
+    "timeouts.ts": "54bc8237442ceb4130f109a2a17af9a6840c852518899d1ab69dd4ab13891224",
+    "observability.ts": "7c5e4a4ba1264ac03201ee283f66875164fb98d2ae00f4a08f3a8fcfaa6480c0",
+    "features.ts": "0722fb568ab0c400aebe55eede9c2da7a6394dfde56ed5dcdb1940a9001c1d0c",
+    "fs-watch.ts": "f40e22497371b59286e516eeff70495b20a099daef160c82cc1c196cf637df41",
+    "download.ts": "698583f3f88a739fc88a1c40089b976a30b7f2c9bf70429a2fb9134c22121573",
+    "events.ts": "2c74dce6482df7c9a564756b4f322e143c11db1b2e36f2fe3a500e4205cfb0c8",
+    "log.ts": "6dcad2f4cc64503b89d674ec56a0ae1533618469cfa109546feccda77bddad5f",
+    "transport.ts": "6e914312c502a18bf8465fc58b1d116ad27c17b2b0e0456c37f2713917548eb1",
+    "config.ts": "932a1b897d44894fdd39a7682483fb08135c3a583456615f767bb68881ca3ee4",
+    "platform-operations.ts": "22aa182fe1be47decc045c6506d4b1f7d84bd2e0ca4e7af59da6825ddf5cdc35",
+    "store.ts": "0d7b4a47be04832eec59c35ee261469045683fc743953d87e1fc4b7244a67e6e",
+    "benchmark/report.ts": "0248dd6f46e7f22e8f6a51cc15afed8322fc5b97c1ddb2b8871f26d75e4fcc0d",
+    "benchmark/statistics.ts": "e8d4c372013f57e0a9a5614700bb72e7957f067b1bf0e3ce9ec128124af80e8d",
+    "benchmark/resources.ts": "c61d8da4434ca8a791095fad19e1ffd8e1391bd1becf89e47e0706f19915bd6e",
+    "benchmark/environment.ts": "13f4a1d27580c8935789557cfd4a4a7201f7538cf7f89bf644de258849250fd0",
+    "benchmark/cli.ts": "fca4d531403cafc4259c4528faa1ce353d9575f7666103011b89dbb68d1a9665",
+    "benchmark/workload.ts": "73bf83a32c323106e44743153039c96308d89d03d5e772ec767efc597b3c469b",
+    "benchmark/types.ts": "15d2ebe78b4483d4ba45fa6d94977c9c00b2f767ea81589515779e302fbc2159",
+    "evals/optimizer.ts": "73532b7b3be841f4b0471b9c6e971ad14f2bca723d9be576c8ff3a5becc2d6e8",
+    "evals/cli.ts": "9913bf3370df2b9c3982a0cc32adac0bd3a29d0a345719f868df3014a1405cdc",
+    "evals/optimize-cli.ts": "5ba4684090490a4645d285ff1f68a6c0ad031fafd11770235297fc37aed42981",
+    "evals/types.ts": "203eca8ec829d8a5e6488f6bf3317aa3b44643d6dc75d7239fbbf3726f33b92c",
+    "evals/scoring.ts": "bc8efa08bb7af6165c67d940984e7e249861f85bad20fb79b9cfc37138960329",
+    "evals/runner.ts": "cda562aa134b617b8d347311933b22d91d12035a67cd97483e4e418c45db6f60",
+    "tools/read.ts": "7bec778bccaea4cf9c8ed71f9b3471fb736fc1e16fb6013e21ce89041e9be8e9",
+    "tools/goal.ts": "d015c8322d2829c9a93468fe8ca5af51cfde604d486bbe6dd8c349d4be90095a",
+    "tools/edit.ts": "3ee69dfb4a96f7cf0415e48ed6956af20dc0c63e0769cf46770909a2e0bacdc4",
+    "tools/attach.ts": "cd69be15a7864631b7e66fcdc361724397ed9ff96cb59bb4c01438890e1f0ae5",
+    "tools/bash.ts": "0898418e40ef4ef3e64e377e112fb3acd78e9b2bdd351de439261ac28aef7667",
+    "tools/index.ts": "08de09b9820dfb7db48ef0f2242d543b1fa738ffdcbfa68422fce6a48623ee86",
+    "tools/write.ts": "900ad5967eb22d61fbdc38508fe7aab81726adb5da328c42581ca8984aa2949a",
+    "tools/truncate.ts": "64a77728c26c87eb9f93e470ed553116107aae047f2f0d516ca7c644bffcf10c",
+    "goals/verifier.ts": "2a1a81a42ba31608aba8c20229107f573047659f5185d9cc932b8db72e9da727",
+    "goals/commands.ts": "1e5b71c255937c24fca07153342a2d7e725a09fc2df8f48d430f2ef777d023a4",
+    "goals/migration.ts": "d3e80865f3ba31e2a7a215a511a5df28a7709fff617e36a8b48fe2405115cf08",
+    "goals/prompt.ts": "deda5a55c1969ac2d43f66c4a9bb3d1c478428e08607b4777079e3b3afe842d8",
+    "goals/types.ts": "2ddc1cc9c51d4b1a6a4b82f7cbe29aee8ab0460aff1d0fb280d84bc82f8b69a3",
+    "goals/control.ts": "44417fe45e4804fba556f26fdbe068c116148ef185f3914bda8779a25037120e",
+    "goals/acceptance.ts": "ddd32fca59a9fa79ef87a1b110fce30597554d46c13ff3bd4634475a034c6437",
+    "goals/artifact.ts": "dc8697ad02e7fee89fadaa2b09e30891c66c1928831d89de927049879855df9d",
+    "goals/store.ts": "b1a6ae9c62659913d21271b371bde7774662cdafcfa5a2f4967c815e758a67a8",
+    "goals/migrate-cli.ts": "35c75d2ec0aa6a8fc2cce7e24210f3a72151a3a4b5258e9529930aecb030b724"
+  },
+  "productSourceHashes": {
+    "validation.ts": "d97f2c8e667d9968897f895d038687139d8103589f7e4091fcaf8d215295177c",
+    "slack.ts": "d695406eff5b131cfbdd474969b9059aeb804ac6342ca7c846b9761633a4bb6b",
+    "main.ts": "4cfd5250f3e605887c095778e99a886d20cefceb4a26d462c8b0c69aa1ed56dc",
+    "channel-queue.ts": "cb2030fccbe523ef4bbc5347147b13b9dc1ccd0d863a6c2888081486125c97b2",
+    "feishu.ts": "dbf60baec2db8136e2706d6936a0adb3d23db6678b7044cd2ba617dd362b9b5c",
+    "agent.ts": "751a41fc7c6f545cad96899c0efcda5afc69b943fe5f545e6e54bf0d412212c9",
+    "context.ts": "46a0ebfe8c8e31262a83800aa8e9b77959180b340b75dcb8687faa433430ce07",
+    "idle-cache.ts": "bc16692fcf7d7207cafeec9be89d6ee00b8feb810b2b1fae2d644db90ef1202f",
+    "sandbox.ts": "55526b1a9d49d548a8c972c13c41368f1e25401b75df83b9c9955855114e0979",
+    "presentation.ts": "37d30b4174bd556f59d9036bd86a87c46d964950a78804d81d732a9f167b66ad",
+    "queued-events.ts": "cf4c626552e2f0b29068d86fcd623451fdcfa9108e52c949b37dfe048ec815a4",
+    "timeouts.ts": "54bc8237442ceb4130f109a2a17af9a6840c852518899d1ab69dd4ab13891224",
+    "observability.ts": "7c5e4a4ba1264ac03201ee283f66875164fb98d2ae00f4a08f3a8fcfaa6480c0",
+    "features.ts": "0722fb568ab0c400aebe55eede9c2da7a6394dfde56ed5dcdb1940a9001c1d0c",
+    "fs-watch.ts": "f40e22497371b59286e516eeff70495b20a099daef160c82cc1c196cf637df41",
+    "download.ts": "698583f3f88a739fc88a1c40089b976a30b7f2c9bf70429a2fb9134c22121573",
+    "events.ts": "2c74dce6482df7c9a564756b4f322e143c11db1b2e36f2fe3a500e4205cfb0c8",
+    "log.ts": "6dcad2f4cc64503b89d674ec56a0ae1533618469cfa109546feccda77bddad5f",
+    "transport.ts": "6e914312c502a18bf8465fc58b1d116ad27c17b2b0e0456c37f2713917548eb1",
+    "config.ts": "932a1b897d44894fdd39a7682483fb08135c3a583456615f767bb68881ca3ee4",
+    "platform-operations.ts": "22aa182fe1be47decc045c6506d4b1f7d84bd2e0ca4e7af59da6825ddf5cdc35",
+    "store.ts": "0d7b4a47be04832eec59c35ee261469045683fc743953d87e1fc4b7244a67e6e",
+    "benchmark/report.ts": "0248dd6f46e7f22e8f6a51cc15afed8322fc5b97c1ddb2b8871f26d75e4fcc0d",
+    "benchmark/statistics.ts": "e8d4c372013f57e0a9a5614700bb72e7957f067b1bf0e3ce9ec128124af80e8d",
+    "benchmark/resources.ts": "c61d8da4434ca8a791095fad19e1ffd8e1391bd1becf89e47e0706f19915bd6e",
+    "benchmark/environment.ts": "13f4a1d27580c8935789557cfd4a4a7201f7538cf7f89bf644de258849250fd0",
+    "benchmark/cli.ts": "fca4d531403cafc4259c4528faa1ce353d9575f7666103011b89dbb68d1a9665",
+    "benchmark/workload.ts": "73bf83a32c323106e44743153039c96308d89d03d5e772ec767efc597b3c469b",
+    "benchmark/types.ts": "15d2ebe78b4483d4ba45fa6d94977c9c00b2f767ea81589515779e302fbc2159",
+    "evals/optimizer.ts": "553b69d62679970d19e9980e0ce4ccaa51470625aca17f075b2da4316700ed08",
+    "evals/cli.ts": "9913bf3370df2b9c3982a0cc32adac0bd3a29d0a345719f868df3014a1405cdc",
+    "evals/optimize-cli.ts": "5ba4684090490a4645d285ff1f68a6c0ad031fafd11770235297fc37aed42981",
+    "evals/types.ts": "203eca8ec829d8a5e6488f6bf3317aa3b44643d6dc75d7239fbbf3726f33b92c",
+    "evals/scoring.ts": "bc8efa08bb7af6165c67d940984e7e249861f85bad20fb79b9cfc37138960329",
+    "evals/runner.ts": "cda562aa134b617b8d347311933b22d91d12035a67cd97483e4e418c45db6f60",
+    "tools/read.ts": "7bec778bccaea4cf9c8ed71f9b3471fb736fc1e16fb6013e21ce89041e9be8e9",
+    "tools/goal.ts": "d015c8322d2829c9a93468fe8ca5af51cfde604d486bbe6dd8c349d4be90095a",
+    "tools/edit.ts": "3ee69dfb4a96f7cf0415e48ed6956af20dc0c63e0769cf46770909a2e0bacdc4",
+    "tools/attach.ts": "cd69be15a7864631b7e66fcdc361724397ed9ff96cb59bb4c01438890e1f0ae5",
+    "tools/bash.ts": "0898418e40ef4ef3e64e377e112fb3acd78e9b2bdd351de439261ac28aef7667",
+    "tools/index.ts": "08de09b9820dfb7db48ef0f2242d543b1fa738ffdcbfa68422fce6a48623ee86",
+    "tools/write.ts": "900ad5967eb22d61fbdc38508fe7aab81726adb5da328c42581ca8984aa2949a",
+    "tools/truncate.ts": "64a77728c26c87eb9f93e470ed553116107aae047f2f0d516ca7c644bffcf10c",
+    "goals/verifier.ts": "2a1a81a42ba31608aba8c20229107f573047659f5185d9cc932b8db72e9da727",
+    "goals/commands.ts": "1e5b71c255937c24fca07153342a2d7e725a09fc2df8f48d430f2ef777d023a4",
+    "goals/migration.ts": "d3e80865f3ba31e2a7a215a511a5df28a7709fff617e36a8b48fe2405115cf08",
+    "goals/prompt.ts": "deda5a55c1969ac2d43f66c4a9bb3d1c478428e08607b4777079e3b3afe842d8",
+    "goals/types.ts": "2ddc1cc9c51d4b1a6a4b82f7cbe29aee8ab0460aff1d0fb280d84bc82f8b69a3",
+    "goals/control.ts": "44417fe45e4804fba556f26fdbe068c116148ef185f3914bda8779a25037120e",
+    "goals/acceptance.ts": "ddd32fca59a9fa79ef87a1b110fce30597554d46c13ff3bd4634475a034c6437",
+    "goals/artifact.ts": "dc8697ad02e7fee89fadaa2b09e30891c66c1928831d89de927049879855df9d",
+    "goals/store.ts": "b1a6ae9c62659913d21271b371bde7774662cdafcfa5a2f4967c815e758a67a8",
+    "goals/migrate-cli.ts": "35c75d2ec0aa6a8fc2cce7e24210f3a72151a3a4b5258e9529930aecb030b724"
+  },
+  "upstreamSource": {
+    "revision": "3ffc2b430",
+    "files": {
+      "packages/mom/src/agent.ts": "e4f30eeac8c4e4b1995f39467a66662a07a77c4e97954d7d9c64cd6835fb7469",
+      "packages/mom/src/context.ts": "fc7af78dcf48979d4f9b42adb4853f32a5854277928efbcfd59ccac489273bc8",
+      "packages/mom/src/download.ts": "698583f3f88a739fc88a1c40089b976a30b7f2c9bf70429a2fb9134c22121573",
+      "packages/mom/src/events.ts": "086af9d9b68085092c0c30778487f3038b2f6983f89a6903ec93af665898ac63",
+      "packages/mom/src/fs-watch.ts": "f40e22497371b59286e516eeff70495b20a099daef160c82cc1c196cf637df41",
+      "packages/mom/src/log.ts": "1cbe349e93d37caac96ea0264075d6a385a3e20b0dee3d053dbb1f18e7c100cd",
+      "packages/mom/src/main.ts": "a4214622253ff20322b91a44d7854cce7a5d5caa819029637058ba4e583de89d",
+      "packages/mom/src/sandbox.ts": "802f6524daa62cbbcdb398a3fbd8382b99bd67718dc088ae5a9e7ae4cde4a810",
+      "packages/mom/src/slack.ts": "6b60b9dadb5911cb44b9e15a05427f52fabed3af9fca559c08913d1296445e9d",
+      "packages/mom/src/store.ts": "186321bce8ba8d9cf7d351b36d18204fc21b1c2f875ff7a517e753b398a14c73",
+      "packages/mom/src/tools/attach.ts": "45f2b533c825953e7bfee656c16e378ea987e46752c3e82e3f60a4a99228cbbe",
+      "packages/mom/src/tools/bash.ts": "16a740e0a47e95034ad93edd9aae2833203f66e31608e5daef6ae67afb60b7db",
+      "packages/mom/src/tools/edit.ts": "3ee69dfb4a96f7cf0415e48ed6956af20dc0c63e0769cf46770909a2e0bacdc4",
+      "packages/mom/src/tools/index.ts": "c93dd9856d815adbf9eb970c0feb6fc76526770bee4ee01c51b195a6b971382d",
+      "packages/mom/src/tools/read.ts": "7bec778bccaea4cf9c8ed71f9b3471fb736fc1e16fb6013e21ce89041e9be8e9",
+      "packages/mom/src/tools/truncate.ts": "64a77728c26c87eb9f93e470ed553116107aae047f2f0d516ca7c644bffcf10c",
+      "packages/mom/src/tools/write.ts": "6f4a3643014382753f958f30ed16f859a61138f5d6f4f401578fdd271091d5ad"
+    }
+  },
+  "workerSha256": "2c32e626112703216c885808580fcf9f82492046b966f71209e1814a0c306513",
+  "jobs": [
+    {
+      "arm": "only-goals",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-inventory-join",
+      "id": "matrix-host-0000-only-goals-final-inventory-join"
+    },
+    {
+      "arm": "only-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-inventory-join",
+      "id": "matrix-host-0001-only-acceptance-final-inventory-join"
+    },
+    {
+      "arm": "only-feishu",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": true,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-inventory-join",
+      "id": "matrix-host-0002-only-feishu-final-inventory-join"
+    },
+    {
+      "arm": "only-controls",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": true,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-inventory-join",
+      "id": "matrix-host-0003-only-controls-final-inventory-join"
+    },
+    {
+      "arm": "only-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-inventory-join",
+      "id": "matrix-host-0004-only-scheduling-final-inventory-join"
+    },
+    {
+      "arm": "only-optimization",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-inventory-join",
+      "id": "matrix-host-0005-only-optimization-final-inventory-join"
+    },
+    {
+      "arm": "without-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-inventory-join",
+      "id": "matrix-host-0006-without-infrastructure-final-inventory-join"
+    },
+    {
+      "arm": "without-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-money-csv",
+      "id": "matrix-host-0007-without-infrastructure-final-money-csv"
+    },
+    {
+      "arm": "only-optimization",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-money-csv",
+      "id": "matrix-host-0008-only-optimization-final-money-csv"
+    },
+    {
+      "arm": "only-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-money-csv",
+      "id": "matrix-host-0009-only-scheduling-final-money-csv"
+    },
+    {
+      "arm": "only-controls",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": true,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-money-csv",
+      "id": "matrix-host-0010-only-controls-final-money-csv"
+    },
+    {
+      "arm": "only-feishu",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": true,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-money-csv",
+      "id": "matrix-host-0011-only-feishu-final-money-csv"
+    },
+    {
+      "arm": "only-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-money-csv",
+      "id": "matrix-host-0012-only-acceptance-final-money-csv"
+    },
+    {
+      "arm": "only-goals",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-money-csv",
+      "id": "matrix-host-0013-only-goals-final-money-csv"
+    },
+    {
+      "arm": "only-goals",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-stable-dedup",
+      "id": "matrix-host-0014-only-goals-final-stable-dedup"
+    },
+    {
+      "arm": "only-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-stable-dedup",
+      "id": "matrix-host-0015-only-acceptance-final-stable-dedup"
+    },
+    {
+      "arm": "only-feishu",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": true,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-stable-dedup",
+      "id": "matrix-host-0016-only-feishu-final-stable-dedup"
+    },
+    {
+      "arm": "only-controls",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": true,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-stable-dedup",
+      "id": "matrix-host-0017-only-controls-final-stable-dedup"
+    },
+    {
+      "arm": "only-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-stable-dedup",
+      "id": "matrix-host-0018-only-scheduling-final-stable-dedup"
+    },
+    {
+      "arm": "only-optimization",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-stable-dedup",
+      "id": "matrix-host-0019-only-optimization-final-stable-dedup"
+    },
+    {
+      "arm": "without-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-stable-dedup",
+      "id": "matrix-host-0020-without-infrastructure-final-stable-dedup"
+    },
+    {
+      "arm": "without-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-markdown-section",
+      "id": "matrix-host-0021-without-infrastructure-final-markdown-section"
+    },
+    {
+      "arm": "only-optimization",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-markdown-section",
+      "id": "matrix-host-0022-only-optimization-final-markdown-section"
+    },
+    {
+      "arm": "only-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-markdown-section",
+      "id": "matrix-host-0023-only-scheduling-final-markdown-section"
+    },
+    {
+      "arm": "only-controls",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": true,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-markdown-section",
+      "id": "matrix-host-0024-only-controls-final-markdown-section"
+    },
+    {
+      "arm": "only-feishu",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": true,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-markdown-section",
+      "id": "matrix-host-0025-only-feishu-final-markdown-section"
+    },
+    {
+      "arm": "only-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-markdown-section",
+      "id": "matrix-host-0026-only-acceptance-final-markdown-section"
+    },
+    {
+      "arm": "only-goals",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-markdown-section",
+      "id": "matrix-host-0027-only-goals-final-markdown-section"
+    },
+    {
+      "arm": "only-goals",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-nested-config",
+      "id": "matrix-host-0028-only-goals-final-nested-config"
+    },
+    {
+      "arm": "only-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-nested-config",
+      "id": "matrix-host-0029-only-acceptance-final-nested-config"
+    },
+    {
+      "arm": "only-feishu",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": true,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-nested-config",
+      "id": "matrix-host-0030-only-feishu-final-nested-config"
+    },
+    {
+      "arm": "only-controls",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": true,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-nested-config",
+      "id": "matrix-host-0031-only-controls-final-nested-config"
+    },
+    {
+      "arm": "only-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-nested-config",
+      "id": "matrix-host-0032-only-scheduling-final-nested-config"
+    },
+    {
+      "arm": "only-optimization",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-nested-config",
+      "id": "matrix-host-0033-only-optimization-final-nested-config"
+    },
+    {
+      "arm": "without-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-nested-config",
+      "id": "matrix-host-0034-without-infrastructure-final-nested-config"
+    },
+    {
+      "arm": "without-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-version-filter",
+      "id": "matrix-host-0035-without-infrastructure-final-version-filter"
+    },
+    {
+      "arm": "only-optimization",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-version-filter",
+      "id": "matrix-host-0036-only-optimization-final-version-filter"
+    },
+    {
+      "arm": "only-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-version-filter",
+      "id": "matrix-host-0037-only-scheduling-final-version-filter"
+    },
+    {
+      "arm": "only-controls",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": true,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-version-filter",
+      "id": "matrix-host-0038-only-controls-final-version-filter"
+    },
+    {
+      "arm": "only-feishu",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": true,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-version-filter",
+      "id": "matrix-host-0039-only-feishu-final-version-filter"
+    },
+    {
+      "arm": "only-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-version-filter",
+      "id": "matrix-host-0040-only-acceptance-final-version-filter"
+    },
+    {
+      "arm": "only-goals",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-version-filter",
+      "id": "matrix-host-0041-only-goals-final-version-filter"
+    },
+    {
+      "arm": "only-goals",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-jsonl-errors",
+      "id": "matrix-host-0042-only-goals-final-jsonl-errors"
+    },
+    {
+      "arm": "only-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-jsonl-errors",
+      "id": "matrix-host-0043-only-acceptance-final-jsonl-errors"
+    },
+    {
+      "arm": "only-feishu",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": true,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-jsonl-errors",
+      "id": "matrix-host-0044-only-feishu-final-jsonl-errors"
+    },
+    {
+      "arm": "only-controls",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": true,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-jsonl-errors",
+      "id": "matrix-host-0045-only-controls-final-jsonl-errors"
+    },
+    {
+      "arm": "only-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-jsonl-errors",
+      "id": "matrix-host-0046-only-scheduling-final-jsonl-errors"
+    },
+    {
+      "arm": "only-optimization",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-jsonl-errors",
+      "id": "matrix-host-0047-only-optimization-final-jsonl-errors"
+    },
+    {
+      "arm": "without-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-jsonl-errors",
+      "id": "matrix-host-0048-without-infrastructure-final-jsonl-errors"
+    },
+    {
+      "arm": "without-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-unicode-path",
+      "id": "matrix-host-0049-without-infrastructure-final-unicode-path"
+    },
+    {
+      "arm": "only-optimization",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-unicode-path",
+      "id": "matrix-host-0050-only-optimization-final-unicode-path"
+    },
+    {
+      "arm": "only-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-unicode-path",
+      "id": "matrix-host-0051-only-scheduling-final-unicode-path"
+    },
+    {
+      "arm": "only-controls",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": true,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-unicode-path",
+      "id": "matrix-host-0052-only-controls-final-unicode-path"
+    },
+    {
+      "arm": "only-feishu",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": true,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-unicode-path",
+      "id": "matrix-host-0053-only-feishu-final-unicode-path"
+    },
+    {
+      "arm": "only-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-unicode-path",
+      "id": "matrix-host-0054-only-acceptance-final-unicode-path"
+    },
+    {
+      "arm": "only-goals",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-unicode-path",
+      "id": "matrix-host-0055-only-goals-final-unicode-path"
+    },
+    {
+      "arm": "only-goals",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-multi-file-consistency",
+      "id": "matrix-host-0056-only-goals-final-multi-file-consistency"
+    },
+    {
+      "arm": "only-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-multi-file-consistency",
+      "id": "matrix-host-0057-only-acceptance-final-multi-file-consistency"
+    },
+    {
+      "arm": "only-feishu",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": true,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-multi-file-consistency",
+      "id": "matrix-host-0058-only-feishu-final-multi-file-consistency"
+    },
+    {
+      "arm": "only-controls",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": true,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-multi-file-consistency",
+      "id": "matrix-host-0059-only-controls-final-multi-file-consistency"
+    },
+    {
+      "arm": "only-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-multi-file-consistency",
+      "id": "matrix-host-0060-only-scheduling-final-multi-file-consistency"
+    },
+    {
+      "arm": "only-optimization",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-multi-file-consistency",
+      "id": "matrix-host-0061-only-optimization-final-multi-file-consistency"
+    },
+    {
+      "arm": "without-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-multi-file-consistency",
+      "id": "matrix-host-0062-without-infrastructure-final-multi-file-consistency"
+    },
+    {
+      "arm": "without-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-null-vs-missing",
+      "id": "matrix-host-0063-without-infrastructure-final-null-vs-missing"
+    },
+    {
+      "arm": "only-optimization",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-null-vs-missing",
+      "id": "matrix-host-0064-only-optimization-final-null-vs-missing"
+    },
+    {
+      "arm": "only-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-null-vs-missing",
+      "id": "matrix-host-0065-only-scheduling-final-null-vs-missing"
+    },
+    {
+      "arm": "only-controls",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": true,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-null-vs-missing",
+      "id": "matrix-host-0066-only-controls-final-null-vs-missing"
+    },
+    {
+      "arm": "only-feishu",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": true,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-null-vs-missing",
+      "id": "matrix-host-0067-only-feishu-final-null-vs-missing"
+    },
+    {
+      "arm": "only-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-null-vs-missing",
+      "id": "matrix-host-0068-only-acceptance-final-null-vs-missing"
+    },
+    {
+      "arm": "only-goals",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-null-vs-missing",
+      "id": "matrix-host-0069-only-goals-final-null-vs-missing"
+    },
+    {
+      "arm": "only-goals",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-range-boundaries",
+      "id": "matrix-host-0070-only-goals-final-range-boundaries"
+    },
+    {
+      "arm": "only-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-range-boundaries",
+      "id": "matrix-host-0071-only-acceptance-final-range-boundaries"
+    },
+    {
+      "arm": "only-feishu",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": true,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-range-boundaries",
+      "id": "matrix-host-0072-only-feishu-final-range-boundaries"
+    },
+    {
+      "arm": "only-controls",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": true,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-range-boundaries",
+      "id": "matrix-host-0073-only-controls-final-range-boundaries"
+    },
+    {
+      "arm": "only-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-range-boundaries",
+      "id": "matrix-host-0074-only-scheduling-final-range-boundaries"
+    },
+    {
+      "arm": "only-optimization",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-range-boundaries",
+      "id": "matrix-host-0075-only-optimization-final-range-boundaries"
+    },
+    {
+      "arm": "without-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-range-boundaries",
+      "id": "matrix-host-0076-without-infrastructure-final-range-boundaries"
+    },
+    {
+      "arm": "without-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-text-replacement",
+      "id": "matrix-host-0077-without-infrastructure-final-text-replacement"
+    },
+    {
+      "arm": "only-optimization",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-text-replacement",
+      "id": "matrix-host-0078-only-optimization-final-text-replacement"
+    },
+    {
+      "arm": "only-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-text-replacement",
+      "id": "matrix-host-0079-only-scheduling-final-text-replacement"
+    },
+    {
+      "arm": "only-controls",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": true,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-text-replacement",
+      "id": "matrix-host-0080-only-controls-final-text-replacement"
+    },
+    {
+      "arm": "only-feishu",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": true,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-text-replacement",
+      "id": "matrix-host-0081-only-feishu-final-text-replacement"
+    },
+    {
+      "arm": "only-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-text-replacement",
+      "id": "matrix-host-0082-only-acceptance-final-text-replacement"
+    },
+    {
+      "arm": "only-goals",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-text-replacement",
+      "id": "matrix-host-0083-only-goals-final-text-replacement"
+    },
+    {
+      "arm": "without-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-inventory-join",
+      "id": "matrix-host-0084-without-infrastructure-final-inventory-join"
+    },
+    {
+      "arm": "only-optimization",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-inventory-join",
+      "id": "matrix-host-0085-only-optimization-final-inventory-join"
+    },
+    {
+      "arm": "only-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-inventory-join",
+      "id": "matrix-host-0086-only-scheduling-final-inventory-join"
+    },
+    {
+      "arm": "only-controls",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": true,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-inventory-join",
+      "id": "matrix-host-0087-only-controls-final-inventory-join"
+    },
+    {
+      "arm": "only-feishu",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": true,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-inventory-join",
+      "id": "matrix-host-0088-only-feishu-final-inventory-join"
+    },
+    {
+      "arm": "only-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-inventory-join",
+      "id": "matrix-host-0089-only-acceptance-final-inventory-join"
+    },
+    {
+      "arm": "only-goals",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-inventory-join",
+      "id": "matrix-host-0090-only-goals-final-inventory-join"
+    },
+    {
+      "arm": "only-goals",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-money-csv",
+      "id": "matrix-host-0091-only-goals-final-money-csv"
+    },
+    {
+      "arm": "only-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-money-csv",
+      "id": "matrix-host-0092-only-acceptance-final-money-csv"
+    },
+    {
+      "arm": "only-feishu",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": true,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-money-csv",
+      "id": "matrix-host-0093-only-feishu-final-money-csv"
+    },
+    {
+      "arm": "only-controls",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": true,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-money-csv",
+      "id": "matrix-host-0094-only-controls-final-money-csv"
+    },
+    {
+      "arm": "only-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-money-csv",
+      "id": "matrix-host-0095-only-scheduling-final-money-csv"
+    },
+    {
+      "arm": "only-optimization",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-money-csv",
+      "id": "matrix-host-0096-only-optimization-final-money-csv"
+    },
+    {
+      "arm": "without-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-money-csv",
+      "id": "matrix-host-0097-without-infrastructure-final-money-csv"
+    },
+    {
+      "arm": "without-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-stable-dedup",
+      "id": "matrix-host-0098-without-infrastructure-final-stable-dedup"
+    },
+    {
+      "arm": "only-optimization",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-stable-dedup",
+      "id": "matrix-host-0099-only-optimization-final-stable-dedup"
+    },
+    {
+      "arm": "only-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-stable-dedup",
+      "id": "matrix-host-0100-only-scheduling-final-stable-dedup"
+    },
+    {
+      "arm": "only-controls",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": true,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-stable-dedup",
+      "id": "matrix-host-0101-only-controls-final-stable-dedup"
+    },
+    {
+      "arm": "only-feishu",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": true,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-stable-dedup",
+      "id": "matrix-host-0102-only-feishu-final-stable-dedup"
+    },
+    {
+      "arm": "only-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-stable-dedup",
+      "id": "matrix-host-0103-only-acceptance-final-stable-dedup"
+    },
+    {
+      "arm": "only-goals",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-stable-dedup",
+      "id": "matrix-host-0104-only-goals-final-stable-dedup"
+    },
+    {
+      "arm": "only-goals",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-markdown-section",
+      "id": "matrix-host-0105-only-goals-final-markdown-section"
+    },
+    {
+      "arm": "only-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-markdown-section",
+      "id": "matrix-host-0106-only-acceptance-final-markdown-section"
+    },
+    {
+      "arm": "only-feishu",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": true,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-markdown-section",
+      "id": "matrix-host-0107-only-feishu-final-markdown-section"
+    },
+    {
+      "arm": "only-controls",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": true,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-markdown-section",
+      "id": "matrix-host-0108-only-controls-final-markdown-section"
+    },
+    {
+      "arm": "only-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-markdown-section",
+      "id": "matrix-host-0109-only-scheduling-final-markdown-section"
+    },
+    {
+      "arm": "only-optimization",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-markdown-section",
+      "id": "matrix-host-0110-only-optimization-final-markdown-section"
+    },
+    {
+      "arm": "without-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-markdown-section",
+      "id": "matrix-host-0111-without-infrastructure-final-markdown-section"
+    },
+    {
+      "arm": "without-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-nested-config",
+      "id": "matrix-host-0112-without-infrastructure-final-nested-config"
+    },
+    {
+      "arm": "only-optimization",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-nested-config",
+      "id": "matrix-host-0113-only-optimization-final-nested-config"
+    },
+    {
+      "arm": "only-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-nested-config",
+      "id": "matrix-host-0114-only-scheduling-final-nested-config"
+    },
+    {
+      "arm": "only-controls",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": true,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-nested-config",
+      "id": "matrix-host-0115-only-controls-final-nested-config"
+    },
+    {
+      "arm": "only-feishu",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": true,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-nested-config",
+      "id": "matrix-host-0116-only-feishu-final-nested-config"
+    },
+    {
+      "arm": "only-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-nested-config",
+      "id": "matrix-host-0117-only-acceptance-final-nested-config"
+    },
+    {
+      "arm": "only-goals",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-nested-config",
+      "id": "matrix-host-0118-only-goals-final-nested-config"
+    },
+    {
+      "arm": "only-goals",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-version-filter",
+      "id": "matrix-host-0119-only-goals-final-version-filter"
+    },
+    {
+      "arm": "only-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-version-filter",
+      "id": "matrix-host-0120-only-acceptance-final-version-filter"
+    },
+    {
+      "arm": "only-feishu",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": true,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-version-filter",
+      "id": "matrix-host-0121-only-feishu-final-version-filter"
+    },
+    {
+      "arm": "only-controls",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": true,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-version-filter",
+      "id": "matrix-host-0122-only-controls-final-version-filter"
+    },
+    {
+      "arm": "only-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-version-filter",
+      "id": "matrix-host-0123-only-scheduling-final-version-filter"
+    },
+    {
+      "arm": "only-optimization",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-version-filter",
+      "id": "matrix-host-0124-only-optimization-final-version-filter"
+    },
+    {
+      "arm": "without-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-version-filter",
+      "id": "matrix-host-0125-without-infrastructure-final-version-filter"
+    },
+    {
+      "arm": "without-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-jsonl-errors",
+      "id": "matrix-host-0126-without-infrastructure-final-jsonl-errors"
+    },
+    {
+      "arm": "only-optimization",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-jsonl-errors",
+      "id": "matrix-host-0127-only-optimization-final-jsonl-errors"
+    },
+    {
+      "arm": "only-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-jsonl-errors",
+      "id": "matrix-host-0128-only-scheduling-final-jsonl-errors"
+    },
+    {
+      "arm": "only-controls",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": true,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-jsonl-errors",
+      "id": "matrix-host-0129-only-controls-final-jsonl-errors"
+    },
+    {
+      "arm": "only-feishu",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": true,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-jsonl-errors",
+      "id": "matrix-host-0130-only-feishu-final-jsonl-errors"
+    },
+    {
+      "arm": "only-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-jsonl-errors",
+      "id": "matrix-host-0131-only-acceptance-final-jsonl-errors"
+    },
+    {
+      "arm": "only-goals",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-jsonl-errors",
+      "id": "matrix-host-0132-only-goals-final-jsonl-errors"
+    },
+    {
+      "arm": "only-goals",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-unicode-path",
+      "id": "matrix-host-0133-only-goals-final-unicode-path"
+    },
+    {
+      "arm": "only-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-unicode-path",
+      "id": "matrix-host-0134-only-acceptance-final-unicode-path"
+    },
+    {
+      "arm": "only-feishu",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": true,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-unicode-path",
+      "id": "matrix-host-0135-only-feishu-final-unicode-path"
+    },
+    {
+      "arm": "only-controls",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": true,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-unicode-path",
+      "id": "matrix-host-0136-only-controls-final-unicode-path"
+    },
+    {
+      "arm": "only-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-unicode-path",
+      "id": "matrix-host-0137-only-scheduling-final-unicode-path"
+    },
+    {
+      "arm": "only-optimization",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-unicode-path",
+      "id": "matrix-host-0138-only-optimization-final-unicode-path"
+    },
+    {
+      "arm": "without-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-unicode-path",
+      "id": "matrix-host-0139-without-infrastructure-final-unicode-path"
+    },
+    {
+      "arm": "without-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-multi-file-consistency",
+      "id": "matrix-host-0140-without-infrastructure-final-multi-file-consistency"
+    },
+    {
+      "arm": "only-optimization",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-multi-file-consistency",
+      "id": "matrix-host-0141-only-optimization-final-multi-file-consistency"
+    },
+    {
+      "arm": "only-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-multi-file-consistency",
+      "id": "matrix-host-0142-only-scheduling-final-multi-file-consistency"
+    },
+    {
+      "arm": "only-controls",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": true,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-multi-file-consistency",
+      "id": "matrix-host-0143-only-controls-final-multi-file-consistency"
+    },
+    {
+      "arm": "only-feishu",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": true,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-multi-file-consistency",
+      "id": "matrix-host-0144-only-feishu-final-multi-file-consistency"
+    },
+    {
+      "arm": "only-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-multi-file-consistency",
+      "id": "matrix-host-0145-only-acceptance-final-multi-file-consistency"
+    },
+    {
+      "arm": "only-goals",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-multi-file-consistency",
+      "id": "matrix-host-0146-only-goals-final-multi-file-consistency"
+    },
+    {
+      "arm": "only-goals",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-null-vs-missing",
+      "id": "matrix-host-0147-only-goals-final-null-vs-missing"
+    },
+    {
+      "arm": "only-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-null-vs-missing",
+      "id": "matrix-host-0148-only-acceptance-final-null-vs-missing"
+    },
+    {
+      "arm": "only-feishu",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": true,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-null-vs-missing",
+      "id": "matrix-host-0149-only-feishu-final-null-vs-missing"
+    },
+    {
+      "arm": "only-controls",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": true,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-null-vs-missing",
+      "id": "matrix-host-0150-only-controls-final-null-vs-missing"
+    },
+    {
+      "arm": "only-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-null-vs-missing",
+      "id": "matrix-host-0151-only-scheduling-final-null-vs-missing"
+    },
+    {
+      "arm": "only-optimization",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-null-vs-missing",
+      "id": "matrix-host-0152-only-optimization-final-null-vs-missing"
+    },
+    {
+      "arm": "without-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-null-vs-missing",
+      "id": "matrix-host-0153-without-infrastructure-final-null-vs-missing"
+    },
+    {
+      "arm": "without-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-range-boundaries",
+      "id": "matrix-host-0154-without-infrastructure-final-range-boundaries"
+    },
+    {
+      "arm": "only-optimization",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-range-boundaries",
+      "id": "matrix-host-0155-only-optimization-final-range-boundaries"
+    },
+    {
+      "arm": "only-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-range-boundaries",
+      "id": "matrix-host-0156-only-scheduling-final-range-boundaries"
+    },
+    {
+      "arm": "only-controls",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": true,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-range-boundaries",
+      "id": "matrix-host-0157-only-controls-final-range-boundaries"
+    },
+    {
+      "arm": "only-feishu",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": true,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-range-boundaries",
+      "id": "matrix-host-0158-only-feishu-final-range-boundaries"
+    },
+    {
+      "arm": "only-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-range-boundaries",
+      "id": "matrix-host-0159-only-acceptance-final-range-boundaries"
+    },
+    {
+      "arm": "only-goals",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-range-boundaries",
+      "id": "matrix-host-0160-only-goals-final-range-boundaries"
+    },
+    {
+      "arm": "only-goals",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-text-replacement",
+      "id": "matrix-host-0161-only-goals-final-text-replacement"
+    },
+    {
+      "arm": "only-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-text-replacement",
+      "id": "matrix-host-0162-only-acceptance-final-text-replacement"
+    },
+    {
+      "arm": "only-feishu",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": true,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-text-replacement",
+      "id": "matrix-host-0163-only-feishu-final-text-replacement"
+    },
+    {
+      "arm": "only-controls",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": true,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-text-replacement",
+      "id": "matrix-host-0164-only-controls-final-text-replacement"
+    },
+    {
+      "arm": "only-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-text-replacement",
+      "id": "matrix-host-0165-only-scheduling-final-text-replacement"
+    },
+    {
+      "arm": "only-optimization",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-text-replacement",
+      "id": "matrix-host-0166-only-optimization-final-text-replacement"
+    },
+    {
+      "arm": "without-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-text-replacement",
+      "id": "matrix-host-0167-without-infrastructure-final-text-replacement"
+    },
+    {
+      "arm": "only-goals",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-inventory-join",
+      "id": "matrix-host-0168-only-goals-final-inventory-join"
+    },
+    {
+      "arm": "only-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-inventory-join",
+      "id": "matrix-host-0169-only-acceptance-final-inventory-join"
+    },
+    {
+      "arm": "only-feishu",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": true,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-inventory-join",
+      "id": "matrix-host-0170-only-feishu-final-inventory-join"
+    },
+    {
+      "arm": "only-controls",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": true,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-inventory-join",
+      "id": "matrix-host-0171-only-controls-final-inventory-join"
+    },
+    {
+      "arm": "only-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-inventory-join",
+      "id": "matrix-host-0172-only-scheduling-final-inventory-join"
+    },
+    {
+      "arm": "only-optimization",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-inventory-join",
+      "id": "matrix-host-0173-only-optimization-final-inventory-join"
+    },
+    {
+      "arm": "without-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-inventory-join",
+      "id": "matrix-host-0174-without-infrastructure-final-inventory-join"
+    },
+    {
+      "arm": "without-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-money-csv",
+      "id": "matrix-host-0175-without-infrastructure-final-money-csv"
+    },
+    {
+      "arm": "only-optimization",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-money-csv",
+      "id": "matrix-host-0176-only-optimization-final-money-csv"
+    },
+    {
+      "arm": "only-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-money-csv",
+      "id": "matrix-host-0177-only-scheduling-final-money-csv"
+    },
+    {
+      "arm": "only-controls",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": true,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-money-csv",
+      "id": "matrix-host-0178-only-controls-final-money-csv"
+    },
+    {
+      "arm": "only-feishu",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": true,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-money-csv",
+      "id": "matrix-host-0179-only-feishu-final-money-csv"
+    },
+    {
+      "arm": "only-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-money-csv",
+      "id": "matrix-host-0180-only-acceptance-final-money-csv"
+    },
+    {
+      "arm": "only-goals",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-money-csv",
+      "id": "matrix-host-0181-only-goals-final-money-csv"
+    },
+    {
+      "arm": "only-goals",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-stable-dedup",
+      "id": "matrix-host-0182-only-goals-final-stable-dedup"
+    },
+    {
+      "arm": "only-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-stable-dedup",
+      "id": "matrix-host-0183-only-acceptance-final-stable-dedup"
+    },
+    {
+      "arm": "only-feishu",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": true,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-stable-dedup",
+      "id": "matrix-host-0184-only-feishu-final-stable-dedup"
+    },
+    {
+      "arm": "only-controls",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": true,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-stable-dedup",
+      "id": "matrix-host-0185-only-controls-final-stable-dedup"
+    },
+    {
+      "arm": "only-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-stable-dedup",
+      "id": "matrix-host-0186-only-scheduling-final-stable-dedup"
+    },
+    {
+      "arm": "only-optimization",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-stable-dedup",
+      "id": "matrix-host-0187-only-optimization-final-stable-dedup"
+    },
+    {
+      "arm": "without-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-stable-dedup",
+      "id": "matrix-host-0188-without-infrastructure-final-stable-dedup"
+    },
+    {
+      "arm": "without-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-markdown-section",
+      "id": "matrix-host-0189-without-infrastructure-final-markdown-section"
+    },
+    {
+      "arm": "only-optimization",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-markdown-section",
+      "id": "matrix-host-0190-only-optimization-final-markdown-section"
+    },
+    {
+      "arm": "only-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-markdown-section",
+      "id": "matrix-host-0191-only-scheduling-final-markdown-section"
+    },
+    {
+      "arm": "only-controls",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": true,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-markdown-section",
+      "id": "matrix-host-0192-only-controls-final-markdown-section"
+    },
+    {
+      "arm": "only-feishu",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": true,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-markdown-section",
+      "id": "matrix-host-0193-only-feishu-final-markdown-section"
+    },
+    {
+      "arm": "only-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-markdown-section",
+      "id": "matrix-host-0194-only-acceptance-final-markdown-section"
+    },
+    {
+      "arm": "only-goals",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-markdown-section",
+      "id": "matrix-host-0195-only-goals-final-markdown-section"
+    },
+    {
+      "arm": "only-goals",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-nested-config",
+      "id": "matrix-host-0196-only-goals-final-nested-config"
+    },
+    {
+      "arm": "only-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-nested-config",
+      "id": "matrix-host-0197-only-acceptance-final-nested-config"
+    },
+    {
+      "arm": "only-feishu",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": true,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-nested-config",
+      "id": "matrix-host-0198-only-feishu-final-nested-config"
+    },
+    {
+      "arm": "only-controls",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": true,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-nested-config",
+      "id": "matrix-host-0199-only-controls-final-nested-config"
+    },
+    {
+      "arm": "only-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-nested-config",
+      "id": "matrix-host-0200-only-scheduling-final-nested-config"
+    },
+    {
+      "arm": "only-optimization",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-nested-config",
+      "id": "matrix-host-0201-only-optimization-final-nested-config"
+    },
+    {
+      "arm": "without-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-nested-config",
+      "id": "matrix-host-0202-without-infrastructure-final-nested-config"
+    },
+    {
+      "arm": "without-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-version-filter",
+      "id": "matrix-host-0203-without-infrastructure-final-version-filter"
+    },
+    {
+      "arm": "only-optimization",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-version-filter",
+      "id": "matrix-host-0204-only-optimization-final-version-filter"
+    },
+    {
+      "arm": "only-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-version-filter",
+      "id": "matrix-host-0205-only-scheduling-final-version-filter"
+    },
+    {
+      "arm": "only-controls",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": true,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-version-filter",
+      "id": "matrix-host-0206-only-controls-final-version-filter"
+    },
+    {
+      "arm": "only-feishu",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": true,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-version-filter",
+      "id": "matrix-host-0207-only-feishu-final-version-filter"
+    },
+    {
+      "arm": "only-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-version-filter",
+      "id": "matrix-host-0208-only-acceptance-final-version-filter"
+    },
+    {
+      "arm": "only-goals",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-version-filter",
+      "id": "matrix-host-0209-only-goals-final-version-filter"
+    },
+    {
+      "arm": "only-goals",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-jsonl-errors",
+      "id": "matrix-host-0210-only-goals-final-jsonl-errors"
+    },
+    {
+      "arm": "only-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-jsonl-errors",
+      "id": "matrix-host-0211-only-acceptance-final-jsonl-errors"
+    },
+    {
+      "arm": "only-feishu",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": true,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-jsonl-errors",
+      "id": "matrix-host-0212-only-feishu-final-jsonl-errors"
+    },
+    {
+      "arm": "only-controls",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": true,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-jsonl-errors",
+      "id": "matrix-host-0213-only-controls-final-jsonl-errors"
+    },
+    {
+      "arm": "only-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-jsonl-errors",
+      "id": "matrix-host-0214-only-scheduling-final-jsonl-errors"
+    },
+    {
+      "arm": "only-optimization",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-jsonl-errors",
+      "id": "matrix-host-0215-only-optimization-final-jsonl-errors"
+    },
+    {
+      "arm": "without-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-jsonl-errors",
+      "id": "matrix-host-0216-without-infrastructure-final-jsonl-errors"
+    },
+    {
+      "arm": "without-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-unicode-path",
+      "id": "matrix-host-0217-without-infrastructure-final-unicode-path"
+    },
+    {
+      "arm": "only-optimization",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-unicode-path",
+      "id": "matrix-host-0218-only-optimization-final-unicode-path"
+    },
+    {
+      "arm": "only-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-unicode-path",
+      "id": "matrix-host-0219-only-scheduling-final-unicode-path"
+    },
+    {
+      "arm": "only-controls",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": true,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-unicode-path",
+      "id": "matrix-host-0220-only-controls-final-unicode-path"
+    },
+    {
+      "arm": "only-feishu",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": true,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-unicode-path",
+      "id": "matrix-host-0221-only-feishu-final-unicode-path"
+    },
+    {
+      "arm": "only-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-unicode-path",
+      "id": "matrix-host-0222-only-acceptance-final-unicode-path"
+    },
+    {
+      "arm": "only-goals",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-unicode-path",
+      "id": "matrix-host-0223-only-goals-final-unicode-path"
+    },
+    {
+      "arm": "only-goals",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-multi-file-consistency",
+      "id": "matrix-host-0224-only-goals-final-multi-file-consistency"
+    },
+    {
+      "arm": "only-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-multi-file-consistency",
+      "id": "matrix-host-0225-only-acceptance-final-multi-file-consistency"
+    },
+    {
+      "arm": "only-feishu",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": true,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-multi-file-consistency",
+      "id": "matrix-host-0226-only-feishu-final-multi-file-consistency"
+    },
+    {
+      "arm": "only-controls",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": true,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-multi-file-consistency",
+      "id": "matrix-host-0227-only-controls-final-multi-file-consistency"
+    },
+    {
+      "arm": "only-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-multi-file-consistency",
+      "id": "matrix-host-0228-only-scheduling-final-multi-file-consistency"
+    },
+    {
+      "arm": "only-optimization",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-multi-file-consistency",
+      "id": "matrix-host-0229-only-optimization-final-multi-file-consistency"
+    },
+    {
+      "arm": "without-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-multi-file-consistency",
+      "id": "matrix-host-0230-without-infrastructure-final-multi-file-consistency"
+    },
+    {
+      "arm": "without-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-null-vs-missing",
+      "id": "matrix-host-0231-without-infrastructure-final-null-vs-missing"
+    },
+    {
+      "arm": "only-optimization",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-null-vs-missing",
+      "id": "matrix-host-0232-only-optimization-final-null-vs-missing"
+    },
+    {
+      "arm": "only-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-null-vs-missing",
+      "id": "matrix-host-0233-only-scheduling-final-null-vs-missing"
+    },
+    {
+      "arm": "only-controls",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": true,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-null-vs-missing",
+      "id": "matrix-host-0234-only-controls-final-null-vs-missing"
+    },
+    {
+      "arm": "only-feishu",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": true,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-null-vs-missing",
+      "id": "matrix-host-0235-only-feishu-final-null-vs-missing"
+    },
+    {
+      "arm": "only-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-null-vs-missing",
+      "id": "matrix-host-0236-only-acceptance-final-null-vs-missing"
+    },
+    {
+      "arm": "only-goals",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-null-vs-missing",
+      "id": "matrix-host-0237-only-goals-final-null-vs-missing"
+    },
+    {
+      "arm": "only-goals",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-range-boundaries",
+      "id": "matrix-host-0238-only-goals-final-range-boundaries"
+    },
+    {
+      "arm": "only-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-range-boundaries",
+      "id": "matrix-host-0239-only-acceptance-final-range-boundaries"
+    },
+    {
+      "arm": "only-feishu",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": true,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-range-boundaries",
+      "id": "matrix-host-0240-only-feishu-final-range-boundaries"
+    },
+    {
+      "arm": "only-controls",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": true,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-range-boundaries",
+      "id": "matrix-host-0241-only-controls-final-range-boundaries"
+    },
+    {
+      "arm": "only-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-range-boundaries",
+      "id": "matrix-host-0242-only-scheduling-final-range-boundaries"
+    },
+    {
+      "arm": "only-optimization",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-range-boundaries",
+      "id": "matrix-host-0243-only-optimization-final-range-boundaries"
+    },
+    {
+      "arm": "without-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-range-boundaries",
+      "id": "matrix-host-0244-without-infrastructure-final-range-boundaries"
+    },
+    {
+      "arm": "without-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-text-replacement",
+      "id": "matrix-host-0245-without-infrastructure-final-text-replacement"
+    },
+    {
+      "arm": "only-optimization",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-text-replacement",
+      "id": "matrix-host-0246-only-optimization-final-text-replacement"
+    },
+    {
+      "arm": "only-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-text-replacement",
+      "id": "matrix-host-0247-only-scheduling-final-text-replacement"
+    },
+    {
+      "arm": "only-controls",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": true,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-text-replacement",
+      "id": "matrix-host-0248-only-controls-final-text-replacement"
+    },
+    {
+      "arm": "only-feishu",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": true,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-text-replacement",
+      "id": "matrix-host-0249-only-feishu-final-text-replacement"
+    },
+    {
+      "arm": "only-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-text-replacement",
+      "id": "matrix-host-0250-only-acceptance-final-text-replacement"
+    },
+    {
+      "arm": "only-goals",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": false
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-text-replacement",
+      "id": "matrix-host-0251-only-goals-final-text-replacement"
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+{"arm":"without-feishu","kind":"current","features":{"goals":true,"acceptance":true,"feishu":false,"controls":true,"scheduling":true,"optimization":true,"infrastructure":true},"repetition":0,"seed":17,"caseId":"final-multi-file-consistency","id":"matrix-docker-0067-without-feishu-final-multi-file-consistency"}

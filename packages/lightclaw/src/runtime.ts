@@ -1,0 +1,700 @@
+import { existsSync, mkdirSync, readdirSync } from "node:fs";
+import { join } from "node:path";
+import { type AgentRunner, type AgentRunResult, getOrCreateRunner, releaseRunner } from "./agent.js";
+import { assertControlAuthorized, ControlAuthorizationError } from "./authorization.js";
+import type { LightClawConfig } from "./config.js";
+import { DurableInbox } from "./durable-inbox.js";
+import { createEventsWatcher } from "./events.js";
+import { featureEnabled } from "./features.js";
+import type { GoalCommandResult } from "./goals/commands.js";
+import { handleGoalCommand } from "./goals/commands.js";
+import {
+	acquireControlLock,
+	assertControlIsolation,
+	resolveControlChannelDirectory,
+	resolveControlDirectory,
+} from "./goals/control.js";
+import { GoalStore } from "./goals/store.js";
+import { CacheCapacityError, IdleResourceCache } from "./idle-cache.js";
+import * as log from "./log.js";
+import { type RunAuditEvent, appendAuditEvent as writeAuditEvent } from "./observability.js";
+import { OperationJournal } from "./operations.js";
+import { fitPlatformText } from "./platform-text.js";
+import { diagnosticText } from "./redaction.js";
+import { assertNoUnconfirmedDockerTasks, type SandboxConfig } from "./sandbox.js";
+import { ChannelStore } from "./store.js";
+import { OperationTimeoutError, withTimeout } from "./timeouts.js";
+import {
+	type ChatContext,
+	type ChatEvent,
+	type ChatHandler,
+	type ChatTransport,
+	isImmediateGoalControl,
+} from "./transport.js";
+
+export interface RuntimeOptions {
+	config: LightClawConfig;
+	workingDir: string;
+	sandbox: SandboxConfig;
+	createTransport(handler: ChatHandler, inbox: DurableInbox): ChatTransport;
+	createRunner?: (
+		sandbox: SandboxConfig,
+		channel: string,
+		directory: string,
+		config: LightClawConfig,
+		goals: GoalStore,
+	) => AgentRunner;
+	releaseRunner?: (directory: string) => void;
+	onRun?: (event: ChatEvent, result: AgentRunResult) => void;
+}
+
+/** Shared production orchestration; no configuration or credential loading on import. */
+export async function createLightClawRuntime(options: RuntimeOptions) {
+	const { config, workingDir, sandbox } = options;
+	function appendAuditEvent(workspace: string, event: RunAuditEvent): void {
+		if (featureEnabled(config, "infrastructure")) writeAuditEvent(workspace, event);
+	}
+
+	mkdirSync(workingDir, { recursive: true });
+	const controlDir = resolveControlDirectory(workingDir, config.controlDir);
+	await assertControlIsolation(workingDir, controlDir, sandbox);
+	const controlLock = acquireControlLock(controlDir);
+	const inbox = new DurableInbox(join(controlDir, ".inbox"));
+	inbox.recover();
+	inbox.dispatchPaused = true;
+	const operations = new OperationJournal(join(controlDir, ".operations"));
+	let stopping = false;
+	const inFlight = new Set<Promise<void>>();
+	const platformRequests = new Set<Promise<unknown>>();
+	function trackPlatformRequest<T>(operation: () => Promise<T>): Promise<T> {
+		const request = Promise.resolve().then(operation);
+		platformRequests.add(request);
+		void request.then(
+			() => platformRequests.delete(request),
+			() => platformRequests.delete(request),
+		);
+		return request;
+	}
+
+	function goalStore(channelId: string): GoalStore {
+		return new GoalStore({
+			enabled: featureEnabled(config, "goals"),
+			acceptanceEnabled: featureEnabled(config, "acceptance"),
+			controlsEnabled: featureEnabled(config, "controls"),
+			channelDir: join(workingDir, channelId),
+			controlChannelDir: resolveControlChannelDirectory(controlDir, channelId),
+			limits: {
+				maxCycles: config.maxGoalCycles,
+				maxFailures: config.maxGoalFailures,
+				maxStaleCycles: config.maxStaleCycles,
+			},
+		});
+	}
+
+	interface ChannelState {
+		runOwnerUserId?: string;
+		runGoalId?: string;
+		running: boolean;
+		inUse: number;
+		runner: AgentRunner;
+		store: ChannelStore;
+		goals: GoalStore;
+		stopRequested: boolean;
+		stopMessageId?: string;
+	}
+
+	const channelStates = new IdleResourceCache<ChannelState>(
+		{
+			enabled: featureEnabled(config, "scheduling"),
+			maxEntries: config.channelCacheMaxEntries ?? 128,
+			idleTtlMs: config.channelCacheIdleTtlMs ?? 900_000,
+		},
+		(state) => state.running || state.inUse > 0,
+		(_state, channelId) => (options.releaseRunner ?? releaseRunner)(join(workingDir, channelId)),
+	);
+
+	function createStore(): ChannelStore {
+		return new ChannelStore({ workingDir, botToken: config.slack?.botToken });
+	}
+
+	function getState(channelId: string): ChannelState {
+		return channelStates.getOrCreate(channelId, () => {
+			const channelDir = join(workingDir, channelId);
+			const goals = goalStore(channelId);
+			goals.get();
+			return {
+				running: false,
+				inUse: 0,
+				store: createStore(),
+				goals,
+				runner: (options.createRunner ?? getOrCreateRunner)(sandbox, channelId, channelDir, config, goals),
+				stopRequested: false,
+			};
+		});
+	}
+
+	function createChatContext(event: ChatEvent, transport: ChatTransport, isEvent?: boolean): ChatContext {
+		let messageId: string | null = null;
+		const threadMessageIds: string[] = [];
+		let accumulatedText = "";
+		let isWorking = true;
+		let updatePromise = Promise.resolve();
+		const eventFilename = isEvent ? event.text.match(/^\[EVENT:([^:]+):/)?.[1] : undefined;
+		const user = transport.getUser(event.user);
+		let expired: OperationTimeoutError | undefined;
+		const send = async <T>(operation: () => Promise<T>): Promise<T> => {
+			if (expired) throw expired;
+			try {
+				return await withTimeout(
+					() => trackPlatformRequest(operation),
+					config.platformTimeoutMs ?? 30_000,
+					"chat request",
+				);
+			} catch (error) {
+				if (error instanceof OperationTimeoutError) expired = error;
+				throw error;
+			}
+		};
+
+		const serialize = (operation: () => Promise<void>): Promise<void> => {
+			const next = () => {
+				if (expired) throw expired;
+				return operation();
+			};
+			updatePromise = updatePromise.then(next, next);
+			return updatePromise;
+		};
+		const fit = (text: string): string => fitPlatformText(text, transport.kind);
+
+		return {
+			message: {
+				text: event.text,
+				rawText: event.text,
+				user: event.user,
+				userName: user?.userName,
+				channel: event.channel,
+				ts: event.ts,
+				attachments: (event.attachments ?? []).map(({ local }) => ({ local })),
+			},
+			channelName: transport.getChannel(event.channel)?.name,
+			channels: transport.getAllChannels(),
+			users: transport.getAllUsers(),
+			respond: (text, shouldLog = true) =>
+				serialize(async () => {
+					accumulatedText = fit(accumulatedText ? `${accumulatedText}\n${text}` : text);
+					const displayText = isWorking ? `${accumulatedText} ...` : accumulatedText;
+					if (messageId) await send(() => transport.updateMessage(event.channel, messageId!, displayText));
+					else messageId = await send(() => transport.postMessage(event.channel, displayText));
+					if (shouldLog) transport.logBotResponse(event.channel, text, messageId);
+				}),
+			replaceMessage: (text) =>
+				serialize(async () => {
+					accumulatedText = fit(text);
+					const displayText = isWorking ? `${accumulatedText} ...` : accumulatedText;
+					if (messageId) await send(() => transport.updateMessage(event.channel, messageId!, displayText));
+					else messageId = await send(() => transport.postMessage(event.channel, displayText));
+				}),
+			respondInThread: (text) =>
+				serialize(async () => {
+					if (!messageId) return;
+					threadMessageIds.push(await send(() => transport.postInThread(event.channel, messageId!, fit(text))));
+				}),
+			setTyping: (typing) =>
+				serialize(async () => {
+					if (!typing || messageId) return;
+					accumulatedText = eventFilename ? `开始执行事件：${eventFilename}` : "正在思考";
+					messageId = await send(() => transport.postMessage(event.channel, `${accumulatedText} ...`));
+				}),
+			uploadFile: (filePath, title) => send(() => transport.uploadFile(event.channel, filePath, title)),
+			setWorking: (working) =>
+				serialize(async () => {
+					isWorking = working;
+					if (messageId)
+						await send(() =>
+							transport.updateMessage(event.channel, messageId!, `${accumulatedText}${working ? " ..." : ""}`),
+						);
+				}),
+			deleteMessage: () =>
+				serialize(async () => {
+					for (const id of threadMessageIds.reverse()) {
+						try {
+							await send(() => transport.deleteMessage(event.channel, id));
+						} catch {}
+					}
+					if (messageId) await send(() => transport.deleteMessage(event.channel, messageId!));
+					messageId = null;
+				}),
+		};
+	}
+
+	function continuationEvent(event: ChatEvent, cycle: number): ChatEvent {
+		return {
+			...event,
+			origin: "continuation",
+			ts: `goal-${Date.now()}-${cycle}`,
+			text: "[LightClaw 自动续跑] 检查当前进展，继续推进长期目标。不要重复已经完成的工作。",
+			attachments: [],
+			files: undefined,
+		};
+	}
+
+	async function deliver(channelId: string, phase: string, operation: () => Promise<unknown>): Promise<boolean> {
+		try {
+			await withTimeout(() => trackPlatformRequest(operation), config.platformTimeoutMs ?? 30_000, phase);
+			return true;
+		} catch (error) {
+			const detail = `${phase}: ${error instanceof Error ? error.message : String(error)}`;
+			log.logWarning(`[${channelId}] Delivery error`, detail);
+			appendAuditEvent(workingDir, { type: "delivery_failed", channelId, detail });
+			return false;
+		}
+	}
+
+	function pauseActive(state: ChannelState, channelId: string, reason: string): void {
+		if (state.goals.get()?.status !== "active") return;
+		const goal = state.goals.pause(reason);
+		appendAuditEvent(workingDir, {
+			type: "goal_state_changed",
+			channelId,
+			goalId: goal.id,
+			cycle: goal.cycle,
+			detail: reason,
+		});
+	}
+
+	const executionHandler: ChatHandler = {
+		isRunning: (channelId) => channelStates.peek(channelId)?.running ?? false,
+
+		async handleQueueFailure(event, transport, reason) {
+			const detail =
+				reason === "full"
+					? "频道待处理队列已满，任务未接纳，请稍后重试。"
+					: "任务排队等待超时，尚未执行，请重新发送。";
+			appendAuditEvent(workingDir, {
+				type: `queue_${reason}`,
+				channelId: event.channel,
+				detail,
+				messageId: event.ts,
+			});
+			const state = channelStates.peek(event.channel);
+			if (!state?.running && (reason === "expired" || event.ts.startsWith("goal-recovery-"))) {
+				const goals = state?.goals ?? goalStore(event.channel);
+				if (goals.get()?.status === "active") goals.pause(`${detail} 检查后发送 /goal resume。`);
+			}
+			await deliver(event.channel, "queue-notice", () => transport.postMessage(event.channel, detail));
+		},
+
+		async handleStop(channelId, transport, actor) {
+			const state = channelStates.peek(channelId);
+			if (!state?.running) {
+				await deliver(channelId, "idle-stop", () => transport.postMessage(channelId, "当前没有正在执行的任务"));
+				return;
+			}
+			try {
+				assertControlAuthorized(actor, state.runOwnerUserId, config.controlAdminUserIds);
+			} catch (error) {
+				await deliver(channelId, "stop-denied", () =>
+					transport.postMessage(
+						channelId,
+						error instanceof ControlAuthorizationError
+							? error.message
+							: diagnosticText(error instanceof Error ? error.message : String(error)),
+					),
+				);
+				return;
+			}
+			state.stopRequested = true;
+			state.runner.abort();
+			if (state.goals.get()?.status === "active") state.goals.pause("用户停止");
+			await deliver(channelId, "stop", async () => {
+				state.stopMessageId = await withTimeout(
+					() => transport.postMessage(channelId, "正在停止..."),
+					config.platformTimeoutMs ?? 30_000,
+					"stop notification",
+				);
+			});
+		},
+
+		async handleEvent(event, transport, isEvent) {
+			if (
+				inbox.unresolvedChannels().has(event.channel) &&
+				!isImmediateGoalControl(event) &&
+				!/^\/goal\s+(status|confirm|reject)\b/.test(event.text.trim())
+			) {
+				throw new Error("频道有执行结果未知的任务；先检查副作用并人工处理 inbox 记录，再重试");
+			}
+			let state: ChannelState;
+			let command: GoalCommandResult;
+			try {
+				state = getState(event.channel);
+				state.inUse++;
+				try {
+					command = featureEnabled(config, "goals")
+						? await handleGoalCommand(event.text, state.goals, {
+								userId: event.user,
+								adminUserIds: config.controlAdminUserIds,
+								origin: event.origin,
+								sandbox,
+								signal: featureEnabled(config, "controls")
+									? AbortSignal.timeout(config.maxRunDurationMs ?? 300_000)
+									: new AbortController().signal,
+							})
+						: { handled: false, startRun: false };
+					// The command must pass authorization and state validation before cancellation.
+					// A historical goal does not grant control of an unrelated ordinary run.
+					if (
+						state.running &&
+						isImmediateGoalControl(event) &&
+						command.goal?.id === state.runGoalId &&
+						state.runGoalId
+					) {
+						assertControlAuthorized(event, state.runOwnerUserId, config.controlAdminUserIds);
+						state.stopRequested = true;
+						state.runner.abort();
+					}
+				} finally {
+					state.inUse--;
+				}
+			} catch (error) {
+				if (error instanceof CacheCapacityError) {
+					await handler.handleQueueFailure(event, transport, "full");
+					return;
+				}
+				await deliver(event.channel, "command-error", () =>
+					transport.postMessage(
+						event.channel,
+						`目标命令失败：${error instanceof ControlAuthorizationError ? error.message : diagnosticText(error instanceof Error ? error.message : String(error))}`,
+					),
+				);
+				return;
+			}
+			if (stopping) throw new Error("Shutdown before command execution");
+			state.inUse++;
+			try {
+				if (command.handled) {
+					if (command.goal) {
+						appendAuditEvent(workingDir, {
+							type:
+								command.goal.completion?.method === "human"
+									? "goal_confirmed"
+									: command.startRun && command.goal.cycle === 0
+										? "goal_created"
+										: "goal_state_changed",
+							channelId: event.channel,
+							goalId: command.goal.id,
+							cycle: command.goal.cycle,
+							detail: command.goal.status,
+							attemptId: command.goal.completion?.attemptId,
+							completionMethod: command.goal.completion?.method,
+						});
+					}
+					if (
+						command.response &&
+						!(await deliver(event.channel, "command", () =>
+							transport.postMessage(event.channel, command.response!),
+						))
+					) {
+						if (command.startRun && !stopping)
+							pauseActive(state, event.channel, "目标确认消息投递失败，发送 /goal resume 重试");
+						return;
+					}
+
+					if (!command.startRun) return;
+				}
+
+				if (stopping) throw new Error("Shutdown before runner start");
+				state.running = true;
+				state.runGoalId = state.goals.get()?.status === "active" ? state.goals.get()?.id : undefined;
+				state.runOwnerUserId =
+					command.goal?.ownerUserId ??
+					(state.goals.get()?.status === "active"
+						? state.goals.get()?.ownerUserId
+						: event.origin === "platform"
+							? event.user
+							: undefined);
+				state.stopRequested = false;
+				let currentEvent = command.goal ? { ...event, text: command.goal.objective } : event;
+				try {
+					while (!state.stopRequested) {
+						const before = state.goals.get();
+						const ctx = createChatContext(currentEvent, transport, isEvent);
+						if (!(await deliver(event.channel, "typing", () => ctx.setTyping(true)))) {
+							pauseActive(state, event.channel, "平台投递失败，发送 /goal resume 重试");
+							break;
+						}
+						if (state.stopRequested || stopping) break;
+						const startedAt = Date.now();
+						let result: Awaited<ReturnType<AgentRunner["run"]>>;
+						try {
+							result = await state.runner.run(ctx, state.store);
+							options.onRun?.(currentEvent, result);
+							if (stopping) break;
+						} catch (error) {
+							if (stopping) break;
+							const detail = error instanceof Error ? error.message : String(error);
+							appendAuditEvent(workingDir, {
+								type: "run_finished",
+								channelId: event.channel,
+								goalId: before?.id,
+								cycle: before ? before.cycle + 1 : undefined,
+								durationMs: Date.now() - startedAt,
+								stopReason: "error",
+								detail,
+							});
+							if (state.goals.get()?.status === "active") state.goals.recordCycle(true, false);
+							pauseActive(state, event.channel, "执行异常已暂停，检查副作用后发送 /goal resume 重试");
+							await deliver(event.channel, "execution-error", () =>
+								transport.postMessage(event.channel, `执行失败：${diagnosticText(detail)}`),
+							);
+							break;
+						}
+
+						appendAuditEvent(workingDir, {
+							type: "run_finished",
+							channelId: event.channel,
+							goalId: before?.id,
+							cycle: before ? before.cycle + 1 : undefined,
+							durationMs: result.durationMs,
+							stopReason: result.stopReason,
+							toolCalls: result.toolCalls,
+							verificationCommandCount: result.verificationCommandCount,
+							toolErrors: result.toolErrors,
+							inputTokens: result.inputTokens,
+							outputTokens: result.outputTokens,
+							cost: result.cost,
+							detail: result.budgetReason,
+						});
+
+						const after = state.goals.get();
+						for (const report of after?.verificationHistory ?? []) {
+							if (before?.verificationHistory.some((item) => item.attemptId === report.attemptId)) continue;
+							appendAuditEvent(workingDir, {
+								type: "verification_finished",
+								channelId: event.channel,
+								goalId: after?.id,
+								attemptId: report.attemptId,
+								verificationStatus: report.status,
+								completionMethod: after?.completion?.method,
+								verificationCommandCount: result.verificationCommandCount,
+								detail: report.checks.map((check) => check.reasonCode).join(","),
+							});
+						}
+						if (before && after?.status !== before.status) {
+							appendAuditEvent(workingDir, {
+								type: "goal_state_changed",
+								channelId: event.channel,
+								goalId: after?.id,
+								cycle: after?.cycle,
+								detail: after?.status,
+							});
+						}
+						const failed =
+							result.stopReason === "error" || (result.stopReason === "aborted" && !result.deliveryError);
+						const recorded =
+							after?.status === "active"
+								? state.goals.recordCycle(failed, after.progressVersion > (before?.progressVersion ?? 0))
+								: after;
+						if (result.budgetReason) pauseActive(state, event.channel, result.budgetReason);
+						if (result.deliveryError) {
+							appendAuditEvent(workingDir, {
+								type: "delivery_failed",
+								channelId: event.channel,
+								detail: result.deliveryError,
+							});
+							pauseActive(
+								state,
+								event.channel,
+								`平台投递失败；检查结果后发送 /goal resume：${result.deliveryError}`,
+							);
+							break;
+						}
+						const notification = await operations.execute(
+							`notification:${event.channel}:${event.origin}:${event.ts}`,
+							`final:${after?.id ?? "ordinary"}:${after?.revision ?? 0}:${after?.cycle ?? 0}`,
+							{ goalId: after?.id ?? null, status: after?.status ?? "ordinary", cycle: after?.cycle ?? null },
+							{
+								replaySafe: false,
+								query: async () => ({ status: "unknown" }),
+								execute: async () => {
+									if (!(await deliver(event.channel, "final-update", () => ctx.setWorking(false))))
+										throw new Error("Final notification outcome unknown");
+									return { delivered: true };
+								},
+							},
+						);
+						if (notification.status !== "succeeded") {
+							pauseActive(state, event.channel, "结果已保存但平台投递失败，发送 /goal resume 重试");
+							await deliver(event.channel, "delivery-notice", () =>
+								transport.postMessage(
+									event.channel,
+									after?.status === "completed"
+										? "目标已完成，结果已保存；最终消息投递失败"
+										: "本轮执行结果已保存；最终消息投递失败",
+								),
+							);
+							break;
+						}
+						if (!recorded || after?.status !== "active" || result.budgetReason) break;
+						if (recorded.status !== "active") {
+							appendAuditEvent(workingDir, {
+								type: "goal_state_changed",
+								channelId: event.channel,
+								goalId: recorded.id,
+								cycle: recorded.cycle,
+								detail: recorded.pauseReason,
+							});
+							await deliver(event.channel, "paused", () =>
+								transport.postMessage(event.channel, `长期目标已暂停：${recorded.pauseReason}`),
+							);
+							break;
+						}
+						currentEvent = continuationEvent(event, recorded.cycle);
+						isEvent = true;
+					}
+
+					if (state.stopMessageId) {
+						await deliver(event.channel, "stopped", () =>
+							transport.updateMessage(event.channel, state.stopMessageId!, "已停止"),
+						);
+						state.stopMessageId = undefined;
+					}
+				} catch (error) {
+					log.logWarning(`[${event.channel}] Run error`, error instanceof Error ? error.message : String(error));
+					const goal = state.goals.get();
+					if (goal?.status === "active")
+						pauseActive(state, event.channel, "入口异常已暂停，检查后发送 /goal resume 重试");
+					await deliver(event.channel, "entry-error", () =>
+						transport.postMessage(
+							event.channel,
+							`执行失败：${diagnosticText(error instanceof Error ? error.message : String(error))}`,
+						),
+					);
+				} finally {
+					state.running = false;
+					state.runOwnerUserId = undefined;
+					state.runGoalId = undefined;
+				}
+			} finally {
+				state.inUse--;
+			}
+		},
+	};
+
+	const handler: ChatHandler = {
+		...executionHandler,
+		handleEvent(event, transport, isEvent) {
+			if (stopping) return Promise.reject(new Error("Instance is stopping; work retained for recovery"));
+			const work = executionHandler.handleEvent(event, transport, isEvent).then(() => {
+				if (stopping) throw new Error("Shutdown interrupted work; inspect saved state before retry");
+			});
+			inFlight.add(work);
+			void work.then(
+				() => inFlight.delete(work),
+				() => inFlight.delete(work),
+			);
+			return work;
+		},
+	};
+
+	const transport = options.createTransport(handler, inbox);
+	const eventsWatcher = createEventsWatcher(workingDir, transport);
+	let shutdownPromise: Promise<void> | undefined;
+	function shutdown(): Promise<void> {
+		if (shutdownPromise) return shutdownPromise;
+		stopping = true;
+		inbox.stopAdmission();
+		eventsWatcher.stop();
+		for (const state of channelStates.values()) {
+			state.stopRequested = true;
+			state.runner.abort();
+			// Keep active goals recoverable on process restart; user pause/cancel remains distinct.
+		}
+		shutdownPromise = (async () => {
+			await transport.stop?.();
+			await Promise.allSettled([...inFlight]);
+			// A wrapper timeout does not prove the native platform request has settled.
+			while (platformRequests.size) await Promise.allSettled([...platformRequests]);
+			channelStates.close();
+			assertNoUnconfirmedDockerTasks();
+			controlLock.release();
+		})();
+		return shutdownPromise;
+	}
+
+	async function start(): Promise<void> {
+		try {
+			await transport.start();
+			if (stopping) throw new Error("Startup interrupted by shutdown");
+			inbox.dispatchPaused = false;
+			// Replay only persisted queued requests. Interrupted executions become unknown/manual.
+			const recovered = inbox.list().filter((record) => record.status === "queued");
+			const unresolvedChannels = inbox.unresolvedChannels();
+			for (const record of recovered) {
+				if (unresolvedChannels.has(record.event.channel)) continue;
+				if (transport.enqueueAccepted) transport.enqueueAccepted(record.event, record.isEvent);
+				else transport.enqueueEvent(record.event);
+			}
+			eventsWatcher.start();
+			const blockedChannels = new Set(
+				inbox
+					.list()
+					.filter((r) => ["queued", "running", "unknown"].includes(r.status))
+					.map((r) => r.event.channel),
+			);
+			const recoveryChannels = new Set(
+				(featureEnabled(config, "goals")
+					? [
+							...readdirSync(controlDir, { withFileTypes: true }),
+							...readdirSync(workingDir, { withFileTypes: true }),
+						]
+					: []
+				)
+					.filter((entry) => entry.isDirectory() && !entry.name.startsWith("."))
+					.map((entry) => entry.name),
+			);
+			for (const channelId of recoveryChannels) {
+				const channelDir = join(workingDir, channelId);
+				if (!existsSync(join(channelDir, "goal.json")) && !existsSync(join(controlDir, channelId, "goal.json")))
+					continue;
+				try {
+					const goal = goalStore(channelId).get();
+					if (goal?.status !== "active") continue;
+					if (blockedChannels.has(channelId)) continue;
+					transport.enqueueEvent({
+						type: "dm",
+						origin: "recovery",
+						channel: channelId,
+						ts: `goal-recovery-${goal.id}-${goal.cycle}`,
+						user: "lightclaw",
+						text: "[LightClaw 崩溃恢复] 读取已保存进展，检查已发生副作用后继续推进长期目标。",
+					});
+				} catch (error) {
+					const detail = error instanceof Error ? error.message : String(error);
+					log.logWarning(`[${channelId}] Goal recovery skipped`, detail);
+					appendAuditEvent(workingDir, { type: "goal_state_invalid", channelId, detail });
+				}
+			}
+		} catch (error) {
+			await shutdown();
+			throw error;
+		}
+	}
+
+	return {
+		handler,
+		transport,
+		inbox,
+		goalStore,
+		start,
+		shutdown,
+		async compact(channelId: string): Promise<void> {
+			const runner = getState(channelId).runner;
+			if (!runner.compact) throw new Error("Runner does not support compaction");
+			await runner.compact();
+		},
+		async idle(): Promise<void> {
+			await transport.drain?.();
+			while (inFlight.size) await Promise.allSettled([...inFlight]);
+		},
+	};
+}

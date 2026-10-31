@@ -1,0 +1,1 @@
+{"arm":"without-optimization","kind":"current","features":{"goals":true,"acceptance":true,"feishu":true,"controls":true,"scheduling":true,"optimization":false,"infrastructure":true},"repetition":0,"seed":17,"caseId":"final-version-filter","id":"matrix-docker-0041-without-optimization-final-version-filter"}

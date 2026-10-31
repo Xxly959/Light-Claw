@@ -1,0 +1,12 @@
+{
+  "completedAt": "2026-10-21T09:34:32.537Z",
+  "datasetHash": "e97f7a1d7ab8985b2e0022d585cfec967ef11599e5e569f0e896c5e287590038",
+  "runs": 5,
+  "requestCount": 15,
+  "reportedTokens": 38394,
+  "node": "v24.19.0",
+  "sandbox": {
+    "type": "docker",
+    "container": "lightclaw-fixes-20261021"
+  }
+}

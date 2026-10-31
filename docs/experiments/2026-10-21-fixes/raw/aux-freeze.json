@@ -1,0 +1,5 @@
+{
+  "datasetHash": "e97f7a1d7ab8985b2e0022d585cfec967ef11599e5e569f0e896c5e287590038",
+  "frozenAt": "2026-10-21T09:34:15.786Z",
+  "note": "Three clarified selection-case regressions and two capability smoke cases. Fixed-v2 only, no improvement claim; no external delivery."
+}

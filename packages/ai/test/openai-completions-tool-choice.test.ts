@@ -156,7 +156,8 @@ describe("openai-completions tool_choice", () => {
 	});
 
 	it("maps groq qwen3 reasoning levels to default reasoning_effort", async () => {
-		const model = getModel("groq", "qwen/qwen3.6-27b")!;
+		// Pin the legacy model that owns this compatibility branch; no live provider call.
+		const model = { ...getModel("groq", "qwen/qwen3.6-27b")!, id: "qwen/qwen3-32b" };
 		let payload: unknown;
 
 		await streamSimple(
@@ -251,13 +252,12 @@ describe("openai-completions tool_choice", () => {
 	it("stores z.ai tool_stream support in model compat metadata", () => {
 		expect(getModel("zai", "glm-5-turbo")?.compat?.zaiToolStream).toBe(true);
 		expect(getModel("zai", "glm-4.7")?.compat?.zaiToolStream).toBe(true);
-		expect(getModel("zai", "glm-4.7")?.compat?.zaiToolStream).toBe(true);
-		expect(getModel("zai", "glm-5-turbo")?.compat?.zaiToolStream).toBe(true);
-		expect(getModel("zai", "glm-4.7")?.compat?.zaiToolStream).toBeUndefined();
+		expect(getModel("groq", "openai/gpt-oss-20b")?.compat?.zaiToolStream).toBeUndefined();
 	});
 
 	it("omits tool_stream for unsupported z.ai models", async () => {
-		const model = getModel("zai", "glm-4.7")!;
+		const base = getModel("zai", "glm-4.7")!;
+		const model = { ...base, compat: { ...base.compat, zaiToolStream: false } };
 		const tools: Tool[] = [
 			{
 				name: "ping",

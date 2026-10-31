@@ -1,0 +1,1 @@
+{"arm":"ordinary-lean","kind":"lean","startGoal":false,"features":{"goals":true,"acceptance":true,"feishu":true,"controls":true,"scheduling":true,"optimization":true,"infrastructure":true},"sandbox":"docker","repetition":1,"seed":104746,"caseId":"final-inventory-join","id":"ordinary-0037-ordinary-lean-final-inventory-join"}

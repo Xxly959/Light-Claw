@@ -1,0 +1,11 @@
+# 独立只读审查与修复
+
+batch4_review对本批基线差异做一次只读审查，未运行真实产品/网络、未修改文件。两项明确P2：附件队列部分入队后永久阻塞；历史目标owner无效pause可先abort他人的普通run。两个集成风险：真实/tmp tmpfs被旧控制目录隔离误拒绝；新增Docker身份探针依赖无期限/无界输出helper。
+
+均完成定向RED→GREEN：附件批量原子准入（reject后下一批仍正常下载）；运行绑定runGoalId、先权限/状态验证后取消（paused/completed/cancelled旧goal不误杀）；安全tmpfs贯通启动链；Docker启动探针10秒/1MiB合计限制并在失败时kill。review-resource与review-boundaries原始日志保留，后者6个失败断言变绿。修复后包内54文件485项通过、4真实Docker跳过。
+
+主代理额外频道存储回归先在虚构临时根复现../escape，现ChannelStore统一ID与目录检查、两个adapter复用getChannelDir；此处不是宣称shared workspace租户隔离。整包回归再次通过。
+
+集成时发现附件helper覆盖既有downloadChannel；已恢复原有导出并独立attachment-download.ts，源CLI实际加载通过。完整debug默认关闭后旧诊断断言作显式opt-in适配，可选日志失败不再充当业务失败，关键持久化失败保持fail-closed。
+
+没有进行重复审查；修复以针对性和完整本包回归验证。缺失dist/依赖缓存/真实平台与容器证据，以及文档明确的context单轮超额和非全局硬磁盘配额，保留为限制，不伪报通过。

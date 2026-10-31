@@ -24,6 +24,11 @@ export interface EvalCaseResult {
 	response: string;
 	checks: EvalCheck[];
 	run: AgentRunResult;
+	diagnostics?: {
+		systemPrompt: string;
+		toolFailures: string[];
+	};
+	diagnosticError?: string;
 }
 
 export interface EvalReport {

@@ -1,0 +1,254 @@
+[
+  {
+    "arm": "disabled",
+    "repetition": 0,
+    "command": [
+      "rtk",
+      "proxy",
+      "node",
+      "--expose-gc",
+      "--import",
+      "tsx",
+      "/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-ablation/run-cache.mjs",
+      "disabled",
+      "/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-ablation/raw/cache-0-disabled.json"
+    ],
+    "cwd": "/Users/x/hermes-workspace/Light-Claw",
+    "startedAt": "2026-10-21T08:16:37.313183+00:00",
+    "durationSeconds": 2.46411783300573,
+    "exitCode": 0,
+    "stdout": "{\"arm\":\"disabled\",\"created\":320,\"released\":320,\"retainedAfterIdle\":320,\"peakRetained\":320,\"output\":\"/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-ablation/raw/cache-0-disabled.json\"}\n",
+    "stderr": ""
+  },
+  {
+    "arm": "capacity",
+    "repetition": 0,
+    "command": [
+      "rtk",
+      "proxy",
+      "node",
+      "--expose-gc",
+      "--import",
+      "tsx",
+      "/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-ablation/run-cache.mjs",
+      "capacity",
+      "/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-ablation/raw/cache-0-capacity.json"
+    ],
+    "cwd": "/Users/x/hermes-workspace/Light-Claw",
+    "startedAt": "2026-10-21T08:16:39.777705+00:00",
+    "durationSeconds": 2.2445942499907687,
+    "exitCode": 0,
+    "stdout": "{\"arm\":\"capacity\",\"created\":352,\"released\":352,\"retainedAfterIdle\":128,\"peakRetained\":128,\"output\":\"/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-ablation/raw/cache-0-capacity.json\"}\n",
+    "stderr": ""
+  },
+  {
+    "arm": "ttl",
+    "repetition": 0,
+    "command": [
+      "rtk",
+      "proxy",
+      "node",
+      "--expose-gc",
+      "--import",
+      "tsx",
+      "/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-ablation/run-cache.mjs",
+      "ttl",
+      "/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-ablation/raw/cache-0-ttl.json"
+    ],
+    "cwd": "/Users/x/hermes-workspace/Light-Claw",
+    "startedAt": "2026-10-21T08:16:42.022660+00:00",
+    "durationSeconds": 2.3030742909759283,
+    "exitCode": 0,
+    "stdout": "{\"arm\":\"ttl\",\"created\":384,\"released\":384,\"retainedAfterIdle\":0,\"peakRetained\":320,\"output\":\"/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-ablation/raw/cache-0-ttl.json\"}\n",
+    "stderr": ""
+  },
+  {
+    "arm": "combined",
+    "repetition": 0,
+    "command": [
+      "rtk",
+      "proxy",
+      "node",
+      "--expose-gc",
+      "--import",
+      "tsx",
+      "/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-ablation/run-cache.mjs",
+      "combined",
+      "/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-ablation/raw/cache-0-combined.json"
+    ],
+    "cwd": "/Users/x/hermes-workspace/Light-Claw",
+    "startedAt": "2026-10-21T08:16:44.326029+00:00",
+    "durationSeconds": 2.3369474160135724,
+    "exitCode": 0,
+    "stdout": "{\"arm\":\"combined\",\"created\":384,\"released\":384,\"retainedAfterIdle\":0,\"peakRetained\":128,\"output\":\"/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-ablation/raw/cache-0-combined.json\"}\n",
+    "stderr": ""
+  },
+  {
+    "arm": "capacity",
+    "repetition": 1,
+    "command": [
+      "rtk",
+      "proxy",
+      "node",
+      "--expose-gc",
+      "--import",
+      "tsx",
+      "/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-ablation/run-cache.mjs",
+      "capacity",
+      "/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-ablation/raw/cache-1-capacity.json"
+    ],
+    "cwd": "/Users/x/hermes-workspace/Light-Claw",
+    "startedAt": "2026-10-21T08:16:46.665738+00:00",
+    "durationSeconds": 2.2967335000284947,
+    "exitCode": 0,
+    "stdout": "{\"arm\":\"capacity\",\"created\":352,\"released\":352,\"retainedAfterIdle\":128,\"peakRetained\":128,\"output\":\"/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-ablation/raw/cache-1-capacity.json\"}\n",
+    "stderr": ""
+  },
+  {
+    "arm": "ttl",
+    "repetition": 1,
+    "command": [
+      "rtk",
+      "proxy",
+      "node",
+      "--expose-gc",
+      "--import",
+      "tsx",
+      "/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-ablation/run-cache.mjs",
+      "ttl",
+      "/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-ablation/raw/cache-1-ttl.json"
+    ],
+    "cwd": "/Users/x/hermes-workspace/Light-Claw",
+    "startedAt": "2026-10-21T08:16:48.962744+00:00",
+    "durationSeconds": 2.3111794170108624,
+    "exitCode": 0,
+    "stdout": "{\"arm\":\"ttl\",\"created\":384,\"released\":384,\"retainedAfterIdle\":0,\"peakRetained\":320,\"output\":\"/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-ablation/raw/cache-1-ttl.json\"}\n",
+    "stderr": ""
+  },
+  {
+    "arm": "combined",
+    "repetition": 1,
+    "command": [
+      "rtk",
+      "proxy",
+      "node",
+      "--expose-gc",
+      "--import",
+      "tsx",
+      "/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-ablation/run-cache.mjs",
+      "combined",
+      "/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-ablation/raw/cache-1-combined.json"
+    ],
+    "cwd": "/Users/x/hermes-workspace/Light-Claw",
+    "startedAt": "2026-10-21T08:16:51.274199+00:00",
+    "durationSeconds": 2.283476040989626,
+    "exitCode": 0,
+    "stdout": "{\"arm\":\"combined\",\"created\":384,\"released\":384,\"retainedAfterIdle\":0,\"peakRetained\":128,\"output\":\"/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-ablation/raw/cache-1-combined.json\"}\n",
+    "stderr": ""
+  },
+  {
+    "arm": "disabled",
+    "repetition": 1,
+    "command": [
+      "rtk",
+      "proxy",
+      "node",
+      "--expose-gc",
+      "--import",
+      "tsx",
+      "/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-ablation/run-cache.mjs",
+      "disabled",
+      "/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-ablation/raw/cache-1-disabled.json"
+    ],
+    "cwd": "/Users/x/hermes-workspace/Light-Claw",
+    "startedAt": "2026-10-21T08:16:53.557984+00:00",
+    "durationSeconds": 2.2387304170406424,
+    "exitCode": 0,
+    "stdout": "{\"arm\":\"disabled\",\"created\":320,\"released\":320,\"retainedAfterIdle\":320,\"peakRetained\":320,\"output\":\"/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-ablation/raw/cache-1-disabled.json\"}\n",
+    "stderr": ""
+  },
+  {
+    "arm": "ttl",
+    "repetition": 2,
+    "command": [
+      "rtk",
+      "proxy",
+      "node",
+      "--expose-gc",
+      "--import",
+      "tsx",
+      "/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-ablation/run-cache.mjs",
+      "ttl",
+      "/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-ablation/raw/cache-2-ttl.json"
+    ],
+    "cwd": "/Users/x/hermes-workspace/Light-Claw",
+    "startedAt": "2026-10-21T08:16:55.797065+00:00",
+    "durationSeconds": 2.2678239590022713,
+    "exitCode": 0,
+    "stdout": "{\"arm\":\"ttl\",\"created\":384,\"released\":384,\"retainedAfterIdle\":0,\"peakRetained\":320,\"output\":\"/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-ablation/raw/cache-2-ttl.json\"}\n",
+    "stderr": ""
+  },
+  {
+    "arm": "combined",
+    "repetition": 2,
+    "command": [
+      "rtk",
+      "proxy",
+      "node",
+      "--expose-gc",
+      "--import",
+      "tsx",
+      "/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-ablation/run-cache.mjs",
+      "combined",
+      "/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-ablation/raw/cache-2-combined.json"
+    ],
+    "cwd": "/Users/x/hermes-workspace/Light-Claw",
+    "startedAt": "2026-10-21T08:16:58.065184+00:00",
+    "durationSeconds": 2.2707824999815784,
+    "exitCode": 0,
+    "stdout": "{\"arm\":\"combined\",\"created\":384,\"released\":384,\"retainedAfterIdle\":0,\"peakRetained\":128,\"output\":\"/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-ablation/raw/cache-2-combined.json\"}\n",
+    "stderr": ""
+  },
+  {
+    "arm": "disabled",
+    "repetition": 2,
+    "command": [
+      "rtk",
+      "proxy",
+      "node",
+      "--expose-gc",
+      "--import",
+      "tsx",
+      "/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-ablation/run-cache.mjs",
+      "disabled",
+      "/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-ablation/raw/cache-2-disabled.json"
+    ],
+    "cwd": "/Users/x/hermes-workspace/Light-Claw",
+    "startedAt": "2026-10-21T08:17:00.336270+00:00",
+    "durationSeconds": 2.2456066659651697,
+    "exitCode": 0,
+    "stdout": "{\"arm\":\"disabled\",\"created\":320,\"released\":320,\"retainedAfterIdle\":320,\"peakRetained\":320,\"output\":\"/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-ablation/raw/cache-2-disabled.json\"}\n",
+    "stderr": ""
+  },
+  {
+    "arm": "capacity",
+    "repetition": 2,
+    "command": [
+      "rtk",
+      "proxy",
+      "node",
+      "--expose-gc",
+      "--import",
+      "tsx",
+      "/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-ablation/run-cache.mjs",
+      "capacity",
+      "/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-ablation/raw/cache-2-capacity.json"
+    ],
+    "cwd": "/Users/x/hermes-workspace/Light-Claw",
+    "startedAt": "2026-10-21T08:17:02.582199+00:00",
+    "durationSeconds": 2.2458269999478944,
+    "exitCode": 0,
+    "stdout": "{\"arm\":\"capacity\",\"created\":352,\"released\":352,\"retainedAfterIdle\":128,\"peakRetained\":128,\"output\":\"/Users/x/hermes-workspace/Light-Claw/docs/experiments/2026-10-21-ablation/raw/cache-2-capacity.json\"}\n",
+    "stderr": ""
+  }
+]

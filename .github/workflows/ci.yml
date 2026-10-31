@@ -13,6 +13,9 @@ concurrency:
 jobs:
   build-check-test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: ['22.19.0', '22']
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -20,8 +23,13 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: ${{ matrix.node }}
           cache: npm
+
+      - name: Setup Python for safe attachment reads and offline statistics
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
 
       - name: Install system dependencies
         run: |
@@ -37,6 +45,9 @@ jobs:
 
       - name: Check
         run: npm run check
+
+      - name: LightClaw offline regressions (required workspace)
+        run: npm run test --workspace lightclaw
 
       - name: Test
         run: npm test

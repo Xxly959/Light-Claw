@@ -1,0 +1,40 @@
+{
+  "date": "2026-10-31",
+  "scope": "local offline source material and packaging contract",
+  "sourceEntry": "packages/lightclaw/src/index.ts",
+  "sourceEntryImport": "PASS (offline Vitest, no platform startup)",
+  "targetedTests": { "file": "test/packaging.test.ts", "passed": 7, "failed": 0 },
+  "sourceSnapshot": {
+    "path": "/tmp/lightclaw-batch4-20261031/deploy/source-material",
+    "files": 680,
+    "tracked": 578,
+    "untracked": 102,
+    "symlinks": 0,
+    "manifestSha256": "7e5fdb7a0d301e7fa12a488697319981c635dba292c7744caf8292d453d4a560",
+    "note": "Immutable snapshot taken while other implementation domains were still editing; final batch manifest is separate."
+  },
+  "archive": {
+    "path": "/tmp/lightclaw-batch4-20261031/deploy/lightclaw-0.70.6.tgz",
+    "files": 16,
+    "bytes": 43731,
+    "sha256": "3bf206d6bef5c5ac548947a6a611b86a68be2de44fe3efffe2578b09ebd4e1e1",
+    "lifecycleScripts": false,
+    "distIncluded": false,
+    "nativeToolHelpExitCode": 0
+  },
+  "cleanOfflineInstall": {
+    "exitCode": 1,
+    "status": "NOT VERIFIED",
+    "reason": "ENOTCACHED: @anthropic-ai/sandbox-runtime metadata unavailable in copied existing local npm cache",
+    "network": false,
+    "credentials": false,
+    "workspaceDependencyLinks": false
+  },
+  "compiledRelease": {
+    "status": "NOT VERIFIED",
+    "verifyDistExitCode": 1,
+    "reason": "No fresh build permitted; snapshot intentionally excludes historical dist; declared main/types/bin entries absent."
+  },
+  "notRun": ["build", "dev", "npm test", "substitute transpilation", "lifecycle", "publish", "real platform", "paid model", "real Docker", "production restore"],
+  "evidenceDirectory": "/tmp/lightclaw-batch4-20261031/deploy"
+}

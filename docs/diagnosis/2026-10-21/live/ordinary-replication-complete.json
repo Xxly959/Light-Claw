@@ -1,0 +1,1307 @@
+{
+  "completedAt": "2026-10-22T00:10:16.383Z",
+  "finished": 108,
+  "planned": 108,
+  "reserved": 368,
+  "reportedTokens": 897073,
+  "stopped": false,
+  "budgetLimited": false,
+  "results": [
+    {
+      "id": "ordinary-replication-0000-ordinary-before-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0000-ordinary-before-final-inventory-join",
+        "success": true,
+        "tokens": 7097,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0001-ordinary-lean-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0001-ordinary-lean-final-inventory-join",
+        "success": true,
+        "tokens": 6390,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0002-final-goal-lean-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0002-final-goal-lean-final-inventory-join",
+        "success": true,
+        "tokens": 11139,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "ordinary-replication-0004-ordinary-lean-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0004-ordinary-lean-final-money-csv",
+        "success": true,
+        "tokens": 6368,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0003-final-goal-lean-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0003-final-goal-lean-final-money-csv",
+        "success": true,
+        "tokens": 10988,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "ordinary-replication-0005-ordinary-before-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0005-ordinary-before-final-money-csv",
+        "success": true,
+        "tokens": 7031,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0006-ordinary-before-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0006-ordinary-before-final-stable-dedup",
+        "success": true,
+        "tokens": 6716,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0007-ordinary-lean-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0007-ordinary-lean-final-stable-dedup",
+        "success": true,
+        "tokens": 6292,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0008-final-goal-lean-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0008-final-goal-lean-final-stable-dedup",
+        "success": true,
+        "tokens": 10740,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "ordinary-replication-0010-ordinary-lean-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0010-ordinary-lean-final-markdown-section",
+        "success": true,
+        "tokens": 6482,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0009-final-goal-lean-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0009-final-goal-lean-final-markdown-section",
+        "success": true,
+        "tokens": 11041,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "ordinary-replication-0011-ordinary-before-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0011-ordinary-before-final-markdown-section",
+        "success": true,
+        "tokens": 10246,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "ordinary-replication-0012-ordinary-before-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0012-ordinary-before-final-nested-config",
+        "success": true,
+        "tokens": 7206,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0013-ordinary-lean-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0013-ordinary-lean-final-nested-config",
+        "success": true,
+        "tokens": 6559,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0014-final-goal-lean-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0014-final-goal-lean-final-nested-config",
+        "success": true,
+        "tokens": 11099,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "ordinary-replication-0016-ordinary-lean-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0016-ordinary-lean-final-version-filter",
+        "success": true,
+        "tokens": 6298,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0015-final-goal-lean-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0015-final-goal-lean-final-version-filter",
+        "success": true,
+        "tokens": 10868,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "ordinary-replication-0017-ordinary-before-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0017-ordinary-before-final-version-filter",
+        "success": true,
+        "tokens": 6980,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0018-ordinary-before-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0018-ordinary-before-final-jsonl-errors",
+        "success": true,
+        "tokens": 9728,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "ordinary-replication-0019-ordinary-lean-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0019-ordinary-lean-final-jsonl-errors",
+        "success": true,
+        "tokens": 6482,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0020-final-goal-lean-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0020-final-goal-lean-final-jsonl-errors",
+        "success": true,
+        "tokens": 11185,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "ordinary-replication-0022-ordinary-lean-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0022-ordinary-lean-final-unicode-path",
+        "success": true,
+        "tokens": 6376,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0021-final-goal-lean-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0021-final-goal-lean-final-unicode-path",
+        "success": true,
+        "tokens": 11028,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "ordinary-replication-0023-ordinary-before-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0023-ordinary-before-final-unicode-path",
+        "success": true,
+        "tokens": 7105,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0024-ordinary-before-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0024-ordinary-before-final-multi-file-consistency",
+        "success": true,
+        "tokens": 7061,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0025-ordinary-lean-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0025-ordinary-lean-final-multi-file-consistency",
+        "success": true,
+        "tokens": 6338,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0026-final-goal-lean-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0026-final-goal-lean-final-multi-file-consistency",
+        "success": true,
+        "tokens": 10793,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "ordinary-replication-0028-ordinary-lean-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0028-ordinary-lean-final-null-vs-missing",
+        "success": true,
+        "tokens": 6250,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0027-final-goal-lean-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0027-final-goal-lean-final-null-vs-missing",
+        "success": true,
+        "tokens": 10458,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "ordinary-replication-0029-ordinary-before-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0029-ordinary-before-final-null-vs-missing",
+        "success": true,
+        "tokens": 6878,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0030-ordinary-before-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0030-ordinary-before-final-range-boundaries",
+        "success": true,
+        "tokens": 7057,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0031-ordinary-lean-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0031-ordinary-lean-final-range-boundaries",
+        "success": true,
+        "tokens": 6076,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0033-final-goal-lean-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0033-final-goal-lean-final-text-replacement",
+        "success": true,
+        "tokens": 10676,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "ordinary-replication-0034-ordinary-lean-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0034-ordinary-lean-final-text-replacement",
+        "success": true,
+        "tokens": 6234,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0032-final-goal-lean-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0032-final-goal-lean-final-range-boundaries",
+        "success": true,
+        "tokens": 10900,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "ordinary-replication-0035-ordinary-before-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0035-ordinary-before-final-text-replacement",
+        "success": true,
+        "tokens": 6815,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0037-ordinary-lean-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0037-ordinary-lean-final-inventory-join",
+        "success": true,
+        "tokens": 6396,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0036-final-goal-lean-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0036-final-goal-lean-final-inventory-join",
+        "success": true,
+        "tokens": 10933,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "ordinary-replication-0038-ordinary-before-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0038-ordinary-before-final-inventory-join",
+        "success": true,
+        "tokens": 7124,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0039-ordinary-before-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0039-ordinary-before-final-money-csv",
+        "success": true,
+        "tokens": 7025,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0040-ordinary-lean-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0040-ordinary-lean-final-money-csv",
+        "success": true,
+        "tokens": 6305,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0041-final-goal-lean-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0041-final-goal-lean-final-money-csv",
+        "success": true,
+        "tokens": 10906,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "ordinary-replication-0042-final-goal-lean-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0042-final-goal-lean-final-stable-dedup",
+        "success": true,
+        "tokens": 10661,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "ordinary-replication-0043-ordinary-lean-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0043-ordinary-lean-final-stable-dedup",
+        "success": true,
+        "tokens": 6290,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0044-ordinary-before-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0044-ordinary-before-final-stable-dedup",
+        "success": true,
+        "tokens": 7025,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0046-ordinary-lean-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0046-ordinary-lean-final-markdown-section",
+        "success": true,
+        "tokens": 6541,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0045-ordinary-before-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0045-ordinary-before-final-markdown-section",
+        "success": true,
+        "tokens": 7409,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0049-ordinary-lean-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0049-ordinary-lean-final-nested-config",
+        "success": true,
+        "tokens": 6284,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0047-final-goal-lean-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0047-final-goal-lean-final-markdown-section",
+        "success": true,
+        "tokens": 13624,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "ordinary-replication-0048-final-goal-lean-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0048-final-goal-lean-final-nested-config",
+        "success": true,
+        "tokens": 10835,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "ordinary-replication-0050-ordinary-before-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0050-ordinary-before-final-nested-config",
+        "success": true,
+        "tokens": 7218,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0051-ordinary-before-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0051-ordinary-before-final-version-filter",
+        "success": true,
+        "tokens": 7014,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0052-ordinary-lean-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0052-ordinary-lean-final-version-filter",
+        "success": true,
+        "tokens": 6087,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0055-ordinary-lean-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0055-ordinary-lean-final-jsonl-errors",
+        "success": true,
+        "tokens": 6501,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0053-final-goal-lean-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0053-final-goal-lean-final-version-filter",
+        "success": true,
+        "tokens": 10805,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "ordinary-replication-0054-final-goal-lean-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0054-final-goal-lean-final-jsonl-errors",
+        "success": true,
+        "tokens": 11131,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "ordinary-replication-0056-ordinary-before-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0056-ordinary-before-final-jsonl-errors",
+        "success": true,
+        "tokens": 7248,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0058-ordinary-lean-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0058-ordinary-lean-final-unicode-path",
+        "success": true,
+        "tokens": 6327,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0057-ordinary-before-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0057-ordinary-before-final-unicode-path",
+        "success": true,
+        "tokens": 7034,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0061-ordinary-lean-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0061-ordinary-lean-final-multi-file-consistency",
+        "success": true,
+        "tokens": 6313,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0059-final-goal-lean-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0059-final-goal-lean-final-unicode-path",
+        "success": true,
+        "tokens": 10833,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "ordinary-replication-0060-final-goal-lean-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0060-final-goal-lean-final-multi-file-consistency",
+        "success": true,
+        "tokens": 10796,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "ordinary-replication-0062-ordinary-before-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0062-ordinary-before-final-multi-file-consistency",
+        "success": true,
+        "tokens": 7145,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0063-ordinary-before-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0063-ordinary-before-final-null-vs-missing",
+        "success": true,
+        "tokens": 6979,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0064-ordinary-lean-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0064-ordinary-lean-final-null-vs-missing",
+        "success": true,
+        "tokens": 6080,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0065-final-goal-lean-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0065-final-goal-lean-final-null-vs-missing",
+        "success": true,
+        "tokens": 10520,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "ordinary-replication-0067-ordinary-lean-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0067-ordinary-lean-final-range-boundaries",
+        "success": true,
+        "tokens": 6189,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0066-final-goal-lean-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0066-final-goal-lean-final-range-boundaries",
+        "success": true,
+        "tokens": 10856,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "ordinary-replication-0068-ordinary-before-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0068-ordinary-before-final-range-boundaries",
+        "success": true,
+        "tokens": 7060,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0070-ordinary-lean-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0070-ordinary-lean-final-text-replacement",
+        "success": true,
+        "tokens": 6151,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0069-ordinary-before-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0069-ordinary-before-final-text-replacement",
+        "success": true,
+        "tokens": 6900,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0072-ordinary-before-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0072-ordinary-before-final-inventory-join",
+        "success": true,
+        "tokens": 7102,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0071-final-goal-lean-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0071-final-goal-lean-final-text-replacement",
+        "success": true,
+        "tokens": 10907,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "ordinary-replication-0073-ordinary-lean-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0073-ordinary-lean-final-inventory-join",
+        "success": true,
+        "tokens": 6385,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0076-ordinary-lean-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0076-ordinary-lean-final-money-csv",
+        "success": true,
+        "tokens": 8600,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "ordinary-replication-0074-final-goal-lean-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0074-final-goal-lean-final-inventory-join",
+        "success": true,
+        "tokens": 11004,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "ordinary-replication-0075-final-goal-lean-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0075-final-goal-lean-final-money-csv",
+        "success": true,
+        "tokens": 10963,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "ordinary-replication-0077-ordinary-before-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0077-ordinary-before-final-money-csv",
+        "success": true,
+        "tokens": 7052,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0078-ordinary-before-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0078-ordinary-before-final-stable-dedup",
+        "success": true,
+        "tokens": 7004,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0079-ordinary-lean-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0079-ordinary-lean-final-stable-dedup",
+        "success": true,
+        "tokens": 6298,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0082-ordinary-lean-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0082-ordinary-lean-final-markdown-section",
+        "success": true,
+        "tokens": 6525,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0081-final-goal-lean-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0081-final-goal-lean-final-markdown-section",
+        "success": true,
+        "tokens": 11564,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "ordinary-replication-0080-final-goal-lean-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0080-final-goal-lean-final-stable-dedup",
+        "success": true,
+        "tokens": 10587,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "ordinary-replication-0083-ordinary-before-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0083-ordinary-before-final-markdown-section",
+        "success": true,
+        "tokens": 7380,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0084-ordinary-before-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0084-ordinary-before-final-nested-config",
+        "success": true,
+        "tokens": 7167,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0085-ordinary-lean-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0085-ordinary-lean-final-nested-config",
+        "success": true,
+        "tokens": 6543,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0086-final-goal-lean-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0086-final-goal-lean-final-nested-config",
+        "success": true,
+        "tokens": 11109,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "ordinary-replication-0087-final-goal-lean-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0087-final-goal-lean-final-version-filter",
+        "success": true,
+        "tokens": 10755,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "ordinary-replication-0088-ordinary-lean-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0088-ordinary-lean-final-version-filter",
+        "success": true,
+        "tokens": 6230,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0089-ordinary-before-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0089-ordinary-before-final-version-filter",
+        "success": true,
+        "tokens": 6840,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0090-ordinary-before-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0090-ordinary-before-final-jsonl-errors",
+        "success": true,
+        "tokens": 7255,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0091-ordinary-lean-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0091-ordinary-lean-final-jsonl-errors",
+        "success": true,
+        "tokens": 8836,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "ordinary-replication-0094-ordinary-lean-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0094-ordinary-lean-final-unicode-path",
+        "success": true,
+        "tokens": 6301,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0092-final-goal-lean-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0092-final-goal-lean-final-jsonl-errors",
+        "success": true,
+        "tokens": 11055,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "ordinary-replication-0093-final-goal-lean-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0093-final-goal-lean-final-unicode-path",
+        "success": true,
+        "tokens": 10888,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "ordinary-replication-0095-ordinary-before-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0095-ordinary-before-final-unicode-path",
+        "success": true,
+        "tokens": 6994,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0096-ordinary-before-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0096-ordinary-before-final-multi-file-consistency",
+        "success": true,
+        "tokens": 7038,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0097-ordinary-lean-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0097-ordinary-lean-final-multi-file-consistency",
+        "success": true,
+        "tokens": 6314,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0100-ordinary-lean-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0100-ordinary-lean-final-null-vs-missing",
+        "success": true,
+        "tokens": 6276,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0099-final-goal-lean-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0099-final-goal-lean-final-null-vs-missing",
+        "success": true,
+        "tokens": 10740,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "ordinary-replication-0098-final-goal-lean-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0098-final-goal-lean-final-multi-file-consistency",
+        "success": true,
+        "tokens": 10920,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "ordinary-replication-0101-ordinary-before-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0101-ordinary-before-final-null-vs-missing",
+        "success": true,
+        "tokens": 7013,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0102-ordinary-before-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0102-ordinary-before-final-range-boundaries",
+        "success": true,
+        "tokens": 7042,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0103-ordinary-lean-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0103-ordinary-lean-final-range-boundaries",
+        "success": true,
+        "tokens": 6178,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0106-ordinary-lean-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0106-ordinary-lean-final-text-replacement",
+        "success": true,
+        "tokens": 6141,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0104-final-goal-lean-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0104-final-goal-lean-final-range-boundaries",
+        "success": true,
+        "tokens": 10872,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "ordinary-replication-0107-ordinary-before-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0107-ordinary-before-final-text-replacement",
+        "success": true,
+        "tokens": 6831,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "ordinary-replication-0105-final-goal-lean-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "ordinary-replication-0105-final-goal-lean-final-text-replacement",
+        "success": true,
+        "tokens": 20839,
+        "modelRequests": 7
+      }
+    }
+  ]
+}

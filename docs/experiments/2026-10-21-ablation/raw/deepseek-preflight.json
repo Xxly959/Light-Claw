@@ -1,0 +1,8 @@
+{
+  "status": 200,
+  "availableModels": [
+    "deepseek-flash",
+    "deepseek-v4-pro"
+  ],
+  "selectedModel": "deepseek-flash"
+}

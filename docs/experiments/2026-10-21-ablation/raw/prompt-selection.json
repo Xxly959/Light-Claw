@@ -1,0 +1,3718 @@
+{
+  "schemaVersion": 2,
+  "repetitions": 3,
+  "baseline": {
+    "training": [
+      {
+        "createdAt": "2026-10-21T08:25:45.026Z",
+        "model": "deepseek-flash",
+        "promptLabel": "baseline-training-1",
+        "score": 0.9666666666666667,
+        "passedCases": 5,
+        "totalCases": 6,
+        "totalTokens": 23108,
+        "totalCost": 0,
+        "results": [
+          {
+            "id": "train-orders",
+            "score": 1,
+            "response": "已完成。\n\n- 读取 scratch/orders.csv，共 4 条订单，其中 status=paid 的有 3 条（a:1299、c:201、d:0）。\n- 金额按整数分累加，总额 1500 分。\n- 输出 scratch/summary.json，UTF-8，仅含两个数值字段：{\"paid_count\": 3, \"total_cents\": 1500}\n- 输入文件未改动（md5 前后一致：79ae20fc20f6d092f38a092b1ba2536d）。",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": true,
+                "detail": "0 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/summary.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/orders.csv",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 3683,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 0,
+              "inputTokens": 3414,
+              "outputTokens": 468,
+              "cost": 0
+            }
+          },
+          {
+            "id": "train-contacts",
+            "score": 1,
+            "response": "已完成，输出在 scratch/clean.json（UTF-8，对象数组，仅含 name 和 email）。\n\n结果 2 条：\n- 甲 / a@example.com\n- 丙 / b@example.com\n\n说明：email 先去除两端空格再转小写，按规范化后的值去重并保留首次出现的记录（乙的 \"a@example.com\" 与甲的规范化结果相同，被丢弃）。输入文件 scratch/contacts.json 未改动，处理前后 md5 一致（7b1cb80b144bfdf64672c187b04d4fd8）。",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": true,
+                "detail": "0 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/clean.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/contacts.json",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 4155,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 0,
+              "inputTokens": 3501,
+              "outputTokens": 451,
+              "cost": 0
+            }
+          },
+          {
+            "id": "train-merge",
+            "score": 0.8,
+            "response": "已完成浅合并，输出到 scratch/merged.json。\n\n结果：\n- enabled: false（override 覆盖）\n- limit: 5（仅 base 有）\n- note: null（override 的 null 保留，未被丢弃）\n\n输入文件 base.json 和 override.json 的 md5 校验一致，未改动。输出为 UTF-8 编码的 JSON。",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": false,
+                "detail": "1 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/merged.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/base.json",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              },
+              {
+                "name": "file_unchanged:scratch/override.json",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 4192,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 1,
+              "inputTokens": 3407,
+              "outputTokens": 390,
+              "cost": 0
+            }
+          },
+          {
+            "id": "train-markdown",
+            "score": 1,
+            "response": "已完成。\n\nscratch/notes.md 未改动，从中提取到 2 个未完成项（按原顺序）：\n1. 检查配置\n2. 补充测试\n\n已写入 scratch/todo.json（UTF-8，字符串数组，JSON 格式）。",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": true,
+                "detail": "0 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/todo.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/notes.md",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 3320,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 0,
+              "inputTokens": 3505,
+              "outputTokens": 311,
+              "cost": 0
+            }
+          },
+          {
+            "id": "train-version-sort",
+            "score": 1,
+            "response": "已完成。\n\n结果（scratch/sorted.json）：\n1.2.9\n1.2.9\n1.2.10\n1.10.0\n2.0.0\n\n说明：按三段版本号逐段转整数比较排序，重复项保留；输入文件 scratch/versions.json 未改动（前后 md5 一致），输出为 UTF-8 JSON。",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": true,
+                "detail": "0 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/sorted.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/versions.json",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 3692,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 0,
+              "inputTokens": 3400,
+              "outputTokens": 344,
+              "cost": 0
+            }
+          },
+          {
+            "id": "train-invalid-lines",
+            "score": 1,
+            "response": "已完成。\n\nscratch/result.json 内容：{\"sum\": 8, \"invalid_lines\": [2]}\n\n说明：共 4 行，第 2 行 \"not-json\" 非法被跳过；合法对象 value 为 3、-2、7，求和 8。输入文件未改动（md5 校验一致），输出为 UTF-8。",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": true,
+                "detail": "0 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/result.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/events.jsonl",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 3840,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 0,
+              "inputTokens": 3433,
+              "outputTokens": 484,
+              "cost": 0
+            }
+          }
+        ]
+      },
+      {
+        "createdAt": "2026-10-21T08:26:23.043Z",
+        "model": "deepseek-flash",
+        "promptLabel": "baseline-training-2",
+        "score": 0.9583333333333334,
+        "passedCases": 5,
+        "totalCases": 6,
+        "totalTokens": 22674,
+        "totalCost": 0,
+        "results": [
+          {
+            "id": "train-orders",
+            "score": 1,
+            "response": "已完成。\n\n- 读取 scratch/orders.csv，筛选 status=paid 的订单：a(1299)、c(201)、d(0)\n- 用整数分累加：1299+201+0 = 1500\n- 输出 scratch/summary.json（UTF-8）：{\"paid_count\": 3, \"total_cents\": 1500}，仅含这两个数值字段\n- 输入文件未改动，md5 校验通过",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": true,
+                "detail": "0 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/summary.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/orders.csv",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 3905,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 0,
+              "inputTokens": 3355,
+              "outputTokens": 407,
+              "cost": 0
+            }
+          },
+          {
+            "id": "train-contacts",
+            "score": 1,
+            "response": "已完成，输出写入 scratch/clean.json（UTF-8，对象数组，仅含 name 和 email）。\n\n处理结果：\n- 甲 / a@example.com（原 \" A@EXAMPLE.COM \" 去空格转小写）\n- 丙 / b@example.com\n\n乙 的 a@example.com 与甲规范化后重复，按首次出现保留甲，乙被丢弃。\n\n输入文件 scratch/contacts.json 未改动（前后 md5 一致：7b1cb80b144bfdf64672c187b04d4fd8）。",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": true,
+                "detail": "0 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/clean.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/contacts.json",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 3911,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 0,
+              "inputTokens": 3354,
+              "outputTokens": 437,
+              "cost": 0
+            }
+          },
+          {
+            "id": "train-merge",
+            "score": 1,
+            "response": "已完成浅合并，输出到 scratch/merged.json：\n\n{\n  \"enabled\": false,\n  \"limit\": 5,\n  \"note\": null\n}\n\n说明：override 中的 enabled=false 覆盖了 base 的 true；note 的 null 被保留，没有回退到 \"old\"；limit 沿用 base 的 5。输出为 UTF-8，缩进 2 空格。两个输入文件校验和前后一致，未被修改。",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": true,
+                "detail": "0 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/merged.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/base.json",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              },
+              {
+                "name": "file_unchanged:scratch/override.json",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 3589,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 0,
+              "inputTokens": 3348,
+              "outputTokens": 425,
+              "cost": 0
+            }
+          },
+          {
+            "id": "train-markdown",
+            "score": 1,
+            "response": "已生成 scratch/todo.json，内容为 [\"检查配置\", \"补充测试\"]，顺序与原文一致，UTF-8 编码。notes.md 未改动。",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": true,
+                "detail": "0 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/todo.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/notes.md",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 2900,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 0,
+              "inputTokens": 3268,
+              "outputTokens": 288,
+              "cost": 0
+            }
+          },
+          {
+            "id": "train-version-sort",
+            "score": 0.75,
+            "response": "已完成。\n\n排序结果（scratch/sorted.json）：\n1.2.9\n1.2.9\n1.2.10\n1.10.0\n2.0.0\n\n说明：\n- 按三段版本号逐段转成整数后比较，因此 1.2.10 排在 1.10.0 之前，而不是按字符串字典序。\n- 重复项 1.2.9 保留了两条。\n- 输入文件 scratch/versions.json 未改动（排序前后 md5 一致：de49563919d46fcabdcdbd09b3bd7eb9）。\n- 输出为 UTF-8 编码的 JSON 数组，缩进 2 空格。",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": false,
+                "detail": "1 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/sorted.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/versions.json",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 3714,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 1,
+              "inputTokens": 3485,
+              "outputTokens": 468,
+              "cost": 0
+            }
+          },
+          {
+            "id": "train-invalid-lines",
+            "score": 1,
+            "response": "完成。\n\nscratch/result.json 内容：{\"sum\": 8, \"invalid_lines\": [2]}\n\n说明：共 4 行，第 2 行 \"not-json\" 不是合法 JSON，记为非法行；其余三行 value 为 3、-2、7，求和得 8。输入文件 events.jsonl 未改动（校验和一致），输出为 UTF-8。",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": true,
+                "detail": "0 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/result.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/events.jsonl",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 3567,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 0,
+              "inputTokens": 3370,
+              "outputTokens": 469,
+              "cost": 0
+            }
+          }
+        ]
+      },
+      {
+        "createdAt": "2026-10-21T08:27:01.003Z",
+        "model": "deepseek-flash",
+        "promptLabel": "baseline-training-3",
+        "score": 0.9666666666666667,
+        "passedCases": 5,
+        "totalCases": 6,
+        "totalTokens": 22927,
+        "totalCost": 0,
+        "results": [
+          {
+            "id": "train-orders",
+            "score": 1,
+            "response": "Done.\n\n- Read scratch/orders.csv (4 rows), kept only status=paid: a (1299), c (201), d (0).\n- Summed in integer cents: 1299 + 201 + 0 = 1500.\n- Wrote scratch/summary.json in UTF-8 with exactly two numeric fields: {\"paid_count\": 3, \"total_cents\": 1500}.\n- orders.csv unchanged (md5 verified identical before/after).",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": true,
+                "detail": "0 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/summary.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/orders.csv",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 4413,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 0,
+              "inputTokens": 3396,
+              "outputTokens": 430,
+              "cost": 0
+            }
+          },
+          {
+            "id": "train-contacts",
+            "score": 1,
+            "response": "已完成，输出写入 scratch/clean.json（UTF-8，对象数组，仅含 name 与 email）。\n\n处理结果：\n- 甲 / a@example.com（原 \" A@EXAMPLE.COM \" 去空格转小写）\n- 丙 / b@example.com\n\n乙 因规范化后与甲重复被丢弃，保留首次出现的记录。输入文件 contacts.json 未改动（前后 md5 一致：7b1cb80b…）。",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": true,
+                "detail": "0 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/clean.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/contacts.json",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 3793,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 0,
+              "inputTokens": 3491,
+              "outputTokens": 414,
+              "cost": 0
+            }
+          },
+          {
+            "id": "train-merge",
+            "score": 0.8,
+            "response": "已完成，输出在 scratch/merged.json。\n\n结果：\nenabled 为 false（override 覆盖）\nlimit 为 5（仅 base 有）\nnote 为 null（override 的 null 保留，未被丢弃）\n\n浅合并只处理顶层键，未做递归。输入文件 base.json 和 override.json 校验和未变，保持原样。输出为 UTF-8 编码、2 空格缩进。",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": false,
+                "detail": "1 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/merged.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/base.json",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              },
+              {
+                "name": "file_unchanged:scratch/override.json",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 3820,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 1,
+              "inputTokens": 3325,
+              "outputTokens": 404,
+              "cost": 0
+            }
+          },
+          {
+            "id": "train-markdown",
+            "score": 1,
+            "response": "已完成。\n\nscratch/notes.md 中未完成项共 2 条，按原顺序提取并去掉 \"- [ ] \" 前缀：\n1. 检查配置\n2. 补充测试\n\n已写入 scratch/todo.json（UTF-8，字符串数组，2 空格缩进）。notes.md 未改动（前后 md5 一致：256bd891…）。",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": true,
+                "detail": "0 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/todo.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/notes.md",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 3465,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 0,
+              "inputTokens": 3446,
+              "outputTokens": 377,
+              "cost": 0
+            }
+          },
+          {
+            "id": "train-version-sort",
+            "score": 1,
+            "response": "已完成。\n\n排序结果（scratch/sorted.json）：\n1.2.9\n1.2.9\n1.2.10\n1.10.0\n2.0.0\n\n说明：按三段版本号逐段转整数比较（1.2.10 排在 1.10.0 之前，而非字典序），重复项 1.2.9 保留。输入文件 versions.json 未改动（md5 前后一致），输出为 UTF-8 JSON 数组。",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": true,
+                "detail": "0 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/sorted.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/versions.json",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 3925,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 0,
+              "inputTokens": 3302,
+              "outputTokens": 382,
+              "cost": 0
+            }
+          },
+          {
+            "id": "train-invalid-lines",
+            "score": 1,
+            "response": "完成。\n\n- 逐行解析 scratch/events.jsonl，共 4 行；第 2 行 \"not-json\" 非法，记入 invalid_lines。\n- 合法对象中整数 value 求和：3 + (-2) + 7 = 8。\n- 输出 scratch/result.json：{\"sum\": 8, \"invalid_lines\": [2]}（UTF-8，仅含这两个字段）。\n- 输入文件未改动（md5 校验一致）。",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": true,
+                "detail": "0 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/result.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/events.jsonl",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 3487,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 0,
+              "inputTokens": 3441,
+              "outputTokens": 519,
+              "cost": 0
+            }
+          }
+        ]
+      }
+    ],
+    "holdout": [
+      {
+        "createdAt": "2026-10-21T08:26:01.429Z",
+        "model": "deepseek-flash",
+        "promptLabel": "baseline-holdout-1",
+        "score": 0.9375,
+        "passedCases": 3,
+        "totalCases": 4,
+        "totalTokens": 15404,
+        "totalCost": 0,
+        "results": [
+          {
+            "id": "select-diff",
+            "score": 1,
+            "response": "已完成，结果写入 scratch/changed.json：\n\n[\"a\", \"c\"]\n\n说明：\n- a：1 → 2，值变化\n- c：null → \"new\"，值变化\n- b：两边相同（true），排除\n- d：仅存在于 new.json，排除\n- 按键字典序排序，输出为 UTF-8 字符串数组\n- old.json 与 new.json 校验和前后一致，未被修改",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": true,
+                "detail": "0 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/changed.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/old.json",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              },
+              {
+                "name": "file_unchanged:scratch/new.json",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 5491,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 0,
+              "inputTokens": 3436,
+              "outputTokens": 409,
+              "cost": 0
+            }
+          },
+          {
+            "id": "select-latest",
+            "score": 1,
+            "response": "已完成。\n\n输入：scratch/records.json 共 3 条记录（id 为 a、b）。\n处理：每个 id 只保留 revision 最大的一条，按 id 升序排列，仅输出 id、revision、value 三个字段。\n结果：a → revision 4（A）；b → revision 3（new，丢弃了 revision 1 的 old）。\n输出：scratch/latest.json，UTF-8 编码，2 空格缩进。\n输入文件未改动，处理前后 md5 一致（69da76ab318988d3d593dc39591b1fe7）。",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": true,
+                "detail": "0 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/latest.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/records.json",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 4224,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 0,
+              "inputTokens": 3504,
+              "outputTokens": 500,
+              "cost": 0
+            }
+          },
+          {
+            "id": "select-space-path",
+            "score": 0.75,
+            "response": "已完成。\n\n输入 scratch/input data/值.json 为 [0, 2, -4, 7, 2]，其中严格大于 0 的 2、7、2 各乘 2，其余保持不变，顺序不变。\n\n输出 scratch/output data/结果.json（UTF-8）：[0, 4, -4, 14, 4]\n\n输入文件未做任何修改。",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": true,
+                "detail": "0 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/output data/结果.json",
+                "passed": false,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/input data/值.json",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 3271,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 0,
+              "inputTokens": 3395,
+              "outputTokens": 366,
+              "cost": 0
+            }
+          },
+          {
+            "id": "select-two-artifacts",
+            "score": 1,
+            "response": "完成。\n\nscratch/active.json：[\"m\", \"z\"]（active=true 的 id，按字符串升序）\nscratch/count.json：{\"count\": 2}\n\n两个输出文件均为 UTF-8。scratch/items.json 未改动（前后 md5 一致：936bdc9b…）。",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": true,
+                "detail": "0 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/active.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_strict:scratch/count.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/items.json",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 3387,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 0,
+              "inputTokens": 3426,
+              "outputTokens": 368,
+              "cost": 0
+            }
+          }
+        ]
+      },
+      {
+        "createdAt": "2026-10-21T08:26:38.065Z",
+        "model": "deepseek-flash",
+        "promptLabel": "baseline-holdout-2",
+        "score": 0.9375,
+        "passedCases": 3,
+        "totalCases": 4,
+        "totalTokens": 15220,
+        "totalCost": 0,
+        "results": [
+          {
+            "id": "select-diff",
+            "score": 1,
+            "response": "已完成。\n\n结果：scratch/changed.json 内容为 [\"a\", \"c\"]（UTF-8，JSON 字符串数组，字典序）。\n\n说明：\n- a: 1 → 2，值变化\n- c: null → \"new\"，值变化\n- b 两边相同（true），d 只在 new.json 中存在，均被排除\n- old.json 与 new.json 校验和前后一致，未被修改",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": true,
+                "detail": "0 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/changed.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/old.json",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              },
+              {
+                "name": "file_unchanged:scratch/new.json",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 3582,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 0,
+              "inputTokens": 3362,
+              "outputTokens": 412,
+              "cost": 0
+            }
+          },
+          {
+            "id": "select-latest",
+            "score": 1,
+            "response": "已完成。\n\n- 读取 scratch/records.json，共 3 条记录，涉及 id 为 a、b 的两个分组。\n- 每个 id 只保留 revision 最大的记录：a 保留 revision 4（value “A”），b 保留 revision 3（value “new”）。\n- 按 id 升序输出，仅含 id、revision、value 三个字段，写入 scratch/latest.json（UTF-8）。\n- 输入文件未改动，前后 md5 一致（69da76ab318988d3d593dc39591b1fe7）。",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": true,
+                "detail": "0 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/latest.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/records.json",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 3931,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 0,
+              "inputTokens": 3376,
+              "outputTokens": 486,
+              "cost": 0
+            }
+          },
+          {
+            "id": "select-space-path",
+            "score": 0.75,
+            "response": "已完成。\n\n输入 scratch/input data/值.json：[0, 2, -4, 7, 2]\n输出 scratch/output data/结果.json：[0, 4, -4, 14, 4]\n\n规则：严格大于 0 的数乘 2（2→4，7→14，2→4），0 和 -4 保持不变，顺序不变。输出为 UTF-8 编码的 JSON 数组，输入文件未修改。",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": true,
+                "detail": "0 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/output data/结果.json",
+                "passed": false,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/input data/值.json",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 3875,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 0,
+              "inputTokens": 3393,
+              "outputTokens": 377,
+              "cost": 0
+            }
+          },
+          {
+            "id": "select-two-artifacts",
+            "score": 1,
+            "response": "完成。\n\nscratch/active.json：[\"m\", \"z\"]（active=true 的 id 按升序）\nscratch/count.json：{\"count\": 2}\n\nitems.json 未改动，md5 前后一致（936bdc9b…）。输出均为 UTF-8。",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": true,
+                "detail": "0 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/active.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_strict:scratch/count.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/items.json",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 3622,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 0,
+              "inputTokens": 3444,
+              "outputTokens": 370,
+              "cost": 0
+            }
+          }
+        ]
+      },
+      {
+        "createdAt": "2026-10-21T08:27:16.565Z",
+        "model": "deepseek-flash",
+        "promptLabel": "baseline-holdout-3",
+        "score": 0.9375,
+        "passedCases": 3,
+        "totalCases": 4,
+        "totalTokens": 15226,
+        "totalCost": 0,
+        "results": [
+          {
+            "id": "select-diff",
+            "score": 1,
+            "response": "已完成，结果写入 scratch/changed.json：\n\n[\n  \"a\",\n  \"c\"\n]\n\n说明：\n- 只比较两边都存在的键（a、b、c），d 只在 new.json 中存在，因此被排除。\n- a 的值从 1 变成 2，c 的值从 null 变成 \"new\"，这两个键的值都发生了变化；b 的值在两边都是 true，没有变化。\n- 结果按键的字典序排序，并以 UTF-8 编码的 JSON 字符串数组保存。\n- 输入文件 old.json 和 new.json 的校验和与处理前一致，未被修改。",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": true,
+                "detail": "0 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/changed.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/old.json",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              },
+              {
+                "name": "file_unchanged:scratch/new.json",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 3867,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 0,
+              "inputTokens": 3335,
+              "outputTokens": 453,
+              "cost": 0
+            }
+          },
+          {
+            "id": "select-latest",
+            "score": 1,
+            "response": "已完成。\n\n- 读取 scratch/records.json（3 条记录），按 id 分组取 revision 最大者：a→rev 4 \"A\"，b→rev 3 \"new\"。\n- 按 id 升序写入 scratch/latest.json，仅含 id、revision、value 三个字段，UTF-8 编码。\n- 输入文件未改动（前后 md5 一致：69da76ab…）。",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": true,
+                "detail": "0 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/latest.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/records.json",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 4429,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 0,
+              "inputTokens": 3418,
+              "outputTokens": 445,
+              "cost": 0
+            }
+          },
+          {
+            "id": "select-space-path",
+            "score": 0.75,
+            "response": "已完成。\n\n输入 scratch/input data/值.json：[0, 2, -4, 7, 2]\n输出 scratch/output data/结果.json：[0, 4, -4, 14, 4]\n\n规则：仅对严格大于 0 的元素乘 2，0 和负数保持不变，顺序不变。输出为 UTF-8 编码的 JSON 数组，输入文件未做任何修改。",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": true,
+                "detail": "0 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/output data/结果.json",
+                "passed": false,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/input data/值.json",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 3599,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 0,
+              "inputTokens": 3417,
+              "outputTokens": 385,
+              "cost": 0
+            }
+          },
+          {
+            "id": "select-two-artifacts",
+            "score": 1,
+            "response": "已完成。\n\nscratch/active.json：[\"m\", \"z\"]（active=true 的 id，按升序）\nscratch/count.json：{\"count\": 2}\n\nitems.json 未改动，校验和前后一致（936bdc9bae42eeaf1f291cea2d966617）。输出均为 UTF-8。",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": true,
+                "detail": "0 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/active.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_strict:scratch/count.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/items.json",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 3642,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 0,
+              "inputTokens": 3383,
+              "outputTokens": 390,
+              "cost": 0
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "candidates": [
+    {
+      "prompt": "执行任务前先确认所需输入文件存在且可读，若缺失或解析失败应先用工具排查而非反复重试；保持输入文件只读，仅写入指定输出路径；严格按任务规定的字段、格式与编码产出，不添加或省略字段；完成后用一句话说明结果与关键处理，避免冗长解释。",
+      "evaluation": {
+        "training": [
+          {
+            "createdAt": "2026-10-21T08:27:39.923Z",
+            "model": "deepseek-flash",
+            "promptLabel": "candidate-1-training-1",
+            "score": 1,
+            "passedCases": 6,
+            "totalCases": 6,
+            "totalTokens": 22958,
+            "totalCost": 0,
+            "results": [
+              {
+                "id": "train-orders",
+                "score": 1,
+                "response": "已生成 scratch/summary.json：paid 订单 3 笔，总额 1500 分（1299+201+0），用整数分累加；orders.csv 校验和前后一致，未被修改。",
+                "checks": [
+                  {
+                    "name": "agent_run",
+                    "passed": true,
+                    "detail": "stop"
+                  },
+                  {
+                    "name": "tool_errors",
+                    "passed": true,
+                    "detail": "0 <= 0"
+                  },
+                  {
+                    "name": "file_strict:scratch/summary.json",
+                    "passed": true,
+                    "detail": "Exact structured/text artifact check"
+                  },
+                  {
+                    "name": "file_unchanged:scratch/orders.csv",
+                    "passed": true,
+                    "detail": "Input fixture must remain unchanged"
+                  }
+                ],
+                "run": {
+                  "stopReason": "stop",
+                  "durationMs": 3727,
+                  "toolCalls": 2,
+                  "verificationCommandCount": 0,
+                  "toolErrors": 0,
+                  "inputTokens": 3468,
+                  "outputTokens": 382,
+                  "cost": 0
+                }
+              },
+              {
+                "id": "train-contacts",
+                "score": 1,
+                "response": "已生成 scratch/clean.json：3 条记录规范化后去重为 2 条，保留首次出现的 name（甲、丙），仅含 name 和 email 字段，UTF-8 编码；输入文件未改动。",
+                "checks": [
+                  {
+                    "name": "agent_run",
+                    "passed": true,
+                    "detail": "stop"
+                  },
+                  {
+                    "name": "tool_errors",
+                    "passed": true,
+                    "detail": "0 <= 0"
+                  },
+                  {
+                    "name": "file_strict:scratch/clean.json",
+                    "passed": true,
+                    "detail": "Exact structured/text artifact check"
+                  },
+                  {
+                    "name": "file_unchanged:scratch/contacts.json",
+                    "passed": true,
+                    "detail": "Input fixture must remain unchanged"
+                  }
+                ],
+                "run": {
+                  "stopReason": "stop",
+                  "durationMs": 3435,
+                  "toolCalls": 2,
+                  "verificationCommandCount": 0,
+                  "toolErrors": 0,
+                  "inputTokens": 3439,
+                  "outputTokens": 361,
+                  "cost": 0
+                }
+              },
+              {
+                "id": "train-merge",
+                "score": 1,
+                "response": "已完成浅合并，输出 scratch/merged.json：enabled 取 override 的 false，note 保留 null，limit 沿用 base 的 5；两个输入文件校验和未变，输出为 UTF-8。",
+                "checks": [
+                  {
+                    "name": "agent_run",
+                    "passed": true,
+                    "detail": "stop"
+                  },
+                  {
+                    "name": "tool_errors",
+                    "passed": true,
+                    "detail": "0 <= 0"
+                  },
+                  {
+                    "name": "file_strict:scratch/merged.json",
+                    "passed": true,
+                    "detail": "Exact structured/text artifact check"
+                  },
+                  {
+                    "name": "file_unchanged:scratch/base.json",
+                    "passed": true,
+                    "detail": "Input fixture must remain unchanged"
+                  },
+                  {
+                    "name": "file_unchanged:scratch/override.json",
+                    "passed": true,
+                    "detail": "Input fixture must remain unchanged"
+                  }
+                ],
+                "run": {
+                  "stopReason": "stop",
+                  "durationMs": 4316,
+                  "toolCalls": 2,
+                  "verificationCommandCount": 0,
+                  "toolErrors": 0,
+                  "inputTokens": 3376,
+                  "outputTokens": 362,
+                  "cost": 0
+                }
+              },
+              {
+                "id": "train-markdown",
+                "score": 1,
+                "response": "已生成 scratch/todo.json，内容为 [\"检查配置\", \"补充测试\"]，按原顺序提取了 2 个未完成项并去掉前缀；notes.md 校验和前后一致，未被修改。",
+                "checks": [
+                  {
+                    "name": "agent_run",
+                    "passed": true,
+                    "detail": "stop"
+                  },
+                  {
+                    "name": "tool_errors",
+                    "passed": true,
+                    "detail": "0 <= 0"
+                  },
+                  {
+                    "name": "file_strict:scratch/todo.json",
+                    "passed": true,
+                    "detail": "Exact structured/text artifact check"
+                  },
+                  {
+                    "name": "file_unchanged:scratch/notes.md",
+                    "passed": true,
+                    "detail": "Input fixture must remain unchanged"
+                  }
+                ],
+                "run": {
+                  "stopReason": "stop",
+                  "durationMs": 3882,
+                  "toolCalls": 2,
+                  "verificationCommandCount": 0,
+                  "toolErrors": 0,
+                  "inputTokens": 3509,
+                  "outputTokens": 338,
+                  "cost": 0
+                }
+              },
+              {
+                "id": "train-version-sort",
+                "score": 1,
+                "response": "已按三段数值排序并写入 scratch/sorted.json：1.2.9, 1.2.9, 1.2.10, 1.10.0, 2.0.0（重复项保留，输入文件未改动，UTF-8 输出）。",
+                "checks": [
+                  {
+                    "name": "agent_run",
+                    "passed": true,
+                    "detail": "stop"
+                  },
+                  {
+                    "name": "tool_errors",
+                    "passed": true,
+                    "detail": "0 <= 0"
+                  },
+                  {
+                    "name": "file_strict:scratch/sorted.json",
+                    "passed": true,
+                    "detail": "Exact structured/text artifact check"
+                  },
+                  {
+                    "name": "file_unchanged:scratch/versions.json",
+                    "passed": true,
+                    "detail": "Input fixture must remain unchanged"
+                  }
+                ],
+                "run": {
+                  "stopReason": "stop",
+                  "durationMs": 3127,
+                  "toolCalls": 2,
+                  "verificationCommandCount": 0,
+                  "toolErrors": 0,
+                  "inputTokens": 3478,
+                  "outputTokens": 314,
+                  "cost": 0
+                }
+              },
+              {
+                "id": "train-invalid-lines",
+                "score": 1,
+                "response": "已生成 scratch/result.json：{\"sum\": 8, \"invalid_lines\": [2]}。第2行不是合法JSON被跳过，其余3行整数value（3、-2、7）求和为8；输入文件未改动。",
+                "checks": [
+                  {
+                    "name": "agent_run",
+                    "passed": true,
+                    "detail": "stop"
+                  },
+                  {
+                    "name": "tool_errors",
+                    "passed": true,
+                    "detail": "0 <= 0"
+                  },
+                  {
+                    "name": "file_strict:scratch/result.json",
+                    "passed": true,
+                    "detail": "Exact structured/text artifact check"
+                  },
+                  {
+                    "name": "file_unchanged:scratch/events.jsonl",
+                    "passed": true,
+                    "detail": "Input fixture must remain unchanged"
+                  }
+                ],
+                "run": {
+                  "stopReason": "stop",
+                  "durationMs": 3422,
+                  "toolCalls": 2,
+                  "verificationCommandCount": 0,
+                  "toolErrors": 0,
+                  "inputTokens": 3543,
+                  "outputTokens": 388,
+                  "cost": 0
+                }
+              }
+            ]
+          },
+          {
+            "createdAt": "2026-10-21T08:28:18.341Z",
+            "model": "deepseek-flash",
+            "promptLabel": "candidate-1-training-2",
+            "score": 1,
+            "passedCases": 6,
+            "totalCases": 6,
+            "totalTokens": 23702,
+            "totalCost": 0,
+            "results": [
+              {
+                "id": "train-orders",
+                "score": 1,
+                "response": "已读取 scratch/orders.csv（4 条订单，其中 3 条为 paid），用整数分累加得 1500 分，输出 scratch/summary.json（UTF-8，仅含 paid_count=3 与 total_cents=1500）；输入文件未改动（MD5 前后一致）。",
+                "checks": [
+                  {
+                    "name": "agent_run",
+                    "passed": true,
+                    "detail": "stop"
+                  },
+                  {
+                    "name": "tool_errors",
+                    "passed": true,
+                    "detail": "0 <= 0"
+                  },
+                  {
+                    "name": "file_strict:scratch/summary.json",
+                    "passed": true,
+                    "detail": "Exact structured/text artifact check"
+                  },
+                  {
+                    "name": "file_unchanged:scratch/orders.csv",
+                    "passed": true,
+                    "detail": "Input fixture must remain unchanged"
+                  }
+                ],
+                "run": {
+                  "stopReason": "stop",
+                  "durationMs": 3997,
+                  "toolCalls": 2,
+                  "verificationCommandCount": 0,
+                  "toolErrors": 0,
+                  "inputTokens": 3519,
+                  "outputTokens": 412,
+                  "cost": 0
+                }
+              },
+              {
+                "id": "train-contacts",
+                "score": 1,
+                "response": "已生成 scratch/clean.json：3 条输入经 email 去空格转小写后去重为 2 条，保留首次出现的记录（甲、丙），仅含 name 与 email 字段，UTF-8 编码；contacts.json 未改动。",
+                "checks": [
+                  {
+                    "name": "agent_run",
+                    "passed": true,
+                    "detail": "stop"
+                  },
+                  {
+                    "name": "tool_errors",
+                    "passed": true,
+                    "detail": "0 <= 0"
+                  },
+                  {
+                    "name": "file_strict:scratch/clean.json",
+                    "passed": true,
+                    "detail": "Exact structured/text artifact check"
+                  },
+                  {
+                    "name": "file_unchanged:scratch/contacts.json",
+                    "passed": true,
+                    "detail": "Input fixture must remain unchanged"
+                  }
+                ],
+                "run": {
+                  "stopReason": "stop",
+                  "durationMs": 3349,
+                  "toolCalls": 2,
+                  "verificationCommandCount": 0,
+                  "toolErrors": 0,
+                  "inputTokens": 3455,
+                  "outputTokens": 366,
+                  "cost": 0
+                }
+              },
+              {
+                "id": "train-merge",
+                "score": 1,
+                "response": "已完成浅合并并写入 scratch/merged.json（UTF-8）：enabled 取 override 的 false，limit 保留 base 的 5，note 保留 null；两个输入文件校验和未变。",
+                "checks": [
+                  {
+                    "name": "agent_run",
+                    "passed": true,
+                    "detail": "stop"
+                  },
+                  {
+                    "name": "tool_errors",
+                    "passed": true,
+                    "detail": "0 <= 0"
+                  },
+                  {
+                    "name": "file_strict:scratch/merged.json",
+                    "passed": true,
+                    "detail": "Exact structured/text artifact check"
+                  },
+                  {
+                    "name": "file_unchanged:scratch/base.json",
+                    "passed": true,
+                    "detail": "Input fixture must remain unchanged"
+                  },
+                  {
+                    "name": "file_unchanged:scratch/override.json",
+                    "passed": true,
+                    "detail": "Input fixture must remain unchanged"
+                  }
+                ],
+                "run": {
+                  "stopReason": "stop",
+                  "durationMs": 3624,
+                  "toolCalls": 2,
+                  "verificationCommandCount": 0,
+                  "toolErrors": 0,
+                  "inputTokens": 3569,
+                  "outputTokens": 366,
+                  "cost": 0
+                }
+              },
+              {
+                "id": "train-markdown",
+                "score": 1,
+                "response": "已生成 scratch/todo.json，包含 2 个未完成项（\"检查配置\"、\"补充测试\"），顺序与原文件一致，UTF-8 编码；scratch/notes.md 未改动（校验和前后一致）。",
+                "checks": [
+                  {
+                    "name": "agent_run",
+                    "passed": true,
+                    "detail": "stop"
+                  },
+                  {
+                    "name": "tool_errors",
+                    "passed": true,
+                    "detail": "0 <= 0"
+                  },
+                  {
+                    "name": "file_strict:scratch/todo.json",
+                    "passed": true,
+                    "detail": "Exact structured/text artifact check"
+                  },
+                  {
+                    "name": "file_unchanged:scratch/notes.md",
+                    "passed": true,
+                    "detail": "Input fixture must remain unchanged"
+                  }
+                ],
+                "run": {
+                  "stopReason": "stop",
+                  "durationMs": 4816,
+                  "toolCalls": 3,
+                  "verificationCommandCount": 0,
+                  "toolErrors": 0,
+                  "inputTokens": 3673,
+                  "outputTokens": 455,
+                  "cost": 0
+                }
+              },
+              {
+                "id": "train-version-sort",
+                "score": 1,
+                "response": "已按三段版本号逐段转整数比较排序（非字典序），重复项保留，结果写入 scratch/sorted.json（UTF-8，2 空格缩进）：1.2.9, 1.2.9, 1.2.10, 1.10.0, 2.0.0。输入文件 versions.json 未改动。",
+                "checks": [
+                  {
+                    "name": "agent_run",
+                    "passed": true,
+                    "detail": "stop"
+                  },
+                  {
+                    "name": "tool_errors",
+                    "passed": true,
+                    "detail": "0 <= 0"
+                  },
+                  {
+                    "name": "file_strict:scratch/sorted.json",
+                    "passed": true,
+                    "detail": "Exact structured/text artifact check"
+                  },
+                  {
+                    "name": "file_unchanged:scratch/versions.json",
+                    "passed": true,
+                    "detail": "Input fixture must remain unchanged"
+                  }
+                ],
+                "run": {
+                  "stopReason": "stop",
+                  "durationMs": 3175,
+                  "toolCalls": 2,
+                  "verificationCommandCount": 0,
+                  "toolErrors": 0,
+                  "inputTokens": 3462,
+                  "outputTokens": 333,
+                  "cost": 0
+                }
+              },
+              {
+                "id": "train-invalid-lines",
+                "score": 1,
+                "response": "已处理 scratch/events.jsonl 共 4 行：第 2 行不是合法 JSON，已跳过并记入 invalid_lines；其余 3 行 value 为 3、-2、7，求和得 8。结果已写入 scratch/result.json（UTF-8，仅含 sum 和 invalid_lines），输入文件校验和前后一致，未被修改。",
+                "checks": [
+                  {
+                    "name": "agent_run",
+                    "passed": true,
+                    "detail": "stop"
+                  },
+                  {
+                    "name": "tool_errors",
+                    "passed": true,
+                    "detail": "0 <= 0"
+                  },
+                  {
+                    "name": "file_strict:scratch/result.json",
+                    "passed": true,
+                    "detail": "Exact structured/text artifact check"
+                  },
+                  {
+                    "name": "file_unchanged:scratch/events.jsonl",
+                    "passed": true,
+                    "detail": "Input fixture must remain unchanged"
+                  }
+                ],
+                "run": {
+                  "stopReason": "stop",
+                  "durationMs": 4258,
+                  "toolCalls": 2,
+                  "verificationCommandCount": 0,
+                  "toolErrors": 0,
+                  "inputTokens": 3589,
+                  "outputTokens": 503,
+                  "cost": 0
+                }
+              }
+            ]
+          },
+          {
+            "createdAt": "2026-10-21T08:28:59.367Z",
+            "model": "deepseek-flash",
+            "promptLabel": "candidate-1-training-3",
+            "score": 0.9583333333333334,
+            "passedCases": 5,
+            "totalCases": 6,
+            "totalTokens": 24161,
+            "totalCost": 0,
+            "results": [
+              {
+                "id": "train-orders",
+                "score": 0.75,
+                "response": "已生成 scratch/summary.json：paid_count=3，total_cents=1500（按整数分累加，含 0 分订单）；orders.csv 未改动（MD5 前后一致）。",
+                "checks": [
+                  {
+                    "name": "agent_run",
+                    "passed": true,
+                    "detail": "stop"
+                  },
+                  {
+                    "name": "tool_errors",
+                    "passed": false,
+                    "detail": "1 <= 0"
+                  },
+                  {
+                    "name": "file_strict:scratch/summary.json",
+                    "passed": true,
+                    "detail": "Exact structured/text artifact check"
+                  },
+                  {
+                    "name": "file_unchanged:scratch/orders.csv",
+                    "passed": true,
+                    "detail": "Input fixture must remain unchanged"
+                  }
+                ],
+                "run": {
+                  "stopReason": "stop",
+                  "durationMs": 6818,
+                  "toolCalls": 4,
+                  "verificationCommandCount": 0,
+                  "toolErrors": 1,
+                  "inputTokens": 3860,
+                  "outputTokens": 498,
+                  "cost": 0
+                }
+              },
+              {
+                "id": "train-contacts",
+                "score": 1,
+                "response": "已生成 scratch/clean.json：3 条记录中 email 去空格转小写后，乙与甲重复被剔除，保留首次出现的甲和丙，仅含 name 与 email 两个字段，UTF-8 编码；contacts.json 校验和未变，保持原样。",
+                "checks": [
+                  {
+                    "name": "agent_run",
+                    "passed": true,
+                    "detail": "stop"
+                  },
+                  {
+                    "name": "tool_errors",
+                    "passed": true,
+                    "detail": "0 <= 0"
+                  },
+                  {
+                    "name": "file_strict:scratch/clean.json",
+                    "passed": true,
+                    "detail": "Exact structured/text artifact check"
+                  },
+                  {
+                    "name": "file_unchanged:scratch/contacts.json",
+                    "passed": true,
+                    "detail": "Input fixture must remain unchanged"
+                  }
+                ],
+                "run": {
+                  "stopReason": "stop",
+                  "durationMs": 3612,
+                  "toolCalls": 2,
+                  "verificationCommandCount": 0,
+                  "toolErrors": 0,
+                  "inputTokens": 3557,
+                  "outputTokens": 411,
+                  "cost": 0
+                }
+              },
+              {
+                "id": "train-merge",
+                "score": 1,
+                "response": "已完成浅合并，输出 scratch/merged.json（UTF-8，2 空格缩进）：enabled 取 override 的 false，note 保留 null，limit 沿用 base 的 5；两个输入文件校验和未变。",
+                "checks": [
+                  {
+                    "name": "agent_run",
+                    "passed": true,
+                    "detail": "stop"
+                  },
+                  {
+                    "name": "tool_errors",
+                    "passed": true,
+                    "detail": "0 <= 0"
+                  },
+                  {
+                    "name": "file_strict:scratch/merged.json",
+                    "passed": true,
+                    "detail": "Exact structured/text artifact check"
+                  },
+                  {
+                    "name": "file_unchanged:scratch/base.json",
+                    "passed": true,
+                    "detail": "Input fixture must remain unchanged"
+                  },
+                  {
+                    "name": "file_unchanged:scratch/override.json",
+                    "passed": true,
+                    "detail": "Input fixture must remain unchanged"
+                  }
+                ],
+                "run": {
+                  "stopReason": "stop",
+                  "durationMs": 3647,
+                  "toolCalls": 2,
+                  "verificationCommandCount": 0,
+                  "toolErrors": 0,
+                  "inputTokens": 3542,
+                  "outputTokens": 364,
+                  "cost": 0
+                }
+              },
+              {
+                "id": "train-markdown",
+                "score": 1,
+                "response": "已生成 scratch/todo.json，包含 2 个未完成项（\"检查配置\"、\"补充测试\"），按原顺序去除前缀，UTF-8 编码；notes.md 校验和前后一致，未被修改。",
+                "checks": [
+                  {
+                    "name": "agent_run",
+                    "passed": true,
+                    "detail": "stop"
+                  },
+                  {
+                    "name": "tool_errors",
+                    "passed": true,
+                    "detail": "0 <= 0"
+                  },
+                  {
+                    "name": "file_strict:scratch/todo.json",
+                    "passed": true,
+                    "detail": "Exact structured/text artifact check"
+                  },
+                  {
+                    "name": "file_unchanged:scratch/notes.md",
+                    "passed": true,
+                    "detail": "Input fixture must remain unchanged"
+                  }
+                ],
+                "run": {
+                  "stopReason": "stop",
+                  "durationMs": 3016,
+                  "toolCalls": 2,
+                  "verificationCommandCount": 0,
+                  "toolErrors": 0,
+                  "inputTokens": 3545,
+                  "outputTokens": 321,
+                  "cost": 0
+                }
+              },
+              {
+                "id": "train-version-sort",
+                "score": 1,
+                "response": "已按三段版本号逐段转整数比较排序（非字典序），重复项保留，结果写入 scratch/sorted.json（UTF-8），输入文件未改动。\n\n顺序：1.2.9, 1.2.9, 1.2.10, 1.10.0, 2.0.0",
+                "checks": [
+                  {
+                    "name": "agent_run",
+                    "passed": true,
+                    "detail": "stop"
+                  },
+                  {
+                    "name": "tool_errors",
+                    "passed": true,
+                    "detail": "0 <= 0"
+                  },
+                  {
+                    "name": "file_strict:scratch/sorted.json",
+                    "passed": true,
+                    "detail": "Exact structured/text artifact check"
+                  },
+                  {
+                    "name": "file_unchanged:scratch/versions.json",
+                    "passed": true,
+                    "detail": "Input fixture must remain unchanged"
+                  }
+                ],
+                "run": {
+                  "stopReason": "stop",
+                  "durationMs": 4290,
+                  "toolCalls": 2,
+                  "verificationCommandCount": 0,
+                  "toolErrors": 0,
+                  "inputTokens": 3525,
+                  "outputTokens": 405,
+                  "cost": 0
+                }
+              },
+              {
+                "id": "train-invalid-lines",
+                "score": 1,
+                "response": "已生成 scratch/result.json：sum=8（3 + (-2) + 7），invalid_lines=[2]（第2行 \"not-json\" 非法）。输入文件未改动（md5 前后一致），输出为 UTF-8。",
+                "checks": [
+                  {
+                    "name": "agent_run",
+                    "passed": true,
+                    "detail": "stop"
+                  },
+                  {
+                    "name": "tool_errors",
+                    "passed": true,
+                    "detail": "0 <= 0"
+                  },
+                  {
+                    "name": "file_strict:scratch/result.json",
+                    "passed": true,
+                    "detail": "Exact structured/text artifact check"
+                  },
+                  {
+                    "name": "file_unchanged:scratch/events.jsonl",
+                    "passed": true,
+                    "detail": "Input fixture must remain unchanged"
+                  }
+                ],
+                "run": {
+                  "stopReason": "stop",
+                  "durationMs": 5320,
+                  "toolCalls": 3,
+                  "verificationCommandCount": 0,
+                  "toolErrors": 0,
+                  "inputTokens": 3625,
+                  "outputTokens": 508,
+                  "cost": 0
+                }
+              }
+            ]
+          }
+        ],
+        "holdout": [
+          {
+            "createdAt": "2026-10-21T08:27:55.094Z",
+            "model": "deepseek-flash",
+            "promptLabel": "candidate-1-holdout-1",
+            "score": 0.9375,
+            "passedCases": 3,
+            "totalCases": 4,
+            "totalTokens": 15501,
+            "totalCost": 0,
+            "results": [
+              {
+                "id": "select-diff",
+                "score": 1,
+                "response": "已写入 scratch/changed.json，内容为 [\"a\",\"c\"]：a 由 1 变为 2，c 由 null 变为 \"new\"；b 值未变，d 仅存在于 new.json，均被排除。输入文件校验和前后一致，未被修改。",
+                "checks": [
+                  {
+                    "name": "agent_run",
+                    "passed": true,
+                    "detail": "stop"
+                  },
+                  {
+                    "name": "tool_errors",
+                    "passed": true,
+                    "detail": "0 <= 0"
+                  },
+                  {
+                    "name": "file_strict:scratch/changed.json",
+                    "passed": true,
+                    "detail": "Exact structured/text artifact check"
+                  },
+                  {
+                    "name": "file_unchanged:scratch/old.json",
+                    "passed": true,
+                    "detail": "Input fixture must remain unchanged"
+                  },
+                  {
+                    "name": "file_unchanged:scratch/new.json",
+                    "passed": true,
+                    "detail": "Input fixture must remain unchanged"
+                  }
+                ],
+                "run": {
+                  "stopReason": "stop",
+                  "durationMs": 3868,
+                  "toolCalls": 2,
+                  "verificationCommandCount": 0,
+                  "toolErrors": 0,
+                  "inputTokens": 3552,
+                  "outputTokens": 399,
+                  "cost": 0
+                }
+              },
+              {
+                "id": "select-latest",
+                "score": 1,
+                "response": "已生成 scratch/latest.json：按 id 分组取 revision 最大记录（a→rev4 \"A\"，b→rev3 \"new\"），按 id 升序，仅保留 id/revision/value 三字段，UTF-8 输出；输入 records.json 校验和前后一致，未被修改。",
+                "checks": [
+                  {
+                    "name": "agent_run",
+                    "passed": true,
+                    "detail": "stop"
+                  },
+                  {
+                    "name": "tool_errors",
+                    "passed": true,
+                    "detail": "0 <= 0"
+                  },
+                  {
+                    "name": "file_strict:scratch/latest.json",
+                    "passed": true,
+                    "detail": "Exact structured/text artifact check"
+                  },
+                  {
+                    "name": "file_unchanged:scratch/records.json",
+                    "passed": true,
+                    "detail": "Input fixture must remain unchanged"
+                  }
+                ],
+                "run": {
+                  "stopReason": "stop",
+                  "durationMs": 3856,
+                  "toolCalls": 2,
+                  "verificationCommandCount": 0,
+                  "toolErrors": 0,
+                  "inputTokens": 3471,
+                  "outputTokens": 433,
+                  "cost": 0
+                }
+              },
+              {
+                "id": "select-space-path",
+                "score": 0.75,
+                "response": "已完成：读取 scratch/input data/值.json（[0,2,-4,7,2]），仅对严格大于 0 的元素乘 2，保持顺序，输出 [0,4,-4,14,4] 到 scratch/output data/结果.json（UTF-8，数组格式）；输入文件未改动。",
+                "checks": [
+                  {
+                    "name": "agent_run",
+                    "passed": true,
+                    "detail": "stop"
+                  },
+                  {
+                    "name": "tool_errors",
+                    "passed": true,
+                    "detail": "0 <= 0"
+                  },
+                  {
+                    "name": "file_strict:scratch/output data/结果.json",
+                    "passed": false,
+                    "detail": "Exact structured/text artifact check"
+                  },
+                  {
+                    "name": "file_unchanged:scratch/input data/值.json",
+                    "passed": true,
+                    "detail": "Input fixture must remain unchanged"
+                  }
+                ],
+                "run": {
+                  "stopReason": "stop",
+                  "durationMs": 3425,
+                  "toolCalls": 2,
+                  "verificationCommandCount": 0,
+                  "toolErrors": 0,
+                  "inputTokens": 3397,
+                  "outputTokens": 365,
+                  "cost": 0
+                }
+              },
+              {
+                "id": "select-two-artifacts",
+                "score": 1,
+                "response": "已完成：从 scratch/items.json 中筛出 active=true 的 id，按升序写入 scratch/active.json（[\"m\",\"z\"]），并写入 scratch/count.json（{\"count\":2}），均为 UTF-8；输入文件校验和前后一致，未被修改。",
+                "checks": [
+                  {
+                    "name": "agent_run",
+                    "passed": true,
+                    "detail": "stop"
+                  },
+                  {
+                    "name": "tool_errors",
+                    "passed": true,
+                    "detail": "0 <= 0"
+                  },
+                  {
+                    "name": "file_strict:scratch/active.json",
+                    "passed": true,
+                    "detail": "Exact structured/text artifact check"
+                  },
+                  {
+                    "name": "file_strict:scratch/count.json",
+                    "passed": true,
+                    "detail": "Exact structured/text artifact check"
+                  },
+                  {
+                    "name": "file_unchanged:scratch/items.json",
+                    "passed": true,
+                    "detail": "Input fixture must remain unchanged"
+                  }
+                ],
+                "run": {
+                  "stopReason": "stop",
+                  "durationMs": 3998,
+                  "toolCalls": 2,
+                  "verificationCommandCount": 0,
+                  "toolErrors": 0,
+                  "inputTokens": 3526,
+                  "outputTokens": 358,
+                  "cost": 0
+                }
+              }
+            ]
+          },
+          {
+            "createdAt": "2026-10-21T08:28:32.631Z",
+            "model": "deepseek-flash",
+            "promptLabel": "candidate-1-holdout-2",
+            "score": 0.9375,
+            "passedCases": 3,
+            "totalCases": 4,
+            "totalTokens": 15333,
+            "totalCost": 0,
+            "results": [
+              {
+                "id": "select-diff",
+                "score": 1,
+                "response": "已比较两个 JSON 对象，筛出两边都存在且值不同的键，按字典序排序后写入 scratch/changed.json（UTF-8 字符串数组）：[\"a\", \"c\"]。输入文件未改动。",
+                "checks": [
+                  {
+                    "name": "agent_run",
+                    "passed": true,
+                    "detail": "stop"
+                  },
+                  {
+                    "name": "tool_errors",
+                    "passed": true,
+                    "detail": "0 <= 0"
+                  },
+                  {
+                    "name": "file_strict:scratch/changed.json",
+                    "passed": true,
+                    "detail": "Exact structured/text artifact check"
+                  },
+                  {
+                    "name": "file_unchanged:scratch/old.json",
+                    "passed": true,
+                    "detail": "Input fixture must remain unchanged"
+                  },
+                  {
+                    "name": "file_unchanged:scratch/new.json",
+                    "passed": true,
+                    "detail": "Input fixture must remain unchanged"
+                  }
+                ],
+                "run": {
+                  "stopReason": "stop",
+                  "durationMs": 3613,
+                  "toolCalls": 2,
+                  "verificationCommandCount": 0,
+                  "toolErrors": 0,
+                  "inputTokens": 3453,
+                  "outputTokens": 332,
+                  "cost": 0
+                }
+              },
+              {
+                "id": "select-latest",
+                "score": 1,
+                "response": "已生成 scratch/latest.json：按 id 升序保留每个 id 中 revision 最大的记录，仅含 id、revision、value 三个字段（a/4/A、b/3/new），UTF-8 编码；records.json 校验和前后一致，未被修改。",
+                "checks": [
+                  {
+                    "name": "agent_run",
+                    "passed": true,
+                    "detail": "stop"
+                  },
+                  {
+                    "name": "tool_errors",
+                    "passed": true,
+                    "detail": "0 <= 0"
+                  },
+                  {
+                    "name": "file_strict:scratch/latest.json",
+                    "passed": true,
+                    "detail": "Exact structured/text artifact check"
+                  },
+                  {
+                    "name": "file_unchanged:scratch/records.json",
+                    "passed": true,
+                    "detail": "Input fixture must remain unchanged"
+                  }
+                ],
+                "run": {
+                  "stopReason": "stop",
+                  "durationMs": 4661,
+                  "toolCalls": 2,
+                  "verificationCommandCount": 0,
+                  "toolErrors": 0,
+                  "inputTokens": 3522,
+                  "outputTokens": 403,
+                  "cost": 0
+                }
+              },
+              {
+                "id": "select-space-path",
+                "score": 0.75,
+                "response": "已读取 scratch/input data/值.json（[0,2,-4,7,2]），仅对严格大于0的元素乘2，顺序不变，结果 [0,4,-4,14,4] 已写入 scratch/output data/结果.json（UTF-8），输入文件未改动。",
+                "checks": [
+                  {
+                    "name": "agent_run",
+                    "passed": true,
+                    "detail": "stop"
+                  },
+                  {
+                    "name": "tool_errors",
+                    "passed": true,
+                    "detail": "0 <= 0"
+                  },
+                  {
+                    "name": "file_strict:scratch/output data/结果.json",
+                    "passed": false,
+                    "detail": "Exact structured/text artifact check"
+                  },
+                  {
+                    "name": "file_unchanged:scratch/input data/值.json",
+                    "passed": true,
+                    "detail": "Input fixture must remain unchanged"
+                  }
+                ],
+                "run": {
+                  "stopReason": "stop",
+                  "durationMs": 2830,
+                  "toolCalls": 2,
+                  "verificationCommandCount": 0,
+                  "toolErrors": 0,
+                  "inputTokens": 3375,
+                  "outputTokens": 358,
+                  "cost": 0
+                }
+              },
+              {
+                "id": "select-two-artifacts",
+                "score": 1,
+                "response": "已生成 scratch/active.json（[\"m\",\"z\"]，按升序）和 scratch/count.json（{\"count\":2}），均为 UTF-8；items.json 校验和前后一致，未被修改。",
+                "checks": [
+                  {
+                    "name": "agent_run",
+                    "passed": true,
+                    "detail": "stop"
+                  },
+                  {
+                    "name": "tool_errors",
+                    "passed": true,
+                    "detail": "0 <= 0"
+                  },
+                  {
+                    "name": "file_strict:scratch/active.json",
+                    "passed": true,
+                    "detail": "Exact structured/text artifact check"
+                  },
+                  {
+                    "name": "file_strict:scratch/count.json",
+                    "passed": true,
+                    "detail": "Exact structured/text artifact check"
+                  },
+                  {
+                    "name": "file_unchanged:scratch/items.json",
+                    "passed": true,
+                    "detail": "Input fixture must remain unchanged"
+                  }
+                ],
+                "run": {
+                  "stopReason": "stop",
+                  "durationMs": 3165,
+                  "toolCalls": 2,
+                  "verificationCommandCount": 0,
+                  "toolErrors": 0,
+                  "inputTokens": 3503,
+                  "outputTokens": 387,
+                  "cost": 0
+                }
+              }
+            ]
+          },
+          {
+            "createdAt": "2026-10-21T08:29:14.105Z",
+            "model": "deepseek-flash",
+            "promptLabel": "candidate-1-holdout-3",
+            "score": 0.9375,
+            "passedCases": 3,
+            "totalCases": 4,
+            "totalTokens": 15504,
+            "totalCost": 0,
+            "results": [
+              {
+                "id": "select-diff",
+                "score": 1,
+                "response": "已写入 scratch/changed.json，内容为 [\"a\", \"c\"]：a 由 1 变为 2，c 由 null 变为 \"new\"；b 值未变，d 仅存在于 new.json，均被排除。输出为 UTF-8 字符串数组，两个输入文件校验和前后一致，未被修改。",
+                "checks": [
+                  {
+                    "name": "agent_run",
+                    "passed": true,
+                    "detail": "stop"
+                  },
+                  {
+                    "name": "tool_errors",
+                    "passed": true,
+                    "detail": "0 <= 0"
+                  },
+                  {
+                    "name": "file_strict:scratch/changed.json",
+                    "passed": true,
+                    "detail": "Exact structured/text artifact check"
+                  },
+                  {
+                    "name": "file_unchanged:scratch/old.json",
+                    "passed": true,
+                    "detail": "Input fixture must remain unchanged"
+                  },
+                  {
+                    "name": "file_unchanged:scratch/new.json",
+                    "passed": true,
+                    "detail": "Input fixture must remain unchanged"
+                  }
+                ],
+                "run": {
+                  "stopReason": "stop",
+                  "durationMs": 3307,
+                  "toolCalls": 2,
+                  "verificationCommandCount": 0,
+                  "toolErrors": 0,
+                  "inputTokens": 3534,
+                  "outputTokens": 408,
+                  "cost": 0
+                }
+              },
+              {
+                "id": "select-latest",
+                "score": 1,
+                "response": "已完成：按 id 分组保留 revision 最大的记录，按 id 升序写入 scratch/latest.json（UTF-8，仅含 id、revision、value 三个字段），结果 a/4/A 与 b/3/new；输入文件 records.json 校验和前后一致，未被修改。",
+                "checks": [
+                  {
+                    "name": "agent_run",
+                    "passed": true,
+                    "detail": "stop"
+                  },
+                  {
+                    "name": "tool_errors",
+                    "passed": true,
+                    "detail": "0 <= 0"
+                  },
+                  {
+                    "name": "file_strict:scratch/latest.json",
+                    "passed": true,
+                    "detail": "Exact structured/text artifact check"
+                  },
+                  {
+                    "name": "file_unchanged:scratch/records.json",
+                    "passed": true,
+                    "detail": "Input fixture must remain unchanged"
+                  }
+                ],
+                "run": {
+                  "stopReason": "stop",
+                  "durationMs": 4362,
+                  "toolCalls": 2,
+                  "verificationCommandCount": 0,
+                  "toolErrors": 0,
+                  "inputTokens": 3499,
+                  "outputTokens": 443,
+                  "cost": 0
+                }
+              },
+              {
+                "id": "select-space-path",
+                "score": 0.75,
+                "response": "已完成：读取 scratch/input data/值.json 的数组 [0,2,-4,7,2]，仅将严格大于 0 的元素乘 2，得到 [0,4,-4,14,4]，按原顺序写入 scratch/output data/结果.json（UTF-8，数组格式），输入文件未改动。",
+                "checks": [
+                  {
+                    "name": "agent_run",
+                    "passed": true,
+                    "detail": "stop"
+                  },
+                  {
+                    "name": "tool_errors",
+                    "passed": true,
+                    "detail": "0 <= 0"
+                  },
+                  {
+                    "name": "file_strict:scratch/output data/结果.json",
+                    "passed": false,
+                    "detail": "Exact structured/text artifact check"
+                  },
+                  {
+                    "name": "file_unchanged:scratch/input data/值.json",
+                    "passed": true,
+                    "detail": "Input fixture must remain unchanged"
+                  }
+                ],
+                "run": {
+                  "stopReason": "stop",
+                  "durationMs": 3319,
+                  "toolCalls": 2,
+                  "verificationCommandCount": 0,
+                  "toolErrors": 0,
+                  "inputTokens": 3382,
+                  "outputTokens": 350,
+                  "cost": 0
+                }
+              },
+              {
+                "id": "select-two-artifacts",
+                "score": 1,
+                "response": "已完成：active=true 的 id 为 m、z，按升序写入 scratch/active.json（[\"m\",\"z\"]），scratch/count.json 为 {\"count\":2}；输出均为 UTF-8，items.json 校验和前后一致未被修改。",
+                "checks": [
+                  {
+                    "name": "agent_run",
+                    "passed": true,
+                    "detail": "stop"
+                  },
+                  {
+                    "name": "tool_errors",
+                    "passed": true,
+                    "detail": "0 <= 0"
+                  },
+                  {
+                    "name": "file_strict:scratch/active.json",
+                    "passed": true,
+                    "detail": "Exact structured/text artifact check"
+                  },
+                  {
+                    "name": "file_strict:scratch/count.json",
+                    "passed": true,
+                    "detail": "Exact structured/text artifact check"
+                  },
+                  {
+                    "name": "file_unchanged:scratch/items.json",
+                    "passed": true,
+                    "detail": "Input fixture must remain unchanged"
+                  }
+                ],
+                "run": {
+                  "stopReason": "stop",
+                  "durationMs": 3726,
+                  "toolCalls": 2,
+                  "verificationCommandCount": 0,
+                  "toolErrors": 0,
+                  "inputTokens": 3531,
+                  "outputTokens": 357,
+                  "cost": 0
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "decision": {
+        "passed": false,
+        "reasons": [
+          "训练集/train-orders: 最低用例得分退化",
+          "训练集/train-orders: 工具错误增加",
+          "训练集/train-orders: tool_errors 回归"
+        ]
+      }
+    }
+  ],
+  "bestPrompt": "",
+  "best": {
+    "training": [
+      {
+        "createdAt": "2026-10-21T08:25:45.026Z",
+        "model": "deepseek-flash",
+        "promptLabel": "baseline-training-1",
+        "score": 0.9666666666666667,
+        "passedCases": 5,
+        "totalCases": 6,
+        "totalTokens": 23108,
+        "totalCost": 0,
+        "results": [
+          {
+            "id": "train-orders",
+            "score": 1,
+            "response": "已完成。\n\n- 读取 scratch/orders.csv，共 4 条订单，其中 status=paid 的有 3 条（a:1299、c:201、d:0）。\n- 金额按整数分累加，总额 1500 分。\n- 输出 scratch/summary.json，UTF-8，仅含两个数值字段：{\"paid_count\": 3, \"total_cents\": 1500}\n- 输入文件未改动（md5 前后一致：79ae20fc20f6d092f38a092b1ba2536d）。",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": true,
+                "detail": "0 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/summary.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/orders.csv",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 3683,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 0,
+              "inputTokens": 3414,
+              "outputTokens": 468,
+              "cost": 0
+            }
+          },
+          {
+            "id": "train-contacts",
+            "score": 1,
+            "response": "已完成，输出在 scratch/clean.json（UTF-8，对象数组，仅含 name 和 email）。\n\n结果 2 条：\n- 甲 / a@example.com\n- 丙 / b@example.com\n\n说明：email 先去除两端空格再转小写，按规范化后的值去重并保留首次出现的记录（乙的 \"a@example.com\" 与甲的规范化结果相同，被丢弃）。输入文件 scratch/contacts.json 未改动，处理前后 md5 一致（7b1cb80b144bfdf64672c187b04d4fd8）。",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": true,
+                "detail": "0 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/clean.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/contacts.json",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 4155,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 0,
+              "inputTokens": 3501,
+              "outputTokens": 451,
+              "cost": 0
+            }
+          },
+          {
+            "id": "train-merge",
+            "score": 0.8,
+            "response": "已完成浅合并，输出到 scratch/merged.json。\n\n结果：\n- enabled: false（override 覆盖）\n- limit: 5（仅 base 有）\n- note: null（override 的 null 保留，未被丢弃）\n\n输入文件 base.json 和 override.json 的 md5 校验一致，未改动。输出为 UTF-8 编码的 JSON。",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": false,
+                "detail": "1 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/merged.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/base.json",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              },
+              {
+                "name": "file_unchanged:scratch/override.json",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 4192,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 1,
+              "inputTokens": 3407,
+              "outputTokens": 390,
+              "cost": 0
+            }
+          },
+          {
+            "id": "train-markdown",
+            "score": 1,
+            "response": "已完成。\n\nscratch/notes.md 未改动，从中提取到 2 个未完成项（按原顺序）：\n1. 检查配置\n2. 补充测试\n\n已写入 scratch/todo.json（UTF-8，字符串数组，JSON 格式）。",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": true,
+                "detail": "0 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/todo.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/notes.md",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 3320,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 0,
+              "inputTokens": 3505,
+              "outputTokens": 311,
+              "cost": 0
+            }
+          },
+          {
+            "id": "train-version-sort",
+            "score": 1,
+            "response": "已完成。\n\n结果（scratch/sorted.json）：\n1.2.9\n1.2.9\n1.2.10\n1.10.0\n2.0.0\n\n说明：按三段版本号逐段转整数比较排序，重复项保留；输入文件 scratch/versions.json 未改动（前后 md5 一致），输出为 UTF-8 JSON。",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": true,
+                "detail": "0 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/sorted.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/versions.json",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 3692,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 0,
+              "inputTokens": 3400,
+              "outputTokens": 344,
+              "cost": 0
+            }
+          },
+          {
+            "id": "train-invalid-lines",
+            "score": 1,
+            "response": "已完成。\n\nscratch/result.json 内容：{\"sum\": 8, \"invalid_lines\": [2]}\n\n说明：共 4 行，第 2 行 \"not-json\" 非法被跳过；合法对象 value 为 3、-2、7，求和 8。输入文件未改动（md5 校验一致），输出为 UTF-8。",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": true,
+                "detail": "0 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/result.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/events.jsonl",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 3840,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 0,
+              "inputTokens": 3433,
+              "outputTokens": 484,
+              "cost": 0
+            }
+          }
+        ]
+      },
+      {
+        "createdAt": "2026-10-21T08:26:23.043Z",
+        "model": "deepseek-flash",
+        "promptLabel": "baseline-training-2",
+        "score": 0.9583333333333334,
+        "passedCases": 5,
+        "totalCases": 6,
+        "totalTokens": 22674,
+        "totalCost": 0,
+        "results": [
+          {
+            "id": "train-orders",
+            "score": 1,
+            "response": "已完成。\n\n- 读取 scratch/orders.csv，筛选 status=paid 的订单：a(1299)、c(201)、d(0)\n- 用整数分累加：1299+201+0 = 1500\n- 输出 scratch/summary.json（UTF-8）：{\"paid_count\": 3, \"total_cents\": 1500}，仅含这两个数值字段\n- 输入文件未改动，md5 校验通过",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": true,
+                "detail": "0 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/summary.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/orders.csv",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 3905,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 0,
+              "inputTokens": 3355,
+              "outputTokens": 407,
+              "cost": 0
+            }
+          },
+          {
+            "id": "train-contacts",
+            "score": 1,
+            "response": "已完成，输出写入 scratch/clean.json（UTF-8，对象数组，仅含 name 和 email）。\n\n处理结果：\n- 甲 / a@example.com（原 \" A@EXAMPLE.COM \" 去空格转小写）\n- 丙 / b@example.com\n\n乙 的 a@example.com 与甲规范化后重复，按首次出现保留甲，乙被丢弃。\n\n输入文件 scratch/contacts.json 未改动（前后 md5 一致：7b1cb80b144bfdf64672c187b04d4fd8）。",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": true,
+                "detail": "0 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/clean.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/contacts.json",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 3911,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 0,
+              "inputTokens": 3354,
+              "outputTokens": 437,
+              "cost": 0
+            }
+          },
+          {
+            "id": "train-merge",
+            "score": 1,
+            "response": "已完成浅合并，输出到 scratch/merged.json：\n\n{\n  \"enabled\": false,\n  \"limit\": 5,\n  \"note\": null\n}\n\n说明：override 中的 enabled=false 覆盖了 base 的 true；note 的 null 被保留，没有回退到 \"old\"；limit 沿用 base 的 5。输出为 UTF-8，缩进 2 空格。两个输入文件校验和前后一致，未被修改。",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": true,
+                "detail": "0 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/merged.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/base.json",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              },
+              {
+                "name": "file_unchanged:scratch/override.json",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 3589,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 0,
+              "inputTokens": 3348,
+              "outputTokens": 425,
+              "cost": 0
+            }
+          },
+          {
+            "id": "train-markdown",
+            "score": 1,
+            "response": "已生成 scratch/todo.json，内容为 [\"检查配置\", \"补充测试\"]，顺序与原文一致，UTF-8 编码。notes.md 未改动。",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": true,
+                "detail": "0 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/todo.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/notes.md",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 2900,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 0,
+              "inputTokens": 3268,
+              "outputTokens": 288,
+              "cost": 0
+            }
+          },
+          {
+            "id": "train-version-sort",
+            "score": 0.75,
+            "response": "已完成。\n\n排序结果（scratch/sorted.json）：\n1.2.9\n1.2.9\n1.2.10\n1.10.0\n2.0.0\n\n说明：\n- 按三段版本号逐段转成整数后比较，因此 1.2.10 排在 1.10.0 之前，而不是按字符串字典序。\n- 重复项 1.2.9 保留了两条。\n- 输入文件 scratch/versions.json 未改动（排序前后 md5 一致：de49563919d46fcabdcdbd09b3bd7eb9）。\n- 输出为 UTF-8 编码的 JSON 数组，缩进 2 空格。",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": false,
+                "detail": "1 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/sorted.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/versions.json",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 3714,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 1,
+              "inputTokens": 3485,
+              "outputTokens": 468,
+              "cost": 0
+            }
+          },
+          {
+            "id": "train-invalid-lines",
+            "score": 1,
+            "response": "完成。\n\nscratch/result.json 内容：{\"sum\": 8, \"invalid_lines\": [2]}\n\n说明：共 4 行，第 2 行 \"not-json\" 不是合法 JSON，记为非法行；其余三行 value 为 3、-2、7，求和得 8。输入文件 events.jsonl 未改动（校验和一致），输出为 UTF-8。",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": true,
+                "detail": "0 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/result.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/events.jsonl",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 3567,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 0,
+              "inputTokens": 3370,
+              "outputTokens": 469,
+              "cost": 0
+            }
+          }
+        ]
+      },
+      {
+        "createdAt": "2026-10-21T08:27:01.003Z",
+        "model": "deepseek-flash",
+        "promptLabel": "baseline-training-3",
+        "score": 0.9666666666666667,
+        "passedCases": 5,
+        "totalCases": 6,
+        "totalTokens": 22927,
+        "totalCost": 0,
+        "results": [
+          {
+            "id": "train-orders",
+            "score": 1,
+            "response": "Done.\n\n- Read scratch/orders.csv (4 rows), kept only status=paid: a (1299), c (201), d (0).\n- Summed in integer cents: 1299 + 201 + 0 = 1500.\n- Wrote scratch/summary.json in UTF-8 with exactly two numeric fields: {\"paid_count\": 3, \"total_cents\": 1500}.\n- orders.csv unchanged (md5 verified identical before/after).",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": true,
+                "detail": "0 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/summary.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/orders.csv",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 4413,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 0,
+              "inputTokens": 3396,
+              "outputTokens": 430,
+              "cost": 0
+            }
+          },
+          {
+            "id": "train-contacts",
+            "score": 1,
+            "response": "已完成，输出写入 scratch/clean.json（UTF-8，对象数组，仅含 name 与 email）。\n\n处理结果：\n- 甲 / a@example.com（原 \" A@EXAMPLE.COM \" 去空格转小写）\n- 丙 / b@example.com\n\n乙 因规范化后与甲重复被丢弃，保留首次出现的记录。输入文件 contacts.json 未改动（前后 md5 一致：7b1cb80b…）。",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": true,
+                "detail": "0 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/clean.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/contacts.json",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 3793,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 0,
+              "inputTokens": 3491,
+              "outputTokens": 414,
+              "cost": 0
+            }
+          },
+          {
+            "id": "train-merge",
+            "score": 0.8,
+            "response": "已完成，输出在 scratch/merged.json。\n\n结果：\nenabled 为 false（override 覆盖）\nlimit 为 5（仅 base 有）\nnote 为 null（override 的 null 保留，未被丢弃）\n\n浅合并只处理顶层键，未做递归。输入文件 base.json 和 override.json 校验和未变，保持原样。输出为 UTF-8 编码、2 空格缩进。",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": false,
+                "detail": "1 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/merged.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/base.json",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              },
+              {
+                "name": "file_unchanged:scratch/override.json",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 3820,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 1,
+              "inputTokens": 3325,
+              "outputTokens": 404,
+              "cost": 0
+            }
+          },
+          {
+            "id": "train-markdown",
+            "score": 1,
+            "response": "已完成。\n\nscratch/notes.md 中未完成项共 2 条，按原顺序提取并去掉 \"- [ ] \" 前缀：\n1. 检查配置\n2. 补充测试\n\n已写入 scratch/todo.json（UTF-8，字符串数组，2 空格缩进）。notes.md 未改动（前后 md5 一致：256bd891…）。",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": true,
+                "detail": "0 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/todo.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/notes.md",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 3465,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 0,
+              "inputTokens": 3446,
+              "outputTokens": 377,
+              "cost": 0
+            }
+          },
+          {
+            "id": "train-version-sort",
+            "score": 1,
+            "response": "已完成。\n\n排序结果（scratch/sorted.json）：\n1.2.9\n1.2.9\n1.2.10\n1.10.0\n2.0.0\n\n说明：按三段版本号逐段转整数比较（1.2.10 排在 1.10.0 之前，而非字典序），重复项 1.2.9 保留。输入文件 versions.json 未改动（md5 前后一致），输出为 UTF-8 JSON 数组。",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": true,
+                "detail": "0 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/sorted.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/versions.json",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 3925,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 0,
+              "inputTokens": 3302,
+              "outputTokens": 382,
+              "cost": 0
+            }
+          },
+          {
+            "id": "train-invalid-lines",
+            "score": 1,
+            "response": "完成。\n\n- 逐行解析 scratch/events.jsonl，共 4 行；第 2 行 \"not-json\" 非法，记入 invalid_lines。\n- 合法对象中整数 value 求和：3 + (-2) + 7 = 8。\n- 输出 scratch/result.json：{\"sum\": 8, \"invalid_lines\": [2]}（UTF-8，仅含这两个字段）。\n- 输入文件未改动（md5 校验一致）。",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": true,
+                "detail": "0 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/result.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/events.jsonl",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 3487,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 0,
+              "inputTokens": 3441,
+              "outputTokens": 519,
+              "cost": 0
+            }
+          }
+        ]
+      }
+    ],
+    "holdout": [
+      {
+        "createdAt": "2026-10-21T08:26:01.429Z",
+        "model": "deepseek-flash",
+        "promptLabel": "baseline-holdout-1",
+        "score": 0.9375,
+        "passedCases": 3,
+        "totalCases": 4,
+        "totalTokens": 15404,
+        "totalCost": 0,
+        "results": [
+          {
+            "id": "select-diff",
+            "score": 1,
+            "response": "已完成，结果写入 scratch/changed.json：\n\n[\"a\", \"c\"]\n\n说明：\n- a：1 → 2，值变化\n- c：null → \"new\"，值变化\n- b：两边相同（true），排除\n- d：仅存在于 new.json，排除\n- 按键字典序排序，输出为 UTF-8 字符串数组\n- old.json 与 new.json 校验和前后一致，未被修改",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": true,
+                "detail": "0 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/changed.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/old.json",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              },
+              {
+                "name": "file_unchanged:scratch/new.json",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 5491,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 0,
+              "inputTokens": 3436,
+              "outputTokens": 409,
+              "cost": 0
+            }
+          },
+          {
+            "id": "select-latest",
+            "score": 1,
+            "response": "已完成。\n\n输入：scratch/records.json 共 3 条记录（id 为 a、b）。\n处理：每个 id 只保留 revision 最大的一条，按 id 升序排列，仅输出 id、revision、value 三个字段。\n结果：a → revision 4（A）；b → revision 3（new，丢弃了 revision 1 的 old）。\n输出：scratch/latest.json，UTF-8 编码，2 空格缩进。\n输入文件未改动，处理前后 md5 一致（69da76ab318988d3d593dc39591b1fe7）。",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": true,
+                "detail": "0 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/latest.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/records.json",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 4224,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 0,
+              "inputTokens": 3504,
+              "outputTokens": 500,
+              "cost": 0
+            }
+          },
+          {
+            "id": "select-space-path",
+            "score": 0.75,
+            "response": "已完成。\n\n输入 scratch/input data/值.json 为 [0, 2, -4, 7, 2]，其中严格大于 0 的 2、7、2 各乘 2，其余保持不变，顺序不变。\n\n输出 scratch/output data/结果.json（UTF-8）：[0, 4, -4, 14, 4]\n\n输入文件未做任何修改。",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": true,
+                "detail": "0 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/output data/结果.json",
+                "passed": false,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/input data/值.json",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 3271,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 0,
+              "inputTokens": 3395,
+              "outputTokens": 366,
+              "cost": 0
+            }
+          },
+          {
+            "id": "select-two-artifacts",
+            "score": 1,
+            "response": "完成。\n\nscratch/active.json：[\"m\", \"z\"]（active=true 的 id，按字符串升序）\nscratch/count.json：{\"count\": 2}\n\n两个输出文件均为 UTF-8。scratch/items.json 未改动（前后 md5 一致：936bdc9b…）。",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": true,
+                "detail": "0 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/active.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_strict:scratch/count.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/items.json",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 3387,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 0,
+              "inputTokens": 3426,
+              "outputTokens": 368,
+              "cost": 0
+            }
+          }
+        ]
+      },
+      {
+        "createdAt": "2026-10-21T08:26:38.065Z",
+        "model": "deepseek-flash",
+        "promptLabel": "baseline-holdout-2",
+        "score": 0.9375,
+        "passedCases": 3,
+        "totalCases": 4,
+        "totalTokens": 15220,
+        "totalCost": 0,
+        "results": [
+          {
+            "id": "select-diff",
+            "score": 1,
+            "response": "已完成。\n\n结果：scratch/changed.json 内容为 [\"a\", \"c\"]（UTF-8，JSON 字符串数组，字典序）。\n\n说明：\n- a: 1 → 2，值变化\n- c: null → \"new\"，值变化\n- b 两边相同（true），d 只在 new.json 中存在，均被排除\n- old.json 与 new.json 校验和前后一致，未被修改",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": true,
+                "detail": "0 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/changed.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/old.json",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              },
+              {
+                "name": "file_unchanged:scratch/new.json",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 3582,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 0,
+              "inputTokens": 3362,
+              "outputTokens": 412,
+              "cost": 0
+            }
+          },
+          {
+            "id": "select-latest",
+            "score": 1,
+            "response": "已完成。\n\n- 读取 scratch/records.json，共 3 条记录，涉及 id 为 a、b 的两个分组。\n- 每个 id 只保留 revision 最大的记录：a 保留 revision 4（value “A”），b 保留 revision 3（value “new”）。\n- 按 id 升序输出，仅含 id、revision、value 三个字段，写入 scratch/latest.json（UTF-8）。\n- 输入文件未改动，前后 md5 一致（69da76ab318988d3d593dc39591b1fe7）。",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": true,
+                "detail": "0 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/latest.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/records.json",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 3931,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 0,
+              "inputTokens": 3376,
+              "outputTokens": 486,
+              "cost": 0
+            }
+          },
+          {
+            "id": "select-space-path",
+            "score": 0.75,
+            "response": "已完成。\n\n输入 scratch/input data/值.json：[0, 2, -4, 7, 2]\n输出 scratch/output data/结果.json：[0, 4, -4, 14, 4]\n\n规则：严格大于 0 的数乘 2（2→4，7→14，2→4），0 和 -4 保持不变，顺序不变。输出为 UTF-8 编码的 JSON 数组，输入文件未修改。",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": true,
+                "detail": "0 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/output data/结果.json",
+                "passed": false,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/input data/值.json",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 3875,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 0,
+              "inputTokens": 3393,
+              "outputTokens": 377,
+              "cost": 0
+            }
+          },
+          {
+            "id": "select-two-artifacts",
+            "score": 1,
+            "response": "完成。\n\nscratch/active.json：[\"m\", \"z\"]（active=true 的 id 按升序）\nscratch/count.json：{\"count\": 2}\n\nitems.json 未改动，md5 前后一致（936bdc9b…）。输出均为 UTF-8。",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": true,
+                "detail": "0 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/active.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_strict:scratch/count.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/items.json",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 3622,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 0,
+              "inputTokens": 3444,
+              "outputTokens": 370,
+              "cost": 0
+            }
+          }
+        ]
+      },
+      {
+        "createdAt": "2026-10-21T08:27:16.565Z",
+        "model": "deepseek-flash",
+        "promptLabel": "baseline-holdout-3",
+        "score": 0.9375,
+        "passedCases": 3,
+        "totalCases": 4,
+        "totalTokens": 15226,
+        "totalCost": 0,
+        "results": [
+          {
+            "id": "select-diff",
+            "score": 1,
+            "response": "已完成，结果写入 scratch/changed.json：\n\n[\n  \"a\",\n  \"c\"\n]\n\n说明：\n- 只比较两边都存在的键（a、b、c），d 只在 new.json 中存在，因此被排除。\n- a 的值从 1 变成 2，c 的值从 null 变成 \"new\"，这两个键的值都发生了变化；b 的值在两边都是 true，没有变化。\n- 结果按键的字典序排序，并以 UTF-8 编码的 JSON 字符串数组保存。\n- 输入文件 old.json 和 new.json 的校验和与处理前一致，未被修改。",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": true,
+                "detail": "0 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/changed.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/old.json",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              },
+              {
+                "name": "file_unchanged:scratch/new.json",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 3867,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 0,
+              "inputTokens": 3335,
+              "outputTokens": 453,
+              "cost": 0
+            }
+          },
+          {
+            "id": "select-latest",
+            "score": 1,
+            "response": "已完成。\n\n- 读取 scratch/records.json（3 条记录），按 id 分组取 revision 最大者：a→rev 4 \"A\"，b→rev 3 \"new\"。\n- 按 id 升序写入 scratch/latest.json，仅含 id、revision、value 三个字段，UTF-8 编码。\n- 输入文件未改动（前后 md5 一致：69da76ab…）。",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": true,
+                "detail": "0 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/latest.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/records.json",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 4429,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 0,
+              "inputTokens": 3418,
+              "outputTokens": 445,
+              "cost": 0
+            }
+          },
+          {
+            "id": "select-space-path",
+            "score": 0.75,
+            "response": "已完成。\n\n输入 scratch/input data/值.json：[0, 2, -4, 7, 2]\n输出 scratch/output data/结果.json：[0, 4, -4, 14, 4]\n\n规则：仅对严格大于 0 的元素乘 2，0 和负数保持不变，顺序不变。输出为 UTF-8 编码的 JSON 数组，输入文件未做任何修改。",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": true,
+                "detail": "0 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/output data/结果.json",
+                "passed": false,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/input data/值.json",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 3599,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 0,
+              "inputTokens": 3417,
+              "outputTokens": 385,
+              "cost": 0
+            }
+          },
+          {
+            "id": "select-two-artifacts",
+            "score": 1,
+            "response": "已完成。\n\nscratch/active.json：[\"m\", \"z\"]（active=true 的 id，按升序）\nscratch/count.json：{\"count\": 2}\n\nitems.json 未改动，校验和前后一致（936bdc9bae42eeaf1f291cea2d966617）。输出均为 UTF-8。",
+            "checks": [
+              {
+                "name": "agent_run",
+                "passed": true,
+                "detail": "stop"
+              },
+              {
+                "name": "tool_errors",
+                "passed": true,
+                "detail": "0 <= 0"
+              },
+              {
+                "name": "file_strict:scratch/active.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_strict:scratch/count.json",
+                "passed": true,
+                "detail": "Exact structured/text artifact check"
+              },
+              {
+                "name": "file_unchanged:scratch/items.json",
+                "passed": true,
+                "detail": "Input fixture must remain unchanged"
+              }
+            ],
+            "run": {
+              "stopReason": "stop",
+              "durationMs": 3642,
+              "toolCalls": 2,
+              "verificationCommandCount": 0,
+              "toolErrors": 0,
+              "inputTokens": 3383,
+              "outputTokens": 390,
+              "cost": 0
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "promoted": false
+}

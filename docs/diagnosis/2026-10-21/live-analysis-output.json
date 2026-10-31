@@ -1,0 +1,211 @@
+{
+  "formal_runs": 295,
+  "groups": {
+    "all-off": {
+      "n": 60,
+      "successes": 58,
+      "artifacts_correct": 60,
+      "mean_cycles": 1,
+      "mean_model_requests": 3.3833333333333333,
+      "mean_tokens": 7741.066666666667,
+      "mean_duration_ms": 4018.1630542,
+      "tool_errors": 2,
+      "external_cycle_limit": 0,
+      "cost": null,
+      "prices_known": false
+    },
+    "before-terminal-fix": {
+      "n": 36,
+      "successes": 0,
+      "artifacts_correct": 36,
+      "mean_cycles": 1.0555555555555556,
+      "mean_model_requests": 4.111111111111111,
+      "mean_tokens": 11306.305555555555,
+      "mean_duration_ms": 4994.354955972222,
+      "tool_errors": 0,
+      "external_cycle_limit": 0,
+      "cost": null,
+      "prices_known": false
+    },
+    "fixed-all-on": {
+      "n": 36,
+      "successes": 36,
+      "artifacts_correct": 36,
+      "mean_cycles": 1.0277777777777777,
+      "mean_model_requests": 4.138888888888889,
+      "mean_tokens": 11375.083333333334,
+      "mean_duration_ms": 4883.363350694444,
+      "tool_errors": 0,
+      "external_cycle_limit": 0,
+      "cost": null,
+      "prices_known": false
+    },
+    "old-all": {
+      "n": 13,
+      "successes": 0,
+      "artifacts_correct": 13,
+      "mean_cycles": 1,
+      "mean_model_requests": 6.3076923076923075,
+      "mean_tokens": 25496.615384615383,
+      "mean_duration_ms": 6930.746343,
+      "tool_errors": 30,
+      "external_cycle_limit": 0,
+      "cost": null,
+      "prices_known": false
+    },
+    "only-infrastructure": {
+      "n": 12,
+      "successes": 12,
+      "artifacts_correct": 12,
+      "mean_cycles": 1,
+      "mean_model_requests": 3.0833333333333335,
+      "mean_tokens": 6534.166666666667,
+      "mean_duration_ms": 3544.135718666667,
+      "tool_errors": 0,
+      "external_cycle_limit": 0,
+      "cost": null,
+      "prices_known": false
+    },
+    "upstream": {
+      "n": 60,
+      "successes": 1,
+      "artifacts_correct": 60,
+      "mean_cycles": 1,
+      "mean_model_requests": 5.233333333333333,
+      "mean_tokens": 17584.233333333334,
+      "mean_duration_ms": 5886.885978483333,
+      "tool_errors": 117,
+      "external_cycle_limit": 0,
+      "cost": null,
+      "prices_known": false
+    },
+    "without-acceptance": {
+      "n": 13,
+      "successes": 0,
+      "artifacts_correct": 13,
+      "mean_cycles": 1,
+      "mean_model_requests": 4.076923076923077,
+      "mean_tokens": 11254.384615384615,
+      "mean_duration_ms": 5125.7797692307695,
+      "tool_errors": 0,
+      "external_cycle_limit": 0,
+      "cost": null,
+      "prices_known": false
+    },
+    "without-controls": {
+      "n": 13,
+      "successes": 0,
+      "artifacts_correct": 13,
+      "mean_cycles": 1,
+      "mean_model_requests": 4,
+      "mean_tokens": 10936.461538461539,
+      "mean_duration_ms": 4954.179121615384,
+      "tool_errors": 0,
+      "external_cycle_limit": 0,
+      "cost": null,
+      "prices_known": false
+    },
+    "without-feishu": {
+      "n": 13,
+      "successes": 0,
+      "artifacts_correct": 13,
+      "mean_cycles": 1,
+      "mean_model_requests": 4,
+      "mean_tokens": 10931.076923076924,
+      "mean_duration_ms": 4893.064990307693,
+      "tool_errors": 0,
+      "external_cycle_limit": 0,
+      "cost": null,
+      "prices_known": false
+    },
+    "without-goals": {
+      "n": 13,
+      "successes": 13,
+      "artifacts_correct": 13,
+      "mean_cycles": 1,
+      "mean_model_requests": 3,
+      "mean_tokens": 6342.615384615385,
+      "mean_duration_ms": 3433.3649552307693,
+      "tool_errors": 0,
+      "external_cycle_limit": 0,
+      "cost": null,
+      "prices_known": false
+    },
+    "without-optimization": {
+      "n": 13,
+      "successes": 0,
+      "artifacts_correct": 13,
+      "mean_cycles": 1,
+      "mean_model_requests": 4.076923076923077,
+      "mean_tokens": 11147.615384615385,
+      "mean_duration_ms": 4730.482282076923,
+      "tool_errors": 0,
+      "external_cycle_limit": 0,
+      "cost": null,
+      "prices_known": false
+    },
+    "without-scheduling": {
+      "n": 13,
+      "successes": 0,
+      "artifacts_correct": 13,
+      "mean_cycles": 1,
+      "mean_model_requests": 4,
+      "mean_tokens": 10955.846153846154,
+      "mean_duration_ms": 4748.844958153846,
+      "tool_errors": 0,
+      "external_cycle_limit": 0,
+      "cost": null,
+      "prices_known": false
+    }
+  },
+  "phases": {
+    "after": {
+      "planned": 72,
+      "complete": true,
+      "finished": 72,
+      "requests": 297,
+      "reported_tokens": 816530,
+      "harness_errors": 0
+    },
+    "matrix-docker": {
+      "planned": 288,
+      "complete": false,
+      "finished": 103,
+      "requests": null,
+      "reported_tokens": null,
+      "harness_errors": null
+    },
+    "noise": {
+      "planned": 120,
+      "complete": true,
+      "finished": 120,
+      "requests": 517,
+      "reported_tokens": 1519518,
+      "harness_errors": 0
+    },
+    "pilot": {
+      "planned": 3,
+      "complete": true,
+      "finished": 3,
+      "requests": 9,
+      "reported_tokens": 28814,
+      "harness_errors": 1
+    },
+    "pilot2": {
+      "planned": 3,
+      "complete": true,
+      "finished": 3,
+      "requests": 15,
+      "reported_tokens": 51290,
+      "harness_errors": 0
+    }
+  },
+  "verification": {
+    "runs_verified": 300,
+    "scorer_unchanged_sha256": "bc8efa08bb7af6165c67d940984e7e249861f85bad20fb79b9cfc37138960329",
+    "source_snapshots_intact": {
+      "before": true,
+      "after": true
+    }
+  }
+}

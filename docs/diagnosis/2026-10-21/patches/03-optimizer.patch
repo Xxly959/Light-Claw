@@ -1,0 +1,187 @@
+--- a/packages/lightclaw/src/evals/optimizer.ts
++++ b/packages/lightclaw/src/evals/optimizer.ts
+@@ -97,7 +97,8 @@
+ }
+ 
+ export interface OptimizationResult {
+-	schemaVersion: 3;
++	schemaVersion: 4;
++	seeds: number[];
+ 	repetitions: number;
+ 	promotionPolicy: Required<PromotionPolicy>;
+ 	baseline: RepeatedEvaluation;
+@@ -111,6 +112,7 @@
+ 	cases: EvalCase[];
+ 	holdoutCases: EvalCase[];
+ 	repetitions?: number;
++	seeds?: number[];
+ 	config: LightClawConfig;
+ 	sandbox: SandboxConfig;
+ 	workingDir: string;
+@@ -142,6 +144,11 @@
+ 		const after = candidate.flatMap((report) => report.results.filter((result) => result.id === id));
+ 		if (after.some((result) => !Number.isFinite(result.score) || result.score < 0 || result.score > 1))
+ 			throw new Error(`${label}/${id} 得分无效`);
++		if (
++			after.reduce((sum, result) => sum + result.score, 0) / after.length <
++			before.reduce((sum, result) => sum + result.score, 0) / before.length
++		)
++			reasons.push(`${label}/${id}: 用例均分退化（禁止由其他任务收益抵消）`);
+ 		const expectedChecks = before[0].checks.map((check) => check.name).sort();
+ 		if (
+ 			[...before, ...after].some(
+@@ -190,13 +197,20 @@
+ 	validatePolicy(policy);
+ 	if (
+ 		[candidate.training, candidate.holdout, current.training, current.holdout].some(
+-			(reports) => reports.length < 3 || reports.length !== current.training.length,
++			(reports) => reports.length < 5 || reports.length !== current.training.length,
+ 		)
+ 	)
+-		throw new Error("repetitions 必须一致且至少为 3");
++		throw new Error("repetitions 必须一致且至少为 5");
+ 	const reasons: string[] = [];
+-	if (policy.objective === "quality" && meanScore(candidate.training) <= meanScore(current.training))
+-		reasons.push("训练集均分未严格提高");
++	if (policy.objective === "quality") {
++		for (const dataset of ["training", "holdout"] as const) {
++			const scores = current[dataset].map((report) => report.score);
++			const noise = Math.max(...scores) - Math.min(...scores);
++			const effect = meanScore(candidate[dataset]) - meanScore(current[dataset]);
++			if (effect <= Math.max(noise, policy.minImprovement ?? 0.05))
++				reasons.push(`${dataset}: 质量收益未超过实测基线波动或最小效应量`);
++		}
++	}
+ 	if (meanScore(candidate.training) < meanScore(current.training)) reasons.push("训练集均分退化");
+ 	if (meanScore(candidate.holdout) < meanScore(current.holdout)) reasons.push("留出集均分退化");
+ 	compareDataset(candidate.training, current.training, "训练集", reasons);
+@@ -207,6 +221,16 @@
+ 			latency: report.results.reduce((sum, result) => sum + result.run.durationMs, 0),
+ 		});
+ 		for (const dataset of ["training", "holdout"] as const) {
++			const values = current[dataset].map((report) => metrics(report)[policy.objective as "tokens" | "latency"]);
++			const average = values.reduce((sum, value) => sum + value, 0) / values.length;
++			const noise = average > 0 ? (Math.max(...values) - Math.min(...values)) / average : 0;
++			const candidateMean =
++				candidate[dataset].reduce(
++					(sum, report) => sum + metrics(report)[policy.objective as "tokens" | "latency"],
++					0,
++				) / values.length;
++			if (average <= 0 || (average - candidateMean) / average <= Math.max(noise, policy.minImprovement ?? 0.05))
++				reasons.push(`${dataset}: 资源收益未超过实测基线波动或最小效应量`);
+ 			for (const [index, report] of candidate[dataset].entries()) {
+ 				const before = metrics(current[dataset][index]);
+ 				const after = metrics(report);
+@@ -230,6 +254,7 @@
+ 	options: OptimizationOptions,
+ 	dependencies: { evaluate?: typeof runEvaluation; generate?: typeof generateCandidates } = {},
+ ): Promise<OptimizationResult> {
++	if (options.config.features?.optimization === false) throw new Error("提示词优化功能已关闭；未生成候选或调用模型");
+ 	validateEvalCases(options.cases);
+ 	validateEvalCases(options.holdoutCases);
+ 	const promotionPolicy: Required<PromotionPolicy> = {
+@@ -238,11 +263,20 @@
+ 		maxRegression: options.promotionPolicy?.maxRegression ?? 0.05,
+ 	};
+ 	validatePolicy(promotionPolicy);
+-	const repetitions = options.repetitions ?? 3;
+-	if (!Number.isSafeInteger(repetitions) || repetitions < 3 || repetitions > 20)
+-		throw new Error("repetitions 必须是 3 到 20 的整数");
++	const repetitions = options.repetitions ?? 5;
++	if (!Number.isSafeInteger(repetitions) || repetitions < 5 || repetitions > 20)
++		throw new Error("repetitions 必须是 5 到 20 的整数");
+ 	if (!Number.isSafeInteger(options.candidateCount) || options.candidateCount < 1 || options.candidateCount > 5)
+ 		throw new Error("candidateCount 必须是 1 到 5 的整数");
++	const seeds = options.seeds ?? Array.from({ length: repetitions }, (_, index) => 17 + index * 104729);
++	if (
++		seeds.length !== repetitions ||
++		new Set(seeds).size !== repetitions ||
++		seeds.some((seed) => !Number.isSafeInteger(seed) || seed < 0)
++	)
++		throw new Error("seeds 必须与 repetitions 等长且为互不重复的非负安全整数");
++	if (!dependencies.evaluate && resolveModel(options.config).api !== "openai-completions")
++		throw new Error("当前 API 不支持本评估器的 seed 注入；没有启动付费评估");
+ 	const ids = new Set(options.cases.map((item) => item.id));
+ 	const promptsSeen = new Set(options.cases.map((item) => item.prompt.trim()));
+ 	if (options.holdoutCases.some((item) => ids.has(item.id) || promptsSeen.has(item.prompt.trim())))
+@@ -260,6 +294,7 @@
+ 						workingDir: options.workingDir,
+ 						promptInstructions: prompt,
+ 						promptLabel: `${label}-${dataset}-${repetition + 1}`,
++						evaluationSeed: seeds[repetition],
+ 					}),
+ 				);
+ 			}
+@@ -292,7 +327,8 @@
+ 	}
+ 
+ 	return {
+-		schemaVersion: 3,
++		schemaVersion: 4,
++		seeds,
+ 		repetitions,
+ 		promotionPolicy,
+ 		baseline,
+--- a/packages/lightclaw/src/evals/optimize-cli.ts
++++ b/packages/lightclaw/src/evals/optimize-cli.ts
+@@ -18,9 +18,10 @@
+ const datasetPath = resolve(argument("dataset", defaultDataset)!);
+ const defaultHoldout = fileURLToPath(new URL("../../evals/holdout.json", import.meta.url));
+ const holdoutPath = resolve(argument("holdout", defaultHoldout)!);
+-const repetitions = Number(argument("repetitions", "3"));
+-if (!Number.isSafeInteger(repetitions) || repetitions < 3 || repetitions > 20)
+-	throw new Error("repetitions 必须是 3 到 20 的整数");
++const repetitions = Number(argument("repetitions", "5"));
++if (!Number.isSafeInteger(repetitions) || repetitions < 5 || repetitions > 20)
++	throw new Error("repetitions 必须是 5 到 20 的整数");
++const seeds = argument("seeds")?.split(",").map(Number);
+ const sandbox = parseSandboxArg(argument("sandbox", "docker:lightclaw-sandbox")!);
+ const outputPath = resolve(argument("output", `${workingDir}/evals/optimized-prompt.txt`)!);
+ const baselinePath = argument("prompt");
+@@ -54,6 +55,7 @@
+ 	cases,
+ 	holdoutCases,
+ 	repetitions,
++	seeds,
+ 	config,
+ 	sandbox,
+ 	workingDir,
+--- a/packages/lightclaw/src/evals/runner.ts
++++ b/packages/lightclaw/src/evals/runner.ts
+@@ -141,6 +141,7 @@
+ 	workingDir: string;
+ 	promptInstructions?: string;
+ 	promptLabel: string;
++	evaluationSeed?: number;
+ 	runnerOverrides?: AgentRunnerOverrides;
+ }): Promise<EvalReport> {
+ 	validateEvalCases(options.cases);
+@@ -155,6 +156,9 @@
+ 		const goalStore = new GoalStore({
+ 			channelDir,
+ 			controlChannelDir: join(options.workingDir, "..", `lightclaw-eval-control-${runId}`, channelId),
++			enabled: options.config.features?.goals,
++			acceptanceEnabled: options.config.features?.acceptance,
++			controlsEnabled: options.config.features?.controls,
+ 			limits: {
+ 				maxCycles: options.config.maxGoalCycles,
+ 				maxFailures: options.config.maxGoalFailures,
+@@ -166,14 +170,10 @@
+ 			options.promptInstructions === undefined
+ 				? options.config
+ 				: { ...options.config, promptInstructions: options.promptInstructions };
+-		const runner = getOrCreateRunner(
+-			options.sandbox,
+-			channelId,
+-			channelDir,
+-			config,
+-			goalStore,
+-			options.runnerOverrides,
+-		);
++		const runner = getOrCreateRunner(options.sandbox, channelId, channelDir, config, goalStore, {
++			...options.runnerOverrides,
++			evaluationSeed: options.evaluationSeed ?? options.runnerOverrides?.evaluationSeed,
++		});
+ 		try {
+ 			const run = await runner.run(createContext(channelId, testCase.prompt, capture), store);
+ 			const result = scoreEvalCase(testCase, capture.finalText, run, channelDir);

@@ -1,0 +1,1 @@
+{"arm":"before-terminal-fix","kind":"current","features":{"goals":true,"acceptance":true,"feishu":true,"controls":true,"scheduling":true,"optimization":true,"infrastructure":true},"sandbox":"docker","repetition":1,"seed":104746,"caseId":"final-version-filter","id":"after-0034-before-terminal-fix-final-version-filter"}

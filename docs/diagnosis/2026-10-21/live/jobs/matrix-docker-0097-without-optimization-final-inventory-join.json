@@ -1,0 +1,1 @@
+{"arm":"without-optimization","kind":"current","features":{"goals":true,"acceptance":true,"feishu":true,"controls":true,"scheduling":true,"optimization":false,"infrastructure":true},"repetition":1,"seed":104746,"caseId":"final-inventory-join","id":"matrix-docker-0097-without-optimization-final-inventory-join"}

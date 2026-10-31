@@ -1,0 +1,16 @@
+{
+  "packages/lightclaw/src/config.ts": "0500806b7b439cf153a8939763da84a7b1acbdd25bfdf50e19049baaf7441768",
+  "packages/lightclaw/src/agent.ts": "257554e185f931382fc4c53375c1f7f8957602b6a3e7530c56544a77417099ed",
+  "packages/lightclaw/src/main.ts": "688a9bdb5e32f78d808a33ffe0abd842c2f21b668d242f2b95c1a3bf1a677eab",
+  "packages/lightclaw/src/feishu.ts": "cd4d3c93a4311a6d7d905d1500d773da70535c383a4eb8d4651273a1ae6a4730",
+  "packages/lightclaw/src/slack.ts": "66e994fed84914cd10afb7dc90f649ec6d42c0dd6f85dd3773f04a5d8b43f8e6",
+  "packages/lightclaw/src/idle-cache.ts": "c9119cdfe0db2a3c39f4e7d5f75ca5cc36439ee5de2ae8aa7573fb2b8ae9688a",
+  "packages/lightclaw/src/channel-queue.ts": "c48e9651bac594ee6c2ca1bda1b3c61337375aa912f7e1f370fb4482266e97c7",
+  "packages/lightclaw/src/observability.ts": "f1618074021a74bbe8e5a1a2e1188205b26933f2500b428cc207e4780dd9b9ce",
+  "packages/lightclaw/src/goals/store.ts": "67493973d6f38062b2f925daf3542654db4c6599a52b5ca4da462bf00bc23a72",
+  "packages/lightclaw/src/goals/types.ts": "bb1e40e37951e69ec29029b4ba9f4cc127fe5c4f73382738a7a56645e46af75d",
+  "packages/lightclaw/src/tools/goal.ts": "a5dd718b21e287473ccfa691d502de036ea8a8b32c7c5f0e72e834a8de1042bc",
+  "packages/lightclaw/src/goals/prompt.ts": "deda5a55c1969ac2d43f66c4a9bb3d1c478428e08607b4777079e3b3afe842d8",
+  "packages/lightclaw/src/evals/optimizer.ts": "c2e8038bac6a335a1f7995c65dc730fec8e6293a359e9a9b37272197c6d79c3a",
+  "packages/lightclaw/src/evals/optimize-cli.ts": "6aec144601dd789c9483c0fc01539a3770eb561bad7f6cdd5159a3f40bbee975"
+}

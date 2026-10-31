@@ -1,0 +1,1 @@
+{"arm":"ordinary-before","kind":"current","startGoal":false,"features":{"goals":true,"acceptance":true,"feishu":true,"controls":true,"scheduling":true,"optimization":true,"infrastructure":true},"sandbox":"docker","repetition":1,"seed":104746,"caseId":"final-jsonl-errors","id":"ordinary-replication-0056-ordinary-before-final-jsonl-errors"}

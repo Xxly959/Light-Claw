@@ -1,0 +1,5914 @@
+{
+  "arms": {
+    "all-off": {
+      "cost": null,
+      "counts": {
+        "complete_records": 60,
+        "controller_results": 60,
+        "invalid_records": 0,
+        "missing_records_started": 0,
+        "not_started": 0,
+        "planned": 60,
+        "record_files": 60,
+        "start_unknown": 0,
+        "started_evidenced": 60
+      },
+      "prices_known": false,
+      "resources": {
+        "cacheRead": {
+          "known_attempts": 60,
+          "mean_of_known": 6397.866666666667,
+          "missing_attempts": 0,
+          "observed_total": 383872,
+          "total_if_complete": 383872
+        },
+        "cacheWrite": {
+          "known_attempts": 60,
+          "mean_of_known": 0,
+          "missing_attempts": 0,
+          "observed_total": 0,
+          "total_if_complete": 0
+        },
+        "cycles": {
+          "known_attempts": 60,
+          "mean_of_known": 1,
+          "missing_attempts": 0,
+          "observed_total": 60,
+          "total_if_complete": 60
+        },
+        "durationMs": {
+          "known_attempts": 60,
+          "mean_of_known": 4018.1630542,
+          "missing_attempts": 0,
+          "observed_total": 241089.783252,
+          "total_if_complete": 241089.783252
+        },
+        "input": {
+          "known_attempts": 60,
+          "mean_of_known": 857.2333333333333,
+          "missing_attempts": 0,
+          "observed_total": 51434,
+          "total_if_complete": 51434
+        },
+        "modelRequests": {
+          "known_attempts": 60,
+          "mean_of_known": 3.3833333333333333,
+          "missing_attempts": 0,
+          "observed_total": 203,
+          "total_if_complete": 203
+        },
+        "output": {
+          "known_attempts": 60,
+          "mean_of_known": 485.96666666666664,
+          "missing_attempts": 0,
+          "observed_total": 29158,
+          "total_if_complete": 29158
+        },
+        "totalTokens": {
+          "known_attempts": 60,
+          "mean_of_known": 7741.066666666667,
+          "missing_attempts": 0,
+          "observed_total": 464464,
+          "total_if_complete": 464464
+        }
+      },
+      "success_rate_planned": 0.9666666666666667,
+      "success_rate_started": 0.9666666666666667,
+      "terminal_states": {
+        "controller_conflict": 0,
+        "external_timeout": 0,
+        "invalid_record": 0,
+        "missing_controller": 0,
+        "missing_record": 0,
+        "not_started": 0,
+        "start_unknown": 0,
+        "success": 58,
+        "task_failure": 2,
+        "worker_error": 0
+      },
+      "unknown_cost_attempts": 60
+    },
+    "before-terminal-fix": {
+      "cost": null,
+      "counts": {
+        "complete_records": 36,
+        "controller_results": 36,
+        "invalid_records": 0,
+        "missing_records_started": 0,
+        "not_started": 0,
+        "planned": 36,
+        "record_files": 36,
+        "start_unknown": 0,
+        "started_evidenced": 36
+      },
+      "prices_known": false,
+      "resources": {
+        "cacheRead": {
+          "known_attempts": 36,
+          "mean_of_known": 9255.111111111111,
+          "missing_attempts": 0,
+          "observed_total": 333184,
+          "total_if_complete": 333184
+        },
+        "cacheWrite": {
+          "known_attempts": 36,
+          "mean_of_known": 0,
+          "missing_attempts": 0,
+          "observed_total": 0,
+          "total_if_complete": 0
+        },
+        "cycles": {
+          "known_attempts": 36,
+          "mean_of_known": 1.0555555555555556,
+          "missing_attempts": 0,
+          "observed_total": 38,
+          "total_if_complete": 38
+        },
+        "durationMs": {
+          "known_attempts": 36,
+          "mean_of_known": 4994.354955972222,
+          "missing_attempts": 0,
+          "observed_total": 179796.778415,
+          "total_if_complete": 179796.778415
+        },
+        "input": {
+          "known_attempts": 36,
+          "mean_of_known": 1407.6944444444443,
+          "missing_attempts": 0,
+          "observed_total": 50677,
+          "total_if_complete": 50677
+        },
+        "modelRequests": {
+          "known_attempts": 36,
+          "mean_of_known": 4.111111111111111,
+          "missing_attempts": 0,
+          "observed_total": 148,
+          "total_if_complete": 148
+        },
+        "output": {
+          "known_attempts": 36,
+          "mean_of_known": 643.5,
+          "missing_attempts": 0,
+          "observed_total": 23166,
+          "total_if_complete": 23166
+        },
+        "totalTokens": {
+          "known_attempts": 36,
+          "mean_of_known": 11306.305555555555,
+          "missing_attempts": 0,
+          "observed_total": 407027,
+          "total_if_complete": 407027
+        }
+      },
+      "success_rate_planned": 0.0,
+      "success_rate_started": 0.0,
+      "terminal_states": {
+        "controller_conflict": 0,
+        "external_timeout": 0,
+        "invalid_record": 0,
+        "missing_controller": 0,
+        "missing_record": 0,
+        "not_started": 0,
+        "start_unknown": 0,
+        "success": 0,
+        "task_failure": 36,
+        "worker_error": 0
+      },
+      "unknown_cost_attempts": 36
+    },
+    "final-goal-lean": {
+      "cost": null,
+      "counts": {
+        "complete_records": 45,
+        "controller_results": 72,
+        "invalid_records": 0,
+        "missing_records_started": 27,
+        "not_started": 0,
+        "planned": 72,
+        "record_files": 45,
+        "start_unknown": 0,
+        "started_evidenced": 72
+      },
+      "prices_known": false,
+      "resources": {
+        "cacheRead": {
+          "known_attempts": 45,
+          "mean_of_known": 9591.466666666667,
+          "missing_attempts": 27,
+          "observed_total": 431616,
+          "total_if_complete": null
+        },
+        "cacheWrite": {
+          "known_attempts": 45,
+          "mean_of_known": 0,
+          "missing_attempts": 27,
+          "observed_total": 0,
+          "total_if_complete": null
+        },
+        "cycles": {
+          "known_attempts": 45,
+          "mean_of_known": 1.0666666666666667,
+          "missing_attempts": 27,
+          "observed_total": 48,
+          "total_if_complete": null
+        },
+        "durationMs": {
+          "known_attempts": 45,
+          "mean_of_known": 8504.755991666667,
+          "missing_attempts": 27,
+          "observed_total": 382714.019625,
+          "total_if_complete": null
+        },
+        "input": {
+          "known_attempts": 45,
+          "mean_of_known": 1110.8,
+          "missing_attempts": 27,
+          "observed_total": 49986,
+          "total_if_complete": null
+        },
+        "modelRequests": {
+          "known_attempts": 45,
+          "mean_of_known": 4.177777777777778,
+          "missing_attempts": 27,
+          "observed_total": 188,
+          "total_if_complete": null
+        },
+        "output": {
+          "known_attempts": 45,
+          "mean_of_known": 639.5555555555555,
+          "missing_attempts": 27,
+          "observed_total": 28780,
+          "total_if_complete": null
+        },
+        "totalTokens": {
+          "known_attempts": 45,
+          "mean_of_known": 11341.822222222223,
+          "missing_attempts": 27,
+          "observed_total": 510382,
+          "total_if_complete": null
+        }
+      },
+      "success_rate_planned": 0.625,
+      "success_rate_started": 0.625,
+      "terminal_states": {
+        "controller_conflict": 0,
+        "external_timeout": 27,
+        "invalid_record": 0,
+        "missing_controller": 0,
+        "missing_record": 0,
+        "not_started": 0,
+        "start_unknown": 0,
+        "success": 45,
+        "task_failure": 0,
+        "worker_error": 0
+      },
+      "unknown_cost_attempts": 72
+    },
+    "fixed-all-on": {
+      "cost": null,
+      "counts": {
+        "complete_records": 36,
+        "controller_results": 36,
+        "invalid_records": 0,
+        "missing_records_started": 0,
+        "not_started": 0,
+        "planned": 36,
+        "record_files": 36,
+        "start_unknown": 0,
+        "started_evidenced": 36
+      },
+      "prices_known": false,
+      "resources": {
+        "cacheRead": {
+          "known_attempts": 36,
+          "mean_of_known": 9347.555555555555,
+          "missing_attempts": 0,
+          "observed_total": 336512,
+          "total_if_complete": 336512
+        },
+        "cacheWrite": {
+          "known_attempts": 36,
+          "mean_of_known": 0,
+          "missing_attempts": 0,
+          "observed_total": 0,
+          "total_if_complete": 0
+        },
+        "cycles": {
+          "known_attempts": 36,
+          "mean_of_known": 1.0277777777777777,
+          "missing_attempts": 0,
+          "observed_total": 37,
+          "total_if_complete": 37
+        },
+        "durationMs": {
+          "known_attempts": 36,
+          "mean_of_known": 4883.363350694444,
+          "missing_attempts": 0,
+          "observed_total": 175801.080625,
+          "total_if_complete": 175801.080625
+        },
+        "input": {
+          "known_attempts": 36,
+          "mean_of_known": 1387.111111111111,
+          "missing_attempts": 0,
+          "observed_total": 49936,
+          "total_if_complete": 49936
+        },
+        "modelRequests": {
+          "known_attempts": 36,
+          "mean_of_known": 4.138888888888889,
+          "missing_attempts": 0,
+          "observed_total": 149,
+          "total_if_complete": 149
+        },
+        "output": {
+          "known_attempts": 36,
+          "mean_of_known": 640.4166666666666,
+          "missing_attempts": 0,
+          "observed_total": 23055,
+          "total_if_complete": 23055
+        },
+        "totalTokens": {
+          "known_attempts": 36,
+          "mean_of_known": 11375.083333333334,
+          "missing_attempts": 0,
+          "observed_total": 409503,
+          "total_if_complete": 409503
+        }
+      },
+      "success_rate_planned": 1.0,
+      "success_rate_started": 1.0,
+      "terminal_states": {
+        "controller_conflict": 0,
+        "external_timeout": 0,
+        "invalid_record": 0,
+        "missing_controller": 0,
+        "missing_record": 0,
+        "not_started": 0,
+        "start_unknown": 0,
+        "success": 36,
+        "task_failure": 0,
+        "worker_error": 0
+      },
+      "unknown_cost_attempts": 36
+    },
+    "old-all": {
+      "cost": null,
+      "counts": {
+        "complete_records": 36,
+        "controller_results": 36,
+        "invalid_records": 0,
+        "missing_records_started": 0,
+        "not_started": 0,
+        "planned": 36,
+        "record_files": 36,
+        "start_unknown": 0,
+        "started_evidenced": 36
+      },
+      "prices_known": false,
+      "resources": {
+        "cacheRead": {
+          "known_attempts": 36,
+          "mean_of_known": 22371.555555555555,
+          "missing_attempts": 0,
+          "observed_total": 805376,
+          "total_if_complete": 805376
+        },
+        "cacheWrite": {
+          "known_attempts": 36,
+          "mean_of_known": 0,
+          "missing_attempts": 0,
+          "observed_total": 0,
+          "total_if_complete": 0
+        },
+        "cycles": {
+          "known_attempts": 36,
+          "mean_of_known": 1,
+          "missing_attempts": 0,
+          "observed_total": 36,
+          "total_if_complete": 36
+        },
+        "durationMs": {
+          "known_attempts": 36,
+          "mean_of_known": 7136.678864583333,
+          "missing_attempts": 0,
+          "observed_total": 256920.439125,
+          "total_if_complete": 256920.439125
+        },
+        "input": {
+          "known_attempts": 36,
+          "mean_of_known": 2576.1666666666665,
+          "missing_attempts": 0,
+          "observed_total": 92742,
+          "total_if_complete": 92742
+        },
+        "modelRequests": {
+          "known_attempts": 36,
+          "mean_of_known": 6.388888888888889,
+          "missing_attempts": 0,
+          "observed_total": 230,
+          "total_if_complete": 230
+        },
+        "output": {
+          "known_attempts": 36,
+          "mean_of_known": 872.3611111111111,
+          "missing_attempts": 0,
+          "observed_total": 31405,
+          "total_if_complete": 31405
+        },
+        "totalTokens": {
+          "known_attempts": 36,
+          "mean_of_known": 25820.083333333332,
+          "missing_attempts": 0,
+          "observed_total": 929523,
+          "total_if_complete": 929523
+        }
+      },
+      "success_rate_planned": 0.0,
+      "success_rate_started": 0.0,
+      "terminal_states": {
+        "controller_conflict": 0,
+        "external_timeout": 0,
+        "invalid_record": 0,
+        "missing_controller": 0,
+        "missing_record": 0,
+        "not_started": 0,
+        "start_unknown": 0,
+        "success": 0,
+        "task_failure": 36,
+        "worker_error": 0
+      },
+      "unknown_cost_attempts": 36
+    },
+    "only-acceptance": {
+      "cost": null,
+      "counts": {
+        "complete_records": 36,
+        "controller_results": 36,
+        "invalid_records": 0,
+        "missing_records_started": 0,
+        "not_started": 0,
+        "planned": 36,
+        "record_files": 36,
+        "start_unknown": 0,
+        "started_evidenced": 36
+      },
+      "prices_known": false,
+      "resources": {
+        "cacheRead": {
+          "known_attempts": 36,
+          "mean_of_known": 5603.555555555556,
+          "missing_attempts": 0,
+          "observed_total": 201728,
+          "total_if_complete": 201728
+        },
+        "cacheWrite": {
+          "known_attempts": 36,
+          "mean_of_known": 0,
+          "missing_attempts": 0,
+          "observed_total": 0,
+          "total_if_complete": 0
+        },
+        "cycles": {
+          "known_attempts": 36,
+          "mean_of_known": 1,
+          "missing_attempts": 0,
+          "observed_total": 36,
+          "total_if_complete": 36
+        },
+        "durationMs": {
+          "known_attempts": 36,
+          "mean_of_known": 3295.7677223333335,
+          "missing_attempts": 0,
+          "observed_total": 118647.638004,
+          "total_if_complete": 118647.638004
+        },
+        "input": {
+          "known_attempts": 36,
+          "mean_of_known": 750.8055555555555,
+          "missing_attempts": 0,
+          "observed_total": 27029,
+          "total_if_complete": 27029
+        },
+        "modelRequests": {
+          "known_attempts": 36,
+          "mean_of_known": 3.0833333333333335,
+          "missing_attempts": 0,
+          "observed_total": 111,
+          "total_if_complete": 111
+        },
+        "output": {
+          "known_attempts": 36,
+          "mean_of_known": 434.22222222222223,
+          "missing_attempts": 0,
+          "observed_total": 15632,
+          "total_if_complete": 15632
+        },
+        "totalTokens": {
+          "known_attempts": 36,
+          "mean_of_known": 6788.583333333333,
+          "missing_attempts": 0,
+          "observed_total": 244389,
+          "total_if_complete": 244389
+        }
+      },
+      "success_rate_planned": 0.8611111111111112,
+      "success_rate_started": 0.8611111111111112,
+      "terminal_states": {
+        "controller_conflict": 0,
+        "external_timeout": 0,
+        "invalid_record": 0,
+        "missing_controller": 0,
+        "missing_record": 0,
+        "not_started": 0,
+        "start_unknown": 0,
+        "success": 31,
+        "task_failure": 5,
+        "worker_error": 0
+      },
+      "unknown_cost_attempts": 36
+    },
+    "only-controls": {
+      "cost": null,
+      "counts": {
+        "complete_records": 36,
+        "controller_results": 36,
+        "invalid_records": 0,
+        "missing_records_started": 0,
+        "not_started": 0,
+        "planned": 36,
+        "record_files": 36,
+        "start_unknown": 0,
+        "started_evidenced": 36
+      },
+      "prices_known": false,
+      "resources": {
+        "cacheRead": {
+          "known_attempts": 36,
+          "mean_of_known": 5557.333333333333,
+          "missing_attempts": 0,
+          "observed_total": 200064,
+          "total_if_complete": 200064
+        },
+        "cacheWrite": {
+          "known_attempts": 36,
+          "mean_of_known": 0,
+          "missing_attempts": 0,
+          "observed_total": 0,
+          "total_if_complete": 0
+        },
+        "cycles": {
+          "known_attempts": 36,
+          "mean_of_known": 1,
+          "missing_attempts": 0,
+          "observed_total": 36,
+          "total_if_complete": 36
+        },
+        "durationMs": {
+          "known_attempts": 36,
+          "mean_of_known": 4602.132542888889,
+          "missing_attempts": 0,
+          "observed_total": 165676.771544,
+          "total_if_complete": 165676.771544
+        },
+        "input": {
+          "known_attempts": 36,
+          "mean_of_known": 744.3055555555555,
+          "missing_attempts": 0,
+          "observed_total": 26795,
+          "total_if_complete": 26795
+        },
+        "modelRequests": {
+          "known_attempts": 36,
+          "mean_of_known": 3.0833333333333335,
+          "missing_attempts": 0,
+          "observed_total": 111,
+          "total_if_complete": 111
+        },
+        "output": {
+          "known_attempts": 36,
+          "mean_of_known": 415.02777777777777,
+          "missing_attempts": 0,
+          "observed_total": 14941,
+          "total_if_complete": 14941
+        },
+        "totalTokens": {
+          "known_attempts": 36,
+          "mean_of_known": 6716.666666666667,
+          "missing_attempts": 0,
+          "observed_total": 241800,
+          "total_if_complete": 241800
+        }
+      },
+      "success_rate_planned": 0.8333333333333334,
+      "success_rate_started": 0.8333333333333334,
+      "terminal_states": {
+        "controller_conflict": 0,
+        "external_timeout": 0,
+        "invalid_record": 0,
+        "missing_controller": 0,
+        "missing_record": 0,
+        "not_started": 0,
+        "start_unknown": 0,
+        "success": 30,
+        "task_failure": 6,
+        "worker_error": 0
+      },
+      "unknown_cost_attempts": 36
+    },
+    "only-feishu": {
+      "cost": null,
+      "counts": {
+        "complete_records": 36,
+        "controller_results": 36,
+        "invalid_records": 0,
+        "missing_records_started": 0,
+        "not_started": 0,
+        "planned": 36,
+        "record_files": 36,
+        "start_unknown": 0,
+        "started_evidenced": 36
+      },
+      "prices_known": false,
+      "resources": {
+        "cacheRead": {
+          "known_attempts": 36,
+          "mean_of_known": 5315.555555555556,
+          "missing_attempts": 0,
+          "observed_total": 191360,
+          "total_if_complete": 191360
+        },
+        "cacheWrite": {
+          "known_attempts": 36,
+          "mean_of_known": 0,
+          "missing_attempts": 0,
+          "observed_total": 0,
+          "total_if_complete": 0
+        },
+        "cycles": {
+          "known_attempts": 36,
+          "mean_of_known": 1,
+          "missing_attempts": 0,
+          "observed_total": 36,
+          "total_if_complete": 36
+        },
+        "durationMs": {
+          "known_attempts": 36,
+          "mean_of_known": 4604.792261472222,
+          "missing_attempts": 0,
+          "observed_total": 165772.521413,
+          "total_if_complete": 165772.521413
+        },
+        "input": {
+          "known_attempts": 36,
+          "mean_of_known": 788.1111111111111,
+          "missing_attempts": 0,
+          "observed_total": 28372,
+          "total_if_complete": 28372
+        },
+        "modelRequests": {
+          "known_attempts": 36,
+          "mean_of_known": 3.0277777777777777,
+          "missing_attempts": 0,
+          "observed_total": 109,
+          "total_if_complete": 109
+        },
+        "output": {
+          "known_attempts": 36,
+          "mean_of_known": 402.6666666666667,
+          "missing_attempts": 0,
+          "observed_total": 14496,
+          "total_if_complete": 14496
+        },
+        "totalTokens": {
+          "known_attempts": 36,
+          "mean_of_known": 6506.333333333333,
+          "missing_attempts": 0,
+          "observed_total": 234228,
+          "total_if_complete": 234228
+        }
+      },
+      "success_rate_planned": 0.8055555555555556,
+      "success_rate_started": 0.8055555555555556,
+      "terminal_states": {
+        "controller_conflict": 0,
+        "external_timeout": 0,
+        "invalid_record": 0,
+        "missing_controller": 0,
+        "missing_record": 0,
+        "not_started": 0,
+        "start_unknown": 0,
+        "success": 29,
+        "task_failure": 7,
+        "worker_error": 0
+      },
+      "unknown_cost_attempts": 36
+    },
+    "only-goals": {
+      "cost": null,
+      "counts": {
+        "complete_records": 36,
+        "controller_results": 36,
+        "invalid_records": 0,
+        "missing_records_started": 0,
+        "not_started": 0,
+        "planned": 36,
+        "record_files": 36,
+        "start_unknown": 0,
+        "started_evidenced": 36
+      },
+      "prices_known": false,
+      "resources": {
+        "cacheRead": {
+          "known_attempts": 36,
+          "mean_of_known": 9984,
+          "missing_attempts": 0,
+          "observed_total": 359424,
+          "total_if_complete": 359424
+        },
+        "cacheWrite": {
+          "known_attempts": 36,
+          "mean_of_known": 0,
+          "missing_attempts": 0,
+          "observed_total": 0,
+          "total_if_complete": 0
+        },
+        "cycles": {
+          "known_attempts": 36,
+          "mean_of_known": 1.3888888888888888,
+          "missing_attempts": 0,
+          "observed_total": 50,
+          "total_if_complete": 50
+        },
+        "durationMs": {
+          "known_attempts": 36,
+          "mean_of_known": 5224.619407388889,
+          "missing_attempts": 0,
+          "observed_total": 188086.298666,
+          "total_if_complete": 188086.298666
+        },
+        "input": {
+          "known_attempts": 36,
+          "mean_of_known": 2121.3333333333335,
+          "missing_attempts": 0,
+          "observed_total": 76368,
+          "total_if_complete": 76368
+        },
+        "modelRequests": {
+          "known_attempts": 36,
+          "mean_of_known": 4.777777777777778,
+          "missing_attempts": 0,
+          "observed_total": 172,
+          "total_if_complete": 172
+        },
+        "output": {
+          "known_attempts": 36,
+          "mean_of_known": 745.0277777777778,
+          "missing_attempts": 0,
+          "observed_total": 26821,
+          "total_if_complete": 26821
+        },
+        "totalTokens": {
+          "known_attempts": 36,
+          "mean_of_known": 12850.361111111111,
+          "missing_attempts": 0,
+          "observed_total": 462613,
+          "total_if_complete": 462613
+        }
+      },
+      "success_rate_planned": 0.0,
+      "success_rate_started": 0.0,
+      "terminal_states": {
+        "controller_conflict": 0,
+        "external_timeout": 0,
+        "invalid_record": 0,
+        "missing_controller": 0,
+        "missing_record": 0,
+        "not_started": 0,
+        "start_unknown": 0,
+        "success": 0,
+        "task_failure": 36,
+        "worker_error": 0
+      },
+      "unknown_cost_attempts": 36
+    },
+    "only-infrastructure": {
+      "cost": null,
+      "counts": {
+        "complete_records": 36,
+        "controller_results": 36,
+        "invalid_records": 0,
+        "missing_records_started": 0,
+        "not_started": 0,
+        "planned": 36,
+        "record_files": 36,
+        "start_unknown": 0,
+        "started_evidenced": 36
+      },
+      "prices_known": false,
+      "resources": {
+        "cacheRead": {
+          "known_attempts": 36,
+          "mean_of_known": 5333.333333333333,
+          "missing_attempts": 0,
+          "observed_total": 192000,
+          "total_if_complete": 192000
+        },
+        "cacheWrite": {
+          "known_attempts": 36,
+          "mean_of_known": 0,
+          "missing_attempts": 0,
+          "observed_total": 0,
+          "total_if_complete": 0
+        },
+        "cycles": {
+          "known_attempts": 36,
+          "mean_of_known": 1,
+          "missing_attempts": 0,
+          "observed_total": 36,
+          "total_if_complete": 36
+        },
+        "durationMs": {
+          "known_attempts": 36,
+          "mean_of_known": 3437.337938583333,
+          "missing_attempts": 0,
+          "observed_total": 123744.165789,
+          "total_if_complete": 123744.165789
+        },
+        "input": {
+          "known_attempts": 36,
+          "mean_of_known": 638.3333333333334,
+          "missing_attempts": 0,
+          "observed_total": 22980,
+          "total_if_complete": 22980
+        },
+        "modelRequests": {
+          "known_attempts": 36,
+          "mean_of_known": 3.0277777777777777,
+          "missing_attempts": 0,
+          "observed_total": 109,
+          "total_if_complete": 109
+        },
+        "output": {
+          "known_attempts": 36,
+          "mean_of_known": 371.55555555555554,
+          "missing_attempts": 0,
+          "observed_total": 13376,
+          "total_if_complete": 13376
+        },
+        "totalTokens": {
+          "known_attempts": 36,
+          "mean_of_known": 6343.222222222223,
+          "missing_attempts": 0,
+          "observed_total": 228356,
+          "total_if_complete": 228356
+        }
+      },
+      "success_rate_planned": 0.9722222222222222,
+      "success_rate_started": 0.9722222222222222,
+      "terminal_states": {
+        "controller_conflict": 0,
+        "external_timeout": 0,
+        "invalid_record": 0,
+        "missing_controller": 0,
+        "missing_record": 0,
+        "not_started": 0,
+        "start_unknown": 0,
+        "success": 35,
+        "task_failure": 1,
+        "worker_error": 0
+      },
+      "unknown_cost_attempts": 36
+    },
+    "only-optimization": {
+      "cost": null,
+      "counts": {
+        "complete_records": 36,
+        "controller_results": 36,
+        "invalid_records": 0,
+        "missing_records_started": 0,
+        "not_started": 0,
+        "planned": 36,
+        "record_files": 36,
+        "start_unknown": 0,
+        "started_evidenced": 36
+      },
+      "prices_known": false,
+      "resources": {
+        "cacheRead": {
+          "known_attempts": 36,
+          "mean_of_known": 5283.555555555556,
+          "missing_attempts": 0,
+          "observed_total": 190208,
+          "total_if_complete": 190208
+        },
+        "cacheWrite": {
+          "known_attempts": 36,
+          "mean_of_known": 0,
+          "missing_attempts": 0,
+          "observed_total": 0,
+          "total_if_complete": 0
+        },
+        "cycles": {
+          "known_attempts": 36,
+          "mean_of_known": 1,
+          "missing_attempts": 0,
+          "observed_total": 36,
+          "total_if_complete": 36
+        },
+        "durationMs": {
+          "known_attempts": 36,
+          "mean_of_known": 3569.739681611111,
+          "missing_attempts": 0,
+          "observed_total": 128510.628538,
+          "total_if_complete": 128510.628538
+        },
+        "input": {
+          "known_attempts": 36,
+          "mean_of_known": 694.6944444444445,
+          "missing_attempts": 0,
+          "observed_total": 25009,
+          "total_if_complete": 25009
+        },
+        "modelRequests": {
+          "known_attempts": 36,
+          "mean_of_known": 2.9722222222222223,
+          "missing_attempts": 0,
+          "observed_total": 107,
+          "total_if_complete": 107
+        },
+        "output": {
+          "known_attempts": 36,
+          "mean_of_known": 406.44444444444446,
+          "missing_attempts": 0,
+          "observed_total": 14632,
+          "total_if_complete": 14632
+        },
+        "totalTokens": {
+          "known_attempts": 36,
+          "mean_of_known": 6384.694444444444,
+          "missing_attempts": 0,
+          "observed_total": 229849,
+          "total_if_complete": 229849
+        }
+      },
+      "success_rate_planned": 0.8333333333333334,
+      "success_rate_started": 0.8333333333333334,
+      "terminal_states": {
+        "controller_conflict": 0,
+        "external_timeout": 0,
+        "invalid_record": 0,
+        "missing_controller": 0,
+        "missing_record": 0,
+        "not_started": 0,
+        "start_unknown": 0,
+        "success": 30,
+        "task_failure": 6,
+        "worker_error": 0
+      },
+      "unknown_cost_attempts": 36
+    },
+    "only-scheduling": {
+      "cost": null,
+      "counts": {
+        "complete_records": 36,
+        "controller_results": 36,
+        "invalid_records": 0,
+        "missing_records_started": 0,
+        "not_started": 0,
+        "planned": 36,
+        "record_files": 36,
+        "start_unknown": 0,
+        "started_evidenced": 36
+      },
+      "prices_known": false,
+      "resources": {
+        "cacheRead": {
+          "known_attempts": 36,
+          "mean_of_known": 5294.222222222223,
+          "missing_attempts": 0,
+          "observed_total": 190592,
+          "total_if_complete": 190592
+        },
+        "cacheWrite": {
+          "known_attempts": 36,
+          "mean_of_known": 0,
+          "missing_attempts": 0,
+          "observed_total": 0,
+          "total_if_complete": 0
+        },
+        "cycles": {
+          "known_attempts": 36,
+          "mean_of_known": 1,
+          "missing_attempts": 0,
+          "observed_total": 36,
+          "total_if_complete": 36
+        },
+        "durationMs": {
+          "known_attempts": 36,
+          "mean_of_known": 4317.349405111111,
+          "missing_attempts": 0,
+          "observed_total": 155424.578584,
+          "total_if_complete": 155424.578584
+        },
+        "input": {
+          "known_attempts": 36,
+          "mean_of_known": 674.3055555555555,
+          "missing_attempts": 0,
+          "observed_total": 24275,
+          "total_if_complete": 24275
+        },
+        "modelRequests": {
+          "known_attempts": 36,
+          "mean_of_known": 2.9444444444444446,
+          "missing_attempts": 0,
+          "observed_total": 106,
+          "total_if_complete": 106
+        },
+        "output": {
+          "known_attempts": 36,
+          "mean_of_known": 401.80555555555554,
+          "missing_attempts": 0,
+          "observed_total": 14465,
+          "total_if_complete": 14465
+        },
+        "totalTokens": {
+          "known_attempts": 36,
+          "mean_of_known": 6370.333333333333,
+          "missing_attempts": 0,
+          "observed_total": 229332,
+          "total_if_complete": 229332
+        }
+      },
+      "success_rate_planned": 0.8611111111111112,
+      "success_rate_started": 0.8611111111111112,
+      "terminal_states": {
+        "controller_conflict": 0,
+        "external_timeout": 0,
+        "invalid_record": 0,
+        "missing_controller": 0,
+        "missing_record": 0,
+        "not_started": 0,
+        "start_unknown": 0,
+        "success": 31,
+        "task_failure": 5,
+        "worker_error": 0
+      },
+      "unknown_cost_attempts": 36
+    },
+    "ordinary-before": {
+      "cost": null,
+      "counts": {
+        "complete_records": 51,
+        "controller_results": 72,
+        "invalid_records": 0,
+        "missing_records_started": 21,
+        "not_started": 0,
+        "planned": 72,
+        "record_files": 51,
+        "start_unknown": 0,
+        "started_evidenced": 72
+      },
+      "prices_known": false,
+      "resources": {
+        "cacheRead": {
+          "known_attempts": 51,
+          "mean_of_known": 5995.921568627451,
+          "missing_attempts": 21,
+          "observed_total": 305792,
+          "total_if_complete": null
+        },
+        "cacheWrite": {
+          "known_attempts": 51,
+          "mean_of_known": 0,
+          "missing_attempts": 21,
+          "observed_total": 0,
+          "total_if_complete": null
+        },
+        "cycles": {
+          "known_attempts": 51,
+          "mean_of_known": 1,
+          "missing_attempts": 21,
+          "observed_total": 51,
+          "total_if_complete": null
+        },
+        "durationMs": {
+          "known_attempts": 51,
+          "mean_of_known": 23815.00774272549,
+          "missing_attempts": 21,
+          "observed_total": 1214565.394879,
+          "total_if_complete": null
+        },
+        "input": {
+          "known_attempts": 51,
+          "mean_of_known": 710.5490196078431,
+          "missing_attempts": 21,
+          "observed_total": 36238,
+          "total_if_complete": null
+        },
+        "modelRequests": {
+          "known_attempts": 51,
+          "mean_of_known": 3,
+          "missing_attempts": 21,
+          "observed_total": 153,
+          "total_if_complete": null
+        },
+        "output": {
+          "known_attempts": 51,
+          "mean_of_known": 373.15686274509807,
+          "missing_attempts": 21,
+          "observed_total": 19031,
+          "total_if_complete": null
+        },
+        "totalTokens": {
+          "known_attempts": 51,
+          "mean_of_known": 7079.6274509803925,
+          "missing_attempts": 21,
+          "observed_total": 361061,
+          "total_if_complete": null
+        }
+      },
+      "success_rate_planned": 0.6944444444444444,
+      "success_rate_started": 0.6944444444444444,
+      "terminal_states": {
+        "controller_conflict": 0,
+        "external_timeout": 22,
+        "invalid_record": 0,
+        "missing_controller": 0,
+        "missing_record": 0,
+        "not_started": 0,
+        "start_unknown": 0,
+        "success": 50,
+        "task_failure": 0,
+        "worker_error": 0
+      },
+      "unknown_cost_attempts": 72
+    },
+    "ordinary-lean": {
+      "cost": null,
+      "counts": {
+        "complete_records": 54,
+        "controller_results": 72,
+        "invalid_records": 0,
+        "missing_records_started": 18,
+        "not_started": 0,
+        "planned": 72,
+        "record_files": 54,
+        "start_unknown": 0,
+        "started_evidenced": 72
+      },
+      "prices_known": false,
+      "resources": {
+        "cacheRead": {
+          "known_attempts": 54,
+          "mean_of_known": 5352.2962962962965,
+          "missing_attempts": 18,
+          "observed_total": 289024,
+          "total_if_complete": null
+        },
+        "cacheWrite": {
+          "known_attempts": 54,
+          "mean_of_known": 0,
+          "missing_attempts": 18,
+          "observed_total": 0,
+          "total_if_complete": null
+        },
+        "cycles": {
+          "known_attempts": 54,
+          "mean_of_known": 1,
+          "missing_attempts": 18,
+          "observed_total": 54,
+          "total_if_complete": null
+        },
+        "durationMs": {
+          "known_attempts": 54,
+          "mean_of_known": 22707.989562444443,
+          "missing_attempts": 18,
+          "observed_total": 1226231.436372,
+          "total_if_complete": null
+        },
+        "input": {
+          "known_attempts": 54,
+          "mean_of_known": 590.4074074074074,
+          "missing_attempts": 18,
+          "observed_total": 31882,
+          "total_if_complete": null
+        },
+        "modelRequests": {
+          "known_attempts": 54,
+          "mean_of_known": 3,
+          "missing_attempts": 18,
+          "observed_total": 162,
+          "total_if_complete": null
+        },
+        "output": {
+          "known_attempts": 54,
+          "mean_of_known": 369.98148148148147,
+          "missing_attempts": 18,
+          "observed_total": 19979,
+          "total_if_complete": null
+        },
+        "totalTokens": {
+          "known_attempts": 54,
+          "mean_of_known": 6312.685185185185,
+          "missing_attempts": 18,
+          "observed_total": 340885,
+          "total_if_complete": null
+        }
+      },
+      "success_rate_planned": 0.7222222222222222,
+      "success_rate_started": 0.7222222222222222,
+      "terminal_states": {
+        "controller_conflict": 0,
+        "external_timeout": 20,
+        "invalid_record": 0,
+        "missing_controller": 0,
+        "missing_record": 0,
+        "not_started": 0,
+        "start_unknown": 0,
+        "success": 52,
+        "task_failure": 0,
+        "worker_error": 0
+      },
+      "unknown_cost_attempts": 72
+    },
+    "upstream": {
+      "cost": null,
+      "counts": {
+        "complete_records": 60,
+        "controller_results": 60,
+        "invalid_records": 0,
+        "missing_records_started": 0,
+        "not_started": 0,
+        "planned": 60,
+        "record_files": 60,
+        "start_unknown": 0,
+        "started_evidenced": 60
+      },
+      "prices_known": false,
+      "resources": {
+        "cacheRead": {
+          "known_attempts": 60,
+          "mean_of_known": 15788.8,
+          "missing_attempts": 0,
+          "observed_total": 947328,
+          "total_if_complete": 947328
+        },
+        "cacheWrite": {
+          "known_attempts": 60,
+          "mean_of_known": 0,
+          "missing_attempts": 0,
+          "observed_total": 0,
+          "total_if_complete": 0
+        },
+        "cycles": {
+          "known_attempts": 60,
+          "mean_of_known": 1,
+          "missing_attempts": 0,
+          "observed_total": 60,
+          "total_if_complete": 60
+        },
+        "durationMs": {
+          "known_attempts": 60,
+          "mean_of_known": 5886.885978483333,
+          "missing_attempts": 0,
+          "observed_total": 353213.158709,
+          "total_if_complete": 353213.158709
+        },
+        "input": {
+          "known_attempts": 60,
+          "mean_of_known": 1205.5666666666666,
+          "missing_attempts": 0,
+          "observed_total": 72334,
+          "total_if_complete": 72334
+        },
+        "modelRequests": {
+          "known_attempts": 60,
+          "mean_of_known": 5.233333333333333,
+          "missing_attempts": 0,
+          "observed_total": 314,
+          "total_if_complete": 314
+        },
+        "output": {
+          "known_attempts": 60,
+          "mean_of_known": 589.8666666666667,
+          "missing_attempts": 0,
+          "observed_total": 35392,
+          "total_if_complete": 35392
+        },
+        "totalTokens": {
+          "known_attempts": 60,
+          "mean_of_known": 17584.233333333334,
+          "missing_attempts": 0,
+          "observed_total": 1055054,
+          "total_if_complete": 1055054
+        }
+      },
+      "success_rate_planned": 0.016666666666666666,
+      "success_rate_started": 0.016666666666666666,
+      "terminal_states": {
+        "controller_conflict": 0,
+        "external_timeout": 0,
+        "invalid_record": 0,
+        "missing_controller": 0,
+        "missing_record": 0,
+        "not_started": 0,
+        "start_unknown": 0,
+        "success": 1,
+        "task_failure": 59,
+        "worker_error": 0
+      },
+      "unknown_cost_attempts": 60
+    },
+    "upstream-host": {
+      "cost": null,
+      "counts": {
+        "complete_records": 60,
+        "controller_results": 60,
+        "invalid_records": 0,
+        "missing_records_started": 0,
+        "not_started": 0,
+        "planned": 60,
+        "record_files": 60,
+        "start_unknown": 0,
+        "started_evidenced": 60
+      },
+      "prices_known": false,
+      "resources": {
+        "cacheRead": {
+          "known_attempts": 60,
+          "mean_of_known": 11080.533333333333,
+          "missing_attempts": 0,
+          "observed_total": 664832,
+          "total_if_complete": 664832
+        },
+        "cacheWrite": {
+          "known_attempts": 60,
+          "mean_of_known": 0,
+          "missing_attempts": 0,
+          "observed_total": 0,
+          "total_if_complete": 0
+        },
+        "cycles": {
+          "known_attempts": 60,
+          "mean_of_known": 1,
+          "missing_attempts": 0,
+          "observed_total": 60,
+          "total_if_complete": 60
+        },
+        "durationMs": {
+          "known_attempts": 60,
+          "mean_of_known": 3632.7799610833335,
+          "missing_attempts": 0,
+          "observed_total": 217966.797665,
+          "total_if_complete": 217966.797665
+        },
+        "input": {
+          "known_attempts": 60,
+          "mean_of_known": 988.3333333333334,
+          "missing_attempts": 0,
+          "observed_total": 59300,
+          "total_if_complete": 59300
+        },
+        "modelRequests": {
+          "known_attempts": 60,
+          "mean_of_known": 3.5833333333333335,
+          "missing_attempts": 0,
+          "observed_total": 215,
+          "total_if_complete": 215
+        },
+        "output": {
+          "known_attempts": 60,
+          "mean_of_known": 510.96666666666664,
+          "missing_attempts": 0,
+          "observed_total": 30658,
+          "total_if_complete": 30658
+        },
+        "totalTokens": {
+          "known_attempts": 60,
+          "mean_of_known": 12579.833333333334,
+          "missing_attempts": 0,
+          "observed_total": 754790,
+          "total_if_complete": 754790
+        }
+      },
+      "success_rate_planned": 0.8333333333333334,
+      "success_rate_started": 0.8333333333333334,
+      "terminal_states": {
+        "controller_conflict": 0,
+        "external_timeout": 0,
+        "invalid_record": 0,
+        "missing_controller": 0,
+        "missing_record": 0,
+        "not_started": 0,
+        "start_unknown": 0,
+        "success": 50,
+        "task_failure": 10,
+        "worker_error": 0
+      },
+      "unknown_cost_attempts": 60
+    },
+    "without-acceptance": {
+      "cost": null,
+      "counts": {
+        "complete_records": 36,
+        "controller_results": 36,
+        "invalid_records": 0,
+        "missing_records_started": 0,
+        "not_started": 0,
+        "planned": 36,
+        "record_files": 36,
+        "start_unknown": 0,
+        "started_evidenced": 36
+      },
+      "prices_known": false,
+      "resources": {
+        "cacheRead": {
+          "known_attempts": 36,
+          "mean_of_known": 9216,
+          "missing_attempts": 0,
+          "observed_total": 331776,
+          "total_if_complete": 331776
+        },
+        "cacheWrite": {
+          "known_attempts": 36,
+          "mean_of_known": 0,
+          "missing_attempts": 0,
+          "observed_total": 0,
+          "total_if_complete": 0
+        },
+        "cycles": {
+          "known_attempts": 36,
+          "mean_of_known": 1.0277777777777777,
+          "missing_attempts": 0,
+          "observed_total": 37,
+          "total_if_complete": 37
+        },
+        "durationMs": {
+          "known_attempts": 36,
+          "mean_of_known": 4815.664061277777,
+          "missing_attempts": 0,
+          "observed_total": 173363.906206,
+          "total_if_complete": 173363.906206
+        },
+        "input": {
+          "known_attempts": 36,
+          "mean_of_known": 902.1666666666666,
+          "missing_attempts": 0,
+          "observed_total": 32478,
+          "total_if_complete": 32478
+        },
+        "modelRequests": {
+          "known_attempts": 36,
+          "mean_of_known": 3.9722222222222223,
+          "missing_attempts": 0,
+          "observed_total": 143,
+          "total_if_complete": 143
+        },
+        "output": {
+          "known_attempts": 36,
+          "mean_of_known": 626.1944444444445,
+          "missing_attempts": 0,
+          "observed_total": 22543,
+          "total_if_complete": 22543
+        },
+        "totalTokens": {
+          "known_attempts": 36,
+          "mean_of_known": 10744.361111111111,
+          "missing_attempts": 0,
+          "observed_total": 386797,
+          "total_if_complete": 386797
+        }
+      },
+      "success_rate_planned": 0.0,
+      "success_rate_started": 0.0,
+      "terminal_states": {
+        "controller_conflict": 0,
+        "external_timeout": 0,
+        "invalid_record": 0,
+        "missing_controller": 0,
+        "missing_record": 0,
+        "not_started": 0,
+        "start_unknown": 0,
+        "success": 0,
+        "task_failure": 36,
+        "worker_error": 0
+      },
+      "unknown_cost_attempts": 36
+    },
+    "without-controls": {
+      "cost": null,
+      "counts": {
+        "complete_records": 35,
+        "controller_results": 36,
+        "invalid_records": 0,
+        "missing_records_started": 1,
+        "not_started": 0,
+        "planned": 36,
+        "record_files": 35,
+        "start_unknown": 0,
+        "started_evidenced": 36
+      },
+      "prices_known": false,
+      "resources": {
+        "cacheRead": {
+          "known_attempts": 35,
+          "mean_of_known": 9402.485714285714,
+          "missing_attempts": 1,
+          "observed_total": 329087,
+          "total_if_complete": null
+        },
+        "cacheWrite": {
+          "known_attempts": 35,
+          "mean_of_known": 0,
+          "missing_attempts": 1,
+          "observed_total": 0,
+          "total_if_complete": null
+        },
+        "cycles": {
+          "known_attempts": 35,
+          "mean_of_known": 1,
+          "missing_attempts": 1,
+          "observed_total": 35,
+          "total_if_complete": null
+        },
+        "durationMs": {
+          "known_attempts": 35,
+          "mean_of_known": 4916.535188028572,
+          "missing_attempts": 1,
+          "observed_total": 172078.731581,
+          "total_if_complete": null
+        },
+        "input": {
+          "known_attempts": 35,
+          "mean_of_known": 909.3714285714286,
+          "missing_attempts": 1,
+          "observed_total": 31828,
+          "total_if_complete": null
+        },
+        "modelRequests": {
+          "known_attempts": 35,
+          "mean_of_known": 4,
+          "missing_attempts": 1,
+          "observed_total": 140,
+          "total_if_complete": null
+        },
+        "output": {
+          "known_attempts": 35,
+          "mean_of_known": 630.5428571428571,
+          "missing_attempts": 1,
+          "observed_total": 22069,
+          "total_if_complete": null
+        },
+        "totalTokens": {
+          "known_attempts": 35,
+          "mean_of_known": 10942.4,
+          "missing_attempts": 1,
+          "observed_total": 382984,
+          "total_if_complete": null
+        }
+      },
+      "success_rate_planned": 0.0,
+      "success_rate_started": 0.0,
+      "terminal_states": {
+        "controller_conflict": 0,
+        "external_timeout": 1,
+        "invalid_record": 0,
+        "missing_controller": 0,
+        "missing_record": 0,
+        "not_started": 0,
+        "start_unknown": 0,
+        "success": 0,
+        "task_failure": 35,
+        "worker_error": 0
+      },
+      "unknown_cost_attempts": 36
+    },
+    "without-feishu": {
+      "cost": null,
+      "counts": {
+        "complete_records": 35,
+        "controller_results": 36,
+        "invalid_records": 0,
+        "missing_records_started": 1,
+        "not_started": 0,
+        "planned": 36,
+        "record_files": 35,
+        "start_unknown": 0,
+        "started_evidenced": 36
+      },
+      "prices_known": false,
+      "resources": {
+        "cacheRead": {
+          "known_attempts": 35,
+          "mean_of_known": 8916.114285714286,
+          "missing_attempts": 1,
+          "observed_total": 312064,
+          "total_if_complete": null
+        },
+        "cacheWrite": {
+          "known_attempts": 35,
+          "mean_of_known": 0,
+          "missing_attempts": 1,
+          "observed_total": 0,
+          "total_if_complete": null
+        },
+        "cycles": {
+          "known_attempts": 35,
+          "mean_of_known": 1.0285714285714285,
+          "missing_attempts": 1,
+          "observed_total": 36,
+          "total_if_complete": null
+        },
+        "durationMs": {
+          "known_attempts": 35,
+          "mean_of_known": 4887.464719,
+          "missing_attempts": 1,
+          "observed_total": 171061.265165,
+          "total_if_complete": null
+        },
+        "input": {
+          "known_attempts": 35,
+          "mean_of_known": 1494.6571428571428,
+          "missing_attempts": 1,
+          "observed_total": 52313,
+          "total_if_complete": null
+        },
+        "modelRequests": {
+          "known_attempts": 35,
+          "mean_of_known": 4.057142857142857,
+          "missing_attempts": 1,
+          "observed_total": 142,
+          "total_if_complete": null
+        },
+        "output": {
+          "known_attempts": 35,
+          "mean_of_known": 639.4857142857143,
+          "missing_attempts": 1,
+          "observed_total": 22382,
+          "total_if_complete": null
+        },
+        "totalTokens": {
+          "known_attempts": 35,
+          "mean_of_known": 11050.257142857143,
+          "missing_attempts": 1,
+          "observed_total": 386759,
+          "total_if_complete": null
+        }
+      },
+      "success_rate_planned": 0.0,
+      "success_rate_started": 0.0,
+      "terminal_states": {
+        "controller_conflict": 0,
+        "external_timeout": 1,
+        "invalid_record": 0,
+        "missing_controller": 0,
+        "missing_record": 0,
+        "not_started": 0,
+        "start_unknown": 0,
+        "success": 0,
+        "task_failure": 35,
+        "worker_error": 0
+      },
+      "unknown_cost_attempts": 36
+    },
+    "without-goals": {
+      "cost": null,
+      "counts": {
+        "complete_records": 36,
+        "controller_results": 36,
+        "invalid_records": 0,
+        "missing_records_started": 0,
+        "not_started": 0,
+        "planned": 36,
+        "record_files": 36,
+        "start_unknown": 0,
+        "started_evidenced": 36
+      },
+      "prices_known": false,
+      "resources": {
+        "cacheRead": {
+          "known_attempts": 36,
+          "mean_of_known": 5290.666666666667,
+          "missing_attempts": 0,
+          "observed_total": 190464,
+          "total_if_complete": 190464
+        },
+        "cacheWrite": {
+          "known_attempts": 36,
+          "mean_of_known": 0,
+          "missing_attempts": 0,
+          "observed_total": 0,
+          "total_if_complete": 0
+        },
+        "cycles": {
+          "known_attempts": 36,
+          "mean_of_known": 1,
+          "missing_attempts": 0,
+          "observed_total": 36,
+          "total_if_complete": 36
+        },
+        "durationMs": {
+          "known_attempts": 36,
+          "mean_of_known": 3350.2991748333334,
+          "missing_attempts": 0,
+          "observed_total": 120610.770294,
+          "total_if_complete": 120610.770294
+        },
+        "input": {
+          "known_attempts": 36,
+          "mean_of_known": 615.0555555555555,
+          "missing_attempts": 0,
+          "observed_total": 22142,
+          "total_if_complete": 22142
+        },
+        "modelRequests": {
+          "known_attempts": 36,
+          "mean_of_known": 3,
+          "missing_attempts": 0,
+          "observed_total": 108,
+          "total_if_complete": 108
+        },
+        "output": {
+          "known_attempts": 36,
+          "mean_of_known": 368.0833333333333,
+          "missing_attempts": 0,
+          "observed_total": 13251,
+          "total_if_complete": 13251
+        },
+        "totalTokens": {
+          "known_attempts": 36,
+          "mean_of_known": 6273.805555555556,
+          "missing_attempts": 0,
+          "observed_total": 225857,
+          "total_if_complete": 225857
+        }
+      },
+      "success_rate_planned": 0.9722222222222222,
+      "success_rate_started": 0.9722222222222222,
+      "terminal_states": {
+        "controller_conflict": 0,
+        "external_timeout": 0,
+        "invalid_record": 0,
+        "missing_controller": 0,
+        "missing_record": 0,
+        "not_started": 0,
+        "start_unknown": 0,
+        "success": 35,
+        "task_failure": 1,
+        "worker_error": 0
+      },
+      "unknown_cost_attempts": 36
+    },
+    "without-infrastructure": {
+      "cost": null,
+      "counts": {
+        "complete_records": 35,
+        "controller_results": 36,
+        "invalid_records": 0,
+        "missing_records_started": 1,
+        "not_started": 0,
+        "planned": 36,
+        "record_files": 35,
+        "start_unknown": 0,
+        "started_evidenced": 36
+      },
+      "prices_known": false,
+      "resources": {
+        "cacheRead": {
+          "known_attempts": 35,
+          "mean_of_known": 10894.628571428571,
+          "missing_attempts": 1,
+          "observed_total": 381312,
+          "total_if_complete": null
+        },
+        "cacheWrite": {
+          "known_attempts": 35,
+          "mean_of_known": 0,
+          "missing_attempts": 1,
+          "observed_total": 0,
+          "total_if_complete": null
+        },
+        "cycles": {
+          "known_attempts": 35,
+          "mean_of_known": 1.2571428571428571,
+          "missing_attempts": 1,
+          "observed_total": 44,
+          "total_if_complete": null
+        },
+        "durationMs": {
+          "known_attempts": 35,
+          "mean_of_known": 9958.671511857143,
+          "missing_attempts": 1,
+          "observed_total": 348553.502915,
+          "total_if_complete": null
+        },
+        "input": {
+          "known_attempts": 35,
+          "mean_of_known": 2113.457142857143,
+          "missing_attempts": 1,
+          "observed_total": 73971,
+          "total_if_complete": null
+        },
+        "modelRequests": {
+          "known_attempts": 35,
+          "mean_of_known": 4.942857142857143,
+          "missing_attempts": 1,
+          "observed_total": 173,
+          "total_if_complete": null
+        },
+        "output": {
+          "known_attempts": 35,
+          "mean_of_known": 736.7714285714286,
+          "missing_attempts": 1,
+          "observed_total": 25787,
+          "total_if_complete": null
+        },
+        "totalTokens": {
+          "known_attempts": 35,
+          "mean_of_known": 13744.857142857143,
+          "missing_attempts": 1,
+          "observed_total": 481070,
+          "total_if_complete": null
+        }
+      },
+      "success_rate_planned": 0.0,
+      "success_rate_started": 0.0,
+      "terminal_states": {
+        "controller_conflict": 0,
+        "external_timeout": 1,
+        "invalid_record": 0,
+        "missing_controller": 0,
+        "missing_record": 0,
+        "not_started": 0,
+        "start_unknown": 0,
+        "success": 0,
+        "task_failure": 35,
+        "worker_error": 0
+      },
+      "unknown_cost_attempts": 36
+    },
+    "without-optimization": {
+      "cost": null,
+      "counts": {
+        "complete_records": 36,
+        "controller_results": 36,
+        "invalid_records": 0,
+        "missing_records_started": 0,
+        "not_started": 0,
+        "planned": 36,
+        "record_files": 36,
+        "start_unknown": 0,
+        "started_evidenced": 36
+      },
+      "prices_known": false,
+      "resources": {
+        "cacheRead": {
+          "known_attempts": 36,
+          "mean_of_known": 9660.444444444445,
+          "missing_attempts": 0,
+          "observed_total": 347776,
+          "total_if_complete": 347776
+        },
+        "cacheWrite": {
+          "known_attempts": 36,
+          "mean_of_known": 0,
+          "missing_attempts": 0,
+          "observed_total": 0,
+          "total_if_complete": 0
+        },
+        "cycles": {
+          "known_attempts": 36,
+          "mean_of_known": 1.0277777777777777,
+          "missing_attempts": 0,
+          "observed_total": 37,
+          "total_if_complete": 37
+        },
+        "durationMs": {
+          "known_attempts": 36,
+          "mean_of_known": 4759.202987333333,
+          "missing_attempts": 0,
+          "observed_total": 171331.307544,
+          "total_if_complete": 171331.307544
+        },
+        "input": {
+          "known_attempts": 36,
+          "mean_of_known": 1012.6388888888889,
+          "missing_attempts": 0,
+          "observed_total": 36455,
+          "total_if_complete": 36455
+        },
+        "modelRequests": {
+          "known_attempts": 36,
+          "mean_of_known": 4.111111111111111,
+          "missing_attempts": 0,
+          "observed_total": 148,
+          "total_if_complete": 148
+        },
+        "output": {
+          "known_attempts": 36,
+          "mean_of_known": 643.3888888888889,
+          "missing_attempts": 0,
+          "observed_total": 23162,
+          "total_if_complete": 23162
+        },
+        "totalTokens": {
+          "known_attempts": 36,
+          "mean_of_known": 11316.472222222223,
+          "missing_attempts": 0,
+          "observed_total": 407393,
+          "total_if_complete": 407393
+        }
+      },
+      "success_rate_planned": 0.0,
+      "success_rate_started": 0.0,
+      "terminal_states": {
+        "controller_conflict": 0,
+        "external_timeout": 0,
+        "invalid_record": 0,
+        "missing_controller": 0,
+        "missing_record": 0,
+        "not_started": 0,
+        "start_unknown": 0,
+        "success": 0,
+        "task_failure": 36,
+        "worker_error": 0
+      },
+      "unknown_cost_attempts": 36
+    },
+    "without-scheduling": {
+      "cost": null,
+      "counts": {
+        "complete_records": 35,
+        "controller_results": 36,
+        "invalid_records": 0,
+        "missing_records_started": 1,
+        "not_started": 0,
+        "planned": 36,
+        "record_files": 35,
+        "start_unknown": 0,
+        "started_evidenced": 36
+      },
+      "prices_known": false,
+      "resources": {
+        "cacheRead": {
+          "known_attempts": 35,
+          "mean_of_known": 9472,
+          "missing_attempts": 1,
+          "observed_total": 331520,
+          "total_if_complete": null
+        },
+        "cacheWrite": {
+          "known_attempts": 35,
+          "mean_of_known": 0,
+          "missing_attempts": 1,
+          "observed_total": 0,
+          "total_if_complete": null
+        },
+        "cycles": {
+          "known_attempts": 35,
+          "mean_of_known": 1,
+          "missing_attempts": 1,
+          "observed_total": 35,
+          "total_if_complete": null
+        },
+        "durationMs": {
+          "known_attempts": 35,
+          "mean_of_known": 4801.336577257143,
+          "missing_attempts": 1,
+          "observed_total": 168046.780204,
+          "total_if_complete": null
+        },
+        "input": {
+          "known_attempts": 35,
+          "mean_of_known": 923.4,
+          "missing_attempts": 1,
+          "observed_total": 32319,
+          "total_if_complete": null
+        },
+        "modelRequests": {
+          "known_attempts": 35,
+          "mean_of_known": 4.0285714285714285,
+          "missing_attempts": 1,
+          "observed_total": 141,
+          "total_if_complete": null
+        },
+        "output": {
+          "known_attempts": 35,
+          "mean_of_known": 635.9714285714285,
+          "missing_attempts": 1,
+          "observed_total": 22259,
+          "total_if_complete": null
+        },
+        "totalTokens": {
+          "known_attempts": 35,
+          "mean_of_known": 11031.371428571429,
+          "missing_attempts": 1,
+          "observed_total": 386098,
+          "total_if_complete": null
+        }
+      },
+      "success_rate_planned": 0.0,
+      "success_rate_started": 0.0,
+      "terminal_states": {
+        "controller_conflict": 0,
+        "external_timeout": 1,
+        "invalid_record": 0,
+        "missing_controller": 0,
+        "missing_record": 0,
+        "not_started": 0,
+        "start_unknown": 0,
+        "success": 0,
+        "task_failure": 35,
+        "worker_error": 0
+      },
+      "unknown_cost_attempts": 36
+    }
+  },
+  "conflicts": [
+    {
+      "id": "ordinary-0034-ordinary-lean-final-text-replacement",
+      "kind": "timeout_with_success_record"
+    },
+    {
+      "id": "ordinary-0034-ordinary-lean-final-text-replacement",
+      "kind": "timeout_with_zero_exit"
+    }
+  ],
+  "formal": {
+    "cost": null,
+    "counts": {
+      "complete_records": 938,
+      "controller_results": 1008,
+      "invalid_records": 0,
+      "missing_records_started": 70,
+      "not_started": 0,
+      "planned": 1008,
+      "record_files": 938,
+      "start_unknown": 0,
+      "started_evidenced": 1008
+    },
+    "prices_known": false,
+    "resources": {
+      "cacheRead": {
+        "known_attempts": 938,
+        "mean_of_known": 8792.015991471215,
+        "missing_attempts": 70,
+        "observed_total": 8246911,
+        "total_if_complete": null
+      },
+      "cacheWrite": {
+        "known_attempts": 938,
+        "mean_of_known": 0,
+        "missing_attempts": 70,
+        "observed_total": 0,
+        "total_if_complete": null
+      },
+      "cycles": {
+        "known_attempts": 938,
+        "mean_of_known": 1.0341151385927505,
+        "missing_attempts": 70,
+        "observed_total": 970,
+        "total_if_complete": null
+      },
+      "durationMs": {
+        "known_attempts": 938,
+        "mean_of_known": 7056.724685622601,
+        "missing_attempts": 70,
+        "observed_total": 6619207.755114,
+        "total_if_complete": null
+      },
+      "input": {
+        "known_attempts": 938,
+        "mean_of_known": 1073.4147121535182,
+        "missing_attempts": 70,
+        "observed_total": 1006863,
+        "total_if_complete": null
+      },
+      "modelRequests": {
+        "known_attempts": 938,
+        "mean_of_known": 3.818763326226013,
+        "missing_attempts": 70,
+        "observed_total": 3582,
+        "total_if_complete": null
+      },
+      "output": {
+        "known_attempts": 938,
+        "mean_of_known": 539.9147121535182,
+        "missing_attempts": 70,
+        "observed_total": 506440,
+        "total_if_complete": null
+      },
+      "totalTokens": {
+        "known_attempts": 938,
+        "mean_of_known": 10405.34541577825,
+        "missing_attempts": 70,
+        "observed_total": 9760214,
+        "total_if_complete": null
+      }
+    },
+    "success_rate_planned": 0.5089285714285714,
+    "success_rate_started": 0.5089285714285714,
+    "terminal_states": {
+      "controller_conflict": 0,
+      "external_timeout": 73,
+      "invalid_record": 0,
+      "missing_controller": 0,
+      "missing_record": 0,
+      "not_started": 0,
+      "start_unknown": 0,
+      "success": 513,
+      "task_failure": 422,
+      "worker_error": 0
+    },
+    "unknown_cost_attempts": 1008
+  },
+  "kind": "historical_reanalysis_no_new_experiment",
+  "orphan_raw_directories": [],
+  "phases": {
+    "after": {
+      "arms": {
+        "before-terminal-fix": {
+          "cost": null,
+          "counts": {
+            "complete_records": 36,
+            "controller_results": 36,
+            "invalid_records": 0,
+            "missing_records_started": 0,
+            "not_started": 0,
+            "planned": 36,
+            "record_files": 36,
+            "start_unknown": 0,
+            "started_evidenced": 36
+          },
+          "prices_known": false,
+          "resources": {
+            "cacheRead": {
+              "known_attempts": 36,
+              "mean_of_known": 9255.111111111111,
+              "missing_attempts": 0,
+              "observed_total": 333184,
+              "total_if_complete": 333184
+            },
+            "cacheWrite": {
+              "known_attempts": 36,
+              "mean_of_known": 0,
+              "missing_attempts": 0,
+              "observed_total": 0,
+              "total_if_complete": 0
+            },
+            "cycles": {
+              "known_attempts": 36,
+              "mean_of_known": 1.0555555555555556,
+              "missing_attempts": 0,
+              "observed_total": 38,
+              "total_if_complete": 38
+            },
+            "durationMs": {
+              "known_attempts": 36,
+              "mean_of_known": 4994.354955972222,
+              "missing_attempts": 0,
+              "observed_total": 179796.778415,
+              "total_if_complete": 179796.778415
+            },
+            "input": {
+              "known_attempts": 36,
+              "mean_of_known": 1407.6944444444443,
+              "missing_attempts": 0,
+              "observed_total": 50677,
+              "total_if_complete": 50677
+            },
+            "modelRequests": {
+              "known_attempts": 36,
+              "mean_of_known": 4.111111111111111,
+              "missing_attempts": 0,
+              "observed_total": 148,
+              "total_if_complete": 148
+            },
+            "output": {
+              "known_attempts": 36,
+              "mean_of_known": 643.5,
+              "missing_attempts": 0,
+              "observed_total": 23166,
+              "total_if_complete": 23166
+            },
+            "totalTokens": {
+              "known_attempts": 36,
+              "mean_of_known": 11306.305555555555,
+              "missing_attempts": 0,
+              "observed_total": 407027,
+              "total_if_complete": 407027
+            }
+          },
+          "success_rate_planned": 0.0,
+          "success_rate_started": 0.0,
+          "terminal_states": {
+            "controller_conflict": 0,
+            "external_timeout": 0,
+            "invalid_record": 0,
+            "missing_controller": 0,
+            "missing_record": 0,
+            "not_started": 0,
+            "start_unknown": 0,
+            "success": 0,
+            "task_failure": 36,
+            "worker_error": 0
+          },
+          "unknown_cost_attempts": 36
+        },
+        "fixed-all-on": {
+          "cost": null,
+          "counts": {
+            "complete_records": 36,
+            "controller_results": 36,
+            "invalid_records": 0,
+            "missing_records_started": 0,
+            "not_started": 0,
+            "planned": 36,
+            "record_files": 36,
+            "start_unknown": 0,
+            "started_evidenced": 36
+          },
+          "prices_known": false,
+          "resources": {
+            "cacheRead": {
+              "known_attempts": 36,
+              "mean_of_known": 9347.555555555555,
+              "missing_attempts": 0,
+              "observed_total": 336512,
+              "total_if_complete": 336512
+            },
+            "cacheWrite": {
+              "known_attempts": 36,
+              "mean_of_known": 0,
+              "missing_attempts": 0,
+              "observed_total": 0,
+              "total_if_complete": 0
+            },
+            "cycles": {
+              "known_attempts": 36,
+              "mean_of_known": 1.0277777777777777,
+              "missing_attempts": 0,
+              "observed_total": 37,
+              "total_if_complete": 37
+            },
+            "durationMs": {
+              "known_attempts": 36,
+              "mean_of_known": 4883.363350694444,
+              "missing_attempts": 0,
+              "observed_total": 175801.080625,
+              "total_if_complete": 175801.080625
+            },
+            "input": {
+              "known_attempts": 36,
+              "mean_of_known": 1387.111111111111,
+              "missing_attempts": 0,
+              "observed_total": 49936,
+              "total_if_complete": 49936
+            },
+            "modelRequests": {
+              "known_attempts": 36,
+              "mean_of_known": 4.138888888888889,
+              "missing_attempts": 0,
+              "observed_total": 149,
+              "total_if_complete": 149
+            },
+            "output": {
+              "known_attempts": 36,
+              "mean_of_known": 640.4166666666666,
+              "missing_attempts": 0,
+              "observed_total": 23055,
+              "total_if_complete": 23055
+            },
+            "totalTokens": {
+              "known_attempts": 36,
+              "mean_of_known": 11375.083333333334,
+              "missing_attempts": 0,
+              "observed_total": 409503,
+              "total_if_complete": 409503
+            }
+          },
+          "success_rate_planned": 1.0,
+          "success_rate_started": 1.0,
+          "terminal_states": {
+            "controller_conflict": 0,
+            "external_timeout": 0,
+            "invalid_record": 0,
+            "missing_controller": 0,
+            "missing_record": 0,
+            "not_started": 0,
+            "start_unknown": 0,
+            "success": 36,
+            "task_failure": 0,
+            "worker_error": 0
+          },
+          "unknown_cost_attempts": 36
+        }
+      },
+      "budget_limited": false,
+      "completion_file": true,
+      "controller_finished": 72,
+      "controller_reported_tokens": 816530,
+      "controller_reserved_requests": 297,
+      "cost": null,
+      "counts": {
+        "complete_records": 72,
+        "controller_results": 72,
+        "invalid_records": 0,
+        "missing_records_started": 0,
+        "not_started": 0,
+        "planned": 72,
+        "record_files": 72,
+        "start_unknown": 0,
+        "started_evidenced": 72
+      },
+      "prices_known": false,
+      "resources": {
+        "cacheRead": {
+          "known_attempts": 72,
+          "mean_of_known": 9301.333333333334,
+          "missing_attempts": 0,
+          "observed_total": 669696,
+          "total_if_complete": 669696
+        },
+        "cacheWrite": {
+          "known_attempts": 72,
+          "mean_of_known": 0,
+          "missing_attempts": 0,
+          "observed_total": 0,
+          "total_if_complete": 0
+        },
+        "cycles": {
+          "known_attempts": 72,
+          "mean_of_known": 1.0416666666666667,
+          "missing_attempts": 0,
+          "observed_total": 75,
+          "total_if_complete": 75
+        },
+        "durationMs": {
+          "known_attempts": 72,
+          "mean_of_known": 4938.859153333334,
+          "missing_attempts": 0,
+          "observed_total": 355597.85904,
+          "total_if_complete": 355597.85904
+        },
+        "input": {
+          "known_attempts": 72,
+          "mean_of_known": 1397.4027777777778,
+          "missing_attempts": 0,
+          "observed_total": 100613,
+          "total_if_complete": 100613
+        },
+        "modelRequests": {
+          "known_attempts": 72,
+          "mean_of_known": 4.125,
+          "missing_attempts": 0,
+          "observed_total": 297,
+          "total_if_complete": 297
+        },
+        "output": {
+          "known_attempts": 72,
+          "mean_of_known": 641.9583333333334,
+          "missing_attempts": 0,
+          "observed_total": 46221,
+          "total_if_complete": 46221
+        },
+        "totalTokens": {
+          "known_attempts": 72,
+          "mean_of_known": 11340.694444444445,
+          "missing_attempts": 0,
+          "observed_total": 816530,
+          "total_if_complete": 816530
+        }
+      },
+      "success_rate_planned": 0.5,
+      "success_rate_started": 0.5,
+      "terminal_states": {
+        "controller_conflict": 0,
+        "external_timeout": 0,
+        "invalid_record": 0,
+        "missing_controller": 0,
+        "missing_record": 0,
+        "not_started": 0,
+        "start_unknown": 0,
+        "success": 36,
+        "task_failure": 36,
+        "worker_error": 0
+      },
+      "unknown_cost_attempts": 72
+    },
+    "matrix-docker": {
+      "arms": {
+        "old-all": {
+          "cost": null,
+          "counts": {
+            "complete_records": 36,
+            "controller_results": 36,
+            "invalid_records": 0,
+            "missing_records_started": 0,
+            "not_started": 0,
+            "planned": 36,
+            "record_files": 36,
+            "start_unknown": 0,
+            "started_evidenced": 36
+          },
+          "prices_known": false,
+          "resources": {
+            "cacheRead": {
+              "known_attempts": 36,
+              "mean_of_known": 22371.555555555555,
+              "missing_attempts": 0,
+              "observed_total": 805376,
+              "total_if_complete": 805376
+            },
+            "cacheWrite": {
+              "known_attempts": 36,
+              "mean_of_known": 0,
+              "missing_attempts": 0,
+              "observed_total": 0,
+              "total_if_complete": 0
+            },
+            "cycles": {
+              "known_attempts": 36,
+              "mean_of_known": 1,
+              "missing_attempts": 0,
+              "observed_total": 36,
+              "total_if_complete": 36
+            },
+            "durationMs": {
+              "known_attempts": 36,
+              "mean_of_known": 7136.678864583333,
+              "missing_attempts": 0,
+              "observed_total": 256920.439125,
+              "total_if_complete": 256920.439125
+            },
+            "input": {
+              "known_attempts": 36,
+              "mean_of_known": 2576.1666666666665,
+              "missing_attempts": 0,
+              "observed_total": 92742,
+              "total_if_complete": 92742
+            },
+            "modelRequests": {
+              "known_attempts": 36,
+              "mean_of_known": 6.388888888888889,
+              "missing_attempts": 0,
+              "observed_total": 230,
+              "total_if_complete": 230
+            },
+            "output": {
+              "known_attempts": 36,
+              "mean_of_known": 872.3611111111111,
+              "missing_attempts": 0,
+              "observed_total": 31405,
+              "total_if_complete": 31405
+            },
+            "totalTokens": {
+              "known_attempts": 36,
+              "mean_of_known": 25820.083333333332,
+              "missing_attempts": 0,
+              "observed_total": 929523,
+              "total_if_complete": 929523
+            }
+          },
+          "success_rate_planned": 0.0,
+          "success_rate_started": 0.0,
+          "terminal_states": {
+            "controller_conflict": 0,
+            "external_timeout": 0,
+            "invalid_record": 0,
+            "missing_controller": 0,
+            "missing_record": 0,
+            "not_started": 0,
+            "start_unknown": 0,
+            "success": 0,
+            "task_failure": 36,
+            "worker_error": 0
+          },
+          "unknown_cost_attempts": 36
+        },
+        "only-infrastructure": {
+          "cost": null,
+          "counts": {
+            "complete_records": 36,
+            "controller_results": 36,
+            "invalid_records": 0,
+            "missing_records_started": 0,
+            "not_started": 0,
+            "planned": 36,
+            "record_files": 36,
+            "start_unknown": 0,
+            "started_evidenced": 36
+          },
+          "prices_known": false,
+          "resources": {
+            "cacheRead": {
+              "known_attempts": 36,
+              "mean_of_known": 5333.333333333333,
+              "missing_attempts": 0,
+              "observed_total": 192000,
+              "total_if_complete": 192000
+            },
+            "cacheWrite": {
+              "known_attempts": 36,
+              "mean_of_known": 0,
+              "missing_attempts": 0,
+              "observed_total": 0,
+              "total_if_complete": 0
+            },
+            "cycles": {
+              "known_attempts": 36,
+              "mean_of_known": 1,
+              "missing_attempts": 0,
+              "observed_total": 36,
+              "total_if_complete": 36
+            },
+            "durationMs": {
+              "known_attempts": 36,
+              "mean_of_known": 3437.337938583333,
+              "missing_attempts": 0,
+              "observed_total": 123744.165789,
+              "total_if_complete": 123744.165789
+            },
+            "input": {
+              "known_attempts": 36,
+              "mean_of_known": 638.3333333333334,
+              "missing_attempts": 0,
+              "observed_total": 22980,
+              "total_if_complete": 22980
+            },
+            "modelRequests": {
+              "known_attempts": 36,
+              "mean_of_known": 3.0277777777777777,
+              "missing_attempts": 0,
+              "observed_total": 109,
+              "total_if_complete": 109
+            },
+            "output": {
+              "known_attempts": 36,
+              "mean_of_known": 371.55555555555554,
+              "missing_attempts": 0,
+              "observed_total": 13376,
+              "total_if_complete": 13376
+            },
+            "totalTokens": {
+              "known_attempts": 36,
+              "mean_of_known": 6343.222222222223,
+              "missing_attempts": 0,
+              "observed_total": 228356,
+              "total_if_complete": 228356
+            }
+          },
+          "success_rate_planned": 0.9722222222222222,
+          "success_rate_started": 0.9722222222222222,
+          "terminal_states": {
+            "controller_conflict": 0,
+            "external_timeout": 0,
+            "invalid_record": 0,
+            "missing_controller": 0,
+            "missing_record": 0,
+            "not_started": 0,
+            "start_unknown": 0,
+            "success": 35,
+            "task_failure": 1,
+            "worker_error": 0
+          },
+          "unknown_cost_attempts": 36
+        },
+        "without-acceptance": {
+          "cost": null,
+          "counts": {
+            "complete_records": 36,
+            "controller_results": 36,
+            "invalid_records": 0,
+            "missing_records_started": 0,
+            "not_started": 0,
+            "planned": 36,
+            "record_files": 36,
+            "start_unknown": 0,
+            "started_evidenced": 36
+          },
+          "prices_known": false,
+          "resources": {
+            "cacheRead": {
+              "known_attempts": 36,
+              "mean_of_known": 9216,
+              "missing_attempts": 0,
+              "observed_total": 331776,
+              "total_if_complete": 331776
+            },
+            "cacheWrite": {
+              "known_attempts": 36,
+              "mean_of_known": 0,
+              "missing_attempts": 0,
+              "observed_total": 0,
+              "total_if_complete": 0
+            },
+            "cycles": {
+              "known_attempts": 36,
+              "mean_of_known": 1.0277777777777777,
+              "missing_attempts": 0,
+              "observed_total": 37,
+              "total_if_complete": 37
+            },
+            "durationMs": {
+              "known_attempts": 36,
+              "mean_of_known": 4815.664061277777,
+              "missing_attempts": 0,
+              "observed_total": 173363.906206,
+              "total_if_complete": 173363.906206
+            },
+            "input": {
+              "known_attempts": 36,
+              "mean_of_known": 902.1666666666666,
+              "missing_attempts": 0,
+              "observed_total": 32478,
+              "total_if_complete": 32478
+            },
+            "modelRequests": {
+              "known_attempts": 36,
+              "mean_of_known": 3.9722222222222223,
+              "missing_attempts": 0,
+              "observed_total": 143,
+              "total_if_complete": 143
+            },
+            "output": {
+              "known_attempts": 36,
+              "mean_of_known": 626.1944444444445,
+              "missing_attempts": 0,
+              "observed_total": 22543,
+              "total_if_complete": 22543
+            },
+            "totalTokens": {
+              "known_attempts": 36,
+              "mean_of_known": 10744.361111111111,
+              "missing_attempts": 0,
+              "observed_total": 386797,
+              "total_if_complete": 386797
+            }
+          },
+          "success_rate_planned": 0.0,
+          "success_rate_started": 0.0,
+          "terminal_states": {
+            "controller_conflict": 0,
+            "external_timeout": 0,
+            "invalid_record": 0,
+            "missing_controller": 0,
+            "missing_record": 0,
+            "not_started": 0,
+            "start_unknown": 0,
+            "success": 0,
+            "task_failure": 36,
+            "worker_error": 0
+          },
+          "unknown_cost_attempts": 36
+        },
+        "without-controls": {
+          "cost": null,
+          "counts": {
+            "complete_records": 35,
+            "controller_results": 36,
+            "invalid_records": 0,
+            "missing_records_started": 1,
+            "not_started": 0,
+            "planned": 36,
+            "record_files": 35,
+            "start_unknown": 0,
+            "started_evidenced": 36
+          },
+          "prices_known": false,
+          "resources": {
+            "cacheRead": {
+              "known_attempts": 35,
+              "mean_of_known": 9402.485714285714,
+              "missing_attempts": 1,
+              "observed_total": 329087,
+              "total_if_complete": null
+            },
+            "cacheWrite": {
+              "known_attempts": 35,
+              "mean_of_known": 0,
+              "missing_attempts": 1,
+              "observed_total": 0,
+              "total_if_complete": null
+            },
+            "cycles": {
+              "known_attempts": 35,
+              "mean_of_known": 1,
+              "missing_attempts": 1,
+              "observed_total": 35,
+              "total_if_complete": null
+            },
+            "durationMs": {
+              "known_attempts": 35,
+              "mean_of_known": 4916.535188028572,
+              "missing_attempts": 1,
+              "observed_total": 172078.731581,
+              "total_if_complete": null
+            },
+            "input": {
+              "known_attempts": 35,
+              "mean_of_known": 909.3714285714286,
+              "missing_attempts": 1,
+              "observed_total": 31828,
+              "total_if_complete": null
+            },
+            "modelRequests": {
+              "known_attempts": 35,
+              "mean_of_known": 4,
+              "missing_attempts": 1,
+              "observed_total": 140,
+              "total_if_complete": null
+            },
+            "output": {
+              "known_attempts": 35,
+              "mean_of_known": 630.5428571428571,
+              "missing_attempts": 1,
+              "observed_total": 22069,
+              "total_if_complete": null
+            },
+            "totalTokens": {
+              "known_attempts": 35,
+              "mean_of_known": 10942.4,
+              "missing_attempts": 1,
+              "observed_total": 382984,
+              "total_if_complete": null
+            }
+          },
+          "success_rate_planned": 0.0,
+          "success_rate_started": 0.0,
+          "terminal_states": {
+            "controller_conflict": 0,
+            "external_timeout": 1,
+            "invalid_record": 0,
+            "missing_controller": 0,
+            "missing_record": 0,
+            "not_started": 0,
+            "start_unknown": 0,
+            "success": 0,
+            "task_failure": 35,
+            "worker_error": 0
+          },
+          "unknown_cost_attempts": 36
+        },
+        "without-feishu": {
+          "cost": null,
+          "counts": {
+            "complete_records": 35,
+            "controller_results": 36,
+            "invalid_records": 0,
+            "missing_records_started": 1,
+            "not_started": 0,
+            "planned": 36,
+            "record_files": 35,
+            "start_unknown": 0,
+            "started_evidenced": 36
+          },
+          "prices_known": false,
+          "resources": {
+            "cacheRead": {
+              "known_attempts": 35,
+              "mean_of_known": 8916.114285714286,
+              "missing_attempts": 1,
+              "observed_total": 312064,
+              "total_if_complete": null
+            },
+            "cacheWrite": {
+              "known_attempts": 35,
+              "mean_of_known": 0,
+              "missing_attempts": 1,
+              "observed_total": 0,
+              "total_if_complete": null
+            },
+            "cycles": {
+              "known_attempts": 35,
+              "mean_of_known": 1.0285714285714285,
+              "missing_attempts": 1,
+              "observed_total": 36,
+              "total_if_complete": null
+            },
+            "durationMs": {
+              "known_attempts": 35,
+              "mean_of_known": 4887.464719,
+              "missing_attempts": 1,
+              "observed_total": 171061.265165,
+              "total_if_complete": null
+            },
+            "input": {
+              "known_attempts": 35,
+              "mean_of_known": 1494.6571428571428,
+              "missing_attempts": 1,
+              "observed_total": 52313,
+              "total_if_complete": null
+            },
+            "modelRequests": {
+              "known_attempts": 35,
+              "mean_of_known": 4.057142857142857,
+              "missing_attempts": 1,
+              "observed_total": 142,
+              "total_if_complete": null
+            },
+            "output": {
+              "known_attempts": 35,
+              "mean_of_known": 639.4857142857143,
+              "missing_attempts": 1,
+              "observed_total": 22382,
+              "total_if_complete": null
+            },
+            "totalTokens": {
+              "known_attempts": 35,
+              "mean_of_known": 11050.257142857143,
+              "missing_attempts": 1,
+              "observed_total": 386759,
+              "total_if_complete": null
+            }
+          },
+          "success_rate_planned": 0.0,
+          "success_rate_started": 0.0,
+          "terminal_states": {
+            "controller_conflict": 0,
+            "external_timeout": 1,
+            "invalid_record": 0,
+            "missing_controller": 0,
+            "missing_record": 0,
+            "not_started": 0,
+            "start_unknown": 0,
+            "success": 0,
+            "task_failure": 35,
+            "worker_error": 0
+          },
+          "unknown_cost_attempts": 36
+        },
+        "without-goals": {
+          "cost": null,
+          "counts": {
+            "complete_records": 36,
+            "controller_results": 36,
+            "invalid_records": 0,
+            "missing_records_started": 0,
+            "not_started": 0,
+            "planned": 36,
+            "record_files": 36,
+            "start_unknown": 0,
+            "started_evidenced": 36
+          },
+          "prices_known": false,
+          "resources": {
+            "cacheRead": {
+              "known_attempts": 36,
+              "mean_of_known": 5290.666666666667,
+              "missing_attempts": 0,
+              "observed_total": 190464,
+              "total_if_complete": 190464
+            },
+            "cacheWrite": {
+              "known_attempts": 36,
+              "mean_of_known": 0,
+              "missing_attempts": 0,
+              "observed_total": 0,
+              "total_if_complete": 0
+            },
+            "cycles": {
+              "known_attempts": 36,
+              "mean_of_known": 1,
+              "missing_attempts": 0,
+              "observed_total": 36,
+              "total_if_complete": 36
+            },
+            "durationMs": {
+              "known_attempts": 36,
+              "mean_of_known": 3350.2991748333334,
+              "missing_attempts": 0,
+              "observed_total": 120610.770294,
+              "total_if_complete": 120610.770294
+            },
+            "input": {
+              "known_attempts": 36,
+              "mean_of_known": 615.0555555555555,
+              "missing_attempts": 0,
+              "observed_total": 22142,
+              "total_if_complete": 22142
+            },
+            "modelRequests": {
+              "known_attempts": 36,
+              "mean_of_known": 3,
+              "missing_attempts": 0,
+              "observed_total": 108,
+              "total_if_complete": 108
+            },
+            "output": {
+              "known_attempts": 36,
+              "mean_of_known": 368.0833333333333,
+              "missing_attempts": 0,
+              "observed_total": 13251,
+              "total_if_complete": 13251
+            },
+            "totalTokens": {
+              "known_attempts": 36,
+              "mean_of_known": 6273.805555555556,
+              "missing_attempts": 0,
+              "observed_total": 225857,
+              "total_if_complete": 225857
+            }
+          },
+          "success_rate_planned": 0.9722222222222222,
+          "success_rate_started": 0.9722222222222222,
+          "terminal_states": {
+            "controller_conflict": 0,
+            "external_timeout": 0,
+            "invalid_record": 0,
+            "missing_controller": 0,
+            "missing_record": 0,
+            "not_started": 0,
+            "start_unknown": 0,
+            "success": 35,
+            "task_failure": 1,
+            "worker_error": 0
+          },
+          "unknown_cost_attempts": 36
+        },
+        "without-optimization": {
+          "cost": null,
+          "counts": {
+            "complete_records": 36,
+            "controller_results": 36,
+            "invalid_records": 0,
+            "missing_records_started": 0,
+            "not_started": 0,
+            "planned": 36,
+            "record_files": 36,
+            "start_unknown": 0,
+            "started_evidenced": 36
+          },
+          "prices_known": false,
+          "resources": {
+            "cacheRead": {
+              "known_attempts": 36,
+              "mean_of_known": 9660.444444444445,
+              "missing_attempts": 0,
+              "observed_total": 347776,
+              "total_if_complete": 347776
+            },
+            "cacheWrite": {
+              "known_attempts": 36,
+              "mean_of_known": 0,
+              "missing_attempts": 0,
+              "observed_total": 0,
+              "total_if_complete": 0
+            },
+            "cycles": {
+              "known_attempts": 36,
+              "mean_of_known": 1.0277777777777777,
+              "missing_attempts": 0,
+              "observed_total": 37,
+              "total_if_complete": 37
+            },
+            "durationMs": {
+              "known_attempts": 36,
+              "mean_of_known": 4759.202987333333,
+              "missing_attempts": 0,
+              "observed_total": 171331.307544,
+              "total_if_complete": 171331.307544
+            },
+            "input": {
+              "known_attempts": 36,
+              "mean_of_known": 1012.6388888888889,
+              "missing_attempts": 0,
+              "observed_total": 36455,
+              "total_if_complete": 36455
+            },
+            "modelRequests": {
+              "known_attempts": 36,
+              "mean_of_known": 4.111111111111111,
+              "missing_attempts": 0,
+              "observed_total": 148,
+              "total_if_complete": 148
+            },
+            "output": {
+              "known_attempts": 36,
+              "mean_of_known": 643.3888888888889,
+              "missing_attempts": 0,
+              "observed_total": 23162,
+              "total_if_complete": 23162
+            },
+            "totalTokens": {
+              "known_attempts": 36,
+              "mean_of_known": 11316.472222222223,
+              "missing_attempts": 0,
+              "observed_total": 407393,
+              "total_if_complete": 407393
+            }
+          },
+          "success_rate_planned": 0.0,
+          "success_rate_started": 0.0,
+          "terminal_states": {
+            "controller_conflict": 0,
+            "external_timeout": 0,
+            "invalid_record": 0,
+            "missing_controller": 0,
+            "missing_record": 0,
+            "not_started": 0,
+            "start_unknown": 0,
+            "success": 0,
+            "task_failure": 36,
+            "worker_error": 0
+          },
+          "unknown_cost_attempts": 36
+        },
+        "without-scheduling": {
+          "cost": null,
+          "counts": {
+            "complete_records": 35,
+            "controller_results": 36,
+            "invalid_records": 0,
+            "missing_records_started": 1,
+            "not_started": 0,
+            "planned": 36,
+            "record_files": 35,
+            "start_unknown": 0,
+            "started_evidenced": 36
+          },
+          "prices_known": false,
+          "resources": {
+            "cacheRead": {
+              "known_attempts": 35,
+              "mean_of_known": 9472,
+              "missing_attempts": 1,
+              "observed_total": 331520,
+              "total_if_complete": null
+            },
+            "cacheWrite": {
+              "known_attempts": 35,
+              "mean_of_known": 0,
+              "missing_attempts": 1,
+              "observed_total": 0,
+              "total_if_complete": null
+            },
+            "cycles": {
+              "known_attempts": 35,
+              "mean_of_known": 1,
+              "missing_attempts": 1,
+              "observed_total": 35,
+              "total_if_complete": null
+            },
+            "durationMs": {
+              "known_attempts": 35,
+              "mean_of_known": 4801.336577257143,
+              "missing_attempts": 1,
+              "observed_total": 168046.780204,
+              "total_if_complete": null
+            },
+            "input": {
+              "known_attempts": 35,
+              "mean_of_known": 923.4,
+              "missing_attempts": 1,
+              "observed_total": 32319,
+              "total_if_complete": null
+            },
+            "modelRequests": {
+              "known_attempts": 35,
+              "mean_of_known": 4.0285714285714285,
+              "missing_attempts": 1,
+              "observed_total": 141,
+              "total_if_complete": null
+            },
+            "output": {
+              "known_attempts": 35,
+              "mean_of_known": 635.9714285714285,
+              "missing_attempts": 1,
+              "observed_total": 22259,
+              "total_if_complete": null
+            },
+            "totalTokens": {
+              "known_attempts": 35,
+              "mean_of_known": 11031.371428571429,
+              "missing_attempts": 1,
+              "observed_total": 386098,
+              "total_if_complete": null
+            }
+          },
+          "success_rate_planned": 0.0,
+          "success_rate_started": 0.0,
+          "terminal_states": {
+            "controller_conflict": 0,
+            "external_timeout": 1,
+            "invalid_record": 0,
+            "missing_controller": 0,
+            "missing_record": 0,
+            "not_started": 0,
+            "start_unknown": 0,
+            "success": 0,
+            "task_failure": 35,
+            "worker_error": 0
+          },
+          "unknown_cost_attempts": 36
+        }
+      },
+      "budget_limited": false,
+      "completion_file": true,
+      "controller_finished": 288,
+      "controller_reported_tokens": 3343096,
+      "controller_reserved_requests": 1167,
+      "cost": null,
+      "counts": {
+        "complete_records": 285,
+        "controller_results": 288,
+        "invalid_records": 0,
+        "missing_records_started": 3,
+        "not_started": 0,
+        "planned": 288,
+        "record_files": 285,
+        "start_unknown": 0,
+        "started_evidenced": 288
+      },
+      "prices_known": false,
+      "resources": {
+        "cacheRead": {
+          "known_attempts": 285,
+          "mean_of_known": 9965.133333333333,
+          "missing_attempts": 3,
+          "observed_total": 2840063,
+          "total_if_complete": null
+        },
+        "cacheWrite": {
+          "known_attempts": 285,
+          "mean_of_known": 0,
+          "missing_attempts": 3,
+          "observed_total": 0,
+          "total_if_complete": null
+        },
+        "cycles": {
+          "known_attempts": 285,
+          "mean_of_known": 1.0105263157894737,
+          "missing_attempts": 3,
+          "observed_total": 288,
+          "total_if_complete": null
+        },
+        "durationMs": {
+          "known_attempts": 285,
+          "mean_of_known": 4761.955669852631,
+          "missing_attempts": 3,
+          "observed_total": 1357157.365908,
+          "total_if_complete": null
+        },
+        "input": {
+          "known_attempts": 285,
+          "mean_of_known": 1134.2350877192982,
+          "missing_attempts": 3,
+          "observed_total": 323257,
+          "total_if_complete": null
+        },
+        "modelRequests": {
+          "known_attempts": 285,
+          "mean_of_known": 4.073684210526316,
+          "missing_attempts": 3,
+          "observed_total": 1161,
+          "total_if_complete": null
+        },
+        "output": {
+          "known_attempts": 285,
+          "mean_of_known": 598.0596491228071,
+          "missing_attempts": 3,
+          "observed_total": 170447,
+          "total_if_complete": null
+        },
+        "totalTokens": {
+          "known_attempts": 285,
+          "mean_of_known": 11697.428070175438,
+          "missing_attempts": 3,
+          "observed_total": 3333767,
+          "total_if_complete": null
+        }
+      },
+      "success_rate_planned": 0.24305555555555555,
+      "success_rate_started": 0.24305555555555555,
+      "terminal_states": {
+        "controller_conflict": 0,
+        "external_timeout": 3,
+        "invalid_record": 0,
+        "missing_controller": 0,
+        "missing_record": 0,
+        "not_started": 0,
+        "start_unknown": 0,
+        "success": 70,
+        "task_failure": 215,
+        "worker_error": 0
+      },
+      "unknown_cost_attempts": 288
+    },
+    "matrix-host": {
+      "arms": {
+        "only-acceptance": {
+          "cost": null,
+          "counts": {
+            "complete_records": 36,
+            "controller_results": 36,
+            "invalid_records": 0,
+            "missing_records_started": 0,
+            "not_started": 0,
+            "planned": 36,
+            "record_files": 36,
+            "start_unknown": 0,
+            "started_evidenced": 36
+          },
+          "prices_known": false,
+          "resources": {
+            "cacheRead": {
+              "known_attempts": 36,
+              "mean_of_known": 5603.555555555556,
+              "missing_attempts": 0,
+              "observed_total": 201728,
+              "total_if_complete": 201728
+            },
+            "cacheWrite": {
+              "known_attempts": 36,
+              "mean_of_known": 0,
+              "missing_attempts": 0,
+              "observed_total": 0,
+              "total_if_complete": 0
+            },
+            "cycles": {
+              "known_attempts": 36,
+              "mean_of_known": 1,
+              "missing_attempts": 0,
+              "observed_total": 36,
+              "total_if_complete": 36
+            },
+            "durationMs": {
+              "known_attempts": 36,
+              "mean_of_known": 3295.7677223333335,
+              "missing_attempts": 0,
+              "observed_total": 118647.638004,
+              "total_if_complete": 118647.638004
+            },
+            "input": {
+              "known_attempts": 36,
+              "mean_of_known": 750.8055555555555,
+              "missing_attempts": 0,
+              "observed_total": 27029,
+              "total_if_complete": 27029
+            },
+            "modelRequests": {
+              "known_attempts": 36,
+              "mean_of_known": 3.0833333333333335,
+              "missing_attempts": 0,
+              "observed_total": 111,
+              "total_if_complete": 111
+            },
+            "output": {
+              "known_attempts": 36,
+              "mean_of_known": 434.22222222222223,
+              "missing_attempts": 0,
+              "observed_total": 15632,
+              "total_if_complete": 15632
+            },
+            "totalTokens": {
+              "known_attempts": 36,
+              "mean_of_known": 6788.583333333333,
+              "missing_attempts": 0,
+              "observed_total": 244389,
+              "total_if_complete": 244389
+            }
+          },
+          "success_rate_planned": 0.8611111111111112,
+          "success_rate_started": 0.8611111111111112,
+          "terminal_states": {
+            "controller_conflict": 0,
+            "external_timeout": 0,
+            "invalid_record": 0,
+            "missing_controller": 0,
+            "missing_record": 0,
+            "not_started": 0,
+            "start_unknown": 0,
+            "success": 31,
+            "task_failure": 5,
+            "worker_error": 0
+          },
+          "unknown_cost_attempts": 36
+        },
+        "only-controls": {
+          "cost": null,
+          "counts": {
+            "complete_records": 36,
+            "controller_results": 36,
+            "invalid_records": 0,
+            "missing_records_started": 0,
+            "not_started": 0,
+            "planned": 36,
+            "record_files": 36,
+            "start_unknown": 0,
+            "started_evidenced": 36
+          },
+          "prices_known": false,
+          "resources": {
+            "cacheRead": {
+              "known_attempts": 36,
+              "mean_of_known": 5557.333333333333,
+              "missing_attempts": 0,
+              "observed_total": 200064,
+              "total_if_complete": 200064
+            },
+            "cacheWrite": {
+              "known_attempts": 36,
+              "mean_of_known": 0,
+              "missing_attempts": 0,
+              "observed_total": 0,
+              "total_if_complete": 0
+            },
+            "cycles": {
+              "known_attempts": 36,
+              "mean_of_known": 1,
+              "missing_attempts": 0,
+              "observed_total": 36,
+              "total_if_complete": 36
+            },
+            "durationMs": {
+              "known_attempts": 36,
+              "mean_of_known": 4602.132542888889,
+              "missing_attempts": 0,
+              "observed_total": 165676.771544,
+              "total_if_complete": 165676.771544
+            },
+            "input": {
+              "known_attempts": 36,
+              "mean_of_known": 744.3055555555555,
+              "missing_attempts": 0,
+              "observed_total": 26795,
+              "total_if_complete": 26795
+            },
+            "modelRequests": {
+              "known_attempts": 36,
+              "mean_of_known": 3.0833333333333335,
+              "missing_attempts": 0,
+              "observed_total": 111,
+              "total_if_complete": 111
+            },
+            "output": {
+              "known_attempts": 36,
+              "mean_of_known": 415.02777777777777,
+              "missing_attempts": 0,
+              "observed_total": 14941,
+              "total_if_complete": 14941
+            },
+            "totalTokens": {
+              "known_attempts": 36,
+              "mean_of_known": 6716.666666666667,
+              "missing_attempts": 0,
+              "observed_total": 241800,
+              "total_if_complete": 241800
+            }
+          },
+          "success_rate_planned": 0.8333333333333334,
+          "success_rate_started": 0.8333333333333334,
+          "terminal_states": {
+            "controller_conflict": 0,
+            "external_timeout": 0,
+            "invalid_record": 0,
+            "missing_controller": 0,
+            "missing_record": 0,
+            "not_started": 0,
+            "start_unknown": 0,
+            "success": 30,
+            "task_failure": 6,
+            "worker_error": 0
+          },
+          "unknown_cost_attempts": 36
+        },
+        "only-feishu": {
+          "cost": null,
+          "counts": {
+            "complete_records": 36,
+            "controller_results": 36,
+            "invalid_records": 0,
+            "missing_records_started": 0,
+            "not_started": 0,
+            "planned": 36,
+            "record_files": 36,
+            "start_unknown": 0,
+            "started_evidenced": 36
+          },
+          "prices_known": false,
+          "resources": {
+            "cacheRead": {
+              "known_attempts": 36,
+              "mean_of_known": 5315.555555555556,
+              "missing_attempts": 0,
+              "observed_total": 191360,
+              "total_if_complete": 191360
+            },
+            "cacheWrite": {
+              "known_attempts": 36,
+              "mean_of_known": 0,
+              "missing_attempts": 0,
+              "observed_total": 0,
+              "total_if_complete": 0
+            },
+            "cycles": {
+              "known_attempts": 36,
+              "mean_of_known": 1,
+              "missing_attempts": 0,
+              "observed_total": 36,
+              "total_if_complete": 36
+            },
+            "durationMs": {
+              "known_attempts": 36,
+              "mean_of_known": 4604.792261472222,
+              "missing_attempts": 0,
+              "observed_total": 165772.521413,
+              "total_if_complete": 165772.521413
+            },
+            "input": {
+              "known_attempts": 36,
+              "mean_of_known": 788.1111111111111,
+              "missing_attempts": 0,
+              "observed_total": 28372,
+              "total_if_complete": 28372
+            },
+            "modelRequests": {
+              "known_attempts": 36,
+              "mean_of_known": 3.0277777777777777,
+              "missing_attempts": 0,
+              "observed_total": 109,
+              "total_if_complete": 109
+            },
+            "output": {
+              "known_attempts": 36,
+              "mean_of_known": 402.6666666666667,
+              "missing_attempts": 0,
+              "observed_total": 14496,
+              "total_if_complete": 14496
+            },
+            "totalTokens": {
+              "known_attempts": 36,
+              "mean_of_known": 6506.333333333333,
+              "missing_attempts": 0,
+              "observed_total": 234228,
+              "total_if_complete": 234228
+            }
+          },
+          "success_rate_planned": 0.8055555555555556,
+          "success_rate_started": 0.8055555555555556,
+          "terminal_states": {
+            "controller_conflict": 0,
+            "external_timeout": 0,
+            "invalid_record": 0,
+            "missing_controller": 0,
+            "missing_record": 0,
+            "not_started": 0,
+            "start_unknown": 0,
+            "success": 29,
+            "task_failure": 7,
+            "worker_error": 0
+          },
+          "unknown_cost_attempts": 36
+        },
+        "only-goals": {
+          "cost": null,
+          "counts": {
+            "complete_records": 36,
+            "controller_results": 36,
+            "invalid_records": 0,
+            "missing_records_started": 0,
+            "not_started": 0,
+            "planned": 36,
+            "record_files": 36,
+            "start_unknown": 0,
+            "started_evidenced": 36
+          },
+          "prices_known": false,
+          "resources": {
+            "cacheRead": {
+              "known_attempts": 36,
+              "mean_of_known": 9984,
+              "missing_attempts": 0,
+              "observed_total": 359424,
+              "total_if_complete": 359424
+            },
+            "cacheWrite": {
+              "known_attempts": 36,
+              "mean_of_known": 0,
+              "missing_attempts": 0,
+              "observed_total": 0,
+              "total_if_complete": 0
+            },
+            "cycles": {
+              "known_attempts": 36,
+              "mean_of_known": 1.3888888888888888,
+              "missing_attempts": 0,
+              "observed_total": 50,
+              "total_if_complete": 50
+            },
+            "durationMs": {
+              "known_attempts": 36,
+              "mean_of_known": 5224.619407388889,
+              "missing_attempts": 0,
+              "observed_total": 188086.298666,
+              "total_if_complete": 188086.298666
+            },
+            "input": {
+              "known_attempts": 36,
+              "mean_of_known": 2121.3333333333335,
+              "missing_attempts": 0,
+              "observed_total": 76368,
+              "total_if_complete": 76368
+            },
+            "modelRequests": {
+              "known_attempts": 36,
+              "mean_of_known": 4.777777777777778,
+              "missing_attempts": 0,
+              "observed_total": 172,
+              "total_if_complete": 172
+            },
+            "output": {
+              "known_attempts": 36,
+              "mean_of_known": 745.0277777777778,
+              "missing_attempts": 0,
+              "observed_total": 26821,
+              "total_if_complete": 26821
+            },
+            "totalTokens": {
+              "known_attempts": 36,
+              "mean_of_known": 12850.361111111111,
+              "missing_attempts": 0,
+              "observed_total": 462613,
+              "total_if_complete": 462613
+            }
+          },
+          "success_rate_planned": 0.0,
+          "success_rate_started": 0.0,
+          "terminal_states": {
+            "controller_conflict": 0,
+            "external_timeout": 0,
+            "invalid_record": 0,
+            "missing_controller": 0,
+            "missing_record": 0,
+            "not_started": 0,
+            "start_unknown": 0,
+            "success": 0,
+            "task_failure": 36,
+            "worker_error": 0
+          },
+          "unknown_cost_attempts": 36
+        },
+        "only-optimization": {
+          "cost": null,
+          "counts": {
+            "complete_records": 36,
+            "controller_results": 36,
+            "invalid_records": 0,
+            "missing_records_started": 0,
+            "not_started": 0,
+            "planned": 36,
+            "record_files": 36,
+            "start_unknown": 0,
+            "started_evidenced": 36
+          },
+          "prices_known": false,
+          "resources": {
+            "cacheRead": {
+              "known_attempts": 36,
+              "mean_of_known": 5283.555555555556,
+              "missing_attempts": 0,
+              "observed_total": 190208,
+              "total_if_complete": 190208
+            },
+            "cacheWrite": {
+              "known_attempts": 36,
+              "mean_of_known": 0,
+              "missing_attempts": 0,
+              "observed_total": 0,
+              "total_if_complete": 0
+            },
+            "cycles": {
+              "known_attempts": 36,
+              "mean_of_known": 1,
+              "missing_attempts": 0,
+              "observed_total": 36,
+              "total_if_complete": 36
+            },
+            "durationMs": {
+              "known_attempts": 36,
+              "mean_of_known": 3569.739681611111,
+              "missing_attempts": 0,
+              "observed_total": 128510.628538,
+              "total_if_complete": 128510.628538
+            },
+            "input": {
+              "known_attempts": 36,
+              "mean_of_known": 694.6944444444445,
+              "missing_attempts": 0,
+              "observed_total": 25009,
+              "total_if_complete": 25009
+            },
+            "modelRequests": {
+              "known_attempts": 36,
+              "mean_of_known": 2.9722222222222223,
+              "missing_attempts": 0,
+              "observed_total": 107,
+              "total_if_complete": 107
+            },
+            "output": {
+              "known_attempts": 36,
+              "mean_of_known": 406.44444444444446,
+              "missing_attempts": 0,
+              "observed_total": 14632,
+              "total_if_complete": 14632
+            },
+            "totalTokens": {
+              "known_attempts": 36,
+              "mean_of_known": 6384.694444444444,
+              "missing_attempts": 0,
+              "observed_total": 229849,
+              "total_if_complete": 229849
+            }
+          },
+          "success_rate_planned": 0.8333333333333334,
+          "success_rate_started": 0.8333333333333334,
+          "terminal_states": {
+            "controller_conflict": 0,
+            "external_timeout": 0,
+            "invalid_record": 0,
+            "missing_controller": 0,
+            "missing_record": 0,
+            "not_started": 0,
+            "start_unknown": 0,
+            "success": 30,
+            "task_failure": 6,
+            "worker_error": 0
+          },
+          "unknown_cost_attempts": 36
+        },
+        "only-scheduling": {
+          "cost": null,
+          "counts": {
+            "complete_records": 36,
+            "controller_results": 36,
+            "invalid_records": 0,
+            "missing_records_started": 0,
+            "not_started": 0,
+            "planned": 36,
+            "record_files": 36,
+            "start_unknown": 0,
+            "started_evidenced": 36
+          },
+          "prices_known": false,
+          "resources": {
+            "cacheRead": {
+              "known_attempts": 36,
+              "mean_of_known": 5294.222222222223,
+              "missing_attempts": 0,
+              "observed_total": 190592,
+              "total_if_complete": 190592
+            },
+            "cacheWrite": {
+              "known_attempts": 36,
+              "mean_of_known": 0,
+              "missing_attempts": 0,
+              "observed_total": 0,
+              "total_if_complete": 0
+            },
+            "cycles": {
+              "known_attempts": 36,
+              "mean_of_known": 1,
+              "missing_attempts": 0,
+              "observed_total": 36,
+              "total_if_complete": 36
+            },
+            "durationMs": {
+              "known_attempts": 36,
+              "mean_of_known": 4317.349405111111,
+              "missing_attempts": 0,
+              "observed_total": 155424.578584,
+              "total_if_complete": 155424.578584
+            },
+            "input": {
+              "known_attempts": 36,
+              "mean_of_known": 674.3055555555555,
+              "missing_attempts": 0,
+              "observed_total": 24275,
+              "total_if_complete": 24275
+            },
+            "modelRequests": {
+              "known_attempts": 36,
+              "mean_of_known": 2.9444444444444446,
+              "missing_attempts": 0,
+              "observed_total": 106,
+              "total_if_complete": 106
+            },
+            "output": {
+              "known_attempts": 36,
+              "mean_of_known": 401.80555555555554,
+              "missing_attempts": 0,
+              "observed_total": 14465,
+              "total_if_complete": 14465
+            },
+            "totalTokens": {
+              "known_attempts": 36,
+              "mean_of_known": 6370.333333333333,
+              "missing_attempts": 0,
+              "observed_total": 229332,
+              "total_if_complete": 229332
+            }
+          },
+          "success_rate_planned": 0.8611111111111112,
+          "success_rate_started": 0.8611111111111112,
+          "terminal_states": {
+            "controller_conflict": 0,
+            "external_timeout": 0,
+            "invalid_record": 0,
+            "missing_controller": 0,
+            "missing_record": 0,
+            "not_started": 0,
+            "start_unknown": 0,
+            "success": 31,
+            "task_failure": 5,
+            "worker_error": 0
+          },
+          "unknown_cost_attempts": 36
+        },
+        "without-infrastructure": {
+          "cost": null,
+          "counts": {
+            "complete_records": 35,
+            "controller_results": 36,
+            "invalid_records": 0,
+            "missing_records_started": 1,
+            "not_started": 0,
+            "planned": 36,
+            "record_files": 35,
+            "start_unknown": 0,
+            "started_evidenced": 36
+          },
+          "prices_known": false,
+          "resources": {
+            "cacheRead": {
+              "known_attempts": 35,
+              "mean_of_known": 10894.628571428571,
+              "missing_attempts": 1,
+              "observed_total": 381312,
+              "total_if_complete": null
+            },
+            "cacheWrite": {
+              "known_attempts": 35,
+              "mean_of_known": 0,
+              "missing_attempts": 1,
+              "observed_total": 0,
+              "total_if_complete": null
+            },
+            "cycles": {
+              "known_attempts": 35,
+              "mean_of_known": 1.2571428571428571,
+              "missing_attempts": 1,
+              "observed_total": 44,
+              "total_if_complete": null
+            },
+            "durationMs": {
+              "known_attempts": 35,
+              "mean_of_known": 9958.671511857143,
+              "missing_attempts": 1,
+              "observed_total": 348553.502915,
+              "total_if_complete": null
+            },
+            "input": {
+              "known_attempts": 35,
+              "mean_of_known": 2113.457142857143,
+              "missing_attempts": 1,
+              "observed_total": 73971,
+              "total_if_complete": null
+            },
+            "modelRequests": {
+              "known_attempts": 35,
+              "mean_of_known": 4.942857142857143,
+              "missing_attempts": 1,
+              "observed_total": 173,
+              "total_if_complete": null
+            },
+            "output": {
+              "known_attempts": 35,
+              "mean_of_known": 736.7714285714286,
+              "missing_attempts": 1,
+              "observed_total": 25787,
+              "total_if_complete": null
+            },
+            "totalTokens": {
+              "known_attempts": 35,
+              "mean_of_known": 13744.857142857143,
+              "missing_attempts": 1,
+              "observed_total": 481070,
+              "total_if_complete": null
+            }
+          },
+          "success_rate_planned": 0.0,
+          "success_rate_started": 0.0,
+          "terminal_states": {
+            "controller_conflict": 0,
+            "external_timeout": 1,
+            "invalid_record": 0,
+            "missing_controller": 0,
+            "missing_record": 0,
+            "not_started": 0,
+            "start_unknown": 0,
+            "success": 0,
+            "task_failure": 35,
+            "worker_error": 0
+          },
+          "unknown_cost_attempts": 36
+        }
+      },
+      "budget_limited": false,
+      "completion_file": true,
+      "controller_finished": 252,
+      "controller_reported_tokens": 2128214,
+      "controller_reserved_requests": 891,
+      "cost": null,
+      "counts": {
+        "complete_records": 251,
+        "controller_results": 252,
+        "invalid_records": 0,
+        "missing_records_started": 1,
+        "not_started": 0,
+        "planned": 252,
+        "record_files": 251,
+        "start_unknown": 0,
+        "started_evidenced": 252
+      },
+      "prices_known": false,
+      "resources": {
+        "cacheRead": {
+          "known_attempts": 251,
+          "mean_of_known": 6831.426294820717,
+          "missing_attempts": 1,
+          "observed_total": 1714688,
+          "total_if_complete": null
+        },
+        "cacheWrite": {
+          "known_attempts": 251,
+          "mean_of_known": 0,
+          "missing_attempts": 1,
+          "observed_total": 0,
+          "total_if_complete": null
+        },
+        "cycles": {
+          "known_attempts": 251,
+          "mean_of_known": 1.091633466135458,
+          "missing_attempts": 1,
+          "observed_total": 274,
+          "total_if_complete": null
+        },
+        "durationMs": {
+          "known_attempts": 251,
+          "mean_of_known": 5062.438006629482,
+          "missing_attempts": 1,
+          "observed_total": 1270671.939664,
+          "total_if_complete": null
+        },
+        "input": {
+          "known_attempts": 251,
+          "mean_of_known": 1122.784860557769,
+          "missing_attempts": 1,
+          "observed_total": 281819,
+          "total_if_complete": null
+        },
+        "modelRequests": {
+          "known_attempts": 251,
+          "mean_of_known": 3.541832669322709,
+          "missing_attempts": 1,
+          "observed_total": 889,
+          "total_if_complete": null
+        },
+        "output": {
+          "known_attempts": 251,
+          "mean_of_known": 505.0756972111554,
+          "missing_attempts": 1,
+          "observed_total": 126774,
+          "total_if_complete": null
+        },
+        "totalTokens": {
+          "known_attempts": 251,
+          "mean_of_known": 8459.286852589641,
+          "missing_attempts": 1,
+          "observed_total": 2123281,
+          "total_if_complete": null
+        }
+      },
+      "success_rate_planned": 0.5992063492063492,
+      "success_rate_started": 0.5992063492063492,
+      "terminal_states": {
+        "controller_conflict": 0,
+        "external_timeout": 1,
+        "invalid_record": 0,
+        "missing_controller": 0,
+        "missing_record": 0,
+        "not_started": 0,
+        "start_unknown": 0,
+        "success": 151,
+        "task_failure": 100,
+        "worker_error": 0
+      },
+      "unknown_cost_attempts": 252
+    },
+    "noise": {
+      "arms": {
+        "all-off": {
+          "cost": null,
+          "counts": {
+            "complete_records": 60,
+            "controller_results": 60,
+            "invalid_records": 0,
+            "missing_records_started": 0,
+            "not_started": 0,
+            "planned": 60,
+            "record_files": 60,
+            "start_unknown": 0,
+            "started_evidenced": 60
+          },
+          "prices_known": false,
+          "resources": {
+            "cacheRead": {
+              "known_attempts": 60,
+              "mean_of_known": 6397.866666666667,
+              "missing_attempts": 0,
+              "observed_total": 383872,
+              "total_if_complete": 383872
+            },
+            "cacheWrite": {
+              "known_attempts": 60,
+              "mean_of_known": 0,
+              "missing_attempts": 0,
+              "observed_total": 0,
+              "total_if_complete": 0
+            },
+            "cycles": {
+              "known_attempts": 60,
+              "mean_of_known": 1,
+              "missing_attempts": 0,
+              "observed_total": 60,
+              "total_if_complete": 60
+            },
+            "durationMs": {
+              "known_attempts": 60,
+              "mean_of_known": 4018.1630542,
+              "missing_attempts": 0,
+              "observed_total": 241089.783252,
+              "total_if_complete": 241089.783252
+            },
+            "input": {
+              "known_attempts": 60,
+              "mean_of_known": 857.2333333333333,
+              "missing_attempts": 0,
+              "observed_total": 51434,
+              "total_if_complete": 51434
+            },
+            "modelRequests": {
+              "known_attempts": 60,
+              "mean_of_known": 3.3833333333333333,
+              "missing_attempts": 0,
+              "observed_total": 203,
+              "total_if_complete": 203
+            },
+            "output": {
+              "known_attempts": 60,
+              "mean_of_known": 485.96666666666664,
+              "missing_attempts": 0,
+              "observed_total": 29158,
+              "total_if_complete": 29158
+            },
+            "totalTokens": {
+              "known_attempts": 60,
+              "mean_of_known": 7741.066666666667,
+              "missing_attempts": 0,
+              "observed_total": 464464,
+              "total_if_complete": 464464
+            }
+          },
+          "success_rate_planned": 0.9666666666666667,
+          "success_rate_started": 0.9666666666666667,
+          "terminal_states": {
+            "controller_conflict": 0,
+            "external_timeout": 0,
+            "invalid_record": 0,
+            "missing_controller": 0,
+            "missing_record": 0,
+            "not_started": 0,
+            "start_unknown": 0,
+            "success": 58,
+            "task_failure": 2,
+            "worker_error": 0
+          },
+          "unknown_cost_attempts": 60
+        },
+        "upstream": {
+          "cost": null,
+          "counts": {
+            "complete_records": 60,
+            "controller_results": 60,
+            "invalid_records": 0,
+            "missing_records_started": 0,
+            "not_started": 0,
+            "planned": 60,
+            "record_files": 60,
+            "start_unknown": 0,
+            "started_evidenced": 60
+          },
+          "prices_known": false,
+          "resources": {
+            "cacheRead": {
+              "known_attempts": 60,
+              "mean_of_known": 15788.8,
+              "missing_attempts": 0,
+              "observed_total": 947328,
+              "total_if_complete": 947328
+            },
+            "cacheWrite": {
+              "known_attempts": 60,
+              "mean_of_known": 0,
+              "missing_attempts": 0,
+              "observed_total": 0,
+              "total_if_complete": 0
+            },
+            "cycles": {
+              "known_attempts": 60,
+              "mean_of_known": 1,
+              "missing_attempts": 0,
+              "observed_total": 60,
+              "total_if_complete": 60
+            },
+            "durationMs": {
+              "known_attempts": 60,
+              "mean_of_known": 5886.885978483333,
+              "missing_attempts": 0,
+              "observed_total": 353213.158709,
+              "total_if_complete": 353213.158709
+            },
+            "input": {
+              "known_attempts": 60,
+              "mean_of_known": 1205.5666666666666,
+              "missing_attempts": 0,
+              "observed_total": 72334,
+              "total_if_complete": 72334
+            },
+            "modelRequests": {
+              "known_attempts": 60,
+              "mean_of_known": 5.233333333333333,
+              "missing_attempts": 0,
+              "observed_total": 314,
+              "total_if_complete": 314
+            },
+            "output": {
+              "known_attempts": 60,
+              "mean_of_known": 589.8666666666667,
+              "missing_attempts": 0,
+              "observed_total": 35392,
+              "total_if_complete": 35392
+            },
+            "totalTokens": {
+              "known_attempts": 60,
+              "mean_of_known": 17584.233333333334,
+              "missing_attempts": 0,
+              "observed_total": 1055054,
+              "total_if_complete": 1055054
+            }
+          },
+          "success_rate_planned": 0.016666666666666666,
+          "success_rate_started": 0.016666666666666666,
+          "terminal_states": {
+            "controller_conflict": 0,
+            "external_timeout": 0,
+            "invalid_record": 0,
+            "missing_controller": 0,
+            "missing_record": 0,
+            "not_started": 0,
+            "start_unknown": 0,
+            "success": 1,
+            "task_failure": 59,
+            "worker_error": 0
+          },
+          "unknown_cost_attempts": 60
+        }
+      },
+      "budget_limited": false,
+      "completion_file": true,
+      "controller_finished": 120,
+      "controller_reported_tokens": 1519518,
+      "controller_reserved_requests": 517,
+      "cost": null,
+      "counts": {
+        "complete_records": 120,
+        "controller_results": 120,
+        "invalid_records": 0,
+        "missing_records_started": 0,
+        "not_started": 0,
+        "planned": 120,
+        "record_files": 120,
+        "start_unknown": 0,
+        "started_evidenced": 120
+      },
+      "prices_known": false,
+      "resources": {
+        "cacheRead": {
+          "known_attempts": 120,
+          "mean_of_known": 11093.333333333334,
+          "missing_attempts": 0,
+          "observed_total": 1331200,
+          "total_if_complete": 1331200
+        },
+        "cacheWrite": {
+          "known_attempts": 120,
+          "mean_of_known": 0,
+          "missing_attempts": 0,
+          "observed_total": 0,
+          "total_if_complete": 0
+        },
+        "cycles": {
+          "known_attempts": 120,
+          "mean_of_known": 1,
+          "missing_attempts": 0,
+          "observed_total": 120,
+          "total_if_complete": 120
+        },
+        "durationMs": {
+          "known_attempts": 120,
+          "mean_of_known": 4952.524516341667,
+          "missing_attempts": 0,
+          "observed_total": 594302.941961,
+          "total_if_complete": 594302.941961
+        },
+        "input": {
+          "known_attempts": 120,
+          "mean_of_known": 1031.4,
+          "missing_attempts": 0,
+          "observed_total": 123768,
+          "total_if_complete": 123768
+        },
+        "modelRequests": {
+          "known_attempts": 120,
+          "mean_of_known": 4.308333333333334,
+          "missing_attempts": 0,
+          "observed_total": 517,
+          "total_if_complete": 517
+        },
+        "output": {
+          "known_attempts": 120,
+          "mean_of_known": 537.9166666666666,
+          "missing_attempts": 0,
+          "observed_total": 64550,
+          "total_if_complete": 64550
+        },
+        "totalTokens": {
+          "known_attempts": 120,
+          "mean_of_known": 12662.65,
+          "missing_attempts": 0,
+          "observed_total": 1519518,
+          "total_if_complete": 1519518
+        }
+      },
+      "success_rate_planned": 0.49166666666666664,
+      "success_rate_started": 0.49166666666666664,
+      "terminal_states": {
+        "controller_conflict": 0,
+        "external_timeout": 0,
+        "invalid_record": 0,
+        "missing_controller": 0,
+        "missing_record": 0,
+        "not_started": 0,
+        "start_unknown": 0,
+        "success": 59,
+        "task_failure": 61,
+        "worker_error": 0
+      },
+      "unknown_cost_attempts": 120
+    },
+    "noise-host": {
+      "arms": {
+        "upstream-host": {
+          "cost": null,
+          "counts": {
+            "complete_records": 60,
+            "controller_results": 60,
+            "invalid_records": 0,
+            "missing_records_started": 0,
+            "not_started": 0,
+            "planned": 60,
+            "record_files": 60,
+            "start_unknown": 0,
+            "started_evidenced": 60
+          },
+          "prices_known": false,
+          "resources": {
+            "cacheRead": {
+              "known_attempts": 60,
+              "mean_of_known": 11080.533333333333,
+              "missing_attempts": 0,
+              "observed_total": 664832,
+              "total_if_complete": 664832
+            },
+            "cacheWrite": {
+              "known_attempts": 60,
+              "mean_of_known": 0,
+              "missing_attempts": 0,
+              "observed_total": 0,
+              "total_if_complete": 0
+            },
+            "cycles": {
+              "known_attempts": 60,
+              "mean_of_known": 1,
+              "missing_attempts": 0,
+              "observed_total": 60,
+              "total_if_complete": 60
+            },
+            "durationMs": {
+              "known_attempts": 60,
+              "mean_of_known": 3632.7799610833335,
+              "missing_attempts": 0,
+              "observed_total": 217966.797665,
+              "total_if_complete": 217966.797665
+            },
+            "input": {
+              "known_attempts": 60,
+              "mean_of_known": 988.3333333333334,
+              "missing_attempts": 0,
+              "observed_total": 59300,
+              "total_if_complete": 59300
+            },
+            "modelRequests": {
+              "known_attempts": 60,
+              "mean_of_known": 3.5833333333333335,
+              "missing_attempts": 0,
+              "observed_total": 215,
+              "total_if_complete": 215
+            },
+            "output": {
+              "known_attempts": 60,
+              "mean_of_known": 510.96666666666664,
+              "missing_attempts": 0,
+              "observed_total": 30658,
+              "total_if_complete": 30658
+            },
+            "totalTokens": {
+              "known_attempts": 60,
+              "mean_of_known": 12579.833333333334,
+              "missing_attempts": 0,
+              "observed_total": 754790,
+              "total_if_complete": 754790
+            }
+          },
+          "success_rate_planned": 0.8333333333333334,
+          "success_rate_started": 0.8333333333333334,
+          "terminal_states": {
+            "controller_conflict": 0,
+            "external_timeout": 0,
+            "invalid_record": 0,
+            "missing_controller": 0,
+            "missing_record": 0,
+            "not_started": 0,
+            "start_unknown": 0,
+            "success": 50,
+            "task_failure": 10,
+            "worker_error": 0
+          },
+          "unknown_cost_attempts": 60
+        }
+      },
+      "budget_limited": false,
+      "completion_file": true,
+      "controller_finished": 60,
+      "controller_reported_tokens": 754790,
+      "controller_reserved_requests": 215,
+      "cost": null,
+      "counts": {
+        "complete_records": 60,
+        "controller_results": 60,
+        "invalid_records": 0,
+        "missing_records_started": 0,
+        "not_started": 0,
+        "planned": 60,
+        "record_files": 60,
+        "start_unknown": 0,
+        "started_evidenced": 60
+      },
+      "prices_known": false,
+      "resources": {
+        "cacheRead": {
+          "known_attempts": 60,
+          "mean_of_known": 11080.533333333333,
+          "missing_attempts": 0,
+          "observed_total": 664832,
+          "total_if_complete": 664832
+        },
+        "cacheWrite": {
+          "known_attempts": 60,
+          "mean_of_known": 0,
+          "missing_attempts": 0,
+          "observed_total": 0,
+          "total_if_complete": 0
+        },
+        "cycles": {
+          "known_attempts": 60,
+          "mean_of_known": 1,
+          "missing_attempts": 0,
+          "observed_total": 60,
+          "total_if_complete": 60
+        },
+        "durationMs": {
+          "known_attempts": 60,
+          "mean_of_known": 3632.7799610833335,
+          "missing_attempts": 0,
+          "observed_total": 217966.797665,
+          "total_if_complete": 217966.797665
+        },
+        "input": {
+          "known_attempts": 60,
+          "mean_of_known": 988.3333333333334,
+          "missing_attempts": 0,
+          "observed_total": 59300,
+          "total_if_complete": 59300
+        },
+        "modelRequests": {
+          "known_attempts": 60,
+          "mean_of_known": 3.5833333333333335,
+          "missing_attempts": 0,
+          "observed_total": 215,
+          "total_if_complete": 215
+        },
+        "output": {
+          "known_attempts": 60,
+          "mean_of_known": 510.96666666666664,
+          "missing_attempts": 0,
+          "observed_total": 30658,
+          "total_if_complete": 30658
+        },
+        "totalTokens": {
+          "known_attempts": 60,
+          "mean_of_known": 12579.833333333334,
+          "missing_attempts": 0,
+          "observed_total": 754790,
+          "total_if_complete": 754790
+        }
+      },
+      "success_rate_planned": 0.8333333333333334,
+      "success_rate_started": 0.8333333333333334,
+      "terminal_states": {
+        "controller_conflict": 0,
+        "external_timeout": 0,
+        "invalid_record": 0,
+        "missing_controller": 0,
+        "missing_record": 0,
+        "not_started": 0,
+        "start_unknown": 0,
+        "success": 50,
+        "task_failure": 10,
+        "worker_error": 0
+      },
+      "unknown_cost_attempts": 60
+    },
+    "ordinary": {
+      "arms": {
+        "final-goal-lean": {
+          "cost": null,
+          "counts": {
+            "complete_records": 9,
+            "controller_results": 36,
+            "invalid_records": 0,
+            "missing_records_started": 27,
+            "not_started": 0,
+            "planned": 36,
+            "record_files": 9,
+            "start_unknown": 0,
+            "started_evidenced": 36
+          },
+          "prices_known": false,
+          "resources": {
+            "cacheRead": {
+              "known_attempts": 9,
+              "mean_of_known": 9443.555555555555,
+              "missing_attempts": 27,
+              "observed_total": 84992,
+              "total_if_complete": null
+            },
+            "cacheWrite": {
+              "known_attempts": 9,
+              "mean_of_known": 0,
+              "missing_attempts": 27,
+              "observed_total": 0,
+              "total_if_complete": null
+            },
+            "cycles": {
+              "known_attempts": 9,
+              "mean_of_known": 1.2222222222222223,
+              "missing_attempts": 27,
+              "observed_total": 11,
+              "total_if_complete": null
+            },
+            "durationMs": {
+              "known_attempts": 9,
+              "mean_of_known": 26283.690958444447,
+              "missing_attempts": 27,
+              "observed_total": 236553.21862600002,
+              "total_if_complete": null
+            },
+            "input": {
+              "known_attempts": 9,
+              "mean_of_known": 1594.4444444444443,
+              "missing_attempts": 27,
+              "observed_total": 14350,
+              "total_if_complete": null
+            },
+            "modelRequests": {
+              "known_attempts": 9,
+              "mean_of_known": 4.444444444444445,
+              "missing_attempts": 27,
+              "observed_total": 40,
+              "total_if_complete": null
+            },
+            "output": {
+              "known_attempts": 9,
+              "mean_of_known": 669.1111111111111,
+              "missing_attempts": 27,
+              "observed_total": 6022,
+              "total_if_complete": null
+            },
+            "totalTokens": {
+              "known_attempts": 9,
+              "mean_of_known": 11707.111111111111,
+              "missing_attempts": 27,
+              "observed_total": 105364,
+              "total_if_complete": null
+            }
+          },
+          "success_rate_planned": 0.25,
+          "success_rate_started": 0.25,
+          "terminal_states": {
+            "controller_conflict": 0,
+            "external_timeout": 27,
+            "invalid_record": 0,
+            "missing_controller": 0,
+            "missing_record": 0,
+            "not_started": 0,
+            "start_unknown": 0,
+            "success": 9,
+            "task_failure": 0,
+            "worker_error": 0
+          },
+          "unknown_cost_attempts": 36
+        },
+        "ordinary-before": {
+          "cost": null,
+          "counts": {
+            "complete_records": 15,
+            "controller_results": 36,
+            "invalid_records": 0,
+            "missing_records_started": 21,
+            "not_started": 0,
+            "planned": 36,
+            "record_files": 15,
+            "start_unknown": 0,
+            "started_evidenced": 36
+          },
+          "prices_known": false,
+          "resources": {
+            "cacheRead": {
+              "known_attempts": 15,
+              "mean_of_known": 5674.666666666667,
+              "missing_attempts": 21,
+              "observed_total": 85120,
+              "total_if_complete": null
+            },
+            "cacheWrite": {
+              "known_attempts": 15,
+              "mean_of_known": 0,
+              "missing_attempts": 21,
+              "observed_total": 0,
+              "total_if_complete": null
+            },
+            "cycles": {
+              "known_attempts": 15,
+              "mean_of_known": 1,
+              "missing_attempts": 21,
+              "observed_total": 15,
+              "total_if_complete": null
+            },
+            "durationMs": {
+              "known_attempts": 15,
+              "mean_of_known": 74054.80156960001,
+              "missing_attempts": 21,
+              "observed_total": 1110822.023544,
+              "total_if_complete": null
+            },
+            "input": {
+              "known_attempts": 15,
+              "mean_of_known": 714.4666666666667,
+              "missing_attempts": 21,
+              "observed_total": 10717,
+              "total_if_complete": null
+            },
+            "modelRequests": {
+              "known_attempts": 15,
+              "mean_of_known": 2.8666666666666667,
+              "missing_attempts": 21,
+              "observed_total": 43,
+              "total_if_complete": null
+            },
+            "output": {
+              "known_attempts": 15,
+              "mean_of_known": 360.3333333333333,
+              "missing_attempts": 21,
+              "observed_total": 5405,
+              "total_if_complete": null
+            },
+            "totalTokens": {
+              "known_attempts": 15,
+              "mean_of_known": 6749.466666666666,
+              "missing_attempts": 21,
+              "observed_total": 101242,
+              "total_if_complete": null
+            }
+          },
+          "success_rate_planned": 0.3888888888888889,
+          "success_rate_started": 0.3888888888888889,
+          "terminal_states": {
+            "controller_conflict": 0,
+            "external_timeout": 22,
+            "invalid_record": 0,
+            "missing_controller": 0,
+            "missing_record": 0,
+            "not_started": 0,
+            "start_unknown": 0,
+            "success": 14,
+            "task_failure": 0,
+            "worker_error": 0
+          },
+          "unknown_cost_attempts": 36
+        },
+        "ordinary-lean": {
+          "cost": null,
+          "counts": {
+            "complete_records": 18,
+            "controller_results": 36,
+            "invalid_records": 0,
+            "missing_records_started": 18,
+            "not_started": 0,
+            "planned": 36,
+            "record_files": 18,
+            "start_unknown": 0,
+            "started_evidenced": 36
+          },
+          "prices_known": false,
+          "resources": {
+            "cacheRead": {
+              "known_attempts": 18,
+              "mean_of_known": 5120,
+              "missing_attempts": 18,
+              "observed_total": 92160,
+              "total_if_complete": null
+            },
+            "cacheWrite": {
+              "known_attempts": 18,
+              "mean_of_known": 0,
+              "missing_attempts": 18,
+              "observed_total": 0,
+              "total_if_complete": null
+            },
+            "cycles": {
+              "known_attempts": 18,
+              "mean_of_known": 1,
+              "missing_attempts": 18,
+              "observed_total": 18,
+              "total_if_complete": null
+            },
+            "durationMs": {
+              "known_attempts": 18,
+              "mean_of_known": 62342.69360877777,
+              "missing_attempts": 18,
+              "observed_total": 1122168.484958,
+              "total_if_complete": null
+            },
+            "input": {
+              "known_attempts": 18,
+              "mean_of_known": 559.1111111111111,
+              "missing_attempts": 18,
+              "observed_total": 10064,
+              "total_if_complete": null
+            },
+            "modelRequests": {
+              "known_attempts": 18,
+              "mean_of_known": 2.888888888888889,
+              "missing_attempts": 18,
+              "observed_total": 52,
+              "total_if_complete": null
+            },
+            "output": {
+              "known_attempts": 18,
+              "mean_of_known": 356.94444444444446,
+              "missing_attempts": 18,
+              "observed_total": 6425,
+              "total_if_complete": null
+            },
+            "totalTokens": {
+              "known_attempts": 18,
+              "mean_of_known": 6036.055555555556,
+              "missing_attempts": 18,
+              "observed_total": 108649,
+              "total_if_complete": null
+            }
+          },
+          "success_rate_planned": 0.4444444444444444,
+          "success_rate_started": 0.4444444444444444,
+          "terminal_states": {
+            "controller_conflict": 0,
+            "external_timeout": 20,
+            "invalid_record": 0,
+            "missing_controller": 0,
+            "missing_record": 0,
+            "not_started": 0,
+            "start_unknown": 0,
+            "success": 16,
+            "task_failure": 0,
+            "worker_error": 0
+          },
+          "unknown_cost_attempts": 36
+        }
+      },
+      "budget_limited": false,
+      "completion_file": true,
+      "controller_finished": 108,
+      "controller_reported_tokens": 501799,
+      "controller_reserved_requests": 263,
+      "cost": null,
+      "counts": {
+        "complete_records": 42,
+        "controller_results": 108,
+        "invalid_records": 0,
+        "missing_records_started": 66,
+        "not_started": 0,
+        "planned": 108,
+        "record_files": 42,
+        "start_unknown": 0,
+        "started_evidenced": 108
+      },
+      "prices_known": false,
+      "resources": {
+        "cacheRead": {
+          "known_attempts": 42,
+          "mean_of_known": 6244.571428571428,
+          "missing_attempts": 66,
+          "observed_total": 262272,
+          "total_if_complete": null
+        },
+        "cacheWrite": {
+          "known_attempts": 42,
+          "mean_of_known": 0,
+          "missing_attempts": 66,
+          "observed_total": 0,
+          "total_if_complete": null
+        },
+        "cycles": {
+          "known_attempts": 42,
+          "mean_of_known": 1.0476190476190477,
+          "missing_attempts": 66,
+          "observed_total": 44,
+          "total_if_complete": null
+        },
+        "durationMs": {
+          "known_attempts": 42,
+          "mean_of_known": 58798.66016971428,
+          "missing_attempts": 66,
+          "observed_total": 2469543.727128,
+          "total_if_complete": null
+        },
+        "input": {
+          "known_attempts": 42,
+          "mean_of_known": 836.452380952381,
+          "missing_attempts": 66,
+          "observed_total": 35131,
+          "total_if_complete": null
+        },
+        "modelRequests": {
+          "known_attempts": 42,
+          "mean_of_known": 3.2142857142857144,
+          "missing_attempts": 66,
+          "observed_total": 135,
+          "total_if_complete": null
+        },
+        "output": {
+          "known_attempts": 42,
+          "mean_of_known": 425.04761904761904,
+          "missing_attempts": 66,
+          "observed_total": 17852,
+          "total_if_complete": null
+        },
+        "totalTokens": {
+          "known_attempts": 42,
+          "mean_of_known": 7506.071428571428,
+          "missing_attempts": 66,
+          "observed_total": 315255,
+          "total_if_complete": null
+        }
+      },
+      "success_rate_planned": 0.3611111111111111,
+      "success_rate_started": 0.3611111111111111,
+      "terminal_states": {
+        "controller_conflict": 0,
+        "external_timeout": 69,
+        "invalid_record": 0,
+        "missing_controller": 0,
+        "missing_record": 0,
+        "not_started": 0,
+        "start_unknown": 0,
+        "success": 39,
+        "task_failure": 0,
+        "worker_error": 0
+      },
+      "unknown_cost_attempts": 108
+    },
+    "ordinary-replication": {
+      "arms": {
+        "final-goal-lean": {
+          "cost": null,
+          "counts": {
+            "complete_records": 36,
+            "controller_results": 36,
+            "invalid_records": 0,
+            "missing_records_started": 0,
+            "not_started": 0,
+            "planned": 36,
+            "record_files": 36,
+            "start_unknown": 0,
+            "started_evidenced": 36
+          },
+          "prices_known": false,
+          "resources": {
+            "cacheRead": {
+              "known_attempts": 36,
+              "mean_of_known": 9628.444444444445,
+              "missing_attempts": 0,
+              "observed_total": 346624,
+              "total_if_complete": 346624
+            },
+            "cacheWrite": {
+              "known_attempts": 36,
+              "mean_of_known": 0,
+              "missing_attempts": 0,
+              "observed_total": 0,
+              "total_if_complete": 0
+            },
+            "cycles": {
+              "known_attempts": 36,
+              "mean_of_known": 1.0277777777777777,
+              "missing_attempts": 0,
+              "observed_total": 37,
+              "total_if_complete": 37
+            },
+            "durationMs": {
+              "known_attempts": 36,
+              "mean_of_known": 4060.022249972222,
+              "missing_attempts": 0,
+              "observed_total": 146160.800999,
+              "total_if_complete": 146160.800999
+            },
+            "input": {
+              "known_attempts": 36,
+              "mean_of_known": 989.8888888888889,
+              "missing_attempts": 0,
+              "observed_total": 35636,
+              "total_if_complete": 35636
+            },
+            "modelRequests": {
+              "known_attempts": 36,
+              "mean_of_known": 4.111111111111111,
+              "missing_attempts": 0,
+              "observed_total": 148,
+              "total_if_complete": 148
+            },
+            "output": {
+              "known_attempts": 36,
+              "mean_of_known": 632.1666666666666,
+              "missing_attempts": 0,
+              "observed_total": 22758,
+              "total_if_complete": 22758
+            },
+            "totalTokens": {
+              "known_attempts": 36,
+              "mean_of_known": 11250.5,
+              "missing_attempts": 0,
+              "observed_total": 405018,
+              "total_if_complete": 405018
+            }
+          },
+          "success_rate_planned": 1.0,
+          "success_rate_started": 1.0,
+          "terminal_states": {
+            "controller_conflict": 0,
+            "external_timeout": 0,
+            "invalid_record": 0,
+            "missing_controller": 0,
+            "missing_record": 0,
+            "not_started": 0,
+            "start_unknown": 0,
+            "success": 36,
+            "task_failure": 0,
+            "worker_error": 0
+          },
+          "unknown_cost_attempts": 36
+        },
+        "ordinary-before": {
+          "cost": null,
+          "counts": {
+            "complete_records": 36,
+            "controller_results": 36,
+            "invalid_records": 0,
+            "missing_records_started": 0,
+            "not_started": 0,
+            "planned": 36,
+            "record_files": 36,
+            "start_unknown": 0,
+            "started_evidenced": 36
+          },
+          "prices_known": false,
+          "resources": {
+            "cacheRead": {
+              "known_attempts": 36,
+              "mean_of_known": 6129.777777777777,
+              "missing_attempts": 0,
+              "observed_total": 220672,
+              "total_if_complete": 220672
+            },
+            "cacheWrite": {
+              "known_attempts": 36,
+              "mean_of_known": 0,
+              "missing_attempts": 0,
+              "observed_total": 0,
+              "total_if_complete": 0
+            },
+            "cycles": {
+              "known_attempts": 36,
+              "mean_of_known": 1,
+              "missing_attempts": 0,
+              "observed_total": 36,
+              "total_if_complete": 36
+            },
+            "durationMs": {
+              "known_attempts": 36,
+              "mean_of_known": 2881.760314861111,
+              "missing_attempts": 0,
+              "observed_total": 103743.371335,
+              "total_if_complete": 103743.371335
+            },
+            "input": {
+              "known_attempts": 36,
+              "mean_of_known": 708.9166666666666,
+              "missing_attempts": 0,
+              "observed_total": 25521,
+              "total_if_complete": 25521
+            },
+            "modelRequests": {
+              "known_attempts": 36,
+              "mean_of_known": 3.0555555555555554,
+              "missing_attempts": 0,
+              "observed_total": 110,
+              "total_if_complete": 110
+            },
+            "output": {
+              "known_attempts": 36,
+              "mean_of_known": 378.5,
+              "missing_attempts": 0,
+              "observed_total": 13626,
+              "total_if_complete": 13626
+            },
+            "totalTokens": {
+              "known_attempts": 36,
+              "mean_of_known": 7217.194444444444,
+              "missing_attempts": 0,
+              "observed_total": 259819,
+              "total_if_complete": 259819
+            }
+          },
+          "success_rate_planned": 1.0,
+          "success_rate_started": 1.0,
+          "terminal_states": {
+            "controller_conflict": 0,
+            "external_timeout": 0,
+            "invalid_record": 0,
+            "missing_controller": 0,
+            "missing_record": 0,
+            "not_started": 0,
+            "start_unknown": 0,
+            "success": 36,
+            "task_failure": 0,
+            "worker_error": 0
+          },
+          "unknown_cost_attempts": 36
+        },
+        "ordinary-lean": {
+          "cost": null,
+          "counts": {
+            "complete_records": 36,
+            "controller_results": 36,
+            "invalid_records": 0,
+            "missing_records_started": 0,
+            "not_started": 0,
+            "planned": 36,
+            "record_files": 36,
+            "start_unknown": 0,
+            "started_evidenced": 36
+          },
+          "prices_known": false,
+          "resources": {
+            "cacheRead": {
+              "known_attempts": 36,
+              "mean_of_known": 5468.444444444444,
+              "missing_attempts": 0,
+              "observed_total": 196864,
+              "total_if_complete": 196864
+            },
+            "cacheWrite": {
+              "known_attempts": 36,
+              "mean_of_known": 0,
+              "missing_attempts": 0,
+              "observed_total": 0,
+              "total_if_complete": 0
+            },
+            "cycles": {
+              "known_attempts": 36,
+              "mean_of_known": 1,
+              "missing_attempts": 0,
+              "observed_total": 36,
+              "total_if_complete": 36
+            },
+            "durationMs": {
+              "known_attempts": 36,
+              "mean_of_known": 2890.6375392777777,
+              "missing_attempts": 0,
+              "observed_total": 104062.951414,
+              "total_if_complete": 104062.951414
+            },
+            "input": {
+              "known_attempts": 36,
+              "mean_of_known": 606.0555555555555,
+              "missing_attempts": 0,
+              "observed_total": 21818,
+              "total_if_complete": 21818
+            },
+            "modelRequests": {
+              "known_attempts": 36,
+              "mean_of_known": 3.0555555555555554,
+              "missing_attempts": 0,
+              "observed_total": 110,
+              "total_if_complete": 110
+            },
+            "output": {
+              "known_attempts": 36,
+              "mean_of_known": 376.5,
+              "missing_attempts": 0,
+              "observed_total": 13554,
+              "total_if_complete": 13554
+            },
+            "totalTokens": {
+              "known_attempts": 36,
+              "mean_of_known": 6451,
+              "missing_attempts": 0,
+              "observed_total": 232236,
+              "total_if_complete": 232236
+            }
+          },
+          "success_rate_planned": 1.0,
+          "success_rate_started": 1.0,
+          "terminal_states": {
+            "controller_conflict": 0,
+            "external_timeout": 0,
+            "invalid_record": 0,
+            "missing_controller": 0,
+            "missing_record": 0,
+            "not_started": 0,
+            "start_unknown": 0,
+            "success": 36,
+            "task_failure": 0,
+            "worker_error": 0
+          },
+          "unknown_cost_attempts": 36
+        }
+      },
+      "budget_limited": false,
+      "completion_file": true,
+      "controller_finished": 108,
+      "controller_reported_tokens": 897073,
+      "controller_reserved_requests": 368,
+      "cost": null,
+      "counts": {
+        "complete_records": 108,
+        "controller_results": 108,
+        "invalid_records": 0,
+        "missing_records_started": 0,
+        "not_started": 0,
+        "planned": 108,
+        "record_files": 108,
+        "start_unknown": 0,
+        "started_evidenced": 108
+      },
+      "prices_known": false,
+      "resources": {
+        "cacheRead": {
+          "known_attempts": 108,
+          "mean_of_known": 7075.555555555556,
+          "missing_attempts": 0,
+          "observed_total": 764160,
+          "total_if_complete": 764160
+        },
+        "cacheWrite": {
+          "known_attempts": 108,
+          "mean_of_known": 0,
+          "missing_attempts": 0,
+          "observed_total": 0,
+          "total_if_complete": 0
+        },
+        "cycles": {
+          "known_attempts": 108,
+          "mean_of_known": 1.0092592592592593,
+          "missing_attempts": 0,
+          "observed_total": 109,
+          "total_if_complete": 109
+        },
+        "durationMs": {
+          "known_attempts": 108,
+          "mean_of_known": 3277.473368037037,
+          "missing_attempts": 0,
+          "observed_total": 353967.123748,
+          "total_if_complete": 353967.123748
+        },
+        "input": {
+          "known_attempts": 108,
+          "mean_of_known": 768.2870370370371,
+          "missing_attempts": 0,
+          "observed_total": 82975,
+          "total_if_complete": 82975
+        },
+        "modelRequests": {
+          "known_attempts": 108,
+          "mean_of_known": 3.4074074074074074,
+          "missing_attempts": 0,
+          "observed_total": 368,
+          "total_if_complete": 368
+        },
+        "output": {
+          "known_attempts": 108,
+          "mean_of_known": 462.3888888888889,
+          "missing_attempts": 0,
+          "observed_total": 49938,
+          "total_if_complete": 49938
+        },
+        "totalTokens": {
+          "known_attempts": 108,
+          "mean_of_known": 8306.231481481482,
+          "missing_attempts": 0,
+          "observed_total": 897073,
+          "total_if_complete": 897073
+        }
+      },
+      "success_rate_planned": 1.0,
+      "success_rate_started": 1.0,
+      "terminal_states": {
+        "controller_conflict": 0,
+        "external_timeout": 0,
+        "invalid_record": 0,
+        "missing_controller": 0,
+        "missing_record": 0,
+        "not_started": 0,
+        "start_unknown": 0,
+        "success": 108,
+        "task_failure": 0,
+        "worker_error": 0
+      },
+      "unknown_cost_attempts": 108
+    },
+    "pilot": {
+      "arms": {
+        "pilot-current": {
+          "cost": null,
+          "counts": {
+            "complete_records": 1,
+            "controller_results": 1,
+            "invalid_records": 0,
+            "missing_records_started": 0,
+            "not_started": 0,
+            "planned": 1,
+            "record_files": 1,
+            "start_unknown": 0,
+            "started_evidenced": 1
+          },
+          "prices_known": false,
+          "resources": {
+            "cacheRead": {
+              "known_attempts": 1,
+              "mean_of_known": 7424,
+              "missing_attempts": 0,
+              "observed_total": 7424,
+              "total_if_complete": 7424
+            },
+            "cacheWrite": {
+              "known_attempts": 1,
+              "mean_of_known": 0,
+              "missing_attempts": 0,
+              "observed_total": 0,
+              "total_if_complete": 0
+            },
+            "cycles": {
+              "known_attempts": 1,
+              "mean_of_known": 1,
+              "missing_attempts": 0,
+              "observed_total": 1,
+              "total_if_complete": 1
+            },
+            "durationMs": {
+              "known_attempts": 1,
+              "mean_of_known": 6225.295083999999,
+              "missing_attempts": 0,
+              "observed_total": 6225.295083999999,
+              "total_if_complete": 6225.295083999999
+            },
+            "input": {
+              "known_attempts": 1,
+              "mean_of_known": 2794,
+              "missing_attempts": 0,
+              "observed_total": 2794,
+              "total_if_complete": 2794
+            },
+            "modelRequests": {
+              "known_attempts": 1,
+              "mean_of_known": 4,
+              "missing_attempts": 0,
+              "observed_total": 4,
+              "total_if_complete": 4
+            },
+            "output": {
+              "known_attempts": 1,
+              "mean_of_known": 646,
+              "missing_attempts": 0,
+              "observed_total": 646,
+              "total_if_complete": 646
+            },
+            "totalTokens": {
+              "known_attempts": 1,
+              "mean_of_known": 10864,
+              "missing_attempts": 0,
+              "observed_total": 10864,
+              "total_if_complete": 10864
+            }
+          },
+          "success_rate_planned": 0.0,
+          "success_rate_started": 0.0,
+          "terminal_states": {
+            "controller_conflict": 0,
+            "external_timeout": 0,
+            "invalid_record": 0,
+            "missing_controller": 0,
+            "missing_record": 0,
+            "not_started": 0,
+            "start_unknown": 0,
+            "success": 0,
+            "task_failure": 1,
+            "worker_error": 0
+          },
+          "unknown_cost_attempts": 1
+        },
+        "pilot-old": {
+          "cost": null,
+          "counts": {
+            "complete_records": 1,
+            "controller_results": 1,
+            "invalid_records": 0,
+            "missing_records_started": 0,
+            "not_started": 0,
+            "planned": 1,
+            "record_files": 1,
+            "start_unknown": 0,
+            "started_evidenced": 1
+          },
+          "prices_known": false,
+          "resources": {
+            "cacheRead": {
+              "known_attempts": 1,
+              "mean_of_known": 13440,
+              "missing_attempts": 0,
+              "observed_total": 13440,
+              "total_if_complete": 13440
+            },
+            "cacheWrite": {
+              "known_attempts": 1,
+              "mean_of_known": 0,
+              "missing_attempts": 0,
+              "observed_total": 0,
+              "total_if_complete": 0
+            },
+            "cycles": {
+              "known_attempts": 1,
+              "mean_of_known": 1,
+              "missing_attempts": 0,
+              "observed_total": 1,
+              "total_if_complete": 1
+            },
+            "durationMs": {
+              "known_attempts": 1,
+              "mean_of_known": 6607.542208,
+              "missing_attempts": 0,
+              "observed_total": 6607.542208,
+              "total_if_complete": 6607.542208
+            },
+            "input": {
+              "known_attempts": 1,
+              "mean_of_known": 3898,
+              "missing_attempts": 0,
+              "observed_total": 3898,
+              "total_if_complete": 3898
+            },
+            "modelRequests": {
+              "known_attempts": 1,
+              "mean_of_known": 5,
+              "missing_attempts": 0,
+              "observed_total": 5,
+              "total_if_complete": 5
+            },
+            "output": {
+              "known_attempts": 1,
+              "mean_of_known": 612,
+              "missing_attempts": 0,
+              "observed_total": 612,
+              "total_if_complete": 612
+            },
+            "totalTokens": {
+              "known_attempts": 1,
+              "mean_of_known": 17950,
+              "missing_attempts": 0,
+              "observed_total": 17950,
+              "total_if_complete": 17950
+            }
+          },
+          "success_rate_planned": 0.0,
+          "success_rate_started": 0.0,
+          "terminal_states": {
+            "controller_conflict": 0,
+            "external_timeout": 0,
+            "invalid_record": 0,
+            "missing_controller": 0,
+            "missing_record": 0,
+            "not_started": 0,
+            "start_unknown": 0,
+            "success": 0,
+            "task_failure": 1,
+            "worker_error": 0
+          },
+          "unknown_cost_attempts": 1
+        },
+        "pilot-upstream": {
+          "cost": null,
+          "counts": {
+            "complete_records": 0,
+            "controller_results": 1,
+            "invalid_records": 0,
+            "missing_records_started": 1,
+            "not_started": 0,
+            "planned": 1,
+            "record_files": 0,
+            "start_unknown": 0,
+            "started_evidenced": 1
+          },
+          "prices_known": false,
+          "resources": {
+            "cacheRead": {
+              "known_attempts": 0,
+              "mean_of_known": null,
+              "missing_attempts": 1,
+              "observed_total": null,
+              "total_if_complete": null
+            },
+            "cacheWrite": {
+              "known_attempts": 0,
+              "mean_of_known": null,
+              "missing_attempts": 1,
+              "observed_total": null,
+              "total_if_complete": null
+            },
+            "cycles": {
+              "known_attempts": 0,
+              "mean_of_known": null,
+              "missing_attempts": 1,
+              "observed_total": null,
+              "total_if_complete": null
+            },
+            "durationMs": {
+              "known_attempts": 0,
+              "mean_of_known": null,
+              "missing_attempts": 1,
+              "observed_total": null,
+              "total_if_complete": null
+            },
+            "input": {
+              "known_attempts": 0,
+              "mean_of_known": null,
+              "missing_attempts": 1,
+              "observed_total": null,
+              "total_if_complete": null
+            },
+            "modelRequests": {
+              "known_attempts": 0,
+              "mean_of_known": null,
+              "missing_attempts": 1,
+              "observed_total": null,
+              "total_if_complete": null
+            },
+            "output": {
+              "known_attempts": 0,
+              "mean_of_known": null,
+              "missing_attempts": 1,
+              "observed_total": null,
+              "total_if_complete": null
+            },
+            "totalTokens": {
+              "known_attempts": 0,
+              "mean_of_known": null,
+              "missing_attempts": 1,
+              "observed_total": null,
+              "total_if_complete": null
+            }
+          },
+          "success_rate_planned": 0.0,
+          "success_rate_started": 0.0,
+          "terminal_states": {
+            "controller_conflict": 0,
+            "external_timeout": 0,
+            "invalid_record": 0,
+            "missing_controller": 0,
+            "missing_record": 0,
+            "not_started": 0,
+            "start_unknown": 0,
+            "success": 0,
+            "task_failure": 0,
+            "worker_error": 1
+          },
+          "unknown_cost_attempts": 1
+        }
+      },
+      "budget_limited": false,
+      "completion_file": true,
+      "controller_finished": 3,
+      "controller_reported_tokens": 28814,
+      "controller_reserved_requests": 9,
+      "cost": null,
+      "counts": {
+        "complete_records": 2,
+        "controller_results": 3,
+        "invalid_records": 0,
+        "missing_records_started": 1,
+        "not_started": 0,
+        "planned": 3,
+        "record_files": 2,
+        "start_unknown": 0,
+        "started_evidenced": 3
+      },
+      "prices_known": false,
+      "resources": {
+        "cacheRead": {
+          "known_attempts": 2,
+          "mean_of_known": 10432,
+          "missing_attempts": 1,
+          "observed_total": 20864,
+          "total_if_complete": null
+        },
+        "cacheWrite": {
+          "known_attempts": 2,
+          "mean_of_known": 0,
+          "missing_attempts": 1,
+          "observed_total": 0,
+          "total_if_complete": null
+        },
+        "cycles": {
+          "known_attempts": 2,
+          "mean_of_known": 1,
+          "missing_attempts": 1,
+          "observed_total": 2,
+          "total_if_complete": null
+        },
+        "durationMs": {
+          "known_attempts": 2,
+          "mean_of_known": 6416.418646,
+          "missing_attempts": 1,
+          "observed_total": 12832.837292,
+          "total_if_complete": null
+        },
+        "input": {
+          "known_attempts": 2,
+          "mean_of_known": 3346,
+          "missing_attempts": 1,
+          "observed_total": 6692,
+          "total_if_complete": null
+        },
+        "modelRequests": {
+          "known_attempts": 2,
+          "mean_of_known": 4.5,
+          "missing_attempts": 1,
+          "observed_total": 9,
+          "total_if_complete": null
+        },
+        "output": {
+          "known_attempts": 2,
+          "mean_of_known": 629,
+          "missing_attempts": 1,
+          "observed_total": 1258,
+          "total_if_complete": null
+        },
+        "totalTokens": {
+          "known_attempts": 2,
+          "mean_of_known": 14407,
+          "missing_attempts": 1,
+          "observed_total": 28814,
+          "total_if_complete": null
+        }
+      },
+      "success_rate_planned": 0.0,
+      "success_rate_started": 0.0,
+      "terminal_states": {
+        "controller_conflict": 0,
+        "external_timeout": 0,
+        "invalid_record": 0,
+        "missing_controller": 0,
+        "missing_record": 0,
+        "not_started": 0,
+        "start_unknown": 0,
+        "success": 0,
+        "task_failure": 2,
+        "worker_error": 1
+      },
+      "unknown_cost_attempts": 3
+    },
+    "pilot2": {
+      "arms": {
+        "pilot-current": {
+          "cost": null,
+          "counts": {
+            "complete_records": 1,
+            "controller_results": 1,
+            "invalid_records": 0,
+            "missing_records_started": 0,
+            "not_started": 0,
+            "planned": 1,
+            "record_files": 1,
+            "start_unknown": 0,
+            "started_evidenced": 1
+          },
+          "prices_known": false,
+          "resources": {
+            "cacheRead": {
+              "known_attempts": 1,
+              "mean_of_known": 9344,
+              "missing_attempts": 0,
+              "observed_total": 9344,
+              "total_if_complete": 9344
+            },
+            "cacheWrite": {
+              "known_attempts": 1,
+              "mean_of_known": 0,
+              "missing_attempts": 0,
+              "observed_total": 0,
+              "total_if_complete": 0
+            },
+            "cycles": {
+              "known_attempts": 1,
+              "mean_of_known": 1,
+              "missing_attempts": 0,
+              "observed_total": 1,
+              "total_if_complete": 1
+            },
+            "durationMs": {
+              "known_attempts": 1,
+              "mean_of_known": 4231.823083,
+              "missing_attempts": 0,
+              "observed_total": 4231.823083,
+              "total_if_complete": 4231.823083
+            },
+            "input": {
+              "known_attempts": 1,
+              "mean_of_known": 856,
+              "missing_attempts": 0,
+              "observed_total": 856,
+              "total_if_complete": 856
+            },
+            "modelRequests": {
+              "known_attempts": 1,
+              "mean_of_known": 4,
+              "missing_attempts": 0,
+              "observed_total": 4,
+              "total_if_complete": 4
+            },
+            "output": {
+              "known_attempts": 1,
+              "mean_of_known": 656,
+              "missing_attempts": 0,
+              "observed_total": 656,
+              "total_if_complete": 656
+            },
+            "totalTokens": {
+              "known_attempts": 1,
+              "mean_of_known": 10856,
+              "missing_attempts": 0,
+              "observed_total": 10856,
+              "total_if_complete": 10856
+            }
+          },
+          "success_rate_planned": 0.0,
+          "success_rate_started": 0.0,
+          "terminal_states": {
+            "controller_conflict": 0,
+            "external_timeout": 0,
+            "invalid_record": 0,
+            "missing_controller": 0,
+            "missing_record": 0,
+            "not_started": 0,
+            "start_unknown": 0,
+            "success": 0,
+            "task_failure": 1,
+            "worker_error": 0
+          },
+          "unknown_cost_attempts": 1
+        },
+        "pilot-old": {
+          "cost": null,
+          "counts": {
+            "complete_records": 1,
+            "controller_results": 1,
+            "invalid_records": 0,
+            "missing_records_started": 0,
+            "not_started": 0,
+            "planned": 1,
+            "record_files": 1,
+            "start_unknown": 0,
+            "started_evidenced": 1
+          },
+          "prices_known": false,
+          "resources": {
+            "cacheRead": {
+              "known_attempts": 1,
+              "mean_of_known": 20224,
+              "missing_attempts": 0,
+              "observed_total": 20224,
+              "total_if_complete": 20224
+            },
+            "cacheWrite": {
+              "known_attempts": 1,
+              "mean_of_known": 0,
+              "missing_attempts": 0,
+              "observed_total": 0,
+              "total_if_complete": 0
+            },
+            "cycles": {
+              "known_attempts": 1,
+              "mean_of_known": 1,
+              "missing_attempts": 0,
+              "observed_total": 1,
+              "total_if_complete": 1
+            },
+            "durationMs": {
+              "known_attempts": 1,
+              "mean_of_known": 6947.3501670000005,
+              "missing_attempts": 0,
+              "observed_total": 6947.3501670000005,
+              "total_if_complete": 6947.3501670000005
+            },
+            "input": {
+              "known_attempts": 1,
+              "mean_of_known": 2753,
+              "missing_attempts": 0,
+              "observed_total": 2753,
+              "total_if_complete": 2753
+            },
+            "modelRequests": {
+              "known_attempts": 1,
+              "mean_of_known": 6,
+              "missing_attempts": 0,
+              "observed_total": 6,
+              "total_if_complete": 6
+            },
+            "output": {
+              "known_attempts": 1,
+              "mean_of_known": 833,
+              "missing_attempts": 0,
+              "observed_total": 833,
+              "total_if_complete": 833
+            },
+            "totalTokens": {
+              "known_attempts": 1,
+              "mean_of_known": 23810,
+              "missing_attempts": 0,
+              "observed_total": 23810,
+              "total_if_complete": 23810
+            }
+          },
+          "success_rate_planned": 0.0,
+          "success_rate_started": 0.0,
+          "terminal_states": {
+            "controller_conflict": 0,
+            "external_timeout": 0,
+            "invalid_record": 0,
+            "missing_controller": 0,
+            "missing_record": 0,
+            "not_started": 0,
+            "start_unknown": 0,
+            "success": 0,
+            "task_failure": 1,
+            "worker_error": 0
+          },
+          "unknown_cost_attempts": 1
+        },
+        "pilot-upstream": {
+          "cost": null,
+          "counts": {
+            "complete_records": 1,
+            "controller_results": 1,
+            "invalid_records": 0,
+            "missing_records_started": 0,
+            "not_started": 0,
+            "planned": 1,
+            "record_files": 1,
+            "start_unknown": 0,
+            "started_evidenced": 1
+          },
+          "prices_known": false,
+          "resources": {
+            "cacheRead": {
+              "known_attempts": 1,
+              "mean_of_known": 12416,
+              "missing_attempts": 0,
+              "observed_total": 12416,
+              "total_if_complete": 12416
+            },
+            "cacheWrite": {
+              "known_attempts": 1,
+              "mean_of_known": 0,
+              "missing_attempts": 0,
+              "observed_total": 0,
+              "total_if_complete": 0
+            },
+            "cycles": {
+              "known_attempts": 1,
+              "mean_of_known": 1,
+              "missing_attempts": 0,
+              "observed_total": 1,
+              "total_if_complete": 1
+            },
+            "durationMs": {
+              "known_attempts": 1,
+              "mean_of_known": 5873.7315419999995,
+              "missing_attempts": 0,
+              "observed_total": 5873.7315419999995,
+              "total_if_complete": 5873.7315419999995
+            },
+            "input": {
+              "known_attempts": 1,
+              "mean_of_known": 3644,
+              "missing_attempts": 0,
+              "observed_total": 3644,
+              "total_if_complete": 3644
+            },
+            "modelRequests": {
+              "known_attempts": 1,
+              "mean_of_known": 5,
+              "missing_attempts": 0,
+              "observed_total": 5,
+              "total_if_complete": 5
+            },
+            "output": {
+              "known_attempts": 1,
+              "mean_of_known": 564,
+              "missing_attempts": 0,
+              "observed_total": 564,
+              "total_if_complete": 564
+            },
+            "totalTokens": {
+              "known_attempts": 1,
+              "mean_of_known": 16624,
+              "missing_attempts": 0,
+              "observed_total": 16624,
+              "total_if_complete": 16624
+            }
+          },
+          "success_rate_planned": 0.0,
+          "success_rate_started": 0.0,
+          "terminal_states": {
+            "controller_conflict": 0,
+            "external_timeout": 0,
+            "invalid_record": 0,
+            "missing_controller": 0,
+            "missing_record": 0,
+            "not_started": 0,
+            "start_unknown": 0,
+            "success": 0,
+            "task_failure": 1,
+            "worker_error": 0
+          },
+          "unknown_cost_attempts": 1
+        }
+      },
+      "budget_limited": false,
+      "completion_file": true,
+      "controller_finished": 3,
+      "controller_reported_tokens": 51290,
+      "controller_reserved_requests": 15,
+      "cost": null,
+      "counts": {
+        "complete_records": 3,
+        "controller_results": 3,
+        "invalid_records": 0,
+        "missing_records_started": 0,
+        "not_started": 0,
+        "planned": 3,
+        "record_files": 3,
+        "start_unknown": 0,
+        "started_evidenced": 3
+      },
+      "prices_known": false,
+      "resources": {
+        "cacheRead": {
+          "known_attempts": 3,
+          "mean_of_known": 13994.666666666666,
+          "missing_attempts": 0,
+          "observed_total": 41984,
+          "total_if_complete": 41984
+        },
+        "cacheWrite": {
+          "known_attempts": 3,
+          "mean_of_known": 0,
+          "missing_attempts": 0,
+          "observed_total": 0,
+          "total_if_complete": 0
+        },
+        "cycles": {
+          "known_attempts": 3,
+          "mean_of_known": 1,
+          "missing_attempts": 0,
+          "observed_total": 3,
+          "total_if_complete": 3
+        },
+        "durationMs": {
+          "known_attempts": 3,
+          "mean_of_known": 5684.301597333333,
+          "missing_attempts": 0,
+          "observed_total": 17052.904792,
+          "total_if_complete": 17052.904792
+        },
+        "input": {
+          "known_attempts": 3,
+          "mean_of_known": 2417.6666666666665,
+          "missing_attempts": 0,
+          "observed_total": 7253,
+          "total_if_complete": 7253
+        },
+        "modelRequests": {
+          "known_attempts": 3,
+          "mean_of_known": 5,
+          "missing_attempts": 0,
+          "observed_total": 15,
+          "total_if_complete": 15
+        },
+        "output": {
+          "known_attempts": 3,
+          "mean_of_known": 684.3333333333334,
+          "missing_attempts": 0,
+          "observed_total": 2053,
+          "total_if_complete": 2053
+        },
+        "totalTokens": {
+          "known_attempts": 3,
+          "mean_of_known": 17096.666666666668,
+          "missing_attempts": 0,
+          "observed_total": 51290,
+          "total_if_complete": 51290
+        }
+      },
+      "success_rate_planned": 0.0,
+      "success_rate_started": 0.0,
+      "terminal_states": {
+        "controller_conflict": 0,
+        "external_timeout": 0,
+        "invalid_record": 0,
+        "missing_controller": 0,
+        "missing_record": 0,
+        "not_started": 0,
+        "start_unknown": 0,
+        "success": 0,
+        "task_failure": 3,
+        "worker_error": 0
+      },
+      "unknown_cost_attempts": 3
+    }
+  },
+  "pilots": {
+    "cost": null,
+    "counts": {
+      "complete_records": 5,
+      "controller_results": 6,
+      "invalid_records": 0,
+      "missing_records_started": 1,
+      "not_started": 0,
+      "planned": 6,
+      "record_files": 5,
+      "start_unknown": 0,
+      "started_evidenced": 6
+    },
+    "prices_known": false,
+    "resources": {
+      "cacheRead": {
+        "known_attempts": 5,
+        "mean_of_known": 12569.6,
+        "missing_attempts": 1,
+        "observed_total": 62848,
+        "total_if_complete": null
+      },
+      "cacheWrite": {
+        "known_attempts": 5,
+        "mean_of_known": 0,
+        "missing_attempts": 1,
+        "observed_total": 0,
+        "total_if_complete": null
+      },
+      "cycles": {
+        "known_attempts": 5,
+        "mean_of_known": 1,
+        "missing_attempts": 1,
+        "observed_total": 5,
+        "total_if_complete": null
+      },
+      "durationMs": {
+        "known_attempts": 5,
+        "mean_of_known": 5977.1484168,
+        "missing_attempts": 1,
+        "observed_total": 29885.742083999998,
+        "total_if_complete": null
+      },
+      "input": {
+        "known_attempts": 5,
+        "mean_of_known": 2789,
+        "missing_attempts": 1,
+        "observed_total": 13945,
+        "total_if_complete": null
+      },
+      "modelRequests": {
+        "known_attempts": 5,
+        "mean_of_known": 4.8,
+        "missing_attempts": 1,
+        "observed_total": 24,
+        "total_if_complete": null
+      },
+      "output": {
+        "known_attempts": 5,
+        "mean_of_known": 662.2,
+        "missing_attempts": 1,
+        "observed_total": 3311,
+        "total_if_complete": null
+      },
+      "totalTokens": {
+        "known_attempts": 5,
+        "mean_of_known": 16020.8,
+        "missing_attempts": 1,
+        "observed_total": 80104,
+        "total_if_complete": null
+      }
+    },
+    "success_rate_planned": 0.0,
+    "success_rate_started": 0.0,
+    "terminal_states": {
+      "controller_conflict": 0,
+      "external_timeout": 0,
+      "invalid_record": 0,
+      "missing_controller": 0,
+      "missing_record": 0,
+      "not_started": 0,
+      "start_unknown": 0,
+      "success": 0,
+      "task_failure": 5,
+      "worker_error": 1
+    },
+    "unknown_cost_attempts": 6
+  },
+  "policy": {
+    "classification": "no start evidence; timeout; worker error; missing controller; controller conflict; missing/invalid record; task result",
+    "cost": "unknown for all attempts; historical zero cost is a placeholder",
+    "denominator": "all evidenced starts including failures/timeouts; planned and unknown-start counts also retained",
+    "missing_usage": "unknown, never zero; totals only complete when every started attempt has usage",
+    "start_evidence": "controller close result or worker-created record/log; no independent PID start ledger exists",
+    "terminal_states": [
+      "success",
+      "task_failure",
+      "external_timeout",
+      "worker_error",
+      "missing_record",
+      "invalid_record",
+      "missing_controller",
+      "controller_conflict",
+      "not_started",
+      "start_unknown"
+    ]
+  },
+  "schema_version": 2,
+  "source_snapshots_intact": {
+    "source-after": true,
+    "source-before": true,
+    "source-lean": true
+  }
+}

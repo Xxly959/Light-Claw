@@ -1,0 +1,7 @@
+{
+  "http": 200,
+  "models": [
+    "deepseek-flash",
+    "deepseek-v4-pro"
+  ]
+}

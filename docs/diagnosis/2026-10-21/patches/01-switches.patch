@@ -1,0 +1,349 @@
+--- a/packages/lightclaw/src/config.ts
++++ b/packages/lightclaw/src/config.ts
+@@ -1,6 +1,37 @@
++export { featureEnabled } from "./features.js";
++
+ export type TransportKind = "feishu" | "slack";
+ 
++export interface LightClawFeatures {
++	goals: boolean;
++	acceptance: boolean;
++	feishu: boolean;
++	controls: boolean;
++	scheduling: boolean;
++	optimization: boolean;
++	infrastructure: boolean;
++}
++
++function loadFeatures(env: NodeJS.ProcessEnv): LightClawFeatures {
++	const flag = (name: string): boolean => {
++		const value = env[`LIGHTCLAW_FEATURE_${name}`]?.trim().toLowerCase();
++		if (value === undefined || value === "true") return true;
++		if (value === "false") return false;
++		throw new Error(`LIGHTCLAW_FEATURE_${name} 必须是 true 或 false`);
++	};
++	return {
++		goals: flag("GOALS"),
++		acceptance: flag("ACCEPTANCE"),
++		feishu: flag("FEISHU"),
++		controls: flag("CONTROLS"),
++		scheduling: flag("SCHEDULING"),
++		optimization: flag("OPTIMIZATION"),
++		infrastructure: flag("INFRASTRUCTURE"),
++	};
++}
++
+ export interface LightClawConfig {
++	features?: Partial<LightClawFeatures>;
+ 	transport: TransportKind;
+ 	modelProvider: string;
+ 	modelId: string;
+@@ -48,11 +79,13 @@
+ 	if (transportValue !== "feishu" && transportValue !== "slack") {
+ 		throw new Error("LIGHTCLAW_TRANSPORT 只支持 feishu 或 slack");
+ 	}
+-	const transport: TransportKind = transportValue;
++	const features = loadFeatures(env);
++	const transport: TransportKind = features.feishu ? transportValue : "slack";
+ 	if (env.LIGHTCLAW_CONTROL_DIR !== undefined && !env.LIGHTCLAW_CONTROL_DIR.trim())
+ 		throw new Error("LIGHTCLAW_CONTROL_DIR 不能为空");
+ 
+ 	const base = {
++		features,
+ 		transport,
+ 		controlDir: env.LIGHTCLAW_CONTROL_DIR?.trim(),
+ 		modelProvider: env.LIGHTCLAW_MODEL_PROVIDER?.trim() || "zai",
+--- /dev/null
++++ b/packages/lightclaw/src/features.ts
+@@ -0,0 +1,5 @@
++import type { LightClawConfig, LightClawFeatures } from "./config.js";
++
++export function featureEnabled(config: LightClawConfig, name: keyof LightClawFeatures): boolean {
++	return config.features?.[name] ?? true;
++}
+--- a/packages/lightclaw/src/main.ts
++++ b/packages/lightclaw/src/main.ts
+@@ -7,6 +7,7 @@
+ import { loadConfig } from "./config.js";
+ import { downloadChannel } from "./download.js";
+ import { createEventsWatcher } from "./events.js";
++import { featureEnabled } from "./features.js";
+ import { FeishuBot } from "./feishu.js";
+ import type { GoalCommandResult } from "./goals/commands.js";
+ import { handleGoalCommand } from "./goals/commands.js";
+@@ -19,7 +20,7 @@
+ import { GoalStore } from "./goals/store.js";
+ import { CacheCapacityError, IdleResourceCache } from "./idle-cache.js";
+ import * as log from "./log.js";
+-import { appendAuditEvent } from "./observability.js";
++import { type RunAuditEvent, appendAuditEvent as writeAuditEvent } from "./observability.js";
+ import { parseSandboxArg, type SandboxConfig, validateSandbox } from "./sandbox.js";
+ import { SlackBot } from "./slack.js";
+ import { ChannelStore } from "./store.js";
+@@ -33,6 +34,10 @@
+ } from "./transport.js";
+ 
+ setGlobalDispatcher(new EnvHttpProxyAgent({ bodyTimeout: 0, headersTimeout: 0 }));
++
++function appendAuditEvent(workspace: string, event: RunAuditEvent): void {
++	if (featureEnabled(config, "infrastructure")) writeAuditEvent(workspace, event);
++}
+ 
+ interface ParsedArgs {
+ 	workingDir?: string;
+@@ -77,15 +82,21 @@
+ 	process.exit(1);
+ }
+ 
+-const { workingDir, sandbox } = { workingDir: parsedArgs.workingDir, sandbox: parsedArgs.sandbox };
++const { workingDir, sandbox } = {
++	workingDir: parsedArgs.workingDir,
++	sandbox: featureEnabled(config, "infrastructure") ? parsedArgs.sandbox : { type: "host" as const },
++};
+ await validateSandbox(sandbox);
+ mkdirSync(workingDir, { recursive: true });
+ const controlDir = resolveControlDirectory(workingDir, config.controlDir);
+-await assertControlIsolation(workingDir, controlDir, sandbox);
+-const controlLock = acquireControlLock(controlDir);
++if (featureEnabled(config, "goals")) await assertControlIsolation(workingDir, controlDir, sandbox);
++const controlLock = featureEnabled(config, "goals") ? acquireControlLock(controlDir) : { release() {} };
+ process.once("exit", () => controlLock.release());
+ function goalStore(channelId: string): GoalStore {
+ 	return new GoalStore({
++		enabled: featureEnabled(config, "goals"),
++		acceptanceEnabled: featureEnabled(config, "acceptance"),
++		controlsEnabled: featureEnabled(config, "controls"),
+ 		channelDir: join(workingDir, channelId),
+ 		controlChannelDir: resolveControlChannelDirectory(controlDir, channelId),
+ 		limits: {
+@@ -107,7 +118,11 @@
+ }
+ 
+ const channelStates = new IdleResourceCache<ChannelState>(
+-	{ maxEntries: config.channelCacheMaxEntries ?? 128, idleTtlMs: config.channelCacheIdleTtlMs ?? 900_000 },
++	{
++		enabled: featureEnabled(config, "scheduling"),
++		maxEntries: config.channelCacheMaxEntries ?? 128,
++		idleTtlMs: config.channelCacheIdleTtlMs ?? 900_000,
++	},
+ 	(state) => state.running || state.inUse > 0,
+ 	(_state, channelId) => releaseRunner(join(workingDir, channelId)),
+ );
+@@ -304,12 +319,16 @@
+ 			}
+ 			state.inUse++;
+ 			try {
+-				command = await handleGoalCommand(event.text, state.goals, {
+-					userId: event.user,
+-					origin: event.origin,
+-					sandbox,
+-					signal: AbortSignal.timeout(config.maxRunDurationMs ?? 300_000),
+-				});
++				command = featureEnabled(config, "goals")
++					? await handleGoalCommand(event.text, state.goals, {
++							userId: event.user,
++							origin: event.origin,
++							sandbox,
++							signal: featureEnabled(config, "controls")
++								? AbortSignal.timeout(config.maxRunDurationMs ?? 300_000)
++								: new AbortController().signal,
++						})
++					: { handled: false, startRun: false };
+ 			} finally {
+ 				state.inUse--;
+ 			}
+@@ -515,6 +534,7 @@
+ 				workingDir,
+ 				store: sharedStore,
+ 				platformTimeoutMs: config.platformTimeoutMs,
++				schedulingEnabled: featureEnabled(config, "scheduling"),
+ 				queueMaxPending: config.queueMaxPending,
+ 				queueMaxWaitMs: config.queueMaxWaitMs,
+ 				channelCacheMaxEntries: config.channelCacheMaxEntries,
+@@ -525,6 +545,7 @@
+ 				workingDir,
+ 				store: sharedStore,
+ 				platformTimeoutMs: config.platformTimeoutMs,
++				schedulingEnabled: featureEnabled(config, "scheduling"),
+ 				queueMaxPending: config.queueMaxPending,
+ 				queueMaxWaitMs: config.queueMaxWaitMs,
+ 				channelCacheMaxEntries: config.channelCacheMaxEntries,
+@@ -546,11 +567,14 @@
+ await transport.start();
+ 
+ const recoveryChannels = new Set(
+-	[...readdirSync(controlDir, { withFileTypes: true }), ...readdirSync(workingDir, { withFileTypes: true })]
++	(featureEnabled(config, "goals")
++		? [...readdirSync(controlDir, { withFileTypes: true }), ...readdirSync(workingDir, { withFileTypes: true })]
++		: []
++	)
+ 		.filter((entry) => entry.isDirectory())
+ 		.map((entry) => entry.name),
+ );
+-for (const channelId of recoveryChannels) {
++for (const channelId of featureEnabled(config, "goals") ? recoveryChannels : []) {
+ 	const channelDir = join(workingDir, channelId);
+ 	if (!existsSync(join(channelDir, "goal.json")) && !existsSync(join(controlDir, channelId, "goal.json"))) continue;
+ 	try {
+--- a/packages/lightclaw/src/feishu.ts
++++ b/packages/lightclaw/src/feishu.ts
+@@ -20,6 +20,7 @@
+ 	workingDir: string;
+ 	store: ChannelStore;
+ 	platformTimeoutMs?: number;
++	schedulingEnabled?: boolean;
+ 	queueMaxPending?: number;
+ 	queueMaxWaitMs?: number;
+ 	channelCacheMaxEntries?: number;
+@@ -94,10 +95,18 @@
+ 
+ 	constructor(handler: ChatHandler, config: FeishuConfig) {
+ 		this.queues = new IdleResourceCache<ChannelQueue>(
+-			{ maxEntries: config.channelCacheMaxEntries ?? 128, idleTtlMs: config.channelCacheIdleTtlMs ?? 900_000 },
++			{
++				enabled: config.schedulingEnabled,
++				maxEntries: config.channelCacheMaxEntries ?? 128,
++				idleTtlMs: config.channelCacheIdleTtlMs ?? 900_000,
++			},
+ 			(queue) => queue.isProcessing() || queue.size() > 0,
+ 		);
+-		this.queueOptions = { maxPending: config.queueMaxPending ?? 5, maxWaitMs: config.queueMaxWaitMs ?? 300_000 };
++		this.queueOptions = {
++			enabled: config.schedulingEnabled,
++			maxPending: config.queueMaxPending ?? 5,
++			maxWaitMs: config.queueMaxWaitMs ?? 300_000,
++		};
+ 		this.handler = handler;
+ 		this.platformTimeoutMs = config.platformTimeoutMs ?? 30_000;
+ 		this.workingDir = config.workingDir;
+--- a/packages/lightclaw/src/slack.ts
++++ b/packages/lightclaw/src/slack.ts
+@@ -48,6 +48,7 @@
+ 			workingDir: string;
+ 			store: ChannelStore;
+ 			platformTimeoutMs?: number;
++			schedulingEnabled?: boolean;
+ 			queueMaxPending?: number;
+ 			queueMaxWaitMs?: number;
+ 			channelCacheMaxEntries?: number;
+@@ -55,10 +56,18 @@
+ 		},
+ 	) {
+ 		this.queues = new IdleResourceCache<ChannelQueue>(
+-			{ maxEntries: config.channelCacheMaxEntries ?? 128, idleTtlMs: config.channelCacheIdleTtlMs ?? 900_000 },
++			{
++				enabled: config.schedulingEnabled,
++				maxEntries: config.channelCacheMaxEntries ?? 128,
++				idleTtlMs: config.channelCacheIdleTtlMs ?? 900_000,
++			},
+ 			(queue) => queue.isProcessing() || queue.size() > 0,
+ 		);
+-		this.queueOptions = { maxPending: config.queueMaxPending ?? 5, maxWaitMs: config.queueMaxWaitMs ?? 300_000 };
++		this.queueOptions = {
++			enabled: config.schedulingEnabled,
++			maxPending: config.queueMaxPending ?? 5,
++			maxWaitMs: config.queueMaxWaitMs ?? 300_000,
++		};
+ 		this.handler = handler;
+ 		this.platformTimeoutMs = config.platformTimeoutMs ?? 30_000;
+ 		this.workingDir = config.workingDir;
+--- a/packages/lightclaw/src/channel-queue.ts
++++ b/packages/lightclaw/src/channel-queue.ts
+@@ -9,6 +9,7 @@
+ }
+ 
+ export interface ChannelQueueOptions {
++	enabled?: boolean;
+ 	maxPending: number;
+ 	maxWaitMs: number;
+ }
+@@ -52,7 +53,7 @@
+ 	}
+ 
+ 	tryEnqueue(work: QueuedWork, onExpired?: () => Promise<void>): Promise<void> | undefined {
+-		if (this.queue.length >= this.options.maxPending) {
++		if (this.options.enabled !== false && this.queue.length >= this.options.maxPending) {
+ 			this.counts.rejected++;
+ 			return undefined;
+ 		}
+@@ -66,18 +67,19 @@
+ 		// The first item starts synchronously and does not consume pending capacity.
+ 		if (this.processing) {
+ 			this.counts.peakPending = Math.max(this.counts.peakPending, this.queue.length);
+-			item.timer = setTimeout(() => {
+-				const index = this.queue.indexOf(item);
+-				if (index < 0) return;
+-				this.queue.splice(index, 1);
+-				this.counts.expired++;
+-				item.resolve();
+-				if (onExpired)
+-					void Promise.resolve()
+-						.then(onExpired)
+-						.catch((error: unknown) => this.reportError(error));
+-				else this.reportError(new Error("channel queue wait expired before execution"));
+-			}, this.options.maxWaitMs);
++			if (this.options.enabled !== false)
++				item.timer = setTimeout(() => {
++					const index = this.queue.indexOf(item);
++					if (index < 0) return;
++					this.queue.splice(index, 1);
++					this.counts.expired++;
++					item.resolve();
++					if (onExpired)
++						void Promise.resolve()
++							.then(onExpired)
++							.catch((error: unknown) => this.reportError(error));
++					else this.reportError(new Error("channel queue wait expired before execution"));
++				}, this.options.maxWaitMs);
+ 		}
+ 		void this.processNext();
+ 		return completed;
+--- a/packages/lightclaw/src/idle-cache.ts
++++ b/packages/lightclaw/src/idle-cache.ts
+@@ -1,6 +1,7 @@
+ import * as log from "./log.js";
+ 
+ export interface IdleCacheOptions {
++	enabled?: boolean;
+ 	maxEntries: number;
+ 	idleTtlMs: number;
+ }
+@@ -13,7 +14,7 @@
+ 
+ export class IdleResourceCache<T> {
+ 	private readonly entries = new Map<string, { value: T; usedAt: number }>();
+-	private readonly timer: NodeJS.Timeout;
++	private readonly timer?: NodeJS.Timeout;
+ 	private closed = false;
+ 
+ 	constructor(
+@@ -25,8 +26,10 @@
+ 			throw new Error("maxEntries must be a positive safe integer");
+ 		if (!Number.isSafeInteger(options.idleTtlMs) || options.idleTtlMs < 1 || options.idleTtlMs > 2_147_483_647)
+ 			throw new Error("idleTtlMs must be a positive timer duration");
+-		this.timer = setInterval(() => this.sweep(), Math.min(options.idleTtlMs, 60_000));
+-		this.timer.unref();
++		if (options.enabled !== false) {
++			this.timer = setInterval(() => this.sweep(), Math.min(options.idleTtlMs, 60_000));
++			this.timer.unref();
++		}
+ 	}
+ 
+ 	get size(): number {
+@@ -50,7 +53,7 @@
+ 		this.sweep();
+ 		const existing = this.get(key);
+ 		if (existing !== undefined) return existing;
+-		if (this.entries.size >= this.options.maxEntries) {
++		if (this.options.enabled !== false && this.entries.size >= this.options.maxEntries) {
+ 			for (const [candidate, entry] of this.entries) {
+ 				if (!this.isBusy(entry.value) && this.remove(candidate, entry.value)) break;
+ 			}
+@@ -62,6 +65,7 @@
+ 	}
+ 
+ 	sweep(): void {
++		if (this.options.enabled === false) return;
+ 		const now = Date.now();
+ 		for (const [key, entry] of this.entries) {
+ 			if (!this.isBusy(entry.value) && now - entry.usedAt >= this.options.idleTtlMs) this.remove(key, entry.value);

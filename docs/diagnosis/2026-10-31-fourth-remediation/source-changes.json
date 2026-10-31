@@ -1,0 +1,211 @@
+{
+  "gitVisibleBaselineFiles": 4617,
+  "modifiedExisting": [
+    {
+      "path": "packages/lightclaw/src/durable-state.ts",
+      "before": "44477333030bceaeba998ee5b334b3edbe6eeca3d1dedec0e1021cfb31213a40",
+      "after": "92288ffe2d90dd418014030536276a2ee26632f60b82f257f1f27bab43acf82c"
+    },
+    {
+      "path": "packages/lightclaw/src/goals/control.ts",
+      "before": "76f90e3e3b910ae21d4f749332aee57facc31051a7a29df2a43b5dcdc47bfc25",
+      "after": "71a1315c44042d8f227fb292bedc8d8546d72cfda7234616068cf191ec9e404e"
+    },
+    {
+      "path": "packages/lightclaw/src/runtime.ts",
+      "before": "5595e751ff7f5192b010ed5db5f64203f1de3618898e4aa7d655998b5fdcc868",
+      "after": "1b9747a0f5ac8bc182360fde9c2c74efe029726ab85b02742cb91d11fd5cdfa3"
+    },
+    {
+      "path": "packages/lightclaw/test/agent-runner.test.ts",
+      "before": "b0ee60e4a9d16f85eabd8fb0653b6eaca382629be50ed8c3449cb4599e71966e",
+      "after": "6c8f532971a1ced9d7a42ce350b275c4a15abfc4ed6b8061b74fa0c674647acc"
+    },
+    {
+      "path": "packages/lightclaw/test/eval-runner.test.ts",
+      "before": "6c0aa5fcb245b236a0c112269f848af2354d1dcd7c711a525e578df6e7b90bf9",
+      "after": "a49db49f5237aaedd69e1db08918fb1759af34093ed7911e843733cf37797818"
+    },
+    {
+      "path": "packages/lightclaw/test/goal-commands.test.ts",
+      "before": "e23a939b87cc2f343f9c226b592da9252335301e9e5bef184239066de1bfd64e",
+      "after": "9144e407e0fea6efb07e93d087e0931312c2dbaf446e3ea5db1210e7f2f56b08"
+    },
+    {
+      "path": "packages/lightclaw/test/main-lifecycle.test.ts",
+      "before": "d51343ec0d072e9912610cf3bd98a0d1b173e70ae9f15554226c36063fbc92fb",
+      "after": "c4a6772e448c95060199f0f2f476d7cddd816b83ba3f983afc81902aa2e065d8"
+    },
+    {
+      "path": "packages/lightclaw/test/output-tools.test.ts",
+      "before": "4ffaf004a8ae97ab1a1f9c2fe3f445c1d4592f6faa435fd9b526a702826fd330",
+      "after": "c7dba220bb6632da293b359bf1296794bb86cf52c098ae229bf2f540ff2c94b8"
+    },
+    {
+      "path": "packages/lightclaw/test/runner-lifecycle.test.ts",
+      "before": "77529b84ad6fce26e756b5b44bc672d75a6e8aa9c1af0d672d434e1799a2ea1d",
+      "after": "8e83cdb0f3f0bb2a47735f56a05a8bed0dca8785400d2de7c75f71ac083bb337"
+    },
+    {
+      "path": "packages/lightclaw/test/sandbox.test.ts",
+      "before": "0bfc6a06629de5374f95f29216700815b312475c8e606e238ee71706ce6fad44",
+      "after": "36558f8e3366efd82dd004e6d7c874598a41e8939dc3c86eaee850cb3c963c4f"
+    },
+    {
+      "path": "README.md",
+      "before": "d492b260d7058f429d2c284044b2c2b9b430cc04da7b3bc9d2668eff89b83a9f",
+      "after": "6ce85e583a406c2a102ac316be637deaeb7d54d890285a7710e0ae1ad0a402c9"
+    },
+    {
+      "path": "packages/lightclaw/CHANGELOG.md",
+      "before": "545fe9bf5a75bca9178d1b61d13989774e8c99dca6f3c359de10fc2e334b344d",
+      "after": "3861456bd23f50e3278ac9575953c4ea04d0eb6ec5067d533e1fa7b9d0aab5c6"
+    },
+    {
+      "path": "packages/lightclaw/README.md",
+      "before": "1670ebbf0c383f2bd5bbf9fd55e68e47da0b5aa1e1ba0e06ccd8196914f44c25",
+      "after": "2f6e23a2fab5de419ed47e76776ed6a423a6c733c1d7fa26268b5ca7926a170a"
+    },
+    {
+      "path": "packages/lightclaw/README.zh-CN.md",
+      "before": "aa2de9c3ee71dc75a04df670bb953a5138d71c4d9ccc8f2b108cb1d62369fa73",
+      "after": "7e023bd94e06d5e7d579511e845e834758f7b200fe74a243428a014a4a7aff50"
+    },
+    {
+      "path": "packages/lightclaw/package.json",
+      "before": "ffa838d6d3b11eaf5c14e482cf6078b9948d47084e6891a3aee3bc3ce0516bfe",
+      "after": "49e351a0cea66712f89cde60b81af63ca094fea1f1d193febd63aedb56312d5f"
+    },
+    {
+      "path": "packages/lightclaw/src/agent.ts",
+      "before": "006f132a590647e8dac7ebe34c1ae1dd7f0441fdc026bc993bc2667d88f1373e",
+      "after": "7ecf401ce2ee1285750236bbc94f4f2e78f476c1f56b077c06bb31ca37f9570e"
+    },
+    {
+      "path": "packages/lightclaw/src/config.ts",
+      "before": "932a1b897d44894fdd39a7682483fb08135c3a583456615f767bb68881ca3ee4",
+      "after": "715560a56dd95789851833945ec20c5cf98ea070cb63225aecc487a50f27774a"
+    },
+    {
+      "path": "packages/lightclaw/src/download.ts",
+      "before": "698583f3f88a739fc88a1c40089b976a30b7f2c9bf70429a2fb9134c22121573",
+      "after": "3a2ac0bc86794cb1484ecb8e8ae047ef38522e0d58a0f7b55a139caebbb9601e"
+    },
+    {
+      "path": "packages/lightclaw/src/evals/runner.ts",
+      "before": "cda562aa134b617b8d347311933b22d91d12035a67cd97483e4e418c45db6f60",
+      "after": "4df756175cc6050b27b4f9be0cf875dd2aa2059b5dece08f3f1e6e516709f990"
+    },
+    {
+      "path": "packages/lightclaw/src/events.ts",
+      "before": "a118126826c0c83276e629a33c9fbd152e3e81b4431e27a8a865bb9489b9c90c",
+      "after": "1535022173c3cb6d24a8e5438068c5e0d17f8aa8443582effd543f58fe910191"
+    },
+    {
+      "path": "packages/lightclaw/src/feishu.ts",
+      "before": "b9ab591cbec87e817731d8c3b114ca088c17a13d23676248fc89118730ebd576",
+      "after": "1f70178a8a02b5b948046ebc9e189bf28d3bceb2b72e59b9edad855745b8a768"
+    },
+    {
+      "path": "packages/lightclaw/src/goals/commands.ts",
+      "before": "1e5b71c255937c24fca07153342a2d7e725a09fc2df8f48d430f2ef777d023a4",
+      "after": "cc1d06b559e8260d1c92bdc2b0d39b4253ebceedbb589d7366be017e4e97bf1b"
+    },
+    {
+      "path": "packages/lightclaw/src/log.ts",
+      "before": "6dcad2f4cc64503b89d674ec56a0ae1533618469cfa109546feccda77bddad5f",
+      "after": "6736036ec4dfaa4d74d4d0edb2b92e23c1b5cd6ec0122ea5d9164d4cf68cac3d"
+    },
+    {
+      "path": "packages/lightclaw/src/main.ts",
+      "before": "932370d2fe51ac4fd62f25c7444113399e8e77157b4e67d1956fab4d48425a19",
+      "after": "c400b64f3a168817903409d437e7464317bff6c6c772563e0550902a0d0dab74"
+    },
+    {
+      "path": "packages/lightclaw/src/observability.ts",
+      "before": "7c5e4a4ba1264ac03201ee283f66875164fb98d2ae00f4a08f3a8fcfaa6480c0",
+      "after": "4dab420a00fde263070c8ef10580c7a39a01e5b9ed4201051c263b76c01929a7"
+    },
+    {
+      "path": "packages/lightclaw/src/sandbox.ts",
+      "before": "a43e8374897543af484205f518ced58cd07508bf9e674664cb50562a0084e273",
+      "after": "cf4d5a631b51f44e0a81c078bb9851561332cc18ee0dd951d3ec3cd057aa303c"
+    },
+    {
+      "path": "packages/lightclaw/src/slack.ts",
+      "before": "38690e18ca68b4176a2f4fa27073ef1a20ab223832e40a88647a75ce78d4da62",
+      "after": "14054365d2800e83941b86185699671acbce60ec0ac5afbf9d4df9803da810b4"
+    },
+    {
+      "path": "packages/lightclaw/src/store.ts",
+      "before": "0d7b4a47be04832eec59c35ee261469045683fc743953d87e1fc4b7244a67e6e",
+      "after": "ef682506bcf925d1363aedb174b16fc4162ee2ec14f0718011179180f5f12a1e"
+    },
+    {
+      "path": "packages/lightclaw/src/tools/bash.ts",
+      "before": "0898418e40ef4ef3e64e377e112fb3acd78e9b2bdd351de439261ac28aef7667",
+      "after": "7e7015692702f44ba6a6d66cb547edb2621ce2a34997b80689f553882b128055"
+    },
+    {
+      "path": "packages/lightclaw/src/transport.ts",
+      "before": "0c94eabbfa624df6afbc4101aa9b3979ca7e02b02d59278aa198db6af574c666",
+      "after": "9ca94ae29a7720316d098e838e6045ed8d9ec5e5845161589a81d9035085f69b"
+    },
+    {
+      "path": "packages/lightclaw/test/config.test.ts",
+      "before": "fd0d7880fc394ecc495c6bc3843a7612e754060436a1e9a06da9fc41ca1d0e56",
+      "after": "2ca5641a6c77b54c588af3de8ce56abce98e60cb22b61d94f5a94375ecba865e"
+    }
+  ],
+  "ignoredEngineeringLogAppend": {
+    "path": "docs/engineering-change-log.zh-CN.md",
+    "beforePrefixSha256": "86705bf2aeb833cb233f5a999bb9204cf7a26d04e152a62e8ff74b85bb8c294b",
+    "after": "be49cb4d571d03ce4dcf65e494fa7d1af8a45228df24bdd744301ea619f0529e",
+    "method": "File is git-ignored and absent from git-visible baseline. Preserved prefix reconstructed at the exact recorded append boundary; not an independent pre-task snapshot."
+  },
+  "addedGitVisible": [
+    "docs/diagnosis/2026-10-31-fourth-remediation/README.md",
+    "docs/diagnosis/2026-10-31-fourth-remediation/checker-review-files.json",
+    "docs/diagnosis/2026-10-31-fourth-remediation/deployment.json",
+    "docs/diagnosis/2026-10-31-fourth-remediation/deployment.md",
+    "docs/diagnosis/2026-10-31-fourth-remediation/final-deployment.json",
+    "docs/diagnosis/2026-10-31-fourth-remediation/final-pack.json",
+    "docs/diagnosis/2026-10-31-fourth-remediation/final-pack.stderr",
+    "docs/diagnosis/2026-10-31-fourth-remediation/final-source-manifest.json",
+    "docs/diagnosis/2026-10-31-fourth-remediation/final-source.tar.gz",
+    "docs/diagnosis/2026-10-31-fourth-remediation/git-status-before.txt",
+    "docs/diagnosis/2026-10-31-fourth-remediation/lightclaw-0.70.6-unverified.tgz",
+    "docs/diagnosis/2026-10-31-fourth-remediation/platform-acceptance.md",
+    "docs/diagnosis/2026-10-31-fourth-remediation/regression-command.txt",
+    "docs/diagnosis/2026-10-31-fourth-remediation/resume-evidence.md",
+    "docs/diagnosis/2026-10-31-fourth-remediation/review.md",
+    "docs/diagnosis/2026-10-31-fourth-remediation/source-diffs.tar.gz",
+    "docs/diagnosis/2026-10-31-fourth-remediation/test-files.json",
+    "docs/diagnosis/2026-10-31-fourth-remediation/verification.md",
+    "packages/lightclaw/docs/deployment.zh-CN.md",
+    "packages/lightclaw/docs/resources.zh-CN.md",
+    "packages/lightclaw/docs/troubleshooting.zh-CN.md",
+    "packages/lightclaw/scripts/local-release.mjs",
+    "packages/lightclaw/src/attachment-download.ts",
+    "packages/lightclaw/src/authorization.ts",
+    "packages/lightclaw/src/health.ts",
+    "packages/lightclaw/src/index.ts",
+    "packages/lightclaw/src/platform-text.ts",
+    "packages/lightclaw/src/redaction.ts",
+    "packages/lightclaw/src/resource-policy.ts",
+    "packages/lightclaw/src/sdk-logger.ts",
+    "packages/lightclaw/test/deployment-entry.test.ts",
+    "packages/lightclaw/test/docker-validation.test.ts",
+    "packages/lightclaw/test/event-boundaries.test.ts",
+    "packages/lightclaw/test/packaging.test.ts",
+    "packages/lightclaw/test/platform-contract.test.ts",
+    "packages/lightclaw/test/platform-text.test.ts",
+    "packages/lightclaw/test/resource-policy.test.ts"
+  ],
+  "missingBaseline": [],
+  "indexUnchanged": true,
+  "thirdDeliveryFilesVerified": 47,
+  "historicalFilesUnchanged": 3663,
+  "unchangedGitVisibleBaseline": 4586,
+  "note": "Git-visible additions exclude ignored logs/archives; delivery manifest accounts those separately. Prior dirty work remains the baseline; engineering log provenance is explicitly separate."
+}

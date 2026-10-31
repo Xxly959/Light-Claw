@@ -1,4 +1,4 @@
-import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
@@ -19,6 +19,7 @@ function run(overrides: Partial<AgentRunResult> = {}): AgentRunResult {
 		durationMs: 100,
 		toolCalls: 1,
 		toolErrors: 0,
+		verificationCommandCount: 0,
 		inputTokens: 10,
 		outputTokens: 5,
 		cost: 0.001,
@@ -41,6 +42,43 @@ function report(score: number, tokens: number, toolErrors = 0): EvalReport {
 }
 
 describe("Agent 评测", () => {
+	it.each(["aborted", "length"])("does not award a full pass to %s outcomes", (stopReason) => {
+		const directory = mkdtempSync(join(tmpdir(), "lightclaw-eval-status-"));
+		temporaryPaths.push(directory);
+		expect(
+			scoreEvalCase(
+				{ id: "status", prompt: "task", expect: { responseIncludes: ["ok"] } },
+				"ok",
+				run({ stopReason }),
+				directory,
+			).score,
+		).toBeLessThan(1);
+	});
+	it("checks regular in-workspace artifacts and records read failures instead of throwing", () => {
+		const directory = mkdtempSync(join(tmpdir(), "lightclaw-eval-artifact-"));
+		const outside = mkdtempSync(join(tmpdir(), "lightclaw-eval-outside-"));
+		temporaryPaths.push(directory, outside);
+		writeFileSync(join(outside, "proof.txt"), "secret");
+		symlinkSync(join(outside, "proof.txt"), join(directory, "escaped.txt"));
+		mkdirSync(join(directory, "folder"));
+		const result = scoreEvalCase(
+			{
+				id: "artifact",
+				prompt: "task",
+				expect: {
+					filesExist: ["escaped.txt", "folder"],
+					filesContain: [
+						{ path: "folder", text: "secret" },
+						{ path: "escaped.txt", text: "secret" },
+					],
+				},
+			},
+			"ok",
+			run(),
+			directory,
+		);
+		expect(result.checks.filter((item) => item.name.startsWith("file_")).every((item) => !item.passed)).toBe(true);
+	});
 	it("同时检查回复、文件内容和运行指标", () => {
 		const channelDir = mkdtempSync(join(tmpdir(), "lightclaw-eval-"));
 		temporaryPaths.push(channelDir);

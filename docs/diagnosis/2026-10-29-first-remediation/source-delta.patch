@@ -1,0 +1,1258 @@
+--- before/.github/workflows/ci.yml
++++ after/.github/workflows/ci.yml
+@@ -26,6 +26,11 @@
+           node-version: ${{ matrix.node }}
+           cache: npm
+ 
++      - name: Setup Python for safe attachment reads and offline statistics
++        uses: actions/setup-python@v5
++        with:
++          python-version: '3.12'
++
+       - name: Install system dependencies
+         run: |
+           sudo apt-get update
+@@ -41,5 +46,8 @@
+       - name: Check
+         run: npm run check
+ 
++      - name: LightClaw offline regressions (required workspace)
++        run: npm run test --workspace lightclaw
++
+       - name: Test
+         run: npm test
+--- before/docs/diagnosis/2026-10-21/analyze-live-v2.py
++++ after/docs/diagnosis/2026-10-21/analyze-live-v2.py
+@@ -0,0 +1,246 @@
++"""Offline, versioned accounting of frozen attempts; never runs workers or models."""
++import argparse
++import collections
++import hashlib
++import json
++import math
++import pathlib
++import statistics
++
++STATES = ("success", "task_failure", "external_timeout", "worker_error", "missing_record",
++          "invalid_record", "missing_controller", "controller_conflict", "not_started", "start_unknown")
++
++
++def number(value):
++    return isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value) and value >= 0
++
++
++def valid_record(row, identity):
++    if not isinstance(row, dict) or row.get("id") != identity or not isinstance(row.get("success"), bool):
++        return False
++    result = row.get("result")
++    if not isinstance(result, dict) or not isinstance(result.get("run"), dict):
++        return False
++    checks = result.get("checks")
++    return (isinstance(checks, list) and bool(checks)
++            and all(isinstance(c, dict) and isinstance(c.get("passed"), bool) for c in checks)
++            and row["success"] == all(c["passed"] for c in checks))
++
++
++def aggregate(attempts):
++    started = [a for a in attempts if a["started_evidenced"]]
++    terminal = dict.fromkeys(STATES, 0)
++    for attempt in attempts:
++        terminal[attempt["terminal_state"]] += 1
++    resources = {}
++    for key in ("input", "output", "cacheRead", "cacheWrite", "totalTokens", "modelRequests", "cycles", "durationMs"):
++        values = [a["resources"][key] for a in started if a["resources"][key] is not None]
++        resources[key] = {"known_attempts": len(values), "missing_attempts": len(started) - len(values),
++                          "observed_total": sum(values) if values else None,
++                          "mean_of_known": statistics.mean(values) if values else None,
++                          "total_if_complete": sum(values) if len(values) == len(started) else None}
++    counts = {"planned": len(attempts), "started_evidenced": len(started),
++              "controller_results": sum(a["controller_available"] for a in attempts),
++              "record_files": sum(a["record_available"] for a in attempts),
++              "complete_records": sum(a["record_complete"] for a in attempts),
++              "not_started": terminal["not_started"], "start_unknown": terminal["start_unknown"],
++              "missing_records_started": sum(not a["record_available"] for a in started),
++              "invalid_records": sum(a["record_available"] and not a["record_complete"] for a in attempts)}
++    return {"counts": counts, "terminal_states": terminal,
++            "success_rate_started": terminal["success"] / len(started) if started else None,
++            "success_rate_planned": terminal["success"] / len(attempts) if attempts else None,
++            "resources": resources, "cost": None, "prices_known": False,
++            "unknown_cost_attempts": len(started)}
++
++
++def analyze(live):
++    inputs, jobs, phases, outcomes = {}, {}, {}, collections.defaultdict(list)
++    conflicts, attempts = [], []
++
++    def track(path):
++        inputs[path.relative_to(live).as_posix()] = hashlib.sha256(path.read_bytes()).hexdigest()
++
++    def load(path):
++        track(path)
++        return json.loads(path.read_text())
++
++    for path in sorted(live.glob("*-freeze.json")):
++        phase = path.name.removesuffix("-freeze.json")
++        frozen = load(path)
++        complete_path = live / f"{phase}-complete.json"
++        complete = load(complete_path) if complete_path.exists() else None
++        phases[phase] = {"completion_file": complete is not None,
++                         "controller_finished": complete.get("finished") if complete else None,
++                         "controller_reserved_requests": complete.get("reserved") if complete else None,
++                         "controller_reported_tokens": complete.get("reportedTokens") if complete else None,
++                         "budget_limited": complete.get("budgetLimited") if complete else None}
++        for job in frozen["jobs"]:
++            identity = job["id"]
++            if identity in jobs or not identity or "/" in identity or "\\" in identity or identity in (".", ".."):
++                raise ValueError(f"Duplicate or unsafe frozen identity: {identity}")
++            jobs[identity] = {**job, "phase": phase}
++        if complete:
++            for outcome in complete["results"]:
++                outcomes[outcome["id"]].append({"source": complete_path.name, "value": outcome})
++        progress = live / f"{phase}-progress.jsonl"
++        if progress.exists():
++            track(progress)
++            for line in progress.read_text().splitlines():
++                if line.strip():
++                    outcome = json.loads(line)
++                    outcomes[outcome["id"]].append({"source": progress.name, "value": outcome})
++    if not jobs:
++        raise ValueError("No frozen jobs found")
++    if set(outcomes) - set(jobs):
++        raise ValueError("Controller results contain unplanned identities")
++
++    for identity, job in sorted(jobs.items()):
++        raw = live / "raw" / identity
++        files = sorted(p for p in raw.glob("*") if p.is_file())
++        for path in files:
++            track(path)
++        run_path = raw / "run.json"
++        row = None
++        if run_path.exists():
++            try:
++                row = json.loads(run_path.read_text())
++            except (ValueError, UnicodeError):
++                pass
++        complete = valid_record(row, identity)
++        evidence = list(outcomes[identity])
++        harness = raw / "harness-error.json"
++        if harness.exists():
++            outcome = load(harness)
++            if outcome.get("id") != identity:
++                raise ValueError("Harness outcome identity mismatch")
++            evidence.append({"source": f"raw/{identity}/harness-error.json", "value": outcome})
++        controller = [e["value"] for e in evidence]
++        # jobs/*.json is written before dispatch and is deliberately NOT start evidence.
++        # Empty raw directories are created before fork, so they establish dispatch only.
++        started = bool(controller) or any(p.name in {"run.json", "requests.json", "stdout.log", "stderr.log", "crashed-session.jsonl"} for p in files)
++        timeout = any(o.get("timeout") is True for o in controller)
++        worker_error = any((o.get("code") is not None and o.get("code") != 0) or o.get("signal") for o in controller)
++        signatures = {json.dumps({k: o.get(k) for k in ("code", "signal", "timeout")}, sort_keys=True) for o in controller}
++        if len(signatures) > 1:
++            conflicts.append({"id": identity, "kind": "controller_disagreement", "evidence": evidence})
++        if timeout and complete and row["success"]:
++            conflicts.append({"id": identity, "kind": "timeout_with_success_record"})
++        if timeout and any(o.get("code") == 0 for o in controller):
++            conflicts.append({"id": identity, "kind": "timeout_with_zero_exit"})
++        if not started:
++            state = "not_started" if phases[job["phase"]]["completion_file"] and not raw.exists() else "start_unknown"
++        elif timeout:
++            state = "external_timeout"
++        elif worker_error:
++            state = "worker_error"
++        elif not controller:
++            state = "missing_controller"
++        elif len(signatures) > 1 or any(o.get("code") != 0 or not isinstance(o.get("timeout"), bool) for o in controller):
++            state = "controller_conflict"
++        elif not run_path.exists():
++            state = "missing_record"
++        elif not complete:
++            state = "invalid_record"
++        else:
++            state = "success" if row["success"] else "task_failure"
++        usage = (row.get("usage") or {}) if complete else {}
++        usage = usage if isinstance(usage, dict) else {}
++        resources = {k: usage.get(k) if number(usage.get(k)) else None for k in ("input", "output", "cacheRead", "cacheWrite", "totalTokens")}
++        for key in ("modelRequests", "cycles"):
++            value = row.get(key) if complete else None
++            resources[key] = value if number(value) else None
++        duration = row["result"]["run"].get("durationMs") if complete else None
++        resources["durationMs"] = duration if number(duration) else None
++        attempts.append({"id": identity, "phase": job["phase"], "arm": job.get("arm", "unknown"),
++                         "caseId": job.get("caseId"), "repetition": job.get("repetition"),
++                         "terminal_state": state, "started_evidenced": started,
++                         "dispatch_directory": raw.exists(), "controller_available": bool(controller),
++                         "record_available": run_path.exists(), "record_complete": complete,
++                         "record_success": row["success"] if complete else None,
++                         "controller_evidence": evidence, "resources": resources, "cost": None})
++
++    formal = [a for a in attempts if not a["phase"].startswith("pilot")]
++    for phase, details in list(phases.items()):
++        selected = [a for a in attempts if a["phase"] == phase]
++        phases[phase] = {**details, **aggregate(selected),
++                         "arms": {arm: aggregate([a for a in selected if a["arm"] == arm]) for arm in sorted({a["arm"] for a in selected})}}
++    snapshot_checks = {}
++    for manifest in sorted(live.glob("source-*.json")):
++        hashes = load(manifest)
++        folder = live / manifest.stem
++        checks = []
++        for name, digest in hashes.items():
++            path = folder / name
++            if path.exists():
++                track(path)
++            checks.append(path.exists() and hashlib.sha256(path.read_bytes()).hexdigest() == digest)
++        snapshot_checks[manifest.stem] = all(checks)
++    summary = {"schema_version": 2, "kind": "historical_reanalysis_no_new_experiment",
++               "policy": {"terminal_states": list(STATES),
++                          "classification": "no start evidence; timeout; worker error; missing controller; controller conflict; missing/invalid record; task result",
++                          "start_evidence": "controller close result or worker-created record/log; no independent PID start ledger exists",
++                          "missing_usage": "unknown, never zero; totals only complete when every started attempt has usage",
++                          "cost": "unknown for all attempts; historical zero cost is a placeholder",
++                          "denominator": "all evidenced starts including failures/timeouts; planned and unknown-start counts also retained"},
++               "formal": aggregate(formal), "pilots": aggregate([a for a in attempts if a not in formal]),
++               "phases": phases, "arms": {arm: aggregate([a for a in formal if a["arm"] == arm]) for arm in sorted({a["arm"] for a in formal})},
++               "conflicts": conflicts, "source_snapshots_intact": snapshot_checks,
++               "orphan_raw_directories": sorted(p.name for p in (live / "raw").glob("*") if p.is_dir() and p.name not in jobs)}
++    return summary, attempts, inputs
++
++
++def render_report(summary):
++    counts = summary["formal"]["counts"]
++    lines = ["# 历史实验重新统计 v2（2026-10-29）", "",
++             "本报告仅离线重算 2026-10-21 冻结实验及其后续完整重复；没有启动 worker、调用模型或新增实验。旧脚本、原始记录和历史报告保持不变。", "",
++             "互斥终态按以下优先级归类：没有启动证据时为未启动/启动未知；已有证据时依次判定外部超时、worker 错误、控制器缺失/冲突、记录缺失/无效、任务成功/任务失败。timeout=true 优先于 code=0 和 run.success=true。每个计划身份恰好一个终态。", "",
++             "启动数是已有控制器 close 结果或 worker 文件证据的数量，历史控制器没有独立 PID 启动日志，因此不能声称精确恢复进程启动时间。预先生成的 jobs 文件不算启动；空 raw 目录仅算派发证据，不能判为未启动。阶段结束且无派发/worker 证据的计划项记未启动；未结束阶段无证据项记启动未知。", "",
++             f"正式计划 {counts['planned']}；有启动证据 {counts['started_evidenced']}；控制器结果 {counts['controller_results']}；run.json 文件 {counts['record_files']}；结构完整且检查与 success 一致的记录 {counts['complete_records']}；已启动缺失记录 {counts['missing_records_started']}。pilot 单列，不并入正式分母。", "",
++             "| 阶段 | 计划 | 启动证据 | 控制器 | 完整记录 | 成功 | 任务失败 | 超时 | worker错误 | 其他终态 |", "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|"]
++    for phase, data in summary["phases"].items():
++        c, s = data["counts"], data["terminal_states"]
++        other = sum(s[k] for k in STATES if k not in {"success", "task_failure", "external_timeout", "worker_error"})
++        lines.append(f"| {phase} | {c['planned']} | {c['started_evidenced']} | {c['controller_results']} | {c['complete_records']} | {s['success']} | {s['task_failure']} | {s['external_timeout']} | {s['worker_error']} | {other} |")
++    lines += ["", "成功率使用全部有启动证据的尝试作分母，包括失败和超时；另保留计划成功率。缺失控制器或无效记录不会默认成功。多来源控制器冲突逐条保留，优先使用更保守终态。", "",
++              "Token、请求数、轮数和耗时分别报告已知样本数、缺失数、已观测合计、已知样本均值。只要任一尝试缺失该项，全批总量即为 null。均值不能解释为全批平均，已观测合计不能解释为完整成本。控制器 reserved 请求和 reportedTokens 单独列出，不能均摊到缺失尝试。货币费用全部为未知；历史 cost=0 不代表免费。", "",
++              "| 条件（正式阶段合并） | 启动证据 | 成功 | 超时 | Token已知/缺失 | Token观测合计 | 已知均值 |", "|---|---:|---:|---:|---:|---:|---:|"]
++    for arm, data in summary["arms"].items():
++        t = data["resources"]["totalTokens"]
++        mean = f"{t['mean_of_known']:.2f}" if t["mean_of_known"] is not None else "未知"
++        lines.append(f"| {arm} | {data['counts']['started_evidenced']} | {data['terminal_states']['success']} | {data['terminal_states']['external_timeout']} | {t['known_attempts']}/{t['missing_attempts']} | {t['observed_total']} | {mean} |")
++    lines += ["", "冲突记录："]
++    lines += [f"- `{c['id']}`：{c['kind']}" for c in summary["conflicts"]] or ["- 无"]
++    lines += ["", "`live-attempts.v2.jsonl` 给出每个计划项及控制器证据；`live-summary.v2.json` 包含阶段、条件和逐项资源分母；`live-inputs.v2.json` 固定本次所读原始文件和分析器的 SHA-256。", "",
++              "本版验证记录结构、检查布尔值与 success 一致性、冻结源码哈希，并未重新执行任务或重新评判产物语义；历史评分和产物正确性结论仍受原评分器限制。没有重新估计因果效应、置信区间或推广旧性能结论；ordinary 和 ordinary-replication 的阶段结果分别保留，条件合并只用于描述总失败分母。宿主附件修复与这些旧实验的收益无关。", ""]
++    return "\n".join(lines)
++
++
++def main():
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument("--live-dir", type=pathlib.Path, default=pathlib.Path(__file__).resolve().parent / "live")
++    parser.add_argument("--output-dir", type=pathlib.Path, default=pathlib.Path(__file__).resolve().parent)
++    parser.add_argument("--check", action="store_true", help="Verify existing v2 outputs without rewriting")
++    args = parser.parse_args()
++    summary, attempts, inputs = analyze(args.live_dir)
++    manifest = {"schema_version": 2, "analyzer_sha256": hashlib.sha256(pathlib.Path(__file__).read_bytes()).hexdigest(), "inputs": inputs}
++    json_text = lambda value: json.dumps(value, ensure_ascii=False, sort_keys=True, indent=2) + "\n"
++    outputs = {"live-summary.v2.json": json_text(summary),
++               "live-attempts.v2.jsonl": "".join(json.dumps(a, ensure_ascii=False, sort_keys=True) + "\n" for a in attempts),
++               "live-inputs.v2.json": json_text(manifest), "report.v2.zh-CN.md": render_report(summary)}
++    if args.check:
++        for name, content in outputs.items():
++            if (args.output_dir / name).read_text() != content:
++                raise ValueError(f"Versioned output differs: {name}")
++        print("v2 outputs verified against frozen inputs")
++        return
++    args.output_dir.mkdir(parents=True, exist_ok=True)
++    if any((args.output_dir / name).exists() for name in outputs):
++        raise ValueError("Refusing to overwrite versioned output; use --check or a new output directory")
++    for name, content in outputs.items():
++        with (args.output_dir / name).open("x") as output:
++            output.write(content)
++    print(json.dumps(summary["formal"]["counts"], ensure_ascii=False))
++
++
++if __name__ == "__main__":
++    main()
+--- before/packages/lightclaw/CHANGELOG.md
++++ after/packages/lightclaw/CHANGELOG.md
+@@ -3,6 +3,8 @@
+ ## [Unreleased]
+ 
+ ### Breaking Changes
++
++- Attachment uploads require host Python 3 on POSIX, accept only current-channel paths, reject links and non-regular files, and enforce a 20 MiB limit. Transport upload paths are now channel-relative.
+ 
+ - Prompt optimization reports now use schema 4 and record distinct request seeds, selection objective, measured-noise guards and thresholds. Run input-token totals now include provider-reported cache reads and writes.
+ 
+@@ -39,6 +41,9 @@
+ - Surfaced Slack rate limits and request failures without automatic retries after uncertain delivery.
+ 
+ ### Fixed
++
++- Enforce attachment authorization at both platform read boundaries using pinned directory/file descriptors and upload only bounded, verified bytes.
++- Run LightClaw offline regressions through the workspace test script and an explicit required CI step, with isolated user configuration and blocked Node network access.
+ 
+ - Return corrective goal acceptance conditions, ignore progress-only verification revisions, deduplicate identical progress, and redact common credentials in audit failure details.
+ - Reject prompt promotions within measured baseline variation, training-only gains, and per-task mean regressions; send paired distinct seeds through supported OpenAI-compatible evaluation requests.
+--- before/packages/lightclaw/README.md
++++ after/packages/lightclaw/README.md
+@@ -201,3 +201,9 @@
+ ```
+ 
+ Unit tests do not call external APIs. A real Feishu or Slack smoke test requires platform credentials and should be performed in a disposable workspace.
++
++## Attachment boundary and offline regressions
++
++Attachment uploads require **host Python 3.9+ on POSIX (Linux/macOS)**, including when tools run in Docker. Missing dependencies fail closed. Only regular files in the current channel directory are authorized, up to 20 MiB each; traversal, other channels, shared files, symlinks and multiple hard links are rejected. The attach tool accepts channel-relative paths or the current channel's host/container absolute prefix; transport `uploadFile` accepts channel-relative paths only. A Python standard-library reader pins each directory with `dir_fd` and `O_NOFOLLOW`, reads the same file descriptor with a size limit and change checks, and supplies bytes to the SDK. The configured root, its ancestors, interpreter and installation must be trusted. This does not isolate arbitrary host shell execution. Windows is unsupported for attachment reads.
++
++CI explicitly runs the LightClaw workspace test script. Tests isolate HOME/credentials and block Node TCP/fetch access; models and platform APIs use faux/mock implementations. For targeted local regression runs, follow AGENTS.md and select explicit test files. Historical experiment accounting is available in `docs/diagnosis/2026-10-21/analyze-live-v2.py`; `--check` verifies versioned outputs without writing or calling models.
+--- before/packages/lightclaw/README.zh-CN.md
++++ after/packages/lightclaw/README.zh-CN.md
+@@ -55,6 +55,20 @@
+ ```
+ 
+ 凭证通过环境变量或 pi 认证存储读取，启动入口不会自动加载 `.env`。省略 `--sandbox` 时工具在宿主机执行；Docker 默认使用 `bridge` 网络，创建容器前可设置 `LIGHTCLAW_SANDBOX_NETWORK=none`。详见[沙箱配置](docs/sandbox.zh-CN.md)。
++
++## 附件权限与离线回归
++
++宿主附件读取需要 POSIX（Linux/macOS）和宿主 `python3`（Python 3.9+）；Docker 内的 Python 不能代替宿主依赖。缺少依赖时上传明确失败。仅可上传当前频道目录内的普通文件，单文件不超过 20 MiB；拒绝目录穿越、跨频道/共享文件、符号链接和多硬链接。`attach` 支持频道相对路径，例如 `scratch/report.pdf`，以及当前频道的 host/Docker 绝对路径；平台 `uploadFile` 只接受频道相对路径。
++
++读取器逐级以目录文件描述符和 `O_NOFOLLOW` 打开，从同一文件描述符限量读取并检查变化，SDK 仅接收内存字节。宿主工作区根路径、祖先目录、Python 解释器和应用安装必须可信；这是附件读取权限边界，不是对 host 模式任意 shell 命令的隔离。Windows 不支持该安全读取器。
++
++在 `packages/lightclaw` 目录运行已授权的具体回归：
++
++```bash
++rtk proxy npx tsx ../../node_modules/vitest/dist/cli.js --run test/attachment-upload.test.ts test/runner-lifecycle.test.ts test/offline-entry.test.ts test/diagnosis-statistics.test.ts
++```
++
++包级 `test` 脚本由根 workspace 测试入口发现，CI 另有必跑的 LightClaw 步骤，防止再次被 `--if-present` 静默跳过。测试使用临时 HOME、移除继承的凭证变量、阻止 Node TCP/fetch 请求，模型与平台调用使用 faux/mock。统计回归调用 Python 标准库读取虚构 JSON；历史数据重算入口为 `docs/diagnosis/2026-10-21/analyze-live-v2.py`，`--check` 只读验证已生成 v2 文件，不调用模型。
+ 
+ ## 运行 Agent 评测
+ 
+--- before/packages/lightclaw/package.json
++++ after/packages/lightclaw/package.json
+@@ -14,12 +14,14 @@
+ 	"types": "./dist/index.d.ts",
+ 	"files": [
+ 		"dist",
++		"src/attachment-reader.py",
+ 		"evals",
+ 		"CHANGELOG.md",
+ 		"Dockerfile",
+ 		"docker.sh"
+ 	],
+ 	"scripts": {
++		"test": "tsx ../../node_modules/vitest/dist/cli.js --run",
+ 		"clean": "shx rm -rf dist",
+ 		"build": "tsgo -p tsconfig.build.json && shx chmod +x dist/main.js dist/benchmark/cli.js dist/evals/cli.js dist/evals/optimize-cli.js dist/goals/migrate-cli.js",
+ 		"dev": "tsgo -p tsconfig.build.json --watch --preserveWatchOutput",
+--- before/packages/lightclaw/src/agent.ts
++++ after/packages/lightclaw/src/agent.ts
+@@ -25,6 +25,7 @@
+ import { mkdir, writeFile } from "fs/promises";
+ import { homedir } from "os";
+ import { join, resolve } from "path";
++import { attachmentPathForChannel } from "./attachments.js";
+ import { featureEnabled, type LightClawConfig } from "./config.js";
+ import { createLightClawSettingsManager, syncLogToSessionManager } from "./context.js";
+ import { formatGoalPrompt } from "./goals/prompt.js";
+@@ -552,8 +553,8 @@
+ 			async (filePath, title) => {
+ 				const ctx = runState.ctx;
+ 				if (!ctx) throw new Error("Attachments require an active run");
+-				const hostPath = translateToHostPath(filePath, channelDir, workspacePath, channelId);
+-				await ctx.uploadFile(hostPath, title);
++				const relativePath = attachmentPathForChannel(filePath, channelDir, workspacePath, channelId);
++				await ctx.uploadFile(relativePath, title);
+ 			},
+ 			() => {
+ 				assertRunActive();
+@@ -1223,24 +1224,3 @@
+ 		},
+ 	};
+ }
+-
+-/**
+- * Translate container path back to host path for file operations
+- */
+-function translateToHostPath(
+-	containerPath: string,
+-	channelDir: string,
+-	workspacePath: string,
+-	channelId: string,
+-): string {
+-	if (workspacePath === "/workspace") {
+-		const prefix = `/workspace/${channelId}/`;
+-		if (containerPath.startsWith(prefix)) {
+-			return join(channelDir, containerPath.slice(prefix.length));
+-		}
+-		if (containerPath.startsWith("/workspace/")) {
+-			return join(channelDir, "..", containerPath.slice("/workspace/".length));
+-		}
+-	}
+-	return containerPath;
+-}
+--- before/packages/lightclaw/src/attachment-reader.py
++++ after/packages/lightclaw/src/attachment-reader.py
+@@ -0,0 +1,67 @@
++"""Bounded POSIX attachment read. No path is reopened after authorization."""
++
++import os
++import stat
++import sys
++
++
++def components(path):
++    parts = path.split("/")
++    if not path or "\\" in path or "\0" in path or any(p in ("", ".", "..") for p in parts):
++        raise ValueError("Attachment requires a channel-relative path without traversal")
++    return parts
++
++
++def read_attachment(root, channel, path, limit):
++    if len(components(channel)) != 1:
++        raise ValueError("Invalid attachment channel")
++    parts = components(path)
++    if limit <= 0 or not os.path.isabs(root):
++        raise ValueError("Invalid attachment read policy")
++    # root is a trusted, canonical host configuration, not model input.
++    # Walk from / with pinned directory descriptors even for the root itself.
++    directories = [p for p in root.split("/") if p] + [channel] + parts[:-1]
++    flags = os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC
++    parent = os.open("/", flags)
++    try:
++        for name in directories:
++            child = os.open(name, flags, dir_fd=parent)
++            os.close(parent)
++            parent = child
++        fd = os.open(parts[-1], os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK | os.O_CLOEXEC, dir_fd=parent)
++        try:
++            before = os.fstat(fd)
++            if not stat.S_ISREG(before.st_mode) or before.st_nlink != 1:
++                raise ValueError("Attachment must be a regular file with one hard link")
++            if before.st_size > limit:
++                raise ValueError("Attachment exceeds upload size limit")
++            chunks = []
++            size = 0
++            while True:
++                chunk = os.read(fd, min(65536, limit + 1 - size))
++                if not chunk:
++                    break
++                size += len(chunk)
++                if size > limit:
++                    raise ValueError("Attachment exceeds upload size limit")
++                chunks.append(chunk)
++            after = os.fstat(fd)
++            def fingerprint(s):
++                return (s.st_dev, s.st_ino, s.st_size, s.st_mtime_ns, s.st_ctime_ns, s.st_nlink)
++            if fingerprint(before) != fingerprint(after) or size != after.st_size:
++                raise ValueError("Attachment changed during read")
++            return b"".join(chunks)
++        finally:
++            os.close(fd)
++    finally:
++        os.close(parent)
++
++
++if __name__ == "__main__":
++    try:
++        data = read_attachment(sys.argv[1], sys.argv[2], sys.argv[3], int(sys.argv[4]))
++        sys.stdout.buffer.write(data)
++    except (OSError, ValueError) as error:
++        # Do not expose host paths or file contents in tool errors.
++        sys.stderr.write(f"Attachment rejected ({type(error).__name__})\n")
++        sys.exit(1)
+--- before/packages/lightclaw/src/attachments.ts
++++ after/packages/lightclaw/src/attachments.ts
+@@ -0,0 +1,48 @@
++import { execFile } from "node:child_process";
++import { realpathSync } from "node:fs";
++import { isAbsolute, resolve } from "node:path";
++import { fileURLToPath } from "node:url";
++
++export const MAX_ATTACHMENT_BYTES = 20 * 1024 * 1024;
++const readerPath = fileURLToPath(new URL("../src/attachment-reader.py", import.meta.url));
++
++function validateRelativePath(path: string): string {
++	if (!path || isAbsolute(path) || /[\\\0]/.test(path) || path.split("/").some((p) => !p || p === "." || p === "..")) {
++		throw new Error("Attachment requires a channel-relative path without traversal");
++	}
++	return path;
++}
++
++/** Convert only this runner's own namespace. The transport independently authorizes reads. */
++export function attachmentPathForChannel(
++	path: string,
++	channelDir: string,
++	workspacePath: string,
++	channelId: string,
++): string {
++	const prefix = workspacePath === "/workspace" ? `/workspace/${channelId}/` : `${resolve(channelDir)}/`;
++	return validateRelativePath(path.startsWith(prefix) ? path.slice(prefix.length) : path);
++}
++
++/** Host boundary: SDKs receive bytes, never an unchecked path or a lazy path stream. */
++export async function readChannelAttachment(workingDir: string, channel: string, path: string): Promise<Buffer> {
++	validateRelativePath(path);
++	if (!/^[A-Za-z0-9_-]+$/.test(channel)) throw new Error("Invalid attachment channel");
++	const root = realpathSync(workingDir);
++	return new Promise((resolveRead, reject) => {
++		execFile(
++			"python3",
++			["-I", readerPath, root, channel, path, String(MAX_ATTACHMENT_BYTES)],
++			{ encoding: "buffer", maxBuffer: MAX_ATTACHMENT_BYTES + 1, timeout: 10_000, killSignal: "SIGKILL" },
++			(error, stdout) => {
++				if (error)
++					reject(
++						new Error(
++							"Attachment rejected: safe read failed (requires host Python 3, a channel-local regular file, and at most 20 MiB)",
++						),
++					);
++				else resolveRead(stdout);
++			},
++		);
++	});
++}
+--- before/packages/lightclaw/src/feishu.ts
++++ after/packages/lightclaw/src/feishu.ts
+@@ -1,6 +1,7 @@
+ import * as Lark from "@larksuiteoapi/node-sdk";
+-import { appendFileSync, existsSync, mkdirSync, readFileSync } from "fs";
++import { appendFileSync, existsSync, mkdirSync } from "fs";
+ import { basename, join } from "path";
++import { readChannelAttachment } from "./attachments.js";
+ import { ChannelQueue, type ChannelQueueOptions } from "./channel-queue.js";
+ import { IdleResourceCache } from "./idle-cache.js";
+ import * as log from "./log.js";
+@@ -215,7 +216,11 @@
+ 	async uploadFile(channel: string, filePath: string, title?: string): Promise<void> {
+ 		const fileName = title || basename(filePath);
+ 		const up = await this.client.im.v1.file.create({
+-			data: { file_type: "stream", file_name: fileName, file: readFileSync(filePath) },
++			data: {
++				file_type: "stream",
++				file_name: fileName,
++				file: await readChannelAttachment(this.workingDir, channel, filePath),
++			},
+ 		});
+ 		if (!up?.file_key) throw new Error("feishu upload failed: no file_key (needs im:resource?)");
+ 		const res = await this.client.im.v1.message.create({
+--- before/packages/lightclaw/src/slack.ts
++++ after/packages/lightclaw/src/slack.ts
+@@ -2,6 +2,7 @@
+ import { WebClient } from "@slack/web-api";
+ import { appendFileSync, existsSync, mkdirSync, readFileSync } from "fs";
+ import { basename, join } from "path";
++import { readChannelAttachment } from "./attachments.js";
+ import { ChannelQueue, type ChannelQueueOptions } from "./channel-queue.js";
+ import { IdleResourceCache } from "./idle-cache.js";
+ import * as log from "./log.js";
+@@ -138,7 +139,7 @@
+ 
+ 	async uploadFile(channel: string, filePath: string, title?: string): Promise<void> {
+ 		const fileName = title || basename(filePath);
+-		const fileContent = readFileSync(filePath);
++		const fileContent = await readChannelAttachment(this.workingDir, channel, filePath);
+ 		await this.webClient.files.uploadV2({
+ 			channel_id: channel,
+ 			file: fileContent,
+--- before/packages/lightclaw/src/tools/attach.ts
++++ after/packages/lightclaw/src/tools/attach.ts
+@@ -1,5 +1,5 @@
+ import type { AgentTool } from "@mariozechner/pi-agent-core";
+-import { basename, resolve as resolvePath } from "path";
++import { basename } from "path";
+ import { Type } from "typebox";
+ 
+ export type UploadFunction = (filePath: string, title?: string) => Promise<void>;
+@@ -15,7 +15,7 @@
+ 		name: "attach",
+ 		label: "attach",
+ 		description:
+-			"Attach a file to your response. Use this to share files, images, or documents with the user. Only files from /workspace/ can be attached.",
++			"Attach a file to your response. Use this to share files, images, or documents with the user. Only regular files in the current channel directory can be attached (maximum 20 MiB). Use a channel-relative path or the current channel absolute path; shared and other-channel files are not allowed.",
+ 		parameters: attachSchema,
+ 		execute: async (
+ 			_toolCallId: string,
+@@ -26,10 +26,9 @@
+ 				throw new Error("Operation aborted");
+ 			}
+ 
+-			const absolutePath = resolvePath(path);
+-			const fileName = title || basename(absolutePath);
++			const fileName = title || basename(path);
+ 
+-			await upload(absolutePath, fileName);
++			await upload(path, fileName);
+ 
+ 			return {
+ 				content: [{ type: "text" as const, text: `Attached file: ${fileName}` }],
+--- before/packages/lightclaw/src/transport.ts
++++ after/packages/lightclaw/src/transport.ts
+@@ -35,6 +35,7 @@
+ 	updateMessage(channel: string, messageId: string, text: string): Promise<void>;
+ 	deleteMessage(channel: string, messageId: string): Promise<void>;
+ 	postInThread(channel: string, rootMessageId: string, text: string): Promise<string>;
++	/** filePath is relative to this channel; the transport authorizes the host read. */
+ 	uploadFile(channel: string, filePath: string, title?: string): Promise<void>;
+ 	logBotResponse(channel: string, text: string, messageId: string): void;
+ 	enqueueEvent(event: ChatEvent): boolean;
+@@ -57,6 +58,7 @@
+ 	replaceMessage(text: string): Promise<void>;
+ 	respondInThread(text: string): Promise<void>;
+ 	setTyping(isTyping: boolean): Promise<void>;
++	/** filePath is channel-relative, never an arbitrary host path. */
+ 	uploadFile(filePath: string, title?: string): Promise<void>;
+ 	setWorking(working: boolean): Promise<void>;
+ 	deleteMessage(): Promise<void>;
+--- before/packages/lightclaw/test/attachment-upload.test.ts
++++ after/packages/lightclaw/test/attachment-upload.test.ts
+@@ -0,0 +1,175 @@
++import { execFileSync } from "node:child_process";
++import {
++	linkSync,
++	mkdirSync,
++	mkdtempSync,
++	realpathSync,
++	rmSync,
++	symlinkSync,
++	truncateSync,
++	writeFileSync,
++} from "node:fs";
++import { tmpdir } from "node:os";
++import { join } from "node:path";
++import { fileURLToPath } from "node:url";
++import { afterEach, describe, expect, it } from "vitest";
++import { FeishuBot } from "../src/feishu.js";
++import { SlackBot } from "../src/slack.js";
++
++const directories: string[] = [];
++afterEach(() => {
++	for (const dir of directories.splice(0)) rmSync(dir, { recursive: true, force: true });
++});
++
++function fixture(platform: "feishu" | "slack"): {
++	root: string;
++	workingDir: string;
++	uploads: Buffer[];
++	bot: Pick<FeishuBot, "uploadFile">;
++} {
++	const root = mkdtempSync(join(tmpdir(), "lightclaw-attachment-"));
++	directories.push(root);
++	const workingDir = join(root, "workspace");
++	mkdirSync(join(workingDir, "current", "nested"), { recursive: true });
++	mkdirSync(join(workingDir, "other"));
++	writeFileSync(join(workingDir, "current", "nested", "report.txt"), "authorized report");
++	writeFileSync(join(workingDir, "other", "private.txt"), "fictional other channel");
++	writeFileSync(join(root, "outside.txt"), "fictional outside file");
++	const uploads: Buffer[] = [];
++	const bot =
++		platform === "feishu"
++			? Object.assign(Object.create(FeishuBot.prototype) as FeishuBot, {
++					workingDir,
++					client: {
++						im: {
++							v1: {
++								file: {
++									create: async ({ data }: { data: { file: Buffer } }) => {
++										uploads.push(data.file);
++										return { file_key: "mock-key" };
++									},
++								},
++								message: { create: async () => ({ code: 0 }) },
++							},
++						},
++					},
++				})
++			: Object.assign(Object.create(SlackBot.prototype) as SlackBot, {
++					workingDir,
++					webClient: {
++						files: {
++							uploadV2: async ({ file }: { file: Buffer }) => {
++								uploads.push(file);
++							},
++						},
++					},
++				});
++	return { root, workingDir, uploads, bot };
++}
++
++describe.each(["feishu", "slack"] as const)("%s attachment filesystem boundary", (platform) => {
++	it("rejects an outside absolute path before SDK upload", async () => {
++		const f = fixture(platform);
++		await expect(f.bot.uploadFile("current", join(f.root, "outside.txt"))).rejects.toThrow();
++		expect(f.uploads).toEqual([]);
++	});
++	it("uploads current-channel relative bytes", async () => {
++		const f = fixture(platform);
++		await f.bot.uploadFile("current", "nested/report.txt", "Report");
++		expect(f.uploads.map((b) => b.toString())).toEqual(["authorized report"]);
++	});
++	it.each([
++		"../other/private.txt",
++		"nested/../../other/private.txt",
++		"/workspace/other/private.txt",
++		"nested/../nested/report.txt",
++		"nested\\report.txt",
++	])("rejects ambiguous or escaping path %s", async (path) => {
++		const f = fixture(platform);
++		await expect(f.bot.uploadFile("current", path)).rejects.toThrow();
++		expect(f.uploads).toEqual([]);
++	});
++	it.each(["../other", "/other", ".", "current/../other"])("rejects unsafe channel %s", async (channel) => {
++		const f = fixture(platform);
++		await expect(f.bot.uploadFile(channel, "private.txt")).rejects.toThrow();
++		expect(f.uploads).toEqual([]);
++	});
++	it.each(["leaf", "directory", "channel", "hardlink", "fifo", "folder", "large"])(
++		"rejects %s at the read boundary",
++		async (kind) => {
++			const f = fixture(platform);
++			const channel = join(f.workingDir, "current");
++			let path = "blocked";
++			if (kind === "leaf") symlinkSync(join(f.root, "outside.txt"), join(channel, path));
++			if (kind === "directory") {
++				symlinkSync(join(f.workingDir, "other"), join(channel, path));
++				path += "/private.txt";
++			}
++			if (kind === "channel") {
++				rmSync(channel, { recursive: true });
++				symlinkSync(join(f.workingDir, "other"), channel);
++				path = "private.txt";
++			}
++			if (kind === "hardlink") linkSync(join(f.root, "outside.txt"), join(channel, path));
++			if (kind === "fifo") execFileSync("mkfifo", [join(channel, path)]);
++			if (kind === "folder") mkdirSync(join(channel, path));
++			if (kind === "large") {
++				writeFileSync(join(channel, path), "");
++				truncateSync(join(channel, path), 20 * 1024 * 1024 + 1);
++			}
++			await expect(f.bot.uploadFile("current", path)).rejects.toThrow();
++			expect(f.uploads).toEqual([]);
++		},
++	);
++});
++
++const reader = fileURLToPath(new URL("../src/attachment-reader.py", import.meta.url));
++it.each(["directory-before", "directory-after", "leaf-before", "leaf-after", "growth", "rewrite"])(
++	"pins descriptors under deterministic %s race",
++	(race) => {
++		const f = fixture("slack");
++		const code = `
++import os, runpy, sys
++from unittest.mock import patch
++reader, root, race = sys.argv[1:]
++read_attachment = runpy.run_path(reader)["read_attachment"]
++original_open, original_read = os.open, os.read
++swapped = False
++def swap():
++    base = os.path.join(root, "current")
++    target = os.path.join(base, "nested" if race.startswith("directory") else "nested/report.txt")
++    os.rename(target, target + ".saved")
++    os.symlink(os.path.join(root, "other") if race.startswith("directory") else os.path.join(root, "other/private.txt"), target)
++def opening(path, flags, *args, **kwargs):
++    global swapped
++    target = "nested" if race.startswith("directory") else "report.txt"
++    active = path == target and not swapped and race not in ("growth", "rewrite")
++    if active:
++        swapped = True
++        if race.endswith("before"): swap()
++    fd = original_open(path, flags, *args, **kwargs)
++    if active and race.endswith("after"): swap()
++    return fd
++def reading(fd, size):
++    global swapped
++    result = original_read(fd, size)
++    if not swapped and race in ("growth", "rewrite"):
++        swapped = True
++        with open(os.path.join(root, "current/nested/report.txt"), "r+b") as out:
++            if race == "growth": out.truncate(33)
++            else: out.write(b"X")
++    return result
++with patch("os.open", opening), patch("os.read", reading):
++    try:
++        result = read_attachment(root, "current", "nested/report.txt", 32)
++        sys.stdout.buffer.write(result)
++    except (OSError, ValueError):
++        sys.stdout.write("REJECTED")
++`;
++		const bytes = execFileSync("python3", ["-I", "-c", code, reader, realpathSync(f.workingDir), race], {
++			encoding: "utf8",
++		});
++		if (race.endsWith("after")) expect(bytes).toBe("authorized report");
++		else expect(bytes).toBe("REJECTED");
++	},
++);
+--- before/packages/lightclaw/test/diagnosis-statistics.test.ts
++++ after/packages/lightclaw/test/diagnosis-statistics.test.ts
+@@ -0,0 +1,146 @@
++import { execFileSync } from "node:child_process";
++import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
++import { tmpdir } from "node:os";
++import { join } from "node:path";
++import { fileURLToPath } from "node:url";
++import { afterEach, expect, it } from "vitest";
++
++const script = fileURLToPath(new URL("../../../docs/diagnosis/2026-10-21/analyze-live-v2.py", import.meta.url));
++const dirs: string[] = [];
++afterEach(() => {
++	for (const d of dirs.splice(0)) rmSync(d, { recursive: true, force: true });
++});
++function sample() {
++	const root = mkdtempSync(join(tmpdir(), "lightclaw-stats-"));
++	dirs.push(root);
++	const live = join(root, "live");
++	const out = join(root, "out");
++	mkdirSync(live);
++	const save = (path: string, data: unknown) => {
++		mkdirSync(join(live, path, ".."), { recursive: true });
++		writeFileSync(join(live, path), JSON.stringify(data));
++	};
++	const job = (id: string) => ({ id, arm: "fixture", caseId: id, repetition: 0 });
++	const record = (id: string, success = true, usage: object | null = { totalTokens: 10 }) => ({
++		...job(id),
++		success,
++		cycles: 1,
++		modelRequests: 1,
++		usage,
++		result: { checks: [{ name: "agent_run", passed: success }], run: { durationMs: 2, toolErrors: 0, cost: 0 } },
++	});
++	const ids = [
++		"success",
++		"failure",
++		"timeout-success",
++		"worker",
++		"missing",
++		"no-controller",
++		"not-started",
++		"invalid",
++		"no-usage",
++	];
++	save("phase-freeze.json", { jobs: ids.map(job) });
++	save("phase-complete.json", {
++		finished: 7,
++		planned: 9,
++		budgetLimited: true,
++		reserved: 12,
++		reportedTokens: 75,
++		results: [
++			{ id: "success", code: 0, timeout: false },
++			{ id: "failure", code: 0, timeout: false },
++			{ id: "timeout-success", code: 0, timeout: true },
++			{ id: "worker", code: 1, timeout: false },
++			{ id: "missing", code: 0, timeout: false },
++			{ id: "invalid", code: 0, timeout: false },
++			{ id: "no-usage", code: 0, timeout: false },
++		],
++	});
++	for (const id of ["success", "timeout-success", "no-controller"]) save(`raw/${id}/run.json`, record(id));
++	save("raw/failure/run.json", record("failure", false));
++	save("raw/invalid/run.json", { id: "invalid", success: true });
++	save("raw/no-usage/run.json", record("no-usage", true, null));
++	const run = (...args: string[]) =>
++		execFileSync("python3", ["-I", script, "--live-dir", live, "--output-dir", out, ...args], {
++			encoding: "utf8",
++			stdio: ["ignore", "pipe", "pipe"],
++		});
++	return { root, live, out, save, run };
++}
++it("joins frozen plans, start evidence, controllers and records without double counting", () => {
++	const f = sample();
++	f.run();
++	const report = JSON.parse(readFileSync(join(f.out, "live-summary.v2.json"), "utf8"));
++	const m = report.formal;
++	expect(m.counts).toMatchObject({
++		planned: 9,
++		started_evidenced: 8,
++		controller_results: 7,
++		record_files: 6,
++		complete_records: 5,
++		not_started: 1,
++		missing_records_started: 2,
++		invalid_records: 1,
++	});
++	expect(m.terminal_states).toMatchObject({
++		success: 2,
++		task_failure: 1,
++		external_timeout: 1,
++		worker_error: 1,
++		missing_record: 1,
++		missing_controller: 1,
++		not_started: 1,
++		invalid_record: 1,
++	});
++	expect(Object.values(m.terminal_states).reduce((a: number, b) => a + Number(b), 0)).toBe(9);
++	expect(m.success_rate_started).toBe(2 / 8);
++	expect(m.resources.totalTokens).toMatchObject({
++		known_attempts: 4,
++		missing_attempts: 4,
++		observed_total: 40,
++		total_if_complete: null,
++		mean_of_known: 10,
++	});
++	expect(m.cost).toBeNull();
++	expect(report.conflicts).toEqual(
++		expect.arrayContaining([expect.objectContaining({ id: "timeout-success", kind: "timeout_with_success_record" })]),
++	);
++	expect(f.run("--check")).toContain("verified");
++	expect(() => f.run()).toThrow();
++});
++it("does not confuse pre-created job files or empty dispatch directories with started workers", () => {
++	const f = sample();
++	f.save("unfinished-freeze.json", {
++		jobs: [
++			{ id: "uncertain", arm: "fixture" },
++			{ id: "dispatched", arm: "fixture" },
++		],
++	});
++	f.save("jobs/uncertain.json", { id: "uncertain" });
++	mkdirSync(join(f.live, "raw/dispatched"), { recursive: true });
++	f.run();
++	const report = JSON.parse(readFileSync(join(f.out, "live-summary.v2.json"), "utf8"));
++	expect(report.phases.unfinished.counts).toMatchObject({
++		planned: 2,
++		started_evidenced: 0,
++		start_unknown: 2,
++		not_started: 0,
++	});
++});
++it("keeps progress-only outcomes and never overwrites conflicting controller evidence", () => {
++	const f = sample();
++	f.save("phase-progress.jsonl", { id: "success", code: null, signal: "SIGKILL", timeout: true });
++	f.run();
++	const report = JSON.parse(readFileSync(join(f.out, "live-summary.v2.json"), "utf8"));
++	expect(report.formal.terminal_states.success).toBe(1);
++	expect(report.formal.terminal_states.external_timeout).toBe(2);
++	expect(report.conflicts).toEqual(
++		expect.arrayContaining([expect.objectContaining({ id: "success", kind: "controller_disagreement" })]),
++	);
++});
++it("rejects duplicate frozen identities instead of silently overwriting a job", () => {
++	const f = sample();
++	f.save("duplicate-freeze.json", { jobs: [{ id: "success" }] });
++	expect(() => f.run()).toThrow();
++});
+--- before/packages/lightclaw/test/offline-entry.test.ts
++++ after/packages/lightclaw/test/offline-entry.test.ts
+@@ -0,0 +1,17 @@
++import { readFileSync } from "node:fs";
++import { Socket } from "node:net";
++import { homedir } from "node:os";
++import { describe, expect, it, vi } from "vitest";
++
++describe("LightClaw offline test entry", () => {
++	it("is a mandatory workspace test script", () => {
++		const pkg = JSON.parse(readFileSync(new URL("../package.json", import.meta.url), "utf8"));
++		expect(pkg.scripts.test).toBe("tsx ../../node_modules/vitest/dist/cli.js --run");
++	});
++	it("blocks accidental network access even after test mock cleanup", async () => {
++		vi.restoreAllMocks();
++		expect(homedir()).toContain("lightclaw-offline-home-");
++		expect(() => new Socket().connect(443, "example.invalid")).toThrow("Network disabled");
++		await expect(fetch("https://example.invalid")).rejects.toThrow("Network disabled");
++	});
++});
+--- before/packages/lightclaw/test/offline-setup.ts
++++ after/packages/lightclaw/test/offline-setup.ts
+@@ -0,0 +1,23 @@
++import { mkdtempSync, rmSync } from "node:fs";
++import { Socket } from "node:net";
++import { tmpdir } from "node:os";
++import { join } from "node:path";
++import { afterAll } from "vitest";
++
++// No inherited credentials or user auth/config files in the offline suite.
++const testHome = mkdtempSync(join(tmpdir(), "lightclaw-offline-home-"));
++for (const key of Object.keys(process.env)) {
++	if (/KEY|TOKEN|SECRET|PASSWORD|CREDENTIAL/i.test(key)) delete process.env[key];
++}
++process.env.HOME = testHome;
++process.env.PI_CODING_AGENT_DIR = join(testHome, ".pi", "agent");
++process.env.LIGHTCLAW_OFFLINE_TEST = "1";
++
++// Direct assignments survive test-local vi.restoreAllMocks(). Mock SDKs/providers instead.
++Socket.prototype.connect = () => {
++	throw new Error("Network disabled in LightClaw offline tests");
++};
++globalThis.fetch = async () => {
++	throw new Error("Network disabled in LightClaw offline tests");
++};
++afterAll(() => rmSync(testHome, { recursive: true, force: true }));
+--- before/packages/lightclaw/test/runner-lifecycle.test.ts
++++ after/packages/lightclaw/test/runner-lifecycle.test.ts
+@@ -12,10 +12,12 @@
+ import { afterEach, describe, expect, it, vi } from "vitest";
+ import { createAgentRunner, getOrCreateRunner, releaseRunner } from "../src/agent.js";
+ import type { LightClawConfig } from "../src/config.js";
++import { FeishuBot } from "../src/feishu.js";
+ import { GoalStore } from "../src/goals/store.js";
+ import { IdleResourceCache } from "../src/idle-cache.js";
+ import type { SandboxConfig } from "../src/sandbox.js";
+ import * as sandboxModule from "../src/sandbox.js";
++import { SlackBot } from "../src/slack.js";
+ import { ChannelStore } from "../src/store.js";
+ import type { ChatContext } from "../src/transport.js";
+ 
+@@ -506,7 +508,7 @@
+ 			await release.promise;
+ 		};
+ 		fixture.provider.setResponses([
+-			fauxAssistantMessage(fauxToolCall("attach", { label: "upload", path: "/tmp/report" }), {
++			fauxAssistantMessage(fauxToolCall("attach", { label: "upload", path: "report" }), {
+ 				stopReason: "toolUse",
+ 			}),
+ 			fauxAssistantMessage("must not continue"),
+@@ -564,16 +566,16 @@
+ 		const fixture = createFixture("tool-budget", { type: "host" }, { maxRunToolCalls: 1 });
+ 		const ctx = createContext("tool-budget");
+ 		fixture.provider.setResponses([
+-			fauxAssistantMessage(fauxToolCall("attach", { label: "first", path: "/tmp/first.txt" }), {
++			fauxAssistantMessage(fauxToolCall("attach", { label: "first", path: "first.txt" }), {
+ 				stopReason: "toolUse",
+ 			}),
+-			fauxAssistantMessage(fauxToolCall("attach", { label: "second", path: "/tmp/second.txt" }), {
++			fauxAssistantMessage(fauxToolCall("attach", { label: "second", path: "second.txt" }), {
+ 				stopReason: "toolUse",
+ 			}),
+ 			fauxAssistantMessage("must not continue"),
+ 		]);
+ 		const result = await fixture.runner.run(ctx.context, fixture.store);
+-		expect(ctx.uploads).toEqual([{ path: "/tmp/first.txt", title: "first.txt" }]);
++		expect(ctx.uploads).toEqual([{ path: "first.txt", title: "first.txt" }]);
+ 		expect(result.stopReason).toBe("aborted");
+ 		expect(result.budgetReason).toContain("tool");
+ 		expect(fixture.provider.state.callCount).toBe(2);
+@@ -583,7 +585,7 @@
+ 		const fixture = createFixture("token-budget", { type: "host" }, { maxRunTokens: 1 });
+ 		const ctx = createContext("token-budget");
+ 		fixture.provider.setResponses([
+-			fauxAssistantMessage(fauxToolCall("attach", { label: "blocked", path: "/tmp/blocked.txt" }), {
++			fauxAssistantMessage(fauxToolCall("attach", { label: "blocked", path: "blocked.txt" }), {
+ 				stopReason: "toolUse",
+ 			}),
+ 			fauxAssistantMessage("must not continue"),
+@@ -608,7 +610,7 @@
+ 			async () => {
+ 				enteredA.resolve();
+ 				await releaseA.promise;
+-				return fauxAssistantMessage(fauxToolCall("attach", { label: "A report", path: "/tmp/channel-a.txt" }), {
++				return fauxAssistantMessage(fauxToolCall("attach", { label: "A report", path: "channel-a.txt" }), {
+ 					stopReason: "toolUse",
+ 				});
+ 			},
+@@ -618,7 +620,7 @@
+ 			async () => {
+ 				enteredB.resolve();
+ 				await releaseB.promise;
+-				return fauxAssistantMessage(fauxToolCall("attach", { label: "B report", path: "/tmp/channel-b.txt" }), {
++				return fauxAssistantMessage(fauxToolCall("attach", { label: "B report", path: "channel-b.txt" }), {
+ 					stopReason: "toolUse",
+ 				});
+ 			},
+@@ -633,8 +635,8 @@
+ 			expect((await runA).toolErrors).toBe(0);
+ 			releaseB.resolve();
+ 			expect((await runB).toolErrors).toBe(0);
+-			expect(ctxA.uploads).toEqual([{ path: "/tmp/channel-a.txt", title: "channel-a.txt" }]);
+-			expect(ctxB.uploads).toEqual([{ path: "/tmp/channel-b.txt", title: "channel-b.txt" }]);
++			expect(ctxA.uploads).toEqual([{ path: "channel-a.txt", title: "channel-a.txt" }]);
++			expect(ctxB.uploads).toEqual([{ path: "channel-b.txt", title: "channel-b.txt" }]);
+ 		} finally {
+ 			releaseA.resolve();
+ 			releaseB.resolve();
+@@ -652,7 +654,7 @@
+ 			async () => {
+ 				entered.resolve();
+ 				await release.promise;
+-				return fauxAssistantMessage(fauxToolCall("attach", { label: "report", path: "/tmp/first.txt" }), {
++				return fauxAssistantMessage(fauxToolCall("attach", { label: "report", path: "first.txt" }), {
+ 					stopReason: "toolUse",
+ 				});
+ 			},
+@@ -664,7 +666,7 @@
+ 			await expect(fixture.runner.run(second.context, fixture.store)).rejects.toThrow();
+ 			release.resolve();
+ 			expect((await firstRun).toolErrors).toBe(0);
+-			expect(first.uploads).toEqual([{ path: "/tmp/first.txt", title: "first.txt" }]);
++			expect(first.uploads).toEqual([{ path: "first.txt", title: "first.txt" }]);
+ 			expect(second.uploads).toEqual([]);
+ 			expect(second.messages).toEqual([]);
+ 		} finally {
+@@ -686,7 +688,7 @@
+ 		};
+ 		fixture.provider.setResponses([
+ 			fauxAssistantMessage("queued reply"),
+-			fauxAssistantMessage(fauxToolCall("attach", { label: "new report", path: "/tmp/new.txt" }), {
++			fauxAssistantMessage(fauxToolCall("attach", { label: "new report", path: "new.txt" }), {
+ 				stopReason: "toolUse",
+ 			}),
+ 			fauxAssistantMessage("recovered"),
+@@ -716,12 +718,12 @@
+ 			expect(first.messages).toEqual(["queued reply"]);
+ 			expect(capturedAttach).toBeDefined();
+ 			if (!capturedAttach) throw new Error("attach tool missing");
+-			await expect(capturedAttach.execute("stale", { label: "stale", path: "/tmp/stale.txt" })).rejects.toThrow(
++			await expect(capturedAttach.execute("stale", { label: "stale", path: "stale.txt" })).rejects.toThrow(
+ 				/active run/i,
+ 			);
+ 			expect(first.uploads).toEqual([]);
+ 			expect((await fixture.runner.run(second.context, fixture.store)).toolErrors).toBe(0);
+-			expect(second.uploads).toEqual([{ path: "/tmp/new.txt", title: "new.txt" }]);
++			expect(second.uploads).toEqual([{ path: "new.txt", title: "new.txt" }]);
+ 			expect(second.messages).toContain("recovered");
+ 		} finally {
+ 			releaseReply.resolve();
+@@ -740,7 +742,7 @@
+ 		expect(ctx.messages).toContain("setup recovered");
+ 	});
+ 
+-	it("uses each new run's upload context and maps Docker paths back to the host", async () => {
++	it("uses each new run's upload context and maps only its Docker channel", async () => {
+ 		const fixture = createFixture("docker-path", { type: "docker", container: "unused-test-container" });
+ 		const first = createContext("docker-path");
+ 		const second = createContext("docker-path", "2");
+@@ -754,17 +756,96 @@
+ 				{ stopReason: "toolUse" },
+ 			),
+ 			fauxAssistantMessage("first done"),
+-			fauxAssistantMessage(fauxToolCall("attach", { label: "shared report", path: "/workspace/shared.txt" }), {
+-				stopReason: "toolUse",
+-			}),
++			fauxAssistantMessage(
++				fauxToolCall("attach", { label: "shared report", path: "/workspace/docker-path/shared.txt" }),
++				{
++					stopReason: "toolUse",
++				},
++			),
+ 			fauxAssistantMessage("second done"),
+ 		]);
+ 		expect((await fixture.runner.run(first.context, fixture.store)).toolErrors).toBe(0);
+ 		expect((await fixture.runner.run(second.context, fixture.store)).toolErrors).toBe(0);
+-		expect(first.uploads).toEqual([{ path: join(fixture.channelDir, "report.txt"), title: "Report" }]);
+-		expect(second.uploads).toEqual([{ path: join(fixture.workspace, "shared.txt"), title: "shared.txt" }]);
++		expect(first.uploads).toEqual([{ path: "report.txt", title: "Report" }]);
++		expect(second.uploads).toEqual([{ path: "shared.txt", title: "shared.txt" }]);
+ 	});
+ });
++
++it.each([
++	"/workspace/other/private.txt",
++	"/workspace/shared.txt",
++	"/tmp/fictional-outside.txt",
++	"/workspace/own/../other/private.txt",
++	"../other/private.txt",
++])("runner rejects unauthorized attach path %s", async (path) => {
++	const f = createFixture("own", { type: "docker", container: "unused" });
++	const ctx = createContext("own");
++	f.provider.setResponses([
++		fauxAssistantMessage(fauxToolCall("attach", { label: "blocked", path }), { stopReason: "toolUse" }),
++		fauxAssistantMessage("attachment rejected"),
++	]);
++	const result = await f.runner.run(ctx.context, f.store);
++	expect(result.toolErrors).toBe(1);
++	expect(ctx.uploads).toEqual([]);
++});
++
++it.each([
++	{ platform: "feishu", sandbox: "host" },
++	{ platform: "slack", sandbox: "host" },
++	{ platform: "feishu", sandbox: "docker" },
++	{ platform: "slack", sandbox: "docker" },
++] as const)(
++	"delivers actual channel bytes through attach, $sandbox runner and $platform SDK boundary",
++	async ({ platform, sandbox }) => {
++		const f = createFixture(
++			"delivery",
++			sandbox === "host" ? { type: "host" } : { type: "docker", container: "unused" },
++		);
++		mkdirSync(f.channelDir, { recursive: true });
++		writeFileSync(join(f.channelDir, "report.txt"), "fictional delivery bytes");
++		const delivered: Buffer[] = [];
++		const bot = Object.assign(
++			Object.create(platform === "feishu" ? FeishuBot.prototype : SlackBot.prototype) as object,
++			{
++				workingDir: f.workspace,
++				client: {
++					im: {
++						v1: {
++							file: {
++								create: async ({ data }: { data: { file: Buffer } }) => {
++									delivered.push(data.file);
++									return { file_key: "mock" };
++								},
++							},
++							message: { create: async () => ({ code: 0 }) },
++						},
++					},
++				},
++				webClient: {
++					files: {
++						uploadV2: async ({ file }: { file: Buffer }) => {
++							delivered.push(file);
++						},
++					},
++				},
++			},
++		) as unknown as Pick<FeishuBot, "uploadFile">;
++		const ctx = createContext("delivery");
++		ctx.context.uploadFile = (path, title) => bot.uploadFile("delivery", path, title);
++		f.provider.setResponses([
++			fauxAssistantMessage(
++				fauxToolCall("attach", {
++					label: "report",
++					path: sandbox === "host" ? join(f.channelDir, "report.txt") : "/workspace/delivery/report.txt",
++				}),
++				{ stopReason: "toolUse" },
++			),
++			fauxAssistantMessage("delivered"),
++		]);
++		expect((await f.runner.run(ctx.context, f.store)).toolErrors).toBe(0);
++		expect(delivered.map((bytes) => bytes.toString())).toEqual(["fictional delivery bytes"]);
++	},
++);
+ 
+ it("reserves each verifier command against the same per-run tool quota", async () => {
+ 	const exec = vi.fn(async (_command: string) => ({ code: 0, stdout: "OK", stderr: "" }));
+--- before/packages/lightclaw/vitest.config.ts
++++ after/packages/lightclaw/vitest.config.ts
+@@ -2,7 +2,7 @@
+ import { defineConfig } from "vitest/config";
+ 
+ export default defineConfig({
+-	test: { environment: "node", testTimeout: 30_000 },
++	test: { environment: "node", testTimeout: 30_000, include: ["test/**/*.test.ts"], setupFiles: ["./test/offline-setup.ts"] },
+ 	resolve: {
+ 		alias: [
+ 			{ find: /^@mariozechner\/pi-ai$/, replacement: fileURLToPath(new URL("../ai/src/index.ts", import.meta.url)) },
+--- before/docs/engineering-change-log.zh-CN.md
++++ after/docs/engineering-change-log.zh-CN.md
+@@ -1508,3 +1508,32 @@
+ 本项只恢复文档、调整Git跟踪和本地入口，不涉及产品代码。按项目规则不运行npm check或产品测试，不运行dev/build/npm test。没有API消耗、服务操作、GitHub写入或提交。历史记录仅追加，恢复原文不更新已冻结的测试数字或源码结论。
+ 
+ 最终复核：`rtk proxy python3 /private/tmp/lightclaw-study-recovery-20261021/verify-recovery.py`退出0，4份恢复原文及原备份SHA-256一致、2份讲解快照一致、150个本地链接目标有效、4份恢复文件和入口被忽略且不跟踪、索引仅对2份已恢复文件取消跟踪；起点既有文件仅.gitignore及本工程记录变化，源码／测试保持原样。`rtk git diff --check`退出0，无输出。结果保存verification.json。本次没有提交或推送。
++
++
++## 2026-10-29：第一批整改——附件宿主读取权限
++
++起点为大量既有修改与未跟踪文件；本批基线 4533 文件哈希、相关源文件快照和 Git 状态保存在 `/tmp/lightclaw-batch1-20261029/`，交付目录 `docs/diagnosis/2026-10-29-first-remediation/` 保存初始状态、验证与本批差异清单。既有 runner 附件回调隔离已存在，未重复实现；确认仍存在任意宿主路径直读和 Docker 跨频道路径转换。
++
++根因：tools/attach.ts 用 resolve 消除了原始路径信息，agent.ts 转换放行共享/其他频道/外部绝对路径，Feishu/Slack uploadFile 直接 readFileSync，工具说明不构成授权。修改 tools/attach.ts、agent.ts、feishu.ts、slack.ts、transport.ts；新增 attachments.ts 和 attachment-reader.py。工具保留原始路径，runner 只映射当前频道；两个平台读取边界独立拒绝绝对路径/穿越/非法频道，Python dir_fd + O_NOFOLLOW 逐级打开固定目录，文件 O_NONBLOCK/O_NOFOLLOW 打开、fstat 普通文件/单硬链接、限量读 20 MiB、读前后变化检查；只把已读 Buffer 给 SDK。整个读取进程限时 10 秒，缺 Python 时失败关闭。package.json 打包 Python 文件；中英文 README 和 Unreleased CHANGELOG 记录新的 POSIX/宿主 Python 3.9+ 依赖和路径契约。
++
++证据：旧两平台对临时工作区外虚构文件的拒绝断言均失败；最终附件 42 项回归通过，包含最终/中间/频道符号链接、硬链接、目录/FIFO、大文件、打开前后替换、读时增长和改写。runner 生命周期原测试改用本频道相对夹具，保留超时/配额/隔离/恢复断言，另加 5 项路径拒绝及 host/Docker × 两平台 4 项完整链交付，总计 33 项通过。未读取真实敏感文件、未调用真实平台。可信根/祖先/解释器/安装的前提未消除，不宣称解决 host 任意 shell 的隔离或生产安全证明。
++
++## 2026-10-29：第一批整改——LightClaw 离线测试与 CI
++
++根因：根 test 使用 npm run test --workspaces --if-present，LightClaw package.json 缺 test，原 CI 即使其他包成功也会静默漏跑本包。保留已有 Node 22 CI 矩阵和源代码 alias；新增包 test、CI 必跑 workspace 步骤及 Python 3.12。vitest.config.ts 明确 include/setupFiles，新增 offline-setup.ts 隔离 HOME/认证目录、清除继承凭证变量并阻止 Node TCP/fetch，offline-entry.test.ts 验证入口与网络边界。
++
++验证：入口缺失回归先失败，修复后通过；解析 YAML/根 workspace/包脚本确认 CI 无条件包含本包，证据 ci-discovery.json。离线 setup 影响整个包，因此从 packages/lightclaw 根按规定 npx tsx ../../node_modules/vitest/dist/cli.js --run 后逐个列出 37 个具体文件执行，最终 341/341 通过，0 跳过，完整命令/输出在 docs/diagnosis/2026-10-29-first-remediation/lightclaw-regressions.log 与 verification.zh-CN.md。没有借其他包成绩替代。
++
++代码检查实际执行 rtk proxy npm run check（全量输出 check-first/second/third/final.log）：首轮遗留 Feishu unused import 已修正，第二轮测试夹具私有属性交叉类型冲突改为显式公共接口返回类型，第三轮及最终退出 0，根及 web-ui 检查均通过。检查器产生的 7 个文件改动逐项审查，仅本批文件的格式/导入顺序；后续两次分别仅格式化夹具类型和完整链回归。rtk proxy git diff --check 退出 0。初始 tsx IPC 的 EPERM 通过授权提升执行解决；最终用 Node v24.22.1 验证，无初始 Node 26 loader 弃用警告。没有运行禁止的 npm test/build/dev。
++
++未验证远端 Actions、Linux 或 Node 22；显式 CI 步骤和原根测试会重复本包，保留其他包流程避免扩大本批范围。没有提交、推送、发布。
++
++## 2026-10-29：第一批整改——冻结实验统计 v2
++
++重新检查冻结计划、控制器 complete/progress、run.json、旧 analyze-live.py 和报告；当前 matrix-host 252 项已全部有控制器结果，不沿用旧记忆中的未完成判断。旧 metrics 成功分支仅要求 success/code=0，未排除 timeout，导致 ordinary-0034-ordinary-lean-final-text-replacement 同时贡献成功和超时；旧资源均值仅用有记录样本，需显式缺失分母。
++
++不改原始数据、旧分析器或历史报告，新增 analyze-live-v2.py 以及 live-summary.v2.json、live-attempts.v2.jsonl、live-inputs.v2.json、report.v2.zh-CN.md。每个冻结身份只有一个终态；启动证据判定后，timeout 优先于 worker 错误和任务 success；控制器缺失/冲突、记录缺失/无效分别保留。计划、启动证据、控制器、记录文件、完整记录分别计数；预生成 jobs 文件不算启动，空 raw 仅为派发证据。逐资源字段报告已知/缺失数、观测总和和已知均值，缺失则全批总量 null，费用一律未知，不把历史 cost=0 当免费。pilot 与正式阶段分开，ordinary 与完整重复分阶段保留。默认拒绝覆盖，--check 只读逐字节重算；输入/分析器 SHA-256 固定。
++
++证据：从旧 metrics AST 抽取函数喂入单一虚构 timeout=true/code=0/success=true 样本，观测 n=1、successes=1、external_timeouts=1。新增 diagnosis-statistics.test.ts 4 项通过，覆盖冲突、完整计划分母、缺失控制器/记录/用量、未启动/启动未知、预创建文件、进度证据、重复身份和不可覆盖输出。真实历史数据仅离线重算：rtk proxy python3 docs/diagnosis/2026-10-21/analyze-live-v2.py 与最终 --check 均退出 0。正式计划/启动证据/控制器各 1008，完整记录 938，缺失 70；终态成功 513、任务失败 422、超时 73，和为 1008。ordinary 成功 39/108、超时 69/108，冲突记录不再双计。记录缺失的 70 项不消失于失败分母，缺少用量不按零成本处理。
++
++独立只读审查发现 policy.terminal_priority 实为枚举列表，已更名 terminal_states，重生成仅本批 v2 输出并 --check 通过。计划/解释文档属于本项流程记录。本轮未发起新实验，不重评产物语义、不估计新因果收益；没有独立 PID 启动日志，实际启动仅能由已有 worker/控制器证据识别。完整历史诊断目录基线文件哈希不变；未解决的缺失记录/用量保留为未知。

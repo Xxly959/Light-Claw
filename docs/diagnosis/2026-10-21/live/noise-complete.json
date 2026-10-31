@@ -1,0 +1,1451 @@
+{
+  "completedAt": "2026-10-21T15:26:06.661Z",
+  "finished": 120,
+  "planned": 120,
+  "reserved": 517,
+  "reportedTokens": 1519518,
+  "stopped": false,
+  "budgetLimited": false,
+  "results": [
+    {
+      "id": "noise-0001-all-off-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0001-all-off-final-inventory-join",
+        "success": true,
+        "tokens": 6876,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-0000-upstream-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0000-upstream-final-inventory-join",
+        "success": false,
+        "tokens": 16738,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-0002-upstream-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0002-upstream-final-money-csv",
+        "success": false,
+        "tokens": 16747,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-0003-all-off-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0003-all-off-final-money-csv",
+        "success": true,
+        "tokens": 6746,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-0005-all-off-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0005-all-off-final-stable-dedup",
+        "success": true,
+        "tokens": 6711,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-0004-upstream-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0004-upstream-final-stable-dedup",
+        "success": false,
+        "tokens": 16651,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-0007-all-off-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0007-all-off-final-markdown-section",
+        "success": true,
+        "tokens": 9037,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "noise-0006-upstream-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0006-upstream-final-markdown-section",
+        "success": false,
+        "tokens": 25489,
+        "modelRequests": 7
+      }
+    },
+    {
+      "id": "noise-0008-upstream-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0008-upstream-final-nested-config",
+        "success": false,
+        "tokens": 16600,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-0009-all-off-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0009-all-off-final-nested-config",
+        "success": true,
+        "tokens": 6622,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-0011-all-off-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0011-all-off-final-version-filter",
+        "success": true,
+        "tokens": 6600,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-0010-upstream-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0010-upstream-final-version-filter",
+        "success": false,
+        "tokens": 16592,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-0012-upstream-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0012-upstream-final-jsonl-errors",
+        "success": false,
+        "tokens": 20568,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "noise-0013-all-off-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0013-all-off-final-jsonl-errors",
+        "success": true,
+        "tokens": 12970,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-0015-all-off-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0015-all-off-final-unicode-path",
+        "success": true,
+        "tokens": 6995,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-0014-upstream-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0014-upstream-final-unicode-path",
+        "success": false,
+        "tokens": 20786,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "noise-0016-upstream-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0016-upstream-final-multi-file-consistency",
+        "success": false,
+        "tokens": 16567,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-0017-all-off-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0017-all-off-final-multi-file-consistency",
+        "success": true,
+        "tokens": 6711,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-0018-upstream-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0018-upstream-final-null-vs-missing",
+        "success": false,
+        "tokens": 16382,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-0019-all-off-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0019-all-off-final-null-vs-missing",
+        "success": true,
+        "tokens": 6688,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-0021-all-off-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0021-all-off-final-range-boundaries",
+        "success": true,
+        "tokens": 6628,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-0020-upstream-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0020-upstream-final-range-boundaries",
+        "success": false,
+        "tokens": 16590,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-0022-upstream-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0022-upstream-final-text-replacement",
+        "success": false,
+        "tokens": 16460,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-0023-all-off-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0023-all-off-final-text-replacement",
+        "success": true,
+        "tokens": 9236,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "noise-0024-upstream-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0024-upstream-final-inventory-join",
+        "success": false,
+        "tokens": 16827,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-0025-all-off-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0025-all-off-final-inventory-join",
+        "success": true,
+        "tokens": 6778,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-0026-upstream-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0026-upstream-final-money-csv",
+        "success": false,
+        "tokens": 16678,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-0027-all-off-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0027-all-off-final-money-csv",
+        "success": true,
+        "tokens": 6820,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-0028-upstream-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0028-upstream-final-stable-dedup",
+        "success": false,
+        "tokens": 16553,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-0029-all-off-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0029-all-off-final-stable-dedup",
+        "success": true,
+        "tokens": 6716,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-0031-all-off-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0031-all-off-final-markdown-section",
+        "success": true,
+        "tokens": 8893,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "noise-0030-upstream-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0030-upstream-final-markdown-section",
+        "success": false,
+        "tokens": 20627,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "noise-0032-upstream-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0032-upstream-final-nested-config",
+        "success": false,
+        "tokens": 20484,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "noise-0033-all-off-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0033-all-off-final-nested-config",
+        "success": true,
+        "tokens": 6625,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-0034-upstream-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0034-upstream-final-version-filter",
+        "success": false,
+        "tokens": 16616,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-0035-all-off-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0035-all-off-final-version-filter",
+        "success": true,
+        "tokens": 6595,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-0036-upstream-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0036-upstream-final-jsonl-errors",
+        "success": false,
+        "tokens": 16922,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-0037-all-off-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0037-all-off-final-jsonl-errors",
+        "success": true,
+        "tokens": 12976,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-0039-all-off-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0039-all-off-final-unicode-path",
+        "success": true,
+        "tokens": 6738,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-0038-upstream-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0038-upstream-final-unicode-path",
+        "success": false,
+        "tokens": 20874,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "noise-0041-all-off-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0041-all-off-final-multi-file-consistency",
+        "success": true,
+        "tokens": 6610,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-0040-upstream-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0040-upstream-final-multi-file-consistency",
+        "success": false,
+        "tokens": 16581,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-0042-upstream-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0042-upstream-final-null-vs-missing",
+        "success": false,
+        "tokens": 16681,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-0043-all-off-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0043-all-off-final-null-vs-missing",
+        "success": true,
+        "tokens": 6552,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-0045-all-off-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0045-all-off-final-range-boundaries",
+        "success": true,
+        "tokens": 6705,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-0044-upstream-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0044-upstream-final-range-boundaries",
+        "success": false,
+        "tokens": 16474,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-0046-upstream-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0046-upstream-final-text-replacement",
+        "success": false,
+        "tokens": 20255,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "noise-0047-all-off-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0047-all-off-final-text-replacement",
+        "success": true,
+        "tokens": 9184,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "noise-0048-upstream-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0048-upstream-final-inventory-join",
+        "success": false,
+        "tokens": 16811,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-0049-all-off-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0049-all-off-final-inventory-join",
+        "success": true,
+        "tokens": 9404,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "noise-0050-upstream-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0050-upstream-final-money-csv",
+        "success": false,
+        "tokens": 16429,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-0051-all-off-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0051-all-off-final-money-csv",
+        "success": true,
+        "tokens": 6812,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-0053-all-off-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0053-all-off-final-stable-dedup",
+        "success": true,
+        "tokens": 6746,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-0052-upstream-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0052-upstream-final-stable-dedup",
+        "success": false,
+        "tokens": 16503,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-0054-upstream-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0054-upstream-final-markdown-section",
+        "success": false,
+        "tokens": 21158,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "noise-0055-all-off-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0055-all-off-final-markdown-section",
+        "success": true,
+        "tokens": 8984,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "noise-0056-upstream-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0056-upstream-final-nested-config",
+        "success": false,
+        "tokens": 16535,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-0057-all-off-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0057-all-off-final-nested-config",
+        "success": true,
+        "tokens": 6576,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-0059-all-off-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0059-all-off-final-version-filter",
+        "success": true,
+        "tokens": 6542,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-0058-upstream-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0058-upstream-final-version-filter",
+        "success": false,
+        "tokens": 16473,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-0060-upstream-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0060-upstream-final-jsonl-errors",
+        "success": false,
+        "tokens": 20609,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "noise-0061-all-off-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0061-all-off-final-jsonl-errors",
+        "success": false,
+        "tokens": 12455,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-0062-upstream-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0062-upstream-final-unicode-path",
+        "success": false,
+        "tokens": 17027,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-0063-all-off-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0063-all-off-final-unicode-path",
+        "success": true,
+        "tokens": 7032,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-0065-all-off-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0065-all-off-final-multi-file-consistency",
+        "success": true,
+        "tokens": 6619,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-0064-upstream-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0064-upstream-final-multi-file-consistency",
+        "success": false,
+        "tokens": 16582,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-0066-upstream-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0066-upstream-final-null-vs-missing",
+        "success": false,
+        "tokens": 16282,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-0067-all-off-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0067-all-off-final-null-vs-missing",
+        "success": true,
+        "tokens": 6573,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-0068-upstream-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0068-upstream-final-range-boundaries",
+        "success": false,
+        "tokens": 16369,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-0069-all-off-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0069-all-off-final-range-boundaries",
+        "success": true,
+        "tokens": 6652,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-0070-upstream-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0070-upstream-final-text-replacement",
+        "success": false,
+        "tokens": 16375,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-0071-all-off-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0071-all-off-final-text-replacement",
+        "success": true,
+        "tokens": 9242,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "noise-0072-upstream-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0072-upstream-final-inventory-join",
+        "success": false,
+        "tokens": 16842,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-0073-all-off-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0073-all-off-final-inventory-join",
+        "success": true,
+        "tokens": 9413,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "noise-0074-upstream-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0074-upstream-final-money-csv",
+        "success": false,
+        "tokens": 16698,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-0075-all-off-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0075-all-off-final-money-csv",
+        "success": false,
+        "tokens": 11707,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-0077-all-off-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0077-all-off-final-stable-dedup",
+        "success": true,
+        "tokens": 6843,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-0076-upstream-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0076-upstream-final-stable-dedup",
+        "success": false,
+        "tokens": 16736,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-0079-all-off-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0079-all-off-final-markdown-section",
+        "success": true,
+        "tokens": 9056,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "noise-0078-upstream-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0078-upstream-final-markdown-section",
+        "success": false,
+        "tokens": 21334,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "noise-0080-upstream-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0080-upstream-final-nested-config",
+        "success": false,
+        "tokens": 16521,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-0081-all-off-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0081-all-off-final-nested-config",
+        "success": true,
+        "tokens": 6716,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-0083-all-off-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0083-all-off-final-version-filter",
+        "success": true,
+        "tokens": 6599,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-0082-upstream-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0082-upstream-final-version-filter",
+        "success": false,
+        "tokens": 16633,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-0084-upstream-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0084-upstream-final-jsonl-errors",
+        "success": false,
+        "tokens": 16932,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-0085-all-off-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0085-all-off-final-jsonl-errors",
+        "success": true,
+        "tokens": 13020,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-0087-all-off-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0087-all-off-final-unicode-path",
+        "success": true,
+        "tokens": 6880,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-0086-upstream-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0086-upstream-final-unicode-path",
+        "success": false,
+        "tokens": 20541,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "noise-0089-all-off-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0089-all-off-final-multi-file-consistency",
+        "success": true,
+        "tokens": 6745,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-0088-upstream-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0088-upstream-final-multi-file-consistency",
+        "success": true,
+        "tokens": 16880,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-0090-upstream-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0090-upstream-final-null-vs-missing",
+        "success": false,
+        "tokens": 16576,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-0091-all-off-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0091-all-off-final-null-vs-missing",
+        "success": true,
+        "tokens": 6582,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-0092-upstream-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0092-upstream-final-range-boundaries",
+        "success": false,
+        "tokens": 16319,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-0093-all-off-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0093-all-off-final-range-boundaries",
+        "success": true,
+        "tokens": 6476,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-0094-upstream-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0094-upstream-final-text-replacement",
+        "success": false,
+        "tokens": 16375,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-0095-all-off-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0095-all-off-final-text-replacement",
+        "success": true,
+        "tokens": 9233,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "noise-0096-upstream-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0096-upstream-final-inventory-join",
+        "success": false,
+        "tokens": 16843,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-0097-all-off-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0097-all-off-final-inventory-join",
+        "success": true,
+        "tokens": 6831,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-0099-all-off-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0099-all-off-final-money-csv",
+        "success": true,
+        "tokens": 6732,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-0098-upstream-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0098-upstream-final-money-csv",
+        "success": false,
+        "tokens": 16688,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-0101-all-off-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0101-all-off-final-stable-dedup",
+        "success": true,
+        "tokens": 6701,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-0100-upstream-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0100-upstream-final-stable-dedup",
+        "success": false,
+        "tokens": 16542,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-0102-upstream-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0102-upstream-final-markdown-section",
+        "success": false,
+        "tokens": 20629,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "noise-0103-all-off-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0103-all-off-final-markdown-section",
+        "success": true,
+        "tokens": 8881,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "noise-0104-upstream-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0104-upstream-final-nested-config",
+        "success": false,
+        "tokens": 16675,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-0105-all-off-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0105-all-off-final-nested-config",
+        "success": true,
+        "tokens": 6636,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-0107-all-off-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0107-all-off-final-version-filter",
+        "success": true,
+        "tokens": 6536,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-0106-upstream-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0106-upstream-final-version-filter",
+        "success": false,
+        "tokens": 16681,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-0108-upstream-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0108-upstream-final-jsonl-errors",
+        "success": false,
+        "tokens": 16863,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-0109-all-off-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0109-all-off-final-jsonl-errors",
+        "success": true,
+        "tokens": 9839,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "noise-0110-upstream-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0110-upstream-final-unicode-path",
+        "success": false,
+        "tokens": 20764,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "noise-0111-all-off-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0111-all-off-final-unicode-path",
+        "success": true,
+        "tokens": 7014,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-0112-upstream-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0112-upstream-final-multi-file-consistency",
+        "success": false,
+        "tokens": 16586,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-0113-all-off-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0113-all-off-final-multi-file-consistency",
+        "success": true,
+        "tokens": 6869,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-0114-upstream-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0114-upstream-final-null-vs-missing",
+        "success": false,
+        "tokens": 16546,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-0115-all-off-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0115-all-off-final-null-vs-missing",
+        "success": true,
+        "tokens": 6580,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-0117-all-off-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0117-all-off-final-range-boundaries",
+        "success": true,
+        "tokens": 6657,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-0116-upstream-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0116-upstream-final-range-boundaries",
+        "success": false,
+        "tokens": 16570,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-0118-upstream-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0118-upstream-final-text-replacement",
+        "success": false,
+        "tokens": 16385,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-0119-all-off-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-0119-all-off-final-text-replacement",
+        "success": true,
+        "tokens": 9269,
+        "modelRequests": 4
+      }
+    }
+  ]
+}

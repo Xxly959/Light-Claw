@@ -1,0 +1,1 @@
+{"arm":"ordinary-before","kind":"current","startGoal":false,"features":{"goals":true,"acceptance":true,"feishu":true,"controls":true,"scheduling":true,"optimization":true,"infrastructure":true},"sandbox":"docker","repetition":1,"seed":104746,"caseId":"final-stable-dedup","id":"ordinary-replication-0044-ordinary-before-final-stable-dedup"}

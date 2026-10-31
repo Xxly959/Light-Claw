@@ -1,0 +1,78 @@
+[
+  {
+    "file": "packages/lightclaw/src/evals/reliability/cli.ts",
+    "nonImportAstUnchanged": true
+  },
+  {
+    "file": "packages/lightclaw/src/evals/reliability/controller.ts",
+    "nonImportAstUnchanged": true
+  },
+  {
+    "file": "packages/lightclaw/src/evals/reliability/data.ts",
+    "nonImportAstUnchanged": true
+  },
+  {
+    "file": "packages/lightclaw/src/evals/reliability/fixture-runner.ts",
+    "nonImportAstUnchanged": true
+  },
+  {
+    "file": "packages/lightclaw/src/evals/reliability/protocol.ts",
+    "nonImportAstUnchanged": true
+  },
+  {
+    "file": "packages/lightclaw/src/evals/reliability/scoring.ts",
+    "nonImportAstUnchanged": true
+  },
+  {
+    "file": "packages/lightclaw/src/evals/reliability/simulated-platform.ts",
+    "nonImportAstUnchanged": true
+  },
+  {
+    "file": "packages/lightclaw/src/evals/reliability/statistics.ts",
+    "nonImportAstUnchanged": true
+  },
+  {
+    "file": "packages/lightclaw/src/evals/reliability/types.ts",
+    "nonImportAstUnchanged": true
+  },
+  {
+    "file": "packages/lightclaw/src/evals/reliability/worker.ts",
+    "nonImportAstUnchanged": true
+  },
+  {
+    "file": "packages/lightclaw/src/runtime.ts",
+    "nonImportAstUnchanged": true
+  },
+  {
+    "file": "packages/lightclaw/test/reliability-controller.test.ts",
+    "nonImportAstUnchanged": true
+  },
+  {
+    "file": "packages/lightclaw/test/reliability-statistics.test.ts",
+    "nonImportAstUnchanged": true
+  },
+  {
+    "file": "packages/lightclaw/test/reliability-system.test.ts",
+    "nonImportAstUnchanged": true
+  },
+  {
+    "file": "packages/lightclaw/test/runtime-evaluation.test.ts",
+    "nonImportAstUnchanged": true
+  },
+  {
+    "file": "packages/lightclaw/src/agent.ts",
+    "nonImportAstUnchanged": true
+  },
+  {
+    "file": "packages/lightclaw/src/evals/cli.ts",
+    "nonImportAstUnchanged": true
+  },
+  {
+    "file": "packages/lightclaw/src/main.ts",
+    "nonImportAstUnchanged": true
+  },
+  {
+    "file": "packages/lightclaw/src/transport.ts",
+    "nonImportAstUnchanged": true
+  }
+]

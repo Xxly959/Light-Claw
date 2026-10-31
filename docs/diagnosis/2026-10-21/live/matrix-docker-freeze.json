@@ -1,0 +1,5059 @@
+{
+  "mode": "matrix-docker",
+  "frozenAt": "2026-10-21T15:33:22.467Z",
+  "node": "v24.19.0",
+  "model": "deepseek-flash",
+  "temperature": 0.2,
+  "max_tokens": 2048,
+  "thinking": "disabled",
+  "seeds": [
+    17,
+    104746,
+    209475
+  ],
+  "maxRequests": 3500,
+  "maxReportedTokens": 13000000,
+  "maxConcurrentTasks": 3,
+  "productLimits": {
+    "durationMs": 300000,
+    "toolCalls": 100,
+    "tokens": 100000,
+    "bashTimeoutSeconds": 120
+  },
+  "perTaskExternalTimeoutMs": 120000,
+  "perTaskExternalRequestLimit": 30,
+  "note": "Token ceiling checked before dispatch; up to three in-flight requests may exceed it. Prices unknown. No candidate generated. Goal-enabled arms create equivalent file-existence acceptance and use the production-equivalent outer loop adapter. Queue and actual IM delivery are outside this runner experiment.",
+  "datasetSha256": "b7a5f92c8a38e92d3d5d01712901c9203914a4c8bd26056a0a195f2c8839bc84",
+  "image": "sha256:061401acf8127a73b139afcecc1a1713d84e61cd9318d155f64802beef304809",
+  "fixedSourceHashes": {
+    "validation.ts": "d97f2c8e667d9968897f895d038687139d8103589f7e4091fcaf8d215295177c",
+    "slack.ts": "d695406eff5b131cfbdd474969b9059aeb804ac6342ca7c846b9761633a4bb6b",
+    "main.ts": "4cfd5250f3e605887c095778e99a886d20cefceb4a26d462c8b0c69aa1ed56dc",
+    "channel-queue.ts": "8f8033b741949036b14ab9b4d8552d9ba2afcc0fc79c7105c31327a4b60122aa",
+    "feishu.ts": "dbf60baec2db8136e2706d6936a0adb3d23db6678b7044cd2ba617dd362b9b5c",
+    "agent.ts": "c35a65f6f32233b557b72b94ff2302da2049ed8d4a9bcecee883b3be8c6a8a40",
+    "context.ts": "46a0ebfe8c8e31262a83800aa8e9b77959180b340b75dcb8687faa433430ce07",
+    "idle-cache.ts": "bc16692fcf7d7207cafeec9be89d6ee00b8feb810b2b1fae2d644db90ef1202f",
+    "sandbox.ts": "55526b1a9d49d548a8c972c13c41368f1e25401b75df83b9c9955855114e0979",
+    "presentation.ts": "37d30b4174bd556f59d9036bd86a87c46d964950a78804d81d732a9f167b66ad",
+    "queued-events.ts": "cf4c626552e2f0b29068d86fcd623451fdcfa9108e52c949b37dfe048ec815a4",
+    "timeouts.ts": "54bc8237442ceb4130f109a2a17af9a6840c852518899d1ab69dd4ab13891224",
+    "observability.ts": "7c5e4a4ba1264ac03201ee283f66875164fb98d2ae00f4a08f3a8fcfaa6480c0",
+    "features.ts": "0722fb568ab0c400aebe55eede9c2da7a6394dfde56ed5dcdb1940a9001c1d0c",
+    "fs-watch.ts": "f40e22497371b59286e516eeff70495b20a099daef160c82cc1c196cf637df41",
+    "download.ts": "698583f3f88a739fc88a1c40089b976a30b7f2c9bf70429a2fb9134c22121573",
+    "events.ts": "2c74dce6482df7c9a564756b4f322e143c11db1b2e36f2fe3a500e4205cfb0c8",
+    "log.ts": "6dcad2f4cc64503b89d674ec56a0ae1533618469cfa109546feccda77bddad5f",
+    "transport.ts": "6e914312c502a18bf8465fc58b1d116ad27c17b2b0e0456c37f2713917548eb1",
+    "config.ts": "932a1b897d44894fdd39a7682483fb08135c3a583456615f767bb68881ca3ee4",
+    "platform-operations.ts": "22aa182fe1be47decc045c6506d4b1f7d84bd2e0ca4e7af59da6825ddf5cdc35",
+    "store.ts": "0d7b4a47be04832eec59c35ee261469045683fc743953d87e1fc4b7244a67e6e",
+    "benchmark/report.ts": "0248dd6f46e7f22e8f6a51cc15afed8322fc5b97c1ddb2b8871f26d75e4fcc0d",
+    "benchmark/statistics.ts": "e8d4c372013f57e0a9a5614700bb72e7957f067b1bf0e3ce9ec128124af80e8d",
+    "benchmark/resources.ts": "c61d8da4434ca8a791095fad19e1ffd8e1391bd1becf89e47e0706f19915bd6e",
+    "benchmark/environment.ts": "13f4a1d27580c8935789557cfd4a4a7201f7538cf7f89bf644de258849250fd0",
+    "benchmark/cli.ts": "fca4d531403cafc4259c4528faa1ce353d9575f7666103011b89dbb68d1a9665",
+    "benchmark/workload.ts": "73bf83a32c323106e44743153039c96308d89d03d5e772ec767efc597b3c469b",
+    "benchmark/types.ts": "15d2ebe78b4483d4ba45fa6d94977c9c00b2f767ea81589515779e302fbc2159",
+    "evals/optimizer.ts": "73532b7b3be841f4b0471b9c6e971ad14f2bca723d9be576c8ff3a5becc2d6e8",
+    "evals/cli.ts": "9913bf3370df2b9c3982a0cc32adac0bd3a29d0a345719f868df3014a1405cdc",
+    "evals/optimize-cli.ts": "5ba4684090490a4645d285ff1f68a6c0ad031fafd11770235297fc37aed42981",
+    "evals/types.ts": "203eca8ec829d8a5e6488f6bf3317aa3b44643d6dc75d7239fbbf3726f33b92c",
+    "evals/scoring.ts": "bc8efa08bb7af6165c67d940984e7e249861f85bad20fb79b9cfc37138960329",
+    "evals/runner.ts": "cda562aa134b617b8d347311933b22d91d12035a67cd97483e4e418c45db6f60",
+    "tools/read.ts": "7bec778bccaea4cf9c8ed71f9b3471fb736fc1e16fb6013e21ce89041e9be8e9",
+    "tools/goal.ts": "d015c8322d2829c9a93468fe8ca5af51cfde604d486bbe6dd8c349d4be90095a",
+    "tools/edit.ts": "3ee69dfb4a96f7cf0415e48ed6956af20dc0c63e0769cf46770909a2e0bacdc4",
+    "tools/attach.ts": "cd69be15a7864631b7e66fcdc361724397ed9ff96cb59bb4c01438890e1f0ae5",
+    "tools/bash.ts": "0898418e40ef4ef3e64e377e112fb3acd78e9b2bdd351de439261ac28aef7667",
+    "tools/index.ts": "08de09b9820dfb7db48ef0f2242d543b1fa738ffdcbfa68422fce6a48623ee86",
+    "tools/write.ts": "900ad5967eb22d61fbdc38508fe7aab81726adb5da328c42581ca8984aa2949a",
+    "tools/truncate.ts": "64a77728c26c87eb9f93e470ed553116107aae047f2f0d516ca7c644bffcf10c",
+    "goals/verifier.ts": "2a1a81a42ba31608aba8c20229107f573047659f5185d9cc932b8db72e9da727",
+    "goals/commands.ts": "1e5b71c255937c24fca07153342a2d7e725a09fc2df8f48d430f2ef777d023a4",
+    "goals/migration.ts": "d3e80865f3ba31e2a7a215a511a5df28a7709fff617e36a8b48fe2405115cf08",
+    "goals/prompt.ts": "deda5a55c1969ac2d43f66c4a9bb3d1c478428e08607b4777079e3b3afe842d8",
+    "goals/types.ts": "2ddc1cc9c51d4b1a6a4b82f7cbe29aee8ab0460aff1d0fb280d84bc82f8b69a3",
+    "goals/control.ts": "44417fe45e4804fba556f26fdbe068c116148ef185f3914bda8779a25037120e",
+    "goals/acceptance.ts": "ddd32fca59a9fa79ef87a1b110fce30597554d46c13ff3bd4634475a034c6437",
+    "goals/artifact.ts": "dc8697ad02e7fee89fadaa2b09e30891c66c1928831d89de927049879855df9d",
+    "goals/store.ts": "b1a6ae9c62659913d21271b371bde7774662cdafcfa5a2f4967c815e758a67a8",
+    "goals/migrate-cli.ts": "35c75d2ec0aa6a8fc2cce7e24210f3a72151a3a4b5258e9529930aecb030b724"
+  },
+  "productSourceHashes": {
+    "validation.ts": "d97f2c8e667d9968897f895d038687139d8103589f7e4091fcaf8d215295177c",
+    "slack.ts": "d695406eff5b131cfbdd474969b9059aeb804ac6342ca7c846b9761633a4bb6b",
+    "main.ts": "4cfd5250f3e605887c095778e99a886d20cefceb4a26d462c8b0c69aa1ed56dc",
+    "channel-queue.ts": "cb2030fccbe523ef4bbc5347147b13b9dc1ccd0d863a6c2888081486125c97b2",
+    "feishu.ts": "dbf60baec2db8136e2706d6936a0adb3d23db6678b7044cd2ba617dd362b9b5c",
+    "agent.ts": "751a41fc7c6f545cad96899c0efcda5afc69b943fe5f545e6e54bf0d412212c9",
+    "context.ts": "46a0ebfe8c8e31262a83800aa8e9b77959180b340b75dcb8687faa433430ce07",
+    "idle-cache.ts": "bc16692fcf7d7207cafeec9be89d6ee00b8feb810b2b1fae2d644db90ef1202f",
+    "sandbox.ts": "55526b1a9d49d548a8c972c13c41368f1e25401b75df83b9c9955855114e0979",
+    "presentation.ts": "37d30b4174bd556f59d9036bd86a87c46d964950a78804d81d732a9f167b66ad",
+    "queued-events.ts": "cf4c626552e2f0b29068d86fcd623451fdcfa9108e52c949b37dfe048ec815a4",
+    "timeouts.ts": "54bc8237442ceb4130f109a2a17af9a6840c852518899d1ab69dd4ab13891224",
+    "observability.ts": "7c5e4a4ba1264ac03201ee283f66875164fb98d2ae00f4a08f3a8fcfaa6480c0",
+    "features.ts": "0722fb568ab0c400aebe55eede9c2da7a6394dfde56ed5dcdb1940a9001c1d0c",
+    "fs-watch.ts": "f40e22497371b59286e516eeff70495b20a099daef160c82cc1c196cf637df41",
+    "download.ts": "698583f3f88a739fc88a1c40089b976a30b7f2c9bf70429a2fb9134c22121573",
+    "events.ts": "2c74dce6482df7c9a564756b4f322e143c11db1b2e36f2fe3a500e4205cfb0c8",
+    "log.ts": "6dcad2f4cc64503b89d674ec56a0ae1533618469cfa109546feccda77bddad5f",
+    "transport.ts": "6e914312c502a18bf8465fc58b1d116ad27c17b2b0e0456c37f2713917548eb1",
+    "config.ts": "932a1b897d44894fdd39a7682483fb08135c3a583456615f767bb68881ca3ee4",
+    "platform-operations.ts": "22aa182fe1be47decc045c6506d4b1f7d84bd2e0ca4e7af59da6825ddf5cdc35",
+    "store.ts": "0d7b4a47be04832eec59c35ee261469045683fc743953d87e1fc4b7244a67e6e",
+    "benchmark/report.ts": "0248dd6f46e7f22e8f6a51cc15afed8322fc5b97c1ddb2b8871f26d75e4fcc0d",
+    "benchmark/statistics.ts": "e8d4c372013f57e0a9a5614700bb72e7957f067b1bf0e3ce9ec128124af80e8d",
+    "benchmark/resources.ts": "c61d8da4434ca8a791095fad19e1ffd8e1391bd1becf89e47e0706f19915bd6e",
+    "benchmark/environment.ts": "13f4a1d27580c8935789557cfd4a4a7201f7538cf7f89bf644de258849250fd0",
+    "benchmark/cli.ts": "fca4d531403cafc4259c4528faa1ce353d9575f7666103011b89dbb68d1a9665",
+    "benchmark/workload.ts": "73bf83a32c323106e44743153039c96308d89d03d5e772ec767efc597b3c469b",
+    "benchmark/types.ts": "15d2ebe78b4483d4ba45fa6d94977c9c00b2f767ea81589515779e302fbc2159",
+    "evals/optimizer.ts": "553b69d62679970d19e9980e0ce4ccaa51470625aca17f075b2da4316700ed08",
+    "evals/cli.ts": "9913bf3370df2b9c3982a0cc32adac0bd3a29d0a345719f868df3014a1405cdc",
+    "evals/optimize-cli.ts": "5ba4684090490a4645d285ff1f68a6c0ad031fafd11770235297fc37aed42981",
+    "evals/types.ts": "203eca8ec829d8a5e6488f6bf3317aa3b44643d6dc75d7239fbbf3726f33b92c",
+    "evals/scoring.ts": "bc8efa08bb7af6165c67d940984e7e249861f85bad20fb79b9cfc37138960329",
+    "evals/runner.ts": "cda562aa134b617b8d347311933b22d91d12035a67cd97483e4e418c45db6f60",
+    "tools/read.ts": "7bec778bccaea4cf9c8ed71f9b3471fb736fc1e16fb6013e21ce89041e9be8e9",
+    "tools/goal.ts": "d015c8322d2829c9a93468fe8ca5af51cfde604d486bbe6dd8c349d4be90095a",
+    "tools/edit.ts": "3ee69dfb4a96f7cf0415e48ed6956af20dc0c63e0769cf46770909a2e0bacdc4",
+    "tools/attach.ts": "cd69be15a7864631b7e66fcdc361724397ed9ff96cb59bb4c01438890e1f0ae5",
+    "tools/bash.ts": "0898418e40ef4ef3e64e377e112fb3acd78e9b2bdd351de439261ac28aef7667",
+    "tools/index.ts": "08de09b9820dfb7db48ef0f2242d543b1fa738ffdcbfa68422fce6a48623ee86",
+    "tools/write.ts": "900ad5967eb22d61fbdc38508fe7aab81726adb5da328c42581ca8984aa2949a",
+    "tools/truncate.ts": "64a77728c26c87eb9f93e470ed553116107aae047f2f0d516ca7c644bffcf10c",
+    "goals/verifier.ts": "2a1a81a42ba31608aba8c20229107f573047659f5185d9cc932b8db72e9da727",
+    "goals/commands.ts": "1e5b71c255937c24fca07153342a2d7e725a09fc2df8f48d430f2ef777d023a4",
+    "goals/migration.ts": "d3e80865f3ba31e2a7a215a511a5df28a7709fff617e36a8b48fe2405115cf08",
+    "goals/prompt.ts": "deda5a55c1969ac2d43f66c4a9bb3d1c478428e08607b4777079e3b3afe842d8",
+    "goals/types.ts": "2ddc1cc9c51d4b1a6a4b82f7cbe29aee8ab0460aff1d0fb280d84bc82f8b69a3",
+    "goals/control.ts": "44417fe45e4804fba556f26fdbe068c116148ef185f3914bda8779a25037120e",
+    "goals/acceptance.ts": "ddd32fca59a9fa79ef87a1b110fce30597554d46c13ff3bd4634475a034c6437",
+    "goals/artifact.ts": "dc8697ad02e7fee89fadaa2b09e30891c66c1928831d89de927049879855df9d",
+    "goals/store.ts": "b1a6ae9c62659913d21271b371bde7774662cdafcfa5a2f4967c815e758a67a8",
+    "goals/migrate-cli.ts": "35c75d2ec0aa6a8fc2cce7e24210f3a72151a3a4b5258e9529930aecb030b724"
+  },
+  "upstreamSource": {
+    "revision": "3ffc2b430",
+    "files": {
+      "packages/mom/src/agent.ts": "e4f30eeac8c4e4b1995f39467a66662a07a77c4e97954d7d9c64cd6835fb7469",
+      "packages/mom/src/context.ts": "fc7af78dcf48979d4f9b42adb4853f32a5854277928efbcfd59ccac489273bc8",
+      "packages/mom/src/download.ts": "698583f3f88a739fc88a1c40089b976a30b7f2c9bf70429a2fb9134c22121573",
+      "packages/mom/src/events.ts": "086af9d9b68085092c0c30778487f3038b2f6983f89a6903ec93af665898ac63",
+      "packages/mom/src/fs-watch.ts": "f40e22497371b59286e516eeff70495b20a099daef160c82cc1c196cf637df41",
+      "packages/mom/src/log.ts": "1cbe349e93d37caac96ea0264075d6a385a3e20b0dee3d053dbb1f18e7c100cd",
+      "packages/mom/src/main.ts": "a4214622253ff20322b91a44d7854cce7a5d5caa819029637058ba4e583de89d",
+      "packages/mom/src/sandbox.ts": "802f6524daa62cbbcdb398a3fbd8382b99bd67718dc088ae5a9e7ae4cde4a810",
+      "packages/mom/src/slack.ts": "6b60b9dadb5911cb44b9e15a05427f52fabed3af9fca559c08913d1296445e9d",
+      "packages/mom/src/store.ts": "186321bce8ba8d9cf7d351b36d18204fc21b1c2f875ff7a517e753b398a14c73",
+      "packages/mom/src/tools/attach.ts": "45f2b533c825953e7bfee656c16e378ea987e46752c3e82e3f60a4a99228cbbe",
+      "packages/mom/src/tools/bash.ts": "16a740e0a47e95034ad93edd9aae2833203f66e31608e5daef6ae67afb60b7db",
+      "packages/mom/src/tools/edit.ts": "3ee69dfb4a96f7cf0415e48ed6956af20dc0c63e0769cf46770909a2e0bacdc4",
+      "packages/mom/src/tools/index.ts": "c93dd9856d815adbf9eb970c0feb6fc76526770bee4ee01c51b195a6b971382d",
+      "packages/mom/src/tools/read.ts": "7bec778bccaea4cf9c8ed71f9b3471fb736fc1e16fb6013e21ce89041e9be8e9",
+      "packages/mom/src/tools/truncate.ts": "64a77728c26c87eb9f93e470ed553116107aae047f2f0d516ca7c644bffcf10c",
+      "packages/mom/src/tools/write.ts": "6f4a3643014382753f958f30ed16f859a61138f5d6f4f401578fdd271091d5ad"
+    }
+  },
+  "workerSha256": "347e450c95bdd51563c19ab991cdb004eee8eefecc494d10ef7da1cf28276eb1",
+  "jobs": [
+    {
+      "arm": "only-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-inventory-join",
+      "id": "matrix-docker-0000-only-infrastructure-final-inventory-join"
+    },
+    {
+      "arm": "without-goals",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-inventory-join",
+      "id": "matrix-docker-0001-without-goals-final-inventory-join"
+    },
+    {
+      "arm": "without-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-inventory-join",
+      "id": "matrix-docker-0002-without-acceptance-final-inventory-join"
+    },
+    {
+      "arm": "without-feishu",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": false,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-inventory-join",
+      "id": "matrix-docker-0003-without-feishu-final-inventory-join"
+    },
+    {
+      "arm": "without-controls",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": false,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-inventory-join",
+      "id": "matrix-docker-0004-without-controls-final-inventory-join"
+    },
+    {
+      "arm": "without-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-inventory-join",
+      "id": "matrix-docker-0005-without-scheduling-final-inventory-join"
+    },
+    {
+      "arm": "without-optimization",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-inventory-join",
+      "id": "matrix-docker-0006-without-optimization-final-inventory-join"
+    },
+    {
+      "arm": "old-all",
+      "kind": "old",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-inventory-join",
+      "id": "matrix-docker-0007-old-all-final-inventory-join"
+    },
+    {
+      "arm": "old-all",
+      "kind": "old",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-money-csv",
+      "id": "matrix-docker-0008-old-all-final-money-csv"
+    },
+    {
+      "arm": "without-optimization",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-money-csv",
+      "id": "matrix-docker-0009-without-optimization-final-money-csv"
+    },
+    {
+      "arm": "without-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-money-csv",
+      "id": "matrix-docker-0010-without-scheduling-final-money-csv"
+    },
+    {
+      "arm": "without-controls",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": false,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-money-csv",
+      "id": "matrix-docker-0011-without-controls-final-money-csv"
+    },
+    {
+      "arm": "without-feishu",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": false,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-money-csv",
+      "id": "matrix-docker-0012-without-feishu-final-money-csv"
+    },
+    {
+      "arm": "without-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-money-csv",
+      "id": "matrix-docker-0013-without-acceptance-final-money-csv"
+    },
+    {
+      "arm": "without-goals",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-money-csv",
+      "id": "matrix-docker-0014-without-goals-final-money-csv"
+    },
+    {
+      "arm": "only-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-money-csv",
+      "id": "matrix-docker-0015-only-infrastructure-final-money-csv"
+    },
+    {
+      "arm": "only-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-stable-dedup",
+      "id": "matrix-docker-0016-only-infrastructure-final-stable-dedup"
+    },
+    {
+      "arm": "without-goals",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-stable-dedup",
+      "id": "matrix-docker-0017-without-goals-final-stable-dedup"
+    },
+    {
+      "arm": "without-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-stable-dedup",
+      "id": "matrix-docker-0018-without-acceptance-final-stable-dedup"
+    },
+    {
+      "arm": "without-feishu",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": false,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-stable-dedup",
+      "id": "matrix-docker-0019-without-feishu-final-stable-dedup"
+    },
+    {
+      "arm": "without-controls",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": false,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-stable-dedup",
+      "id": "matrix-docker-0020-without-controls-final-stable-dedup"
+    },
+    {
+      "arm": "without-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-stable-dedup",
+      "id": "matrix-docker-0021-without-scheduling-final-stable-dedup"
+    },
+    {
+      "arm": "without-optimization",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-stable-dedup",
+      "id": "matrix-docker-0022-without-optimization-final-stable-dedup"
+    },
+    {
+      "arm": "old-all",
+      "kind": "old",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-stable-dedup",
+      "id": "matrix-docker-0023-old-all-final-stable-dedup"
+    },
+    {
+      "arm": "old-all",
+      "kind": "old",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-markdown-section",
+      "id": "matrix-docker-0024-old-all-final-markdown-section"
+    },
+    {
+      "arm": "without-optimization",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-markdown-section",
+      "id": "matrix-docker-0025-without-optimization-final-markdown-section"
+    },
+    {
+      "arm": "without-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-markdown-section",
+      "id": "matrix-docker-0026-without-scheduling-final-markdown-section"
+    },
+    {
+      "arm": "without-controls",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": false,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-markdown-section",
+      "id": "matrix-docker-0027-without-controls-final-markdown-section"
+    },
+    {
+      "arm": "without-feishu",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": false,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-markdown-section",
+      "id": "matrix-docker-0028-without-feishu-final-markdown-section"
+    },
+    {
+      "arm": "without-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-markdown-section",
+      "id": "matrix-docker-0029-without-acceptance-final-markdown-section"
+    },
+    {
+      "arm": "without-goals",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-markdown-section",
+      "id": "matrix-docker-0030-without-goals-final-markdown-section"
+    },
+    {
+      "arm": "only-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-markdown-section",
+      "id": "matrix-docker-0031-only-infrastructure-final-markdown-section"
+    },
+    {
+      "arm": "only-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-nested-config",
+      "id": "matrix-docker-0032-only-infrastructure-final-nested-config"
+    },
+    {
+      "arm": "without-goals",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-nested-config",
+      "id": "matrix-docker-0033-without-goals-final-nested-config"
+    },
+    {
+      "arm": "without-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-nested-config",
+      "id": "matrix-docker-0034-without-acceptance-final-nested-config"
+    },
+    {
+      "arm": "without-feishu",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": false,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-nested-config",
+      "id": "matrix-docker-0035-without-feishu-final-nested-config"
+    },
+    {
+      "arm": "without-controls",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": false,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-nested-config",
+      "id": "matrix-docker-0036-without-controls-final-nested-config"
+    },
+    {
+      "arm": "without-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-nested-config",
+      "id": "matrix-docker-0037-without-scheduling-final-nested-config"
+    },
+    {
+      "arm": "without-optimization",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-nested-config",
+      "id": "matrix-docker-0038-without-optimization-final-nested-config"
+    },
+    {
+      "arm": "old-all",
+      "kind": "old",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-nested-config",
+      "id": "matrix-docker-0039-old-all-final-nested-config"
+    },
+    {
+      "arm": "old-all",
+      "kind": "old",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-version-filter",
+      "id": "matrix-docker-0040-old-all-final-version-filter"
+    },
+    {
+      "arm": "without-optimization",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-version-filter",
+      "id": "matrix-docker-0041-without-optimization-final-version-filter"
+    },
+    {
+      "arm": "without-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-version-filter",
+      "id": "matrix-docker-0042-without-scheduling-final-version-filter"
+    },
+    {
+      "arm": "without-controls",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": false,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-version-filter",
+      "id": "matrix-docker-0043-without-controls-final-version-filter"
+    },
+    {
+      "arm": "without-feishu",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": false,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-version-filter",
+      "id": "matrix-docker-0044-without-feishu-final-version-filter"
+    },
+    {
+      "arm": "without-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-version-filter",
+      "id": "matrix-docker-0045-without-acceptance-final-version-filter"
+    },
+    {
+      "arm": "without-goals",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-version-filter",
+      "id": "matrix-docker-0046-without-goals-final-version-filter"
+    },
+    {
+      "arm": "only-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-version-filter",
+      "id": "matrix-docker-0047-only-infrastructure-final-version-filter"
+    },
+    {
+      "arm": "only-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-jsonl-errors",
+      "id": "matrix-docker-0048-only-infrastructure-final-jsonl-errors"
+    },
+    {
+      "arm": "without-goals",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-jsonl-errors",
+      "id": "matrix-docker-0049-without-goals-final-jsonl-errors"
+    },
+    {
+      "arm": "without-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-jsonl-errors",
+      "id": "matrix-docker-0050-without-acceptance-final-jsonl-errors"
+    },
+    {
+      "arm": "without-feishu",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": false,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-jsonl-errors",
+      "id": "matrix-docker-0051-without-feishu-final-jsonl-errors"
+    },
+    {
+      "arm": "without-controls",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": false,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-jsonl-errors",
+      "id": "matrix-docker-0052-without-controls-final-jsonl-errors"
+    },
+    {
+      "arm": "without-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-jsonl-errors",
+      "id": "matrix-docker-0053-without-scheduling-final-jsonl-errors"
+    },
+    {
+      "arm": "without-optimization",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-jsonl-errors",
+      "id": "matrix-docker-0054-without-optimization-final-jsonl-errors"
+    },
+    {
+      "arm": "old-all",
+      "kind": "old",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-jsonl-errors",
+      "id": "matrix-docker-0055-old-all-final-jsonl-errors"
+    },
+    {
+      "arm": "old-all",
+      "kind": "old",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-unicode-path",
+      "id": "matrix-docker-0056-old-all-final-unicode-path"
+    },
+    {
+      "arm": "without-optimization",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-unicode-path",
+      "id": "matrix-docker-0057-without-optimization-final-unicode-path"
+    },
+    {
+      "arm": "without-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-unicode-path",
+      "id": "matrix-docker-0058-without-scheduling-final-unicode-path"
+    },
+    {
+      "arm": "without-controls",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": false,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-unicode-path",
+      "id": "matrix-docker-0059-without-controls-final-unicode-path"
+    },
+    {
+      "arm": "without-feishu",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": false,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-unicode-path",
+      "id": "matrix-docker-0060-without-feishu-final-unicode-path"
+    },
+    {
+      "arm": "without-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-unicode-path",
+      "id": "matrix-docker-0061-without-acceptance-final-unicode-path"
+    },
+    {
+      "arm": "without-goals",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-unicode-path",
+      "id": "matrix-docker-0062-without-goals-final-unicode-path"
+    },
+    {
+      "arm": "only-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-unicode-path",
+      "id": "matrix-docker-0063-only-infrastructure-final-unicode-path"
+    },
+    {
+      "arm": "only-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-multi-file-consistency",
+      "id": "matrix-docker-0064-only-infrastructure-final-multi-file-consistency"
+    },
+    {
+      "arm": "without-goals",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-multi-file-consistency",
+      "id": "matrix-docker-0065-without-goals-final-multi-file-consistency"
+    },
+    {
+      "arm": "without-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-multi-file-consistency",
+      "id": "matrix-docker-0066-without-acceptance-final-multi-file-consistency"
+    },
+    {
+      "arm": "without-feishu",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": false,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-multi-file-consistency",
+      "id": "matrix-docker-0067-without-feishu-final-multi-file-consistency"
+    },
+    {
+      "arm": "without-controls",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": false,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-multi-file-consistency",
+      "id": "matrix-docker-0068-without-controls-final-multi-file-consistency"
+    },
+    {
+      "arm": "without-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-multi-file-consistency",
+      "id": "matrix-docker-0069-without-scheduling-final-multi-file-consistency"
+    },
+    {
+      "arm": "without-optimization",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-multi-file-consistency",
+      "id": "matrix-docker-0070-without-optimization-final-multi-file-consistency"
+    },
+    {
+      "arm": "old-all",
+      "kind": "old",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-multi-file-consistency",
+      "id": "matrix-docker-0071-old-all-final-multi-file-consistency"
+    },
+    {
+      "arm": "old-all",
+      "kind": "old",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-null-vs-missing",
+      "id": "matrix-docker-0072-old-all-final-null-vs-missing"
+    },
+    {
+      "arm": "without-optimization",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-null-vs-missing",
+      "id": "matrix-docker-0073-without-optimization-final-null-vs-missing"
+    },
+    {
+      "arm": "without-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-null-vs-missing",
+      "id": "matrix-docker-0074-without-scheduling-final-null-vs-missing"
+    },
+    {
+      "arm": "without-controls",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": false,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-null-vs-missing",
+      "id": "matrix-docker-0075-without-controls-final-null-vs-missing"
+    },
+    {
+      "arm": "without-feishu",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": false,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-null-vs-missing",
+      "id": "matrix-docker-0076-without-feishu-final-null-vs-missing"
+    },
+    {
+      "arm": "without-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-null-vs-missing",
+      "id": "matrix-docker-0077-without-acceptance-final-null-vs-missing"
+    },
+    {
+      "arm": "without-goals",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-null-vs-missing",
+      "id": "matrix-docker-0078-without-goals-final-null-vs-missing"
+    },
+    {
+      "arm": "only-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-null-vs-missing",
+      "id": "matrix-docker-0079-only-infrastructure-final-null-vs-missing"
+    },
+    {
+      "arm": "only-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-range-boundaries",
+      "id": "matrix-docker-0080-only-infrastructure-final-range-boundaries"
+    },
+    {
+      "arm": "without-goals",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-range-boundaries",
+      "id": "matrix-docker-0081-without-goals-final-range-boundaries"
+    },
+    {
+      "arm": "without-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-range-boundaries",
+      "id": "matrix-docker-0082-without-acceptance-final-range-boundaries"
+    },
+    {
+      "arm": "without-feishu",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": false,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-range-boundaries",
+      "id": "matrix-docker-0083-without-feishu-final-range-boundaries"
+    },
+    {
+      "arm": "without-controls",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": false,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-range-boundaries",
+      "id": "matrix-docker-0084-without-controls-final-range-boundaries"
+    },
+    {
+      "arm": "without-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-range-boundaries",
+      "id": "matrix-docker-0085-without-scheduling-final-range-boundaries"
+    },
+    {
+      "arm": "without-optimization",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-range-boundaries",
+      "id": "matrix-docker-0086-without-optimization-final-range-boundaries"
+    },
+    {
+      "arm": "old-all",
+      "kind": "old",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-range-boundaries",
+      "id": "matrix-docker-0087-old-all-final-range-boundaries"
+    },
+    {
+      "arm": "old-all",
+      "kind": "old",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-text-replacement",
+      "id": "matrix-docker-0088-old-all-final-text-replacement"
+    },
+    {
+      "arm": "without-optimization",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-text-replacement",
+      "id": "matrix-docker-0089-without-optimization-final-text-replacement"
+    },
+    {
+      "arm": "without-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-text-replacement",
+      "id": "matrix-docker-0090-without-scheduling-final-text-replacement"
+    },
+    {
+      "arm": "without-controls",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": false,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-text-replacement",
+      "id": "matrix-docker-0091-without-controls-final-text-replacement"
+    },
+    {
+      "arm": "without-feishu",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": false,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-text-replacement",
+      "id": "matrix-docker-0092-without-feishu-final-text-replacement"
+    },
+    {
+      "arm": "without-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-text-replacement",
+      "id": "matrix-docker-0093-without-acceptance-final-text-replacement"
+    },
+    {
+      "arm": "without-goals",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-text-replacement",
+      "id": "matrix-docker-0094-without-goals-final-text-replacement"
+    },
+    {
+      "arm": "only-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 0,
+      "seed": 17,
+      "caseId": "final-text-replacement",
+      "id": "matrix-docker-0095-only-infrastructure-final-text-replacement"
+    },
+    {
+      "arm": "old-all",
+      "kind": "old",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-inventory-join",
+      "id": "matrix-docker-0096-old-all-final-inventory-join"
+    },
+    {
+      "arm": "without-optimization",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-inventory-join",
+      "id": "matrix-docker-0097-without-optimization-final-inventory-join"
+    },
+    {
+      "arm": "without-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-inventory-join",
+      "id": "matrix-docker-0098-without-scheduling-final-inventory-join"
+    },
+    {
+      "arm": "without-controls",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": false,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-inventory-join",
+      "id": "matrix-docker-0099-without-controls-final-inventory-join"
+    },
+    {
+      "arm": "without-feishu",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": false,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-inventory-join",
+      "id": "matrix-docker-0100-without-feishu-final-inventory-join"
+    },
+    {
+      "arm": "without-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-inventory-join",
+      "id": "matrix-docker-0101-without-acceptance-final-inventory-join"
+    },
+    {
+      "arm": "without-goals",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-inventory-join",
+      "id": "matrix-docker-0102-without-goals-final-inventory-join"
+    },
+    {
+      "arm": "only-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-inventory-join",
+      "id": "matrix-docker-0103-only-infrastructure-final-inventory-join"
+    },
+    {
+      "arm": "only-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-money-csv",
+      "id": "matrix-docker-0104-only-infrastructure-final-money-csv"
+    },
+    {
+      "arm": "without-goals",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-money-csv",
+      "id": "matrix-docker-0105-without-goals-final-money-csv"
+    },
+    {
+      "arm": "without-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-money-csv",
+      "id": "matrix-docker-0106-without-acceptance-final-money-csv"
+    },
+    {
+      "arm": "without-feishu",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": false,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-money-csv",
+      "id": "matrix-docker-0107-without-feishu-final-money-csv"
+    },
+    {
+      "arm": "without-controls",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": false,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-money-csv",
+      "id": "matrix-docker-0108-without-controls-final-money-csv"
+    },
+    {
+      "arm": "without-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-money-csv",
+      "id": "matrix-docker-0109-without-scheduling-final-money-csv"
+    },
+    {
+      "arm": "without-optimization",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-money-csv",
+      "id": "matrix-docker-0110-without-optimization-final-money-csv"
+    },
+    {
+      "arm": "old-all",
+      "kind": "old",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-money-csv",
+      "id": "matrix-docker-0111-old-all-final-money-csv"
+    },
+    {
+      "arm": "old-all",
+      "kind": "old",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-stable-dedup",
+      "id": "matrix-docker-0112-old-all-final-stable-dedup"
+    },
+    {
+      "arm": "without-optimization",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-stable-dedup",
+      "id": "matrix-docker-0113-without-optimization-final-stable-dedup"
+    },
+    {
+      "arm": "without-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-stable-dedup",
+      "id": "matrix-docker-0114-without-scheduling-final-stable-dedup"
+    },
+    {
+      "arm": "without-controls",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": false,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-stable-dedup",
+      "id": "matrix-docker-0115-without-controls-final-stable-dedup"
+    },
+    {
+      "arm": "without-feishu",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": false,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-stable-dedup",
+      "id": "matrix-docker-0116-without-feishu-final-stable-dedup"
+    },
+    {
+      "arm": "without-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-stable-dedup",
+      "id": "matrix-docker-0117-without-acceptance-final-stable-dedup"
+    },
+    {
+      "arm": "without-goals",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-stable-dedup",
+      "id": "matrix-docker-0118-without-goals-final-stable-dedup"
+    },
+    {
+      "arm": "only-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-stable-dedup",
+      "id": "matrix-docker-0119-only-infrastructure-final-stable-dedup"
+    },
+    {
+      "arm": "only-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-markdown-section",
+      "id": "matrix-docker-0120-only-infrastructure-final-markdown-section"
+    },
+    {
+      "arm": "without-goals",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-markdown-section",
+      "id": "matrix-docker-0121-without-goals-final-markdown-section"
+    },
+    {
+      "arm": "without-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-markdown-section",
+      "id": "matrix-docker-0122-without-acceptance-final-markdown-section"
+    },
+    {
+      "arm": "without-feishu",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": false,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-markdown-section",
+      "id": "matrix-docker-0123-without-feishu-final-markdown-section"
+    },
+    {
+      "arm": "without-controls",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": false,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-markdown-section",
+      "id": "matrix-docker-0124-without-controls-final-markdown-section"
+    },
+    {
+      "arm": "without-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-markdown-section",
+      "id": "matrix-docker-0125-without-scheduling-final-markdown-section"
+    },
+    {
+      "arm": "without-optimization",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-markdown-section",
+      "id": "matrix-docker-0126-without-optimization-final-markdown-section"
+    },
+    {
+      "arm": "old-all",
+      "kind": "old",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-markdown-section",
+      "id": "matrix-docker-0127-old-all-final-markdown-section"
+    },
+    {
+      "arm": "old-all",
+      "kind": "old",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-nested-config",
+      "id": "matrix-docker-0128-old-all-final-nested-config"
+    },
+    {
+      "arm": "without-optimization",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-nested-config",
+      "id": "matrix-docker-0129-without-optimization-final-nested-config"
+    },
+    {
+      "arm": "without-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-nested-config",
+      "id": "matrix-docker-0130-without-scheduling-final-nested-config"
+    },
+    {
+      "arm": "without-controls",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": false,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-nested-config",
+      "id": "matrix-docker-0131-without-controls-final-nested-config"
+    },
+    {
+      "arm": "without-feishu",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": false,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-nested-config",
+      "id": "matrix-docker-0132-without-feishu-final-nested-config"
+    },
+    {
+      "arm": "without-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-nested-config",
+      "id": "matrix-docker-0133-without-acceptance-final-nested-config"
+    },
+    {
+      "arm": "without-goals",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-nested-config",
+      "id": "matrix-docker-0134-without-goals-final-nested-config"
+    },
+    {
+      "arm": "only-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-nested-config",
+      "id": "matrix-docker-0135-only-infrastructure-final-nested-config"
+    },
+    {
+      "arm": "only-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-version-filter",
+      "id": "matrix-docker-0136-only-infrastructure-final-version-filter"
+    },
+    {
+      "arm": "without-goals",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-version-filter",
+      "id": "matrix-docker-0137-without-goals-final-version-filter"
+    },
+    {
+      "arm": "without-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-version-filter",
+      "id": "matrix-docker-0138-without-acceptance-final-version-filter"
+    },
+    {
+      "arm": "without-feishu",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": false,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-version-filter",
+      "id": "matrix-docker-0139-without-feishu-final-version-filter"
+    },
+    {
+      "arm": "without-controls",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": false,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-version-filter",
+      "id": "matrix-docker-0140-without-controls-final-version-filter"
+    },
+    {
+      "arm": "without-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-version-filter",
+      "id": "matrix-docker-0141-without-scheduling-final-version-filter"
+    },
+    {
+      "arm": "without-optimization",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-version-filter",
+      "id": "matrix-docker-0142-without-optimization-final-version-filter"
+    },
+    {
+      "arm": "old-all",
+      "kind": "old",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-version-filter",
+      "id": "matrix-docker-0143-old-all-final-version-filter"
+    },
+    {
+      "arm": "old-all",
+      "kind": "old",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-jsonl-errors",
+      "id": "matrix-docker-0144-old-all-final-jsonl-errors"
+    },
+    {
+      "arm": "without-optimization",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-jsonl-errors",
+      "id": "matrix-docker-0145-without-optimization-final-jsonl-errors"
+    },
+    {
+      "arm": "without-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-jsonl-errors",
+      "id": "matrix-docker-0146-without-scheduling-final-jsonl-errors"
+    },
+    {
+      "arm": "without-controls",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": false,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-jsonl-errors",
+      "id": "matrix-docker-0147-without-controls-final-jsonl-errors"
+    },
+    {
+      "arm": "without-feishu",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": false,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-jsonl-errors",
+      "id": "matrix-docker-0148-without-feishu-final-jsonl-errors"
+    },
+    {
+      "arm": "without-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-jsonl-errors",
+      "id": "matrix-docker-0149-without-acceptance-final-jsonl-errors"
+    },
+    {
+      "arm": "without-goals",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-jsonl-errors",
+      "id": "matrix-docker-0150-without-goals-final-jsonl-errors"
+    },
+    {
+      "arm": "only-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-jsonl-errors",
+      "id": "matrix-docker-0151-only-infrastructure-final-jsonl-errors"
+    },
+    {
+      "arm": "only-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-unicode-path",
+      "id": "matrix-docker-0152-only-infrastructure-final-unicode-path"
+    },
+    {
+      "arm": "without-goals",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-unicode-path",
+      "id": "matrix-docker-0153-without-goals-final-unicode-path"
+    },
+    {
+      "arm": "without-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-unicode-path",
+      "id": "matrix-docker-0154-without-acceptance-final-unicode-path"
+    },
+    {
+      "arm": "without-feishu",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": false,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-unicode-path",
+      "id": "matrix-docker-0155-without-feishu-final-unicode-path"
+    },
+    {
+      "arm": "without-controls",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": false,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-unicode-path",
+      "id": "matrix-docker-0156-without-controls-final-unicode-path"
+    },
+    {
+      "arm": "without-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-unicode-path",
+      "id": "matrix-docker-0157-without-scheduling-final-unicode-path"
+    },
+    {
+      "arm": "without-optimization",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-unicode-path",
+      "id": "matrix-docker-0158-without-optimization-final-unicode-path"
+    },
+    {
+      "arm": "old-all",
+      "kind": "old",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-unicode-path",
+      "id": "matrix-docker-0159-old-all-final-unicode-path"
+    },
+    {
+      "arm": "old-all",
+      "kind": "old",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-multi-file-consistency",
+      "id": "matrix-docker-0160-old-all-final-multi-file-consistency"
+    },
+    {
+      "arm": "without-optimization",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-multi-file-consistency",
+      "id": "matrix-docker-0161-without-optimization-final-multi-file-consistency"
+    },
+    {
+      "arm": "without-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-multi-file-consistency",
+      "id": "matrix-docker-0162-without-scheduling-final-multi-file-consistency"
+    },
+    {
+      "arm": "without-controls",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": false,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-multi-file-consistency",
+      "id": "matrix-docker-0163-without-controls-final-multi-file-consistency"
+    },
+    {
+      "arm": "without-feishu",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": false,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-multi-file-consistency",
+      "id": "matrix-docker-0164-without-feishu-final-multi-file-consistency"
+    },
+    {
+      "arm": "without-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-multi-file-consistency",
+      "id": "matrix-docker-0165-without-acceptance-final-multi-file-consistency"
+    },
+    {
+      "arm": "without-goals",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-multi-file-consistency",
+      "id": "matrix-docker-0166-without-goals-final-multi-file-consistency"
+    },
+    {
+      "arm": "only-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-multi-file-consistency",
+      "id": "matrix-docker-0167-only-infrastructure-final-multi-file-consistency"
+    },
+    {
+      "arm": "only-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-null-vs-missing",
+      "id": "matrix-docker-0168-only-infrastructure-final-null-vs-missing"
+    },
+    {
+      "arm": "without-goals",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-null-vs-missing",
+      "id": "matrix-docker-0169-without-goals-final-null-vs-missing"
+    },
+    {
+      "arm": "without-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-null-vs-missing",
+      "id": "matrix-docker-0170-without-acceptance-final-null-vs-missing"
+    },
+    {
+      "arm": "without-feishu",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": false,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-null-vs-missing",
+      "id": "matrix-docker-0171-without-feishu-final-null-vs-missing"
+    },
+    {
+      "arm": "without-controls",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": false,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-null-vs-missing",
+      "id": "matrix-docker-0172-without-controls-final-null-vs-missing"
+    },
+    {
+      "arm": "without-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-null-vs-missing",
+      "id": "matrix-docker-0173-without-scheduling-final-null-vs-missing"
+    },
+    {
+      "arm": "without-optimization",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-null-vs-missing",
+      "id": "matrix-docker-0174-without-optimization-final-null-vs-missing"
+    },
+    {
+      "arm": "old-all",
+      "kind": "old",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-null-vs-missing",
+      "id": "matrix-docker-0175-old-all-final-null-vs-missing"
+    },
+    {
+      "arm": "old-all",
+      "kind": "old",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-range-boundaries",
+      "id": "matrix-docker-0176-old-all-final-range-boundaries"
+    },
+    {
+      "arm": "without-optimization",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-range-boundaries",
+      "id": "matrix-docker-0177-without-optimization-final-range-boundaries"
+    },
+    {
+      "arm": "without-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-range-boundaries",
+      "id": "matrix-docker-0178-without-scheduling-final-range-boundaries"
+    },
+    {
+      "arm": "without-controls",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": false,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-range-boundaries",
+      "id": "matrix-docker-0179-without-controls-final-range-boundaries"
+    },
+    {
+      "arm": "without-feishu",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": false,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-range-boundaries",
+      "id": "matrix-docker-0180-without-feishu-final-range-boundaries"
+    },
+    {
+      "arm": "without-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-range-boundaries",
+      "id": "matrix-docker-0181-without-acceptance-final-range-boundaries"
+    },
+    {
+      "arm": "without-goals",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-range-boundaries",
+      "id": "matrix-docker-0182-without-goals-final-range-boundaries"
+    },
+    {
+      "arm": "only-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-range-boundaries",
+      "id": "matrix-docker-0183-only-infrastructure-final-range-boundaries"
+    },
+    {
+      "arm": "only-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-text-replacement",
+      "id": "matrix-docker-0184-only-infrastructure-final-text-replacement"
+    },
+    {
+      "arm": "without-goals",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-text-replacement",
+      "id": "matrix-docker-0185-without-goals-final-text-replacement"
+    },
+    {
+      "arm": "without-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-text-replacement",
+      "id": "matrix-docker-0186-without-acceptance-final-text-replacement"
+    },
+    {
+      "arm": "without-feishu",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": false,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-text-replacement",
+      "id": "matrix-docker-0187-without-feishu-final-text-replacement"
+    },
+    {
+      "arm": "without-controls",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": false,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-text-replacement",
+      "id": "matrix-docker-0188-without-controls-final-text-replacement"
+    },
+    {
+      "arm": "without-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-text-replacement",
+      "id": "matrix-docker-0189-without-scheduling-final-text-replacement"
+    },
+    {
+      "arm": "without-optimization",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-text-replacement",
+      "id": "matrix-docker-0190-without-optimization-final-text-replacement"
+    },
+    {
+      "arm": "old-all",
+      "kind": "old",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 1,
+      "seed": 104746,
+      "caseId": "final-text-replacement",
+      "id": "matrix-docker-0191-old-all-final-text-replacement"
+    },
+    {
+      "arm": "only-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-inventory-join",
+      "id": "matrix-docker-0192-only-infrastructure-final-inventory-join"
+    },
+    {
+      "arm": "without-goals",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-inventory-join",
+      "id": "matrix-docker-0193-without-goals-final-inventory-join"
+    },
+    {
+      "arm": "without-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-inventory-join",
+      "id": "matrix-docker-0194-without-acceptance-final-inventory-join"
+    },
+    {
+      "arm": "without-feishu",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": false,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-inventory-join",
+      "id": "matrix-docker-0195-without-feishu-final-inventory-join"
+    },
+    {
+      "arm": "without-controls",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": false,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-inventory-join",
+      "id": "matrix-docker-0196-without-controls-final-inventory-join"
+    },
+    {
+      "arm": "without-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-inventory-join",
+      "id": "matrix-docker-0197-without-scheduling-final-inventory-join"
+    },
+    {
+      "arm": "without-optimization",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-inventory-join",
+      "id": "matrix-docker-0198-without-optimization-final-inventory-join"
+    },
+    {
+      "arm": "old-all",
+      "kind": "old",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-inventory-join",
+      "id": "matrix-docker-0199-old-all-final-inventory-join"
+    },
+    {
+      "arm": "old-all",
+      "kind": "old",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-money-csv",
+      "id": "matrix-docker-0200-old-all-final-money-csv"
+    },
+    {
+      "arm": "without-optimization",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-money-csv",
+      "id": "matrix-docker-0201-without-optimization-final-money-csv"
+    },
+    {
+      "arm": "without-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-money-csv",
+      "id": "matrix-docker-0202-without-scheduling-final-money-csv"
+    },
+    {
+      "arm": "without-controls",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": false,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-money-csv",
+      "id": "matrix-docker-0203-without-controls-final-money-csv"
+    },
+    {
+      "arm": "without-feishu",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": false,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-money-csv",
+      "id": "matrix-docker-0204-without-feishu-final-money-csv"
+    },
+    {
+      "arm": "without-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-money-csv",
+      "id": "matrix-docker-0205-without-acceptance-final-money-csv"
+    },
+    {
+      "arm": "without-goals",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-money-csv",
+      "id": "matrix-docker-0206-without-goals-final-money-csv"
+    },
+    {
+      "arm": "only-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-money-csv",
+      "id": "matrix-docker-0207-only-infrastructure-final-money-csv"
+    },
+    {
+      "arm": "only-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-stable-dedup",
+      "id": "matrix-docker-0208-only-infrastructure-final-stable-dedup"
+    },
+    {
+      "arm": "without-goals",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-stable-dedup",
+      "id": "matrix-docker-0209-without-goals-final-stable-dedup"
+    },
+    {
+      "arm": "without-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-stable-dedup",
+      "id": "matrix-docker-0210-without-acceptance-final-stable-dedup"
+    },
+    {
+      "arm": "without-feishu",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": false,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-stable-dedup",
+      "id": "matrix-docker-0211-without-feishu-final-stable-dedup"
+    },
+    {
+      "arm": "without-controls",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": false,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-stable-dedup",
+      "id": "matrix-docker-0212-without-controls-final-stable-dedup"
+    },
+    {
+      "arm": "without-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-stable-dedup",
+      "id": "matrix-docker-0213-without-scheduling-final-stable-dedup"
+    },
+    {
+      "arm": "without-optimization",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-stable-dedup",
+      "id": "matrix-docker-0214-without-optimization-final-stable-dedup"
+    },
+    {
+      "arm": "old-all",
+      "kind": "old",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-stable-dedup",
+      "id": "matrix-docker-0215-old-all-final-stable-dedup"
+    },
+    {
+      "arm": "old-all",
+      "kind": "old",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-markdown-section",
+      "id": "matrix-docker-0216-old-all-final-markdown-section"
+    },
+    {
+      "arm": "without-optimization",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-markdown-section",
+      "id": "matrix-docker-0217-without-optimization-final-markdown-section"
+    },
+    {
+      "arm": "without-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-markdown-section",
+      "id": "matrix-docker-0218-without-scheduling-final-markdown-section"
+    },
+    {
+      "arm": "without-controls",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": false,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-markdown-section",
+      "id": "matrix-docker-0219-without-controls-final-markdown-section"
+    },
+    {
+      "arm": "without-feishu",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": false,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-markdown-section",
+      "id": "matrix-docker-0220-without-feishu-final-markdown-section"
+    },
+    {
+      "arm": "without-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-markdown-section",
+      "id": "matrix-docker-0221-without-acceptance-final-markdown-section"
+    },
+    {
+      "arm": "without-goals",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-markdown-section",
+      "id": "matrix-docker-0222-without-goals-final-markdown-section"
+    },
+    {
+      "arm": "only-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-markdown-section",
+      "id": "matrix-docker-0223-only-infrastructure-final-markdown-section"
+    },
+    {
+      "arm": "only-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-nested-config",
+      "id": "matrix-docker-0224-only-infrastructure-final-nested-config"
+    },
+    {
+      "arm": "without-goals",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-nested-config",
+      "id": "matrix-docker-0225-without-goals-final-nested-config"
+    },
+    {
+      "arm": "without-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-nested-config",
+      "id": "matrix-docker-0226-without-acceptance-final-nested-config"
+    },
+    {
+      "arm": "without-feishu",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": false,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-nested-config",
+      "id": "matrix-docker-0227-without-feishu-final-nested-config"
+    },
+    {
+      "arm": "without-controls",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": false,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-nested-config",
+      "id": "matrix-docker-0228-without-controls-final-nested-config"
+    },
+    {
+      "arm": "without-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-nested-config",
+      "id": "matrix-docker-0229-without-scheduling-final-nested-config"
+    },
+    {
+      "arm": "without-optimization",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-nested-config",
+      "id": "matrix-docker-0230-without-optimization-final-nested-config"
+    },
+    {
+      "arm": "old-all",
+      "kind": "old",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-nested-config",
+      "id": "matrix-docker-0231-old-all-final-nested-config"
+    },
+    {
+      "arm": "old-all",
+      "kind": "old",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-version-filter",
+      "id": "matrix-docker-0232-old-all-final-version-filter"
+    },
+    {
+      "arm": "without-optimization",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-version-filter",
+      "id": "matrix-docker-0233-without-optimization-final-version-filter"
+    },
+    {
+      "arm": "without-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-version-filter",
+      "id": "matrix-docker-0234-without-scheduling-final-version-filter"
+    },
+    {
+      "arm": "without-controls",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": false,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-version-filter",
+      "id": "matrix-docker-0235-without-controls-final-version-filter"
+    },
+    {
+      "arm": "without-feishu",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": false,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-version-filter",
+      "id": "matrix-docker-0236-without-feishu-final-version-filter"
+    },
+    {
+      "arm": "without-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-version-filter",
+      "id": "matrix-docker-0237-without-acceptance-final-version-filter"
+    },
+    {
+      "arm": "without-goals",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-version-filter",
+      "id": "matrix-docker-0238-without-goals-final-version-filter"
+    },
+    {
+      "arm": "only-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-version-filter",
+      "id": "matrix-docker-0239-only-infrastructure-final-version-filter"
+    },
+    {
+      "arm": "only-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-jsonl-errors",
+      "id": "matrix-docker-0240-only-infrastructure-final-jsonl-errors"
+    },
+    {
+      "arm": "without-goals",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-jsonl-errors",
+      "id": "matrix-docker-0241-without-goals-final-jsonl-errors"
+    },
+    {
+      "arm": "without-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-jsonl-errors",
+      "id": "matrix-docker-0242-without-acceptance-final-jsonl-errors"
+    },
+    {
+      "arm": "without-feishu",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": false,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-jsonl-errors",
+      "id": "matrix-docker-0243-without-feishu-final-jsonl-errors"
+    },
+    {
+      "arm": "without-controls",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": false,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-jsonl-errors",
+      "id": "matrix-docker-0244-without-controls-final-jsonl-errors"
+    },
+    {
+      "arm": "without-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-jsonl-errors",
+      "id": "matrix-docker-0245-without-scheduling-final-jsonl-errors"
+    },
+    {
+      "arm": "without-optimization",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-jsonl-errors",
+      "id": "matrix-docker-0246-without-optimization-final-jsonl-errors"
+    },
+    {
+      "arm": "old-all",
+      "kind": "old",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-jsonl-errors",
+      "id": "matrix-docker-0247-old-all-final-jsonl-errors"
+    },
+    {
+      "arm": "old-all",
+      "kind": "old",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-unicode-path",
+      "id": "matrix-docker-0248-old-all-final-unicode-path"
+    },
+    {
+      "arm": "without-optimization",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-unicode-path",
+      "id": "matrix-docker-0249-without-optimization-final-unicode-path"
+    },
+    {
+      "arm": "without-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-unicode-path",
+      "id": "matrix-docker-0250-without-scheduling-final-unicode-path"
+    },
+    {
+      "arm": "without-controls",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": false,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-unicode-path",
+      "id": "matrix-docker-0251-without-controls-final-unicode-path"
+    },
+    {
+      "arm": "without-feishu",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": false,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-unicode-path",
+      "id": "matrix-docker-0252-without-feishu-final-unicode-path"
+    },
+    {
+      "arm": "without-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-unicode-path",
+      "id": "matrix-docker-0253-without-acceptance-final-unicode-path"
+    },
+    {
+      "arm": "without-goals",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-unicode-path",
+      "id": "matrix-docker-0254-without-goals-final-unicode-path"
+    },
+    {
+      "arm": "only-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-unicode-path",
+      "id": "matrix-docker-0255-only-infrastructure-final-unicode-path"
+    },
+    {
+      "arm": "only-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-multi-file-consistency",
+      "id": "matrix-docker-0256-only-infrastructure-final-multi-file-consistency"
+    },
+    {
+      "arm": "without-goals",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-multi-file-consistency",
+      "id": "matrix-docker-0257-without-goals-final-multi-file-consistency"
+    },
+    {
+      "arm": "without-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-multi-file-consistency",
+      "id": "matrix-docker-0258-without-acceptance-final-multi-file-consistency"
+    },
+    {
+      "arm": "without-feishu",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": false,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-multi-file-consistency",
+      "id": "matrix-docker-0259-without-feishu-final-multi-file-consistency"
+    },
+    {
+      "arm": "without-controls",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": false,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-multi-file-consistency",
+      "id": "matrix-docker-0260-without-controls-final-multi-file-consistency"
+    },
+    {
+      "arm": "without-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-multi-file-consistency",
+      "id": "matrix-docker-0261-without-scheduling-final-multi-file-consistency"
+    },
+    {
+      "arm": "without-optimization",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-multi-file-consistency",
+      "id": "matrix-docker-0262-without-optimization-final-multi-file-consistency"
+    },
+    {
+      "arm": "old-all",
+      "kind": "old",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-multi-file-consistency",
+      "id": "matrix-docker-0263-old-all-final-multi-file-consistency"
+    },
+    {
+      "arm": "old-all",
+      "kind": "old",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-null-vs-missing",
+      "id": "matrix-docker-0264-old-all-final-null-vs-missing"
+    },
+    {
+      "arm": "without-optimization",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-null-vs-missing",
+      "id": "matrix-docker-0265-without-optimization-final-null-vs-missing"
+    },
+    {
+      "arm": "without-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-null-vs-missing",
+      "id": "matrix-docker-0266-without-scheduling-final-null-vs-missing"
+    },
+    {
+      "arm": "without-controls",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": false,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-null-vs-missing",
+      "id": "matrix-docker-0267-without-controls-final-null-vs-missing"
+    },
+    {
+      "arm": "without-feishu",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": false,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-null-vs-missing",
+      "id": "matrix-docker-0268-without-feishu-final-null-vs-missing"
+    },
+    {
+      "arm": "without-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-null-vs-missing",
+      "id": "matrix-docker-0269-without-acceptance-final-null-vs-missing"
+    },
+    {
+      "arm": "without-goals",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-null-vs-missing",
+      "id": "matrix-docker-0270-without-goals-final-null-vs-missing"
+    },
+    {
+      "arm": "only-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-null-vs-missing",
+      "id": "matrix-docker-0271-only-infrastructure-final-null-vs-missing"
+    },
+    {
+      "arm": "only-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-range-boundaries",
+      "id": "matrix-docker-0272-only-infrastructure-final-range-boundaries"
+    },
+    {
+      "arm": "without-goals",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-range-boundaries",
+      "id": "matrix-docker-0273-without-goals-final-range-boundaries"
+    },
+    {
+      "arm": "without-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-range-boundaries",
+      "id": "matrix-docker-0274-without-acceptance-final-range-boundaries"
+    },
+    {
+      "arm": "without-feishu",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": false,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-range-boundaries",
+      "id": "matrix-docker-0275-without-feishu-final-range-boundaries"
+    },
+    {
+      "arm": "without-controls",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": false,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-range-boundaries",
+      "id": "matrix-docker-0276-without-controls-final-range-boundaries"
+    },
+    {
+      "arm": "without-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-range-boundaries",
+      "id": "matrix-docker-0277-without-scheduling-final-range-boundaries"
+    },
+    {
+      "arm": "without-optimization",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-range-boundaries",
+      "id": "matrix-docker-0278-without-optimization-final-range-boundaries"
+    },
+    {
+      "arm": "old-all",
+      "kind": "old",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-range-boundaries",
+      "id": "matrix-docker-0279-old-all-final-range-boundaries"
+    },
+    {
+      "arm": "old-all",
+      "kind": "old",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-text-replacement",
+      "id": "matrix-docker-0280-old-all-final-text-replacement"
+    },
+    {
+      "arm": "without-optimization",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-text-replacement",
+      "id": "matrix-docker-0281-without-optimization-final-text-replacement"
+    },
+    {
+      "arm": "without-scheduling",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": false,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-text-replacement",
+      "id": "matrix-docker-0282-without-scheduling-final-text-replacement"
+    },
+    {
+      "arm": "without-controls",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": true,
+        "controls": false,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-text-replacement",
+      "id": "matrix-docker-0283-without-controls-final-text-replacement"
+    },
+    {
+      "arm": "without-feishu",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": true,
+        "feishu": false,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-text-replacement",
+      "id": "matrix-docker-0284-without-feishu-final-text-replacement"
+    },
+    {
+      "arm": "without-acceptance",
+      "kind": "current",
+      "features": {
+        "goals": true,
+        "acceptance": false,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-text-replacement",
+      "id": "matrix-docker-0285-without-acceptance-final-text-replacement"
+    },
+    {
+      "arm": "without-goals",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": true,
+        "feishu": true,
+        "controls": true,
+        "scheduling": true,
+        "optimization": true,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-text-replacement",
+      "id": "matrix-docker-0286-without-goals-final-text-replacement"
+    },
+    {
+      "arm": "only-infrastructure",
+      "kind": "current",
+      "features": {
+        "goals": false,
+        "acceptance": false,
+        "feishu": false,
+        "controls": false,
+        "scheduling": false,
+        "optimization": false,
+        "infrastructure": true
+      },
+      "repetition": 2,
+      "seed": 209475,
+      "caseId": "final-text-replacement",
+      "id": "matrix-docker-0287-only-infrastructure-final-text-replacement"
+    }
+  ]
+}

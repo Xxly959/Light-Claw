@@ -1,0 +1,731 @@
+{
+  "completedAt": "2026-10-22T00:05:37.962Z",
+  "finished": 60,
+  "planned": 60,
+  "reserved": 215,
+  "reportedTokens": 754790,
+  "stopped": false,
+  "budgetLimited": false,
+  "results": [
+    {
+      "id": "noise-host-0000-upstream-host-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0000-upstream-host-final-inventory-join",
+        "success": true,
+        "tokens": 10380,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-host-0001-upstream-host-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0001-upstream-host-final-money-csv",
+        "success": true,
+        "tokens": 10393,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-host-0002-upstream-host-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0002-upstream-host-final-stable-dedup",
+        "success": true,
+        "tokens": 10335,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-host-0004-upstream-host-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0004-upstream-host-final-nested-config",
+        "success": true,
+        "tokens": 10423,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-host-0005-upstream-host-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0005-upstream-host-final-version-filter",
+        "success": true,
+        "tokens": 10283,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-host-0003-upstream-host-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0003-upstream-host-final-markdown-section",
+        "success": false,
+        "tokens": 22578,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "noise-host-0006-upstream-host-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0006-upstream-host-final-jsonl-errors",
+        "success": true,
+        "tokens": 14602,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "noise-host-0007-upstream-host-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0007-upstream-host-final-unicode-path",
+        "success": true,
+        "tokens": 10536,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-host-0008-upstream-host-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0008-upstream-host-final-multi-file-consistency",
+        "success": false,
+        "tokens": 17788,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-host-0009-upstream-host-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0009-upstream-host-final-null-vs-missing",
+        "success": true,
+        "tokens": 10196,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-host-0010-upstream-host-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0010-upstream-host-final-range-boundaries",
+        "success": true,
+        "tokens": 10172,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-host-0012-upstream-host-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0012-upstream-host-final-inventory-join",
+        "success": true,
+        "tokens": 10446,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-host-0013-upstream-host-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0013-upstream-host-final-money-csv",
+        "success": true,
+        "tokens": 10371,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-host-0011-upstream-host-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0011-upstream-host-final-text-replacement",
+        "success": false,
+        "tokens": 22507,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "noise-host-0014-upstream-host-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0014-upstream-host-final-stable-dedup",
+        "success": true,
+        "tokens": 10287,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-host-0015-upstream-host-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0015-upstream-host-final-markdown-section",
+        "success": true,
+        "tokens": 13857,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "noise-host-0016-upstream-host-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0016-upstream-host-final-nested-config",
+        "success": false,
+        "tokens": 17882,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-host-0017-upstream-host-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0017-upstream-host-final-version-filter",
+        "success": true,
+        "tokens": 10261,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-host-0019-upstream-host-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0019-upstream-host-final-unicode-path",
+        "success": true,
+        "tokens": 10350,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-host-0018-upstream-host-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0018-upstream-host-final-jsonl-errors",
+        "success": false,
+        "tokens": 22937,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "noise-host-0020-upstream-host-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0020-upstream-host-final-multi-file-consistency",
+        "success": true,
+        "tokens": 10361,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-host-0022-upstream-host-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0022-upstream-host-final-range-boundaries",
+        "success": true,
+        "tokens": 10184,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-host-0021-upstream-host-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0021-upstream-host-final-null-vs-missing",
+        "success": true,
+        "tokens": 10252,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-host-0023-upstream-host-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0023-upstream-host-final-text-replacement",
+        "success": true,
+        "tokens": 13934,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "noise-host-0024-upstream-host-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0024-upstream-host-final-inventory-join",
+        "success": true,
+        "tokens": 14254,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "noise-host-0026-upstream-host-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0026-upstream-host-final-stable-dedup",
+        "success": true,
+        "tokens": 10226,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-host-0025-upstream-host-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0025-upstream-host-final-money-csv",
+        "success": true,
+        "tokens": 10393,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-host-0028-upstream-host-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0028-upstream-host-final-nested-config",
+        "success": true,
+        "tokens": 10360,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-host-0029-upstream-host-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0029-upstream-host-final-version-filter",
+        "success": true,
+        "tokens": 10101,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-host-0027-upstream-host-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0027-upstream-host-final-markdown-section",
+        "success": true,
+        "tokens": 13939,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "noise-host-0032-upstream-host-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0032-upstream-host-final-multi-file-consistency",
+        "success": true,
+        "tokens": 10334,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-host-0030-upstream-host-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0030-upstream-host-final-jsonl-errors",
+        "success": true,
+        "tokens": 14602,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "noise-host-0031-upstream-host-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0031-upstream-host-final-unicode-path",
+        "success": false,
+        "tokens": 18110,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-host-0033-upstream-host-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0033-upstream-host-final-null-vs-missing",
+        "success": true,
+        "tokens": 10452,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-host-0034-upstream-host-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0034-upstream-host-final-range-boundaries",
+        "success": true,
+        "tokens": 10224,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-host-0035-upstream-host-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0035-upstream-host-final-text-replacement",
+        "success": true,
+        "tokens": 13977,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "noise-host-0036-upstream-host-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0036-upstream-host-final-inventory-join",
+        "success": true,
+        "tokens": 10367,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-host-0037-upstream-host-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0037-upstream-host-final-money-csv",
+        "success": true,
+        "tokens": 13779,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "noise-host-0038-upstream-host-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0038-upstream-host-final-stable-dedup",
+        "success": true,
+        "tokens": 10270,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-host-0040-upstream-host-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0040-upstream-host-final-nested-config",
+        "success": true,
+        "tokens": 10357,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-host-0039-upstream-host-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0039-upstream-host-final-markdown-section",
+        "success": true,
+        "tokens": 13841,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "noise-host-0041-upstream-host-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0041-upstream-host-final-version-filter",
+        "success": false,
+        "tokens": 17637,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-host-0042-upstream-host-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0042-upstream-host-final-jsonl-errors",
+        "success": true,
+        "tokens": 14586,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "noise-host-0043-upstream-host-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0043-upstream-host-final-unicode-path",
+        "success": true,
+        "tokens": 10523,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-host-0044-upstream-host-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0044-upstream-host-final-multi-file-consistency",
+        "success": true,
+        "tokens": 10379,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-host-0045-upstream-host-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0045-upstream-host-final-null-vs-missing",
+        "success": true,
+        "tokens": 10004,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-host-0046-upstream-host-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0046-upstream-host-final-range-boundaries",
+        "success": true,
+        "tokens": 10230,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-host-0048-upstream-host-final-inventory-join",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0048-upstream-host-final-inventory-join",
+        "success": true,
+        "tokens": 10370,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-host-0049-upstream-host-final-money-csv",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0049-upstream-host-final-money-csv",
+        "success": true,
+        "tokens": 10389,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-host-0047-upstream-host-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0047-upstream-host-final-text-replacement",
+        "success": false,
+        "tokens": 22300,
+        "modelRequests": 6
+      }
+    },
+    {
+      "id": "noise-host-0050-upstream-host-final-stable-dedup",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0050-upstream-host-final-stable-dedup",
+        "success": true,
+        "tokens": 10253,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-host-0051-upstream-host-final-markdown-section",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0051-upstream-host-final-markdown-section",
+        "success": true,
+        "tokens": 13905,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "noise-host-0052-upstream-host-final-nested-config",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0052-upstream-host-final-nested-config",
+        "success": false,
+        "tokens": 17714,
+        "modelRequests": 5
+      }
+    },
+    {
+      "id": "noise-host-0053-upstream-host-final-version-filter",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0053-upstream-host-final-version-filter",
+        "success": true,
+        "tokens": 10106,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-host-0054-upstream-host-final-jsonl-errors",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0054-upstream-host-final-jsonl-errors",
+        "success": false,
+        "tokens": 14036,
+        "modelRequests": 4
+      }
+    },
+    {
+      "id": "noise-host-0055-upstream-host-final-unicode-path",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0055-upstream-host-final-unicode-path",
+        "success": true,
+        "tokens": 10526,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-host-0056-upstream-host-final-multi-file-consistency",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0056-upstream-host-final-multi-file-consistency",
+        "success": true,
+        "tokens": 10295,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-host-0057-upstream-host-final-null-vs-missing",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0057-upstream-host-final-null-vs-missing",
+        "success": true,
+        "tokens": 10479,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-host-0058-upstream-host-final-range-boundaries",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0058-upstream-host-final-range-boundaries",
+        "success": true,
+        "tokens": 10217,
+        "modelRequests": 3
+      }
+    },
+    {
+      "id": "noise-host-0059-upstream-host-final-text-replacement",
+      "code": 0,
+      "signal": null,
+      "timeout": false,
+      "summary": {
+        "id": "noise-host-0059-upstream-host-final-text-replacement",
+        "success": true,
+        "tokens": 13940,
+        "modelRequests": 4
+      }
+    }
+  ]
+}

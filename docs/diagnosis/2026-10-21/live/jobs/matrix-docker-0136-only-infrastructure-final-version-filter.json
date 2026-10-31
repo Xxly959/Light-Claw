@@ -1,0 +1,1 @@
+{"arm":"only-infrastructure","kind":"current","features":{"goals":false,"acceptance":false,"feishu":false,"controls":false,"scheduling":false,"optimization":false,"infrastructure":true},"repetition":1,"seed":104746,"caseId":"final-version-filter","id":"matrix-docker-0136-only-infrastructure-final-version-filter"}

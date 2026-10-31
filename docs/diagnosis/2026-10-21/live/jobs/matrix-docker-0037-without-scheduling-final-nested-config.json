@@ -1,0 +1,1 @@
+{"arm":"without-scheduling","kind":"current","features":{"goals":true,"acceptance":true,"feishu":true,"controls":true,"scheduling":false,"optimization":true,"infrastructure":true},"repetition":0,"seed":17,"caseId":"final-nested-config","id":"matrix-docker-0037-without-scheduling-final-nested-config"}

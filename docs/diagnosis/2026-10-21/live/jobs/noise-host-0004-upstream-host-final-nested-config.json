@@ -1,0 +1,1 @@
+{"arm":"upstream-host","kind":"upstream","features":{"goals":false,"acceptance":false,"feishu":false,"controls":false,"scheduling":false,"optimization":false,"infrastructure":false},"sandbox":"host","repetition":0,"seed":17,"caseId":"final-nested-config","id":"noise-host-0004-upstream-host-final-nested-config"}

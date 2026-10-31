@@ -1,9 +1,24 @@
-import { appendFileSync, mkdirSync } from "node:fs";
-import { dirname, join } from "node:path";
+import { join } from "node:path";
+import { redactDiagnosticValue } from "./redaction.js";
+import { appendDiagnostic } from "./resource-policy.js";
 
 export interface RunAuditEvent {
-	type: "run_finished" | "goal_created" | "goal_state_changed";
+	type:
+		| "verification_finished"
+		| "goal_confirmed"
+		| "run_finished"
+		| "goal_created"
+		| "goal_state_changed"
+		| "delivery_failed"
+		| "goal_state_invalid"
+		| "queue_full"
+		| "queue_expired";
 	channelId: string;
+	attemptId?: string;
+	verificationStatus?: string;
+	completionMethod?: "automatic" | "human" | "self_reported";
+	verificationCommandCount?: number;
+	messageId?: string;
 	goalId?: string;
 	cycle?: number;
 	durationMs?: number;
@@ -18,6 +33,8 @@ export interface RunAuditEvent {
 
 export function appendAuditEvent(workspaceDir: string, event: RunAuditEvent): void {
 	const path = join(workspaceDir, "audit", "runs.jsonl");
-	mkdirSync(dirname(path), { recursive: true });
-	appendFileSync(path, `${JSON.stringify({ ...event, timestamp: new Date().toISOString() })}\n`, "utf8");
+	appendDiagnostic(
+		path,
+		`${JSON.stringify(redactDiagnosticValue({ ...event, timestamp: new Date().toISOString() }))}\n`,
+	);
 }

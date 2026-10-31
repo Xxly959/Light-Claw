@@ -1,0 +1,45 @@
+{
+  "completedAt": "2026-10-21T08:34:05.359Z",
+  "datasetHash": "b7a5f92c8a38e92d3d5d01712901c9203914a4c8bd26056a0a195f2c8839bc84",
+  "runs": 132,
+  "requestCount": 417,
+  "reportedTokens": 1482827,
+  "selectionPromoted": false,
+  "model": {
+    "id": "deepseek-flash",
+    "name": "deepseek-flash",
+    "api": "ablation-deepseek",
+    "provider": "deepseek-experiment",
+    "baseUrl": "https://api.deepseek.com",
+    "reasoning": false,
+    "input": [
+      "text"
+    ],
+    "contextWindow": 131072,
+    "maxTokens": 2048,
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cacheRead": 0,
+      "cacheWrite": 0
+    },
+    "compat": {
+      "supportsDeveloperRole": false,
+      "supportsStore": false,
+      "supportsReasoningEffort": false,
+      "supportsStrictMode": false,
+      "maxTokensField": "max_tokens"
+    }
+  },
+  "fixedParameters": {
+    "thinking": "disabled",
+    "taskTemperature": 0.2,
+    "generationTemperature": 0.7,
+    "maxTokens": 2048
+  },
+  "sandbox": {
+    "type": "docker",
+    "container": "lightclaw-ablation-20261021"
+  },
+  "note": "Model cost fields are placeholders; monetary cost is not inferred from zero."
+}

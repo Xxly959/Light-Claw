@@ -1,0 +1,1 @@
+{"command": ["rtk", "proxy", "npm", "run", "check"], "exitCode": 0}

@@ -1,0 +1,107 @@
+{
+  "paired": {
+    "before": {
+      "n": 36,
+      "strictPassed": 30,
+      "artifactPassed": 36,
+      "toolErrors": 6,
+      "requests": 117,
+      "meanTokens": 11529,
+      "meanInputIncludingCache": 11080.027777777777,
+      "meanOutput": 448.97222222222223,
+      "meanDurationMs": 3947.9444444444443,
+      "p95DurationMs": 5279.5
+    },
+    "fixed": {
+      "n": 36,
+      "strictPassed": 34,
+      "artifactPassed": 36,
+      "toolErrors": 2,
+      "requests": 113,
+      "meanTokens": 7543.222222222223,
+      "meanInputIncludingCache": 7123.416666666667,
+      "meanOutput": 419.80555555555554,
+      "meanDurationMs": 3638.8888888888887,
+      "p95DurationMs": 4552.5
+    },
+    "changePercent": {
+      "meanTokens": -34.57175624753038,
+      "meanDurationMs": -7.828265060580053
+    },
+    "taskClusterBootstrap95": {
+      "meanTokens": [
+        -38.025197986973,
+        -31.238813704411598
+      ],
+      "meanDurationMs": [
+        -13.730460797848423,
+        -1.8396558837411254
+      ],
+      "strictRateDifferencePp": [
+        2.7777777777777772,
+        19.444444444444443
+      ]
+    }
+  },
+  "followup": {
+    "before": {
+      "n": 9,
+      "strictPassed": 5,
+      "artifactPassed": 9,
+      "toolErrors": 4,
+      "requests": 30,
+      "meanTokens": 11862.222222222223,
+      "meanInputIncludingCache": 11407.777777777777,
+      "meanOutput": 454.44444444444446,
+      "meanDurationMs": 3840.777777777778,
+      "p95DurationMs": 4743.2
+    },
+    "fixed": {
+      "n": 9,
+      "strictPassed": 9,
+      "artifactPassed": 9,
+      "toolErrors": 0,
+      "requests": 27,
+      "meanTokens": 7223.222222222223,
+      "meanInputIncludingCache": 6821.888888888889,
+      "meanOutput": 401.3333333333333,
+      "meanDurationMs": 3360.3333333333335,
+      "p95DurationMs": 3719.4
+    },
+    "changePercent": {
+      "meanTokens": -39.10734357437242,
+      "meanDurationMs": -12.509040414267936
+    },
+    "taskClusterBootstrap95": {
+      "meanTokens": [
+        -45.17661640156992,
+        -32.50423436421806
+      ],
+      "meanDurationMs": [
+        -22.794861813935384,
+        4.935118013691642
+      ],
+      "strictRateDifferencePp": [
+        0.0,
+        100.0
+      ]
+    }
+  },
+  "auxiliary": {
+    "n": 5,
+    "strictPassed": 5,
+    "artifactPassed": 5,
+    "toolErrors": 0,
+    "requests": 15,
+    "meanTokens": 7678.8,
+    "meanInputIncludingCache": 7303.4,
+    "meanOutput": 375.4,
+    "meanDurationMs": 3343,
+    "p95DurationMs": 3444.0
+  },
+  "total": {
+    "runs": 95,
+    "requests": 302,
+    "reportedTokens": 896763
+  }
+}

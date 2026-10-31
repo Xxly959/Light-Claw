@@ -1,0 +1,42 @@
+{
+  "frozenAt": "2026-10-21T09:29:10.162Z",
+  "datasetHash": "bba7b8705373fc1a27979472708a42715e473f9f7206b728c9c310b81228a409",
+  "model": {
+    "id": "deepseek-flash",
+    "name": "deepseek-flash",
+    "api": "ablation-deepseek",
+    "provider": "deepseek-experiment",
+    "baseUrl": "https://api.deepseek.com",
+    "reasoning": false,
+    "input": [
+      "text"
+    ],
+    "contextWindow": 131072,
+    "maxTokens": 2048,
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cacheRead": 0,
+      "cacheWrite": 0
+    },
+    "compat": {
+      "supportsDeveloperRole": false,
+      "supportsStore": false,
+      "supportsReasoningEffort": false,
+      "supportsStrictMode": false,
+      "maxTokensField": "max_tokens"
+    }
+  },
+  "repetitions": 3,
+  "order": "balanced AB/BA, rotate tasks by repetition",
+  "arms": [
+    "before",
+    "fixed-v2"
+  ],
+  "exploratory": true,
+  "scope": "targeted recheck of known missing-command failures; not a blind final suite",
+  "candidate": "",
+  "maxRequests": 450,
+  "maxReportedTokens": 1200000,
+  "note": "Actual product runners; no system prompt payload transforms. Both use the same current Node runtime and image."
+}

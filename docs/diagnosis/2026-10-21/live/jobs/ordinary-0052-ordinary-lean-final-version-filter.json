@@ -1,0 +1,1 @@
+{"arm":"ordinary-lean","kind":"lean","startGoal":false,"features":{"goals":true,"acceptance":true,"feishu":true,"controls":true,"scheduling":true,"optimization":true,"infrastructure":true},"sandbox":"docker","repetition":1,"seed":104746,"caseId":"final-version-filter","id":"ordinary-0052-ordinary-lean-final-version-filter"}

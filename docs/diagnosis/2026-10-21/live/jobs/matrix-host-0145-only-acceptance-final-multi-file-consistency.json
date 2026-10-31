@@ -1,0 +1,1 @@
+{"arm":"only-acceptance","kind":"current","features":{"goals":false,"acceptance":true,"feishu":false,"controls":false,"scheduling":false,"optimization":false,"infrastructure":false},"repetition":1,"seed":104746,"caseId":"final-multi-file-consistency","id":"matrix-host-0145-only-acceptance-final-multi-file-consistency"}

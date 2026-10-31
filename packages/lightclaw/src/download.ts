@@ -1,4 +1,5 @@
-import { LogLevel, WebClient } from "@slack/web-api";
+import { WebClient } from "@slack/web-api";
+import { createSdkLogger } from "./sdk-logger.js";
 
 interface Message {
 	ts: string;
@@ -28,7 +29,12 @@ function formatMessage(ts: string, user: string, text: string, indent = ""): str
 }
 
 export async function downloadChannel(channelId: string, botToken: string): Promise<void> {
-	const client = new WebClient(botToken, { logLevel: LogLevel.ERROR });
+	const client = new WebClient(botToken, {
+		logger: createSdkLogger("slack-export"),
+		timeout: 30_000,
+		retryConfig: { retries: 0 },
+		rejectRateLimitedCalls: true,
+	});
 
 	console.error(`Fetching channel info for ${channelId}...`);
 
@@ -36,7 +42,7 @@ export async function downloadChannel(channelId: string, botToken: string): Prom
 	let channelName = channelId;
 	try {
 		const info = await client.conversations.info({ channel: channelId });
-		channelName = (info.channel as any)?.name || channelId;
+		channelName = info.channel?.name || channelId;
 	} catch {
 		// DM channels don't have names, that's fine
 	}

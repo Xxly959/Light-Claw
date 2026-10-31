@@ -1,0 +1,90 @@
+{
+  "baselineFiles": 4574,
+  "existingFilesChangedByBatch3": [
+    {
+      "path": "docs/engineering-change-log.zh-CN.md",
+      "before": "4c5207c6a1da6dd23f96871d534c46c4116fd240e1239b4e35d52c0c4f1d04cb",
+      "after": "86705bf2aeb833cb233f5a999bb9204cf7a26d04e152a62e8ff74b85bb8c294b"
+    },
+    {
+      "path": "packages/lightclaw/CHANGELOG.md",
+      "before": "447243e9e45189a6e1d20a68e5213402d8d34ec5fefb0c44da28445749e3ff49",
+      "after": "545fe9bf5a75bca9178d1b61d13989774e8c99dca6f3c359de10fc2e334b344d"
+    },
+    {
+      "path": "packages/lightclaw/docs/evaluation.zh-CN.md",
+      "before": "965a607dd060d2fc554d7bd31d3893e26d1b5f86d384996f3ffcbad593afaad5",
+      "after": "50ac8dc54ebda0c4cfa3fb2002de7dd852dd862eb3d07aff54477e884094aa90"
+    },
+    {
+      "path": "packages/lightclaw/src/agent.ts",
+      "before": "10471c9ca5536933f80be02d61e12fcf66389a0d50e6b4e07913d50afaddd2c9",
+      "after": "006f132a590647e8dac7ebe34c1ae1dd7f0441fdc026bc993bc2667d88f1373e"
+    },
+    {
+      "path": "packages/lightclaw/src/evals/cli.ts",
+      "before": "9913bf3370df2b9c3982a0cc32adac0bd3a29d0a345719f868df3014a1405cdc",
+      "after": "30107ae4cbeddf7c8ad61f5bc0f01b652880cf6bcf1cf81e730c264c6d1b0139"
+    },
+    {
+      "path": "packages/lightclaw/src/main.ts",
+      "before": "af0f9e908ce1e51600bdb16d544580a7052d744e721c7373fc65aaf288c18ad0",
+      "after": "932370d2fe51ac4fd62f25c7444113399e8e77157b4e67d1956fab4d48425a19"
+    },
+    {
+      "path": "packages/lightclaw/src/transport.ts",
+      "before": "e7cb150cffede2d35c0a74291a838dcd67d7f8c47f6c69f75dc221bfbf7b03b4",
+      "after": "0c94eabbfa624df6afbc4101aa9b3979ca7e02b02d59278aa198db6af574c666"
+    },
+    {
+      "path": "packages/lightclaw/test/offline-entry.test.ts",
+      "before": "cdee0f111edf157d822ab75517b637a828481ad80eec15f7698ff6dcdc96bb19",
+      "after": "0cafe7d9f5d64037dec37185e6cb41c174a6ec7acf20c1674af970301cef2e24"
+    }
+  ],
+  "missingBaselineFiles": [],
+  "newBatch3Files": [
+    "docs/diagnosis/2026-10-30-third-remediation/README.md",
+    "docs/diagnosis/2026-10-30-third-remediation/approval.md",
+    "docs/diagnosis/2026-10-30-third-remediation/coverage.md",
+    "docs/diagnosis/2026-10-30-third-remediation/data-audit.json",
+    "docs/diagnosis/2026-10-30-third-remediation/formatting-review.json",
+    "docs/diagnosis/2026-10-30-third-remediation/frozen-sources.tar.gz",
+    "docs/diagnosis/2026-10-30-third-remediation/git-status.txt",
+    "docs/diagnosis/2026-10-30-third-remediation/offline-A/attempts.jsonl",
+    "docs/diagnosis/2026-10-30-third-remediation/offline-A/freeze.json",
+    "docs/diagnosis/2026-10-30-third-remediation/offline-A/raw-workers.tar.gz",
+    "docs/diagnosis/2026-10-30-third-remediation/offline-A/report.json",
+    "docs/diagnosis/2026-10-30-third-remediation/offline-A/report.reanalyzed.json",
+    "docs/diagnosis/2026-10-30-third-remediation/offline-B/attempts.jsonl",
+    "docs/diagnosis/2026-10-30-third-remediation/offline-B/freeze.json",
+    "docs/diagnosis/2026-10-30-third-remediation/offline-B/raw-workers.tar.gz",
+    "docs/diagnosis/2026-10-30-third-remediation/offline-B/report.json",
+    "docs/diagnosis/2026-10-30-third-remediation/offline-B/report.reanalyzed.json",
+    "docs/diagnosis/2026-10-30-third-remediation/report-template.md",
+    "docs/diagnosis/2026-10-30-third-remediation/review.md",
+    "docs/diagnosis/2026-10-30-third-remediation/verification.md",
+    "packages/lightclaw/docs/reliability-evaluation.zh-CN.md",
+    "packages/lightclaw/evals/reliability/make-data.py",
+    "packages/lightclaw/evals/reliability/protected/check-artifacts.py",
+    "packages/lightclaw/evals/reliability/protected/oracles.json",
+    "packages/lightclaw/evals/reliability/tasks.json",
+    "packages/lightclaw/src/evals/reliability/cli.ts",
+    "packages/lightclaw/src/evals/reliability/controller.ts",
+    "packages/lightclaw/src/evals/reliability/data.ts",
+    "packages/lightclaw/src/evals/reliability/fixture-runner.ts",
+    "packages/lightclaw/src/evals/reliability/protocol.ts",
+    "packages/lightclaw/src/evals/reliability/records.ts",
+    "packages/lightclaw/src/evals/reliability/scoring.ts",
+    "packages/lightclaw/src/evals/reliability/simulated-platform.ts",
+    "packages/lightclaw/src/evals/reliability/statistics.ts",
+    "packages/lightclaw/src/evals/reliability/types.ts",
+    "packages/lightclaw/src/evals/reliability/worker.ts",
+    "packages/lightclaw/src/runtime.ts",
+    "packages/lightclaw/test/reliability-controller.test.ts",
+    "packages/lightclaw/test/reliability-statistics.test.ts",
+    "packages/lightclaw/test/reliability-system.test.ts",
+    "packages/lightclaw/test/runtime-evaluation.test.ts"
+  ],
+  "note": "All other baseline hashes unchanged; index untouched; no commit/push/publish. Prior dirty changes remain the baseline."
+}

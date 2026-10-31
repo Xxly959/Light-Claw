@@ -1,0 +1,1 @@
+{"arm":"only-acceptance","kind":"current","features":{"goals":false,"acceptance":true,"feishu":false,"controls":false,"scheduling":false,"optimization":false,"infrastructure":false},"repetition":0,"seed":17,"caseId":"final-jsonl-errors","id":"matrix-host-0043-only-acceptance-final-jsonl-errors"}

@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import { getModel } from "../src/models.js";
+import { streamAnthropic } from "../src/providers/anthropic.js";
 import type { Context, Model } from "../src/types.js";
 
 const mockState = vi.hoisted(() => ({
@@ -22,6 +23,7 @@ vi.mock("@anthropic-ai/sdk", () => {
 				delta: { stop_reason: "end_turn" },
 				usage: { output_tokens: 5 },
 			})}\n`,
+			`event: message_stop\ndata: {"type":"message_stop"}\n\n`,
 		].join("\n");
 
 		return new Response(body, {
@@ -57,11 +59,8 @@ describe("Copilot Claude via Anthropic Messages", () => {
 		const model = getModel("github-copilot", "claude-sonnet-4.6") as Model<"anthropic-messages">;
 		expect(model.api).toBe("anthropic-messages");
 
-		const { streamAnthropic } = await import("../src/providers/anthropic.js");
-		const s = streamAnthropic(model, context, { apiKey: "tid_copilot_session_test_token" });
-		for await (const event of s) {
-			if (event.type === "error") break;
-		}
+		const result = await streamAnthropic(model, context, { apiKey: "tid_copilot_session_test_token" }).result();
+		expect(result.stopReason, result.errorMessage).toBe("stop");
 
 		const opts = mockState.constructorOpts!;
 		expect(opts).toBeDefined();
@@ -85,24 +84,37 @@ describe("Copilot Claude via Anthropic Messages", () => {
 
 		// Payload is valid Anthropic Messages format
 		const params = mockState.createParams!;
-		expect(params.model).toBe("claude-sonnet-4");
+		expect(params.model).toBe("claude-sonnet-4.6");
 		expect(params.stream).toBe(true);
 		expect(params.max_tokens).toBeGreaterThan(0);
 		expect(Array.isArray(params.messages)).toBe(true);
 	});
 
 	it("includes interleaved-thinking beta when reasoning is enabled", async () => {
-		const model = getModel("github-copilot", "claude-sonnet-4.6") as Model<"anthropic-messages">;
-		const { streamAnthropic } = await import("../src/providers/anthropic.js");
-		const s = streamAnthropic(model, context, {
+		const model: Model<"anthropic-messages"> = {
+			...(getModel("github-copilot", "claude-sonnet-4.6") as Model<"anthropic-messages">),
+			id: "claude-sonnet-4",
+		};
+		const result = await streamAnthropic(model, context, {
 			apiKey: "tid_copilot_session_test_token",
 			interleavedThinking: true,
-		});
-		for await (const event of s) {
-			if (event.type === "error") break;
-		}
+		}).result();
+		expect(result.stopReason, result.errorMessage).toBe("stop");
 
 		const headers = mockState.constructorOpts!.defaultHeaders as Record<string, string>;
 		expect(headers["anthropic-beta"]).toContain("interleaved-thinking-2025-05-14");
+	});
+
+	it("uses adaptive thinking without the legacy beta for Sonnet 4.6", async () => {
+		const model = getModel("github-copilot", "claude-sonnet-4.6") as Model<"anthropic-messages">;
+		const result = await streamAnthropic(model, context, {
+			apiKey: "tid_copilot_session_test_token",
+			thinkingEnabled: true,
+			interleavedThinking: true,
+		}).result();
+		expect(result.stopReason, result.errorMessage).toBe("stop");
+		expect(mockState.createParams?.thinking).toEqual({ type: "adaptive", display: "summarized" });
+		const headers = mockState.constructorOpts!.defaultHeaders as Record<string, string>;
+		expect(headers["anthropic-beta"] ?? "").not.toContain("interleaved-thinking-2025-05-14");
 	});
 });

@@ -1,0 +1,1 @@
+{"arm":"only-acceptance","kind":"current","features":{"goals":false,"acceptance":true,"feishu":false,"controls":false,"scheduling":false,"optimization":false,"infrastructure":false},"repetition":0,"seed":17,"caseId":"final-inventory-join","id":"matrix-host-0001-only-acceptance-final-inventory-join"}
