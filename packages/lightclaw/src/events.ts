@@ -93,6 +93,10 @@ export class EventsWatcher {
 	constructor(
 		private eventsDir: string,
 		private slack: EventBotTarget,
+		private readonly options: {
+			misfireMaxLatenessMs?: number;
+			onFault?: (fault: { kind: string; filename: string; detail: string }) => void;
+		} = {},
 	) {}
 
 	/**
@@ -372,8 +376,17 @@ export class EventsWatcher {
 		const atTime = new Date(event.at).getTime();
 		const now = Date.now();
 
+		if (now - atTime > (this.options.misfireMaxLatenessMs ?? 300000)) {
+			this.options.onFault?.({
+				kind: "schedule_expired",
+				filename,
+				detail: "one-shot beyond bounded catch-up window; retained in dead-letter",
+			});
+			this.deadLetter(filename);
+			return;
+		}
 		if (atTime <= now) {
-			// Catch up once after restart regardless of age; durable inbox admission controls expiry/deduplication.
+			// Bounded catch-up once; periodic schedules skip missed intervals and resume from next tick.
 			log.logInfo(`One-shot event overdue, admitting for durable processing: ${filename}`);
 			this.execute(filename, event);
 			return;
@@ -488,7 +501,11 @@ export class EventsWatcher {
 /**
  * Create and start an events watcher.
  */
-export function createEventsWatcher(workspaceDir: string, slack: EventBotTarget): EventsWatcher {
+export function createEventsWatcher(
+	workspaceDir: string,
+	slack: EventBotTarget,
+	options?: ConstructorParameters<typeof EventsWatcher>[2],
+): EventsWatcher {
 	const eventsDir = join(workspaceDir, "events");
-	return new EventsWatcher(eventsDir, slack);
+	return new EventsWatcher(eventsDir, slack, options);
 }

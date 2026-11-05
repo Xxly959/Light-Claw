@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
-import { mkdtemp, rm } from "node:fs/promises";
+import { realpathSync } from "node:fs";
+import { mkdir, mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
@@ -43,7 +44,7 @@ function nonNegativeInteger(value: string, name: string): number {
 
 export function parseBenchmarkArgs(args: string[], cwd = process.cwd()): ParsedBenchmarkArgs {
 	const config: BenchmarkConfig = { ...DEFAULT_CONFIG, channels: [...DEFAULT_CONFIG.channels] };
-	let outputDirectory = resolve(cwd, "../../lightclaw-data/benchmarks");
+	let outputDirectory = resolve(cwd, "lightclaw-data/benchmarks");
 	for (const argument of args) {
 		const separator = argument.indexOf("=");
 		if (!argument.startsWith("--") || separator < 3) throw new Error(`unknown benchmark argument: ${argument}`);
@@ -92,12 +93,21 @@ export function parseBenchmarkArgs(args: string[], cwd = process.cwd()): ParsedB
 }
 
 export async function main(args = process.argv.slice(2)): Promise<void> {
+	if (args.includes("--help") || args.includes("-h")) {
+		console.log(
+			"lightclaw-benchmark --channels=1,5,10,20 --warmup-rounds=2 --measurement-rounds=10 --tasks-per-channel=5 --output=<directory> (offline faux only)",
+		);
+		return;
+	}
 	const parsed = parseBenchmarkArgs(args);
 	const startedAt = new Date().toISOString();
 	const runId = `benchmark-${startedAt.replace(/[:.]/g, "-")}`;
 	const runDirectory = join(parsed.outputDirectory, runId);
-	const temporaryWorkspace = await mkdtemp(join(tmpdir(), "lightclaw-benchmark-"));
+	// Canonicalize only our newly created temporary root; control paths retain link rejection.
+	const temporaryRoot = realpathSync(await mkdtemp(join(tmpdir(), "lightclaw-benchmark-")));
+	const temporaryWorkspace = join(temporaryRoot, "workspace");
 	try {
+		await mkdir(temporaryWorkspace);
 		const [environment, source] = await Promise.all([
 			collectBenchmarkEnvironment(process.cwd()),
 			collectBenchmarkSource(process.cwd()),
@@ -115,11 +125,11 @@ export async function main(args = process.argv.slice(2)): Promise<void> {
 		});
 		process.stdout.write(`${JSON.stringify(artifacts, null, 2)}\n`);
 	} finally {
-		await rm(temporaryWorkspace, { recursive: true, force: true });
+		await rm(temporaryRoot, { recursive: true, force: true });
 	}
 }
 
-const invokedPath = process.argv[1] ? pathToFileURL(resolve(process.argv[1])).href : undefined;
+const invokedPath = process.argv[1] ? pathToFileURL(realpathSync(resolve(process.argv[1]))).href : undefined;
 if (invokedPath === import.meta.url) {
 	main().catch((error: unknown) => {
 		process.stderr.write(`${error instanceof Error ? error.message : String(error)}\n`);

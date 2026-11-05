@@ -12,7 +12,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { GoalStore } from "../src/goals/store.js";
-import type { GoalVerificationRuntime } from "../src/goals/types.js";
+import type { GoalCompletionRequest, GoalVerificationRuntime } from "../src/goals/types.js";
 
 let directory: string;
 let channelDir: string;
@@ -32,7 +32,11 @@ function runtime(): GoalVerificationRuntime {
 async function create(objective = "goal") {
 	return store.create({ objective, ownerUserId: "owner", acceptance: { mode: "manual" } }, signal());
 }
-const request = { summary: "done", evidence: ["tests passed"] };
+const request: GoalCompletionRequest = {
+	summary: "done",
+	evidence: ["tests passed"],
+	deliverables: { kind: "none", reason: "no file delivery in this fixture" },
+};
 beforeEach(() => {
 	directory = mkdtempSync(join(tmpdir(), "lightclaw-goal-"));
 	channelDir = join(directory, "work", "channel");

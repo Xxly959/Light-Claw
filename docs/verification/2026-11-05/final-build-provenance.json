@@ -1,0 +1,15 @@
+{
+  "sourceFilesCompared": 315,
+  "differences": [
+    {
+      "path": "packages/ai/src/models.generated.ts",
+      "workspace": "0a03e35a06ee9ccc5581f8be07a56f7b8c7d9839fe3540a2bcfbaee0f9fb27d9",
+      "isolated": "09e10f72e6bb38832e0def6da75caeece2f5a6be15a8cd6afa6a8aed3d219dcf"
+    }
+  ],
+  "expectedDifferences": [
+    "packages/ai/src/models.generated.ts"
+  ],
+  "reason": "AI normal build refreshes public catalog only in isolated copy; current workspace provider snapshot retained",
+  "sharedWorkspaceDistUsed": false
+}

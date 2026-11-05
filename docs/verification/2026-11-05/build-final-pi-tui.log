@@ -1,0 +1,8 @@
+cwd: ${RELEASE_CHECK}/source
+$ rtk proxy npm run build --workspace=@mariozechner/pi-tui
+
+> @mariozechner/pi-tui@0.70.6 build
+> tsgo -p tsconfig.build.json
+
+
+exit=0

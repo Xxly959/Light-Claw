@@ -4,7 +4,7 @@ import { isAbsolute, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 export const MAX_ATTACHMENT_BYTES = 20 * 1024 * 1024;
-const readerPath = fileURLToPath(new URL("../src/attachment-reader.py", import.meta.url));
+const readerPath = fileURLToPath(new URL("./attachment-reader.py", import.meta.url));
 
 function validateRelativePath(path: string): string {
 	if (!path || isAbsolute(path) || /[\\\0]/.test(path) || path.split("/").some((p) => !p || p === "." || p === "..")) {

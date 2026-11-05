@@ -14,7 +14,7 @@ import {
 } from "node:fs";
 import { dirname, join } from "node:path";
 import { assertCount, assertRecord, assertText, assertTextArray } from "../validation.js";
-import { assertFields, parseGoalCreateInput, validateArtifactPath } from "./acceptance.js";
+import { assertFields, parseGoalCreateInput, parseGoalDeliverables, validateArtifactPath } from "./acceptance.js";
 import { assertGoalSnapshots, captureGoalBaselines } from "./artifact.js";
 import { isWithin, physicalPath } from "./control.js";
 import type {
@@ -40,7 +40,10 @@ function assertDate(value: unknown, field: string): void {
 
 function assertSnapshot(value: unknown): asserts value is GoalArtifactSnapshot {
 	assertRecord(value, "snapshot");
-	assertFields(value, ["path", "sha256", "bytes", "device", "inode"]);
+	assertFields(value, ["path", "sha256", "bytes", "device", "inode", "mtimeNs", "ctimeNs"]);
+	for (const field of ["mtimeNs", "ctimeNs"])
+		if (value[field] !== undefined && (typeof value[field] !== "string" || !/^-?\d+$/.test(value[field])))
+			throw new Error("snapshot timestamp 非法");
 	validateArtifactPath(value.path);
 	assertCount(value.bytes, "bytes");
 	if (
@@ -128,6 +131,8 @@ function assertGoal(value: unknown): asserts value is GoalState {
 			throw new Error("verificationHistory.status 非法");
 		assertDate(report.startedAt, "verificationHistory.startedAt");
 		assertDate(report.finishedAt, "verificationHistory.finishedAt");
+		if (report.expiresAt !== undefined) assertDate(report.expiresAt, "verificationHistory.expiresAt");
+		if (report.deliverables !== undefined) parseGoalDeliverables(report.deliverables);
 		assertText(report.summary, "verificationHistory.summary");
 		assertTextArray(report.evidence, "verificationHistory.evidence");
 		if (
@@ -228,14 +233,19 @@ export class GoalStore {
 	private readonly acceptanceEnabled: boolean;
 	private readonly controlsEnabled: boolean;
 	private readonly enabled: boolean;
+	private readonly confirmationTtlMs: number;
 	constructor(options: {
 		channelDir: string;
 		controlChannelDir: string;
 		limits: GoalLimits;
 		enabled?: boolean;
+		confirmationTtlMs?: number;
 		acceptanceEnabled?: boolean;
 		controlsEnabled?: boolean;
 	}) {
+		this.confirmationTtlMs = options.confirmationTtlMs ?? 1_800_000;
+		if (!Number.isSafeInteger(this.confirmationTtlMs) || this.confirmationTtlMs < 1)
+			throw new Error("confirmationTtlMs 非法");
 		this.enabled = options.enabled !== false;
 		this.acceptanceEnabled = options.acceptanceEnabled !== false;
 		this.controlsEnabled = options.controlsEnabled !== false;
@@ -336,7 +346,15 @@ export class GoalStore {
 		request: GoalCompletionRequest,
 		runtime: GoalVerificationRuntime,
 	): Promise<GoalCompletionOutcome> {
-		this.requireStatus("active");
+		const initial = this.get();
+		if (!initial || !["active", "awaiting_confirmation"].includes(initial.status))
+			throw new Error("当前目标不能申请验收");
+		const deliverables =
+			request.deliverables === undefined
+				? initial.acceptance.mode === "manual"
+					? parseGoalDeliverables(undefined)
+					: undefined
+				: parseGoalDeliverables(request.deliverables);
 		assertText(request.summary, "summary");
 		const evidence = request.evidence.map((item) => item.trim()).filter(Boolean);
 		if (!evidence.length) throw new Error("完成申请至少需要一条证据");
@@ -349,13 +367,13 @@ export class GoalStore {
 				if (
 					current?.id !== before.id ||
 					(current.verificationVersion ?? current.revision) !== (before.verificationVersion ?? before.revision) ||
-					current.status !== "active"
+					current.status !== before.status
 				)
 					throw new Error("验证申请已过期");
 			},
 		};
 		const report: GoalVerificationReport = this.acceptanceEnabled
-			? await verifyGoalCompletion(before, { summary: request.summary.trim(), evidence }, guarded)
+			? await verifyGoalCompletion(before, { summary: request.summary.trim(), evidence, deliverables }, guarded)
 			: {
 					attemptId: randomUUID(),
 					goalId: before.id,
@@ -368,6 +386,7 @@ export class GoalStore {
 					checks: [],
 					snapshots: [],
 				};
+		report.expiresAt = new Date(Date.parse(report.finishedAt) + this.confirmationTtlMs).toISOString();
 		let current = this.get();
 		if (report.status !== "aborted") {
 			try {
@@ -389,7 +408,7 @@ export class GoalStore {
 		if (!current || current.id !== before.id) return { goal: current, report, committed: false };
 		const eligible =
 			report.status !== "aborted" &&
-			current.status === "active" &&
+			current.status === before.status &&
 			(current.verificationVersion ?? current.revision) === (before.verificationVersion ?? before.revision) &&
 			!runtime.signal.aborted;
 		const next = this.update((goal) => ({
@@ -433,13 +452,24 @@ export class GoalStore {
 			report.status !== "inconclusive"
 		)
 			throw new Error("确认身份或申请已过期");
+		if (!report.expiresAt || Date.parse(report.expiresAt) <= Date.now())
+			throw new Error("确认申请已过期，请重新申请");
+		if (before.acceptance.mode === "manual") {
+			const declaration = parseGoalDeliverables(report.deliverables);
+			if (
+				declaration.kind === "files" &&
+				declaration.paths.some((path) => !report.snapshots.some((snapshot) => snapshot.path === path))
+			)
+				throw new Error("交付物未采集，请重新申请");
+		}
 		await assertGoalSnapshots(this.channelDir, report.snapshots, signal);
 		signal.throwIfAborted();
 		const current = this.get();
 		if (
 			current?.id !== before.id ||
 			current.revision !== before.revision ||
-			current.status !== "awaiting_confirmation"
+			current.status !== "awaiting_confirmation" ||
+			Date.parse(report.expiresAt) <= Date.now()
 		)
 			throw new Error("确认申请已过期");
 		return this.update((goal) => ({

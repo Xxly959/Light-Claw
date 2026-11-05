@@ -1,0 +1,8 @@
+cwd: ${RELEASE_CHECK}/source
+$ rtk proxy npm run build --workspace=@mariozechner/pi-agent-core
+
+> @mariozechner/pi-agent-core@0.70.6 build
+> tsgo -p tsconfig.build.json
+
+
+exit=0

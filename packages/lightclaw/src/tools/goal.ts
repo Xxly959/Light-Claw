@@ -11,6 +11,21 @@ const progressSchema = Type.Object({
 const completeSchema = Type.Object(
 	{
 		summary: Type.String({ description: "目标完成总结" }),
+		deliverables: Type.Optional(
+			Type.Union(
+				[
+					Type.Object(
+						{ kind: Type.Literal("files"), paths: Type.Array(Type.String(), { minItems: 1, maxItems: 16 }) },
+						{ additionalProperties: false },
+					),
+					Type.Object(
+						{ kind: Type.Literal("none"), reason: Type.String({ minLength: 1 }) },
+						{ additionalProperties: false },
+					),
+				],
+				{ description: "人工验收必填：明确列出频道相对文件路径，或声明无文件交付及原因" },
+			),
+		),
 		evidence: Type.Array(Type.String({ description: "证明目标已完成的依据" }), { minItems: 1 }),
 	},
 	{ additionalProperties: false },
@@ -56,10 +71,10 @@ export function createGoalTools(store: GoalStore, runtime: () => GoalVerificatio
 		description:
 			"仅当系统提示词显示有进行中的长期目标，且申请由宿主机核验完成；文本证据不能直接完成目标时调用。普通单轮任务不要调用。",
 		parameters: completeSchema,
-		async execute(_id, { summary, evidence }, signal) {
+		async execute(_id, { summary, evidence, deliverables }, signal) {
 			const context = runtime();
 			const outcome = await store.requestCompletion(
-				{ summary, evidence },
+				{ summary, evidence, deliverables },
 				{ ...context, signal: signal ? AbortSignal.any([context.signal, signal]) : context.signal },
 			);
 			const goal = outcome.goal;

@@ -32,18 +32,30 @@ function limit(kind: ResourceKind): number {
 }
 function managed(name: string, kind: ResourceKind): boolean {
 	if (kind === "archive") return /^lightclaw-(?:exec|bash)-[a-zA-Z0-9-]+\.log$/.test(name);
-	if (kind === "audit") return /^runs\.jsonl(?:\.\d+)?$/.test(name);
+	if (kind === "audit") return /^(?:runs|tool-calls|spans)\.jsonl(?:\.[a-zA-Z0-9-]+)?$/.test(name);
 	if (kind === "diagnostic") return name === "last_prompt.jsonl";
 	if (kind === "history") return name === "log.jsonl";
 	return !name.startsWith(".");
 }
-function files(directory: string, kind: ResourceKind): Array<{ path: string; size: number; mtime: number }> {
+function files(
+	directory: string,
+	kind: ResourceKind,
+	payload = false,
+): Array<{ path: string; size: number; mtime: number }> {
 	if (!existsSync(directory)) return [];
 	return readdirSync(directory)
-		.filter((name) => managed(name, kind))
+		.filter((name) => kind === "audit" || managed(name, kind))
 		.flatMap((name) => {
 			const path = join(directory, name);
 			const info = lstatSync(path);
+			if (kind === "audit" && info.isSymbolicLink()) throw new ResourceLimitError("audit linked path rejected");
+			if (
+				kind === "audit" &&
+				info.isDirectory() &&
+				(name === "payloads" || (payload && /^[a-zA-Z0-9_-]{1,64}$/.test(name)))
+			)
+				return files(path, kind, true);
+			if (kind === "audit" && !managed(name, kind) && !(payload && name.endsWith(".json"))) return [];
 			return info.isFile() && !info.isSymbolicLink() ? [{ path, size: info.size, mtime: info.mtimeMs }] : [];
 		});
 }
@@ -51,7 +63,8 @@ export function pruneManagedResources(directory: string, kind: ResourceKind): vo
 	if (kind === "history") return;
 	const hours = resourceNumber(`${kind.toUpperCase()}_RETENTION_HOURS`, kind === "attachment" ? 168 : 24);
 	for (const file of files(directory, kind)) {
-		if (!reservations.has(file.path) && Date.now() - file.mtime > hours * 3600_000) rmSync(file.path);
+		const activeAudit = kind === "audit" && /\/(?:runs|tool-calls|spans)\.jsonl$/.test(file.path);
+		if (!activeAudit && !reservations.has(file.path) && Date.now() - file.mtime > hours * 3600_000) rmSync(file.path);
 	}
 }
 function ensureFreeSpace(directory: string, additionalBytes: number): void {
@@ -102,6 +115,7 @@ export function appendDiagnostic(path: string, line: string, kind: "audit" | "di
 		appendFileSync(path, line, { encoding: "utf8", mode: 0o600 });
 	} catch (error) {
 		diagnosticWriteWarning(kind, error);
+		if (kind === "audit") throw error;
 	}
 }
 export function appendConversationLine(path: string, line: string): void {

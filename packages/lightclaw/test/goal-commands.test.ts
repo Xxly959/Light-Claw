@@ -68,7 +68,10 @@ describe("goal commands authorize their real source", () => {
 			reserveCommand: () => ({ timeoutSeconds: 1 }),
 			executor: { getWorkspacePath: (path) => path, exec: async () => ({ code: 0, stdout: "", stderr: "" }) },
 		};
-		const result = await store.requestCompletion({ summary: "research done", evidence: ["report"] }, runtime);
+		const result = await store.requestCompletion(
+			{ summary: "research done", evidence: ["report"], deliverables: { kind: "none", reason: "research advice" } },
+			runtime,
+		);
 		expect((await handleGoalCommand("/goal status", store, context)).response).toContain(
 			`/goal confirm ${result.report.goalId} ${result.report.attemptId}`,
 		);

@@ -24,11 +24,11 @@ SIGINT/SIGTERM 的正常关闭顺序：停止接纳和事件 watcher，关闭待
 | unknown | 副作用不确定，阻止同频道后续排队项及目标自动续跑，等待人工核对 |
 | dead | 执行尝试上限（默认 3）或显式死信，保留记录并阻止不经核对的续跑 |
 
-没有自动无限重试。`DurableInbox.retry(id, true)` 是明确的人工重试，对 unknown/dead 必须确认已核对副作用；达到执行尝试上限会拒绝。已核对且无需重试的记录可用 `finish(id, "completed", "人工核对说明")` 结束隔离。操作这些 API 前先停止应用并取得同一个 `acquireControlLock(controlDir)`，不要直接改正在运行实例的 JSON。过期/拒绝项需要显式 retry 或新消息，重复投递不会重置决定。
+没有自动无限重试。正式入口为真实平台用户发送 `/recover list`、`/recover show <id>`，核对后使用 `/recover resolve <id> <revision> <说明>` 标记已处理且不重放，或 `/recover retry <id> <revision> ACK_DUPLICATE_RISK <说明>` 明确承担重复风险重试。处置在持有内核锁的当前实例内执行，要求身份、频道空闲、状态版本及审计通过；其他未决记录仍阻断频道。手工重试额外授权一次执行，保留累计 attempts。不得手改 JSON，也不能通过另一个进程绕过运行实例锁。过期/拒绝项重复投递不会重置决定。
 
-启动时先恢复历史记录，再接收平台事件；平台启动期间的新消息只落盘不派发，准备好后与历史 queued 项一起消费。未知频道的后续消息可以落盘，但不绕过隔离开始执行。记录保留而非自动清空；长期磁盘保留策略未在本批扩展。
+启动时先恢复历史记录，再接收平台事件；平台启动期间的新消息只落盘不派发，准备好后与历史 queued 项一起消费。未知频道的后续消息可以落盘，但不绕过隔离开始执行。`/recover capacity` 查询容量；`/recover maintain` 仅归档 completed/rejected/expired 为gzip并保留去重摘要。默认归档720小时、归档后去重168小时；期满后相同旧事件可能作为新任务接纳。未决状态不普通清理；索引在单实例内加载并更新。
 
-一次性与 immediate 事件的 ID 固定为文件名及有效载荷的摘要，重启前后相同；只有 `durableAdmission=true` 的接纳成功后才删除源文件。内存接纳或拒绝均保留源文件。启动前创建的 immediate 和已到期但未接纳的 one-shot 会尝试持久接纳，不再直接删除。若要再次创建内容相同的新事件，应使用新文件名/新的 at。无效事件保留在 `events/dead-letter/`。周期事件按每次触发产生独立记录；本批不实现停机期间所有错过周期的补发。
+一次性与 immediate 事件的 ID 固定为文件名及有效载荷的摘要，重启前后相同；只有 `durableAdmission=true` 的接纳成功后才删除源文件。内存接纳或拒绝均保留源文件。启动前创建的 immediate 会尝试持久接纳。one-shot 仅在可配迟到窗口内补执行，默认300000ms；历史过期转死信，不静默重放。若要再次创建内容相同的新事件，应使用新文件名/新的 at。无效事件保留在 `events/dead-letter/`。周期事件按每次触发产生独立记录；本批不实现停机期间所有错过周期的补发。
 
 ## 目标恢复与重复窗口
 
@@ -44,7 +44,7 @@ SIGINT/SIGTERM 的正常关闭顺序：停止接纳和事件 watcher，关闭待
 - absent 且 adapter 明确声明 `replaySafe=true`：以同 ID 重发。该声明要求服务端对并发、在途和重试原子去重，单靠“先查再发”不够。
 - unknown、查询失败或服务不支持安全重发：保存 manual，不自动发第二次。`resolveManually(id, independentlyVerifiedResult)` 可记录人工确认结果。
 
-记录在 `.operations/`，可通过 `get(id)` 查询。一个实例对每个控制目录使用一个 journal；不要绕过实例锁并发创建写者。adapter 必须自行实现请求期限、认证和结果查询契约。真实主入口的最终通知通过同一账本；目前 Feishu/Slack 通知 adapter 不能按此 ID 独立查询，故 `replaySafe=false`，不把不确定的通知自动重发。流式回复、任意平台 API、bash 和所有既有工具并未因此获得统一的副作用幂等保证。
+记录在 `.operations/`；正式入口为 `/recover operations|op-show|op-resolve|op-retry`。核对需ID和revision，重试还需ACK_DUPLICATE_RISK及说明；旧无owner记录仅管理员可处置。通知补发明确提示可能重复，不重新执行Agent任务。一个实例对每个控制目录使用一个 journal；不要绕过实例锁并发创建写者。adapter 必须自行实现请求期限、认证和结果查询契约。真实主入口的最终通知通过同一账本；目前 Feishu/Slack 通知 adapter 不能按此 ID 独立查询，故 `replaySafe=false`，不把不确定的通知自动重发。流式回复、任意平台 API、bash 和所有既有工具并未因此获得统一的副作用幂等保证。
 
 故障测试的独立 loopback mock 服务按 operation ID 原子保存副作用和回执，支持查询；真实 GoalStore 与操作账本在独立工作进程中执行，在操作前、服务成功但进度未保存、目标完成但通知未发时终止进程，再启动查询/收敛。它是明确选定 adapter 的工程证据，不是所有业务系统的事务证明。
 
@@ -56,8 +56,14 @@ Linux 监督器使用 subreaper 让双重 fork / setsid 的孤儿后代归属自
 
 Docker 需要容器内 Python 3.9+、Linux subreaper 与 pidfd 支持；当前 Dockerfile 原本安装 Python，本批没有构建或修改业务容器。运行元数据与取消 tombstone 位于容器 `/tmp/lightclaw-exec/<uuid>`，保留用于诊断，不自动复用 UUID。它保护本次执行树；任务主动向另一个服务/其他容器派发工作、利用更高权限逃逸或破坏监督器/其元数据的行为不能获得同样保证。该机制不把任意 bash 变为事务。
 
-本次 Docker daemon 不可用。macOS 离线 shim 测试真实运行相同监督器并验证父/后台子进程文件停止增长，覆盖 cancel、timeout、宿主 SIGTERM/SIGKILL；其中 macOS 使用进程组回退，**没有验证 Linux subreaper/pidfd 或真实容器**。`test/docker-live.test.ts` 保留 4 项显式启用的真实容器测试，包含脱组且清除标记的子进程；仅创建 `lightclaw-batch2-*`、带唯一标签的资源，清理前再次校验标签，镜像只用本地已有镜像（`--pull=never`）。启用方法和实际缺口见本批验证报告。
+历史批次曾因 Docker daemon 不可用只运行macOS shim，不能视为Linux验证。2026-11-01已有真实Docker验收；2026-11-05当前源码再次运行任务隔离+实际Agent/faux读写2项及Linux容器监督器cancel/timeout/SIGTERM/SIGKILL4项，全部通过，日志在 `docs/diagnosis/2026-11-05-completion/docker-final.log`。macOS shim仍不能单独证明Linux专用能力。`test/docker-live.test.ts` 保留 4 项显式启用的真实容器测试，包含脱组且清除标记的子进程；仅创建 `lightclaw-batch2-*`、带唯一标签的资源，清理前再次校验标签，镜像只用本地已有镜像（`--pull=never`）。启用方法和实际缺口见本批验证报告。
 
 ## 持久性边界
 
 本批验证的是进程退出、SIGTERM、SIGKILL 和原子文件状态恢复。新 journal 的 fsync/rename 增强本地提交顺序，GoalStore 仍沿用既有原子 rename；未做断电、磁盘损坏、NFS、主机内核崩溃或生产平台测试。不以进程崩溃测试宣称断电后不丢数据。
+
+## 审批归档与评测控制器恢复
+
+审批活动历史满额无需手改JSON：使用`/approve maintain`归档终态/过期票据，`/approve show <id>`核对历史。有效pending/approved和其他未决恢复状态不普通清理。身份、实例锁、空闲频道、文件事务与意图/结果审计均须通过；审计瞬时失败也不能当作普通命令失败吞掉。归档先持久发布，再更新活动文件，中断保留双份并以活动记录优先。
+
+离线评测`--mode=resume --out=<已有目录>`保留原freeze、共享预算startedAt、已花费/未知预留，不重新执行已有任务目录。全局账本丢失必须停止核对，不能重置额度；新输出实验仍不得覆盖旧结果。具体命令与限额文件格式见部署说明。

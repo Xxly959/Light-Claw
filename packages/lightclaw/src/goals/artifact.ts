@@ -70,6 +70,8 @@ export async function readGoalArtifact(
 					bytes,
 					device: after.dev.toString(),
 					inode: after.ino.toString(),
+					mtimeNs: after.mtimeNs.toString(),
+					ctimeNs: after.ctimeNs.toString(),
 				},
 			};
 		} finally {
@@ -109,7 +111,9 @@ export async function assertGoalSnapshots(
 			read.snapshot.sha256 !== expected.sha256 ||
 			read.snapshot.device !== expected.device ||
 			read.snapshot.inode !== expected.inode ||
-			read.snapshot.bytes !== expected.bytes
+			read.snapshot.bytes !== expected.bytes ||
+			(expected.mtimeNs !== undefined && read.snapshot.mtimeNs !== expected.mtimeNs) ||
+			(expected.ctimeNs !== undefined && read.snapshot.ctimeNs !== expected.ctimeNs)
 		)
 			throw new Error(`产物已变化：${expected.path}`);
 	}

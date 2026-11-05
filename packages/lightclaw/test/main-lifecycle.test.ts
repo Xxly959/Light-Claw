@@ -2,11 +2,14 @@ import { mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { afterAll, afterEach, describe, expect, it, vi } from "vitest";
 import type { AgentRunner, AgentRunResult } from "../src/agent.js";
+import * as auditStorage from "../src/audit/storage.js";
+import { CriticalAuditError, resolveAuditDirectory } from "../src/audit/storage.js";
 import type { LightClawConfig } from "../src/config.js";
 import { DurableInbox } from "../src/durable-inbox.js";
 import { acquireControlLock } from "../src/goals/control.js";
 import type { GoalStore } from "../src/goals/store.js";
 import type { GoalState } from "../src/goals/types.js";
+import { ApprovalStore } from "../src/policy/approvals.js";
 import type { ChatContext, ChatEvent, ChatHandler, ChatTransport } from "../src/transport.js";
 
 type RunPlan = (store: GoalStore, ctx: ChatContext, call: number) => Promise<AgentRunResult>;
@@ -249,7 +252,7 @@ async function complete(store: GoalStore, summary: string, evidence: string[]): 
 	const channel = [...audit.state.goals].find(([, value]) => value === store)?.[0];
 	if (!channel) throw new Error("missing channel");
 	const outcome = await store.requestCompletion(
-		{ summary, evidence },
+		{ summary, evidence, deliverables: { kind: "none", reason: "mock receipt only" } },
 		{
 			channelDir: join(audit.directory, channel),
 			sandbox: { type: "host" },
@@ -324,7 +327,9 @@ describe("main lifecycle with isolated platform boundary", () => {
 		expect(store.get()).toMatchObject({ status: "paused", cycle: 0 });
 		expect(store.get()?.pauseReason).toContain("/goal resume");
 		expect(audit.state.calls.get("queue-expiry")).toBeUndefined();
-		expect(readFileSync(join(audit.directory, "audit", "runs.jsonl"), "utf8")).toContain("queue_expired");
+		expect(readFileSync(join(resolveAuditDirectory(audit.directory), "runs.jsonl"), "utf8")).toContain(
+			"queue_expired",
+		);
 		audit.state.plans.set("queue-expiry", async (goals) => {
 			await complete(goals, "done", ["proof"]);
 			return audit.result();
@@ -372,7 +377,9 @@ describe("main lifecycle with isolated platform boundary", () => {
 		await execute("run-delivery-timeout", "/goal uploading task");
 		expect(goal("run-delivery-timeout")).toMatchObject({ status: "paused", cycle: 1, consecutiveFailures: 0 });
 		expect(audit.state.calls.get("run-delivery-timeout")).toBe(1);
-		expect(readFileSync(join(audit.directory, "audit", "runs.jsonl"), "utf8")).toContain("uploadFile timed out");
+		expect(readFileSync(join(resolveAuditDirectory(audit.directory), "runs.jsonl"), "utf8")).toContain(
+			"uploadFile timed out",
+		);
 	});
 	it("pauses immediately on a run budget outcome and records its reason", async () => {
 		audit.state.plans.set("run-budget", async () => ({
@@ -396,7 +403,9 @@ describe("main lifecycle with isolated platform boundary", () => {
 		expect(audit.state.goals.has("recovery-paused")).toBe(false);
 		expect(audit.state.goals.has("recovery-completed")).toBe(false);
 		expect(readFileSync(join(audit.control, "broken", "goal.json"), "utf8")).toBe("{}");
-		expect(readFileSync(join(audit.directory, "audit", "runs.jsonl"), "utf8")).toContain("goal_state_invalid");
+		expect(readFileSync(join(resolveAuditDirectory(audit.directory), "runs.jsonl"), "utf8")).toContain(
+			"goal_state_invalid",
+		);
 	});
 	it("rejects a new channel while all retained channels are running, then admits it after release", async () => {
 		let release!: () => void;
@@ -443,7 +452,7 @@ describe("main lifecycle with isolated platform boundary", () => {
 	it("waits without continuation and preserves confirmed completion after notification failure", async () => {
 		audit.state.plans.set("human-confirm", async (store) => {
 			await store.requestCompletion(
-				{ summary: "review me", evidence: ["proof"] },
+				{ summary: "review me", evidence: ["proof"], deliverables: { kind: "none", reason: "advice only" } },
 				{
 					channelDir: join(audit.directory, "human-confirm"),
 					sandbox: { type: "host" },
@@ -554,7 +563,7 @@ describe("main lifecycle with isolated platform boundary", () => {
 		expect(goal("final-delivery")?.status).toBe("completed");
 		expect(messages("final-delivery").some((text) => text.startsWith("执行失败："))).toBe(false);
 		const events: Array<{ type: string; channelId: string }> = readFileSync(
-			join(audit.directory, "audit", "runs.jsonl"),
+			join(resolveAuditDirectory(audit.directory), "runs.jsonl"),
 			"utf8",
 		)
 			.trim()
@@ -765,6 +774,52 @@ it("quarantines queued follow-ups in a channel with uncertain interrupted work",
 		),
 	).rejects.toThrow("未知");
 	expect(audit.state.calls.get("recovery-unknown")).toBeUndefined();
+});
+
+it("does not promote an outsider message to the owner of an active goal", async () => {
+	const channel = "active-goal-source-trust";
+	await execute(channel, "/goal status");
+	const store = audit.state.goals.get(channel)!;
+	await store.create(
+		{ objective: "owner task", ownerUserId: "audit-user", acceptance: { mode: "manual" } },
+		new AbortController().signal,
+	);
+	let actor = "";
+	audit.state.plans.set(channel, async (goals, context) => {
+		actor = context.message.user;
+		goals.pause("fixture observed identity");
+		return audit.result();
+	});
+	await handler().handleEvent({ ...event(channel, "outside input"), user: "outsider" }, transport());
+	expect(actor).toBe("outsider");
+});
+
+it("propagates critical audit failure even if later audit writes recover", async () => {
+	const channel = "critical-audit-recovered";
+	audit.state.plans.set(channel, async () => {
+		throw new CriticalAuditError("fictional transient audit failure");
+	});
+	await expect(execute(channel, "ordinary task")).rejects.toThrow(CriticalAuditError);
+});
+
+it("propagates a transient approval-maintenance audit failure without compacting history", async () => {
+	const channel = "maintenance-audit-transient";
+	const store = new ApprovalStore({ channelControlDir: join(audit.control, channel), channelId: channel });
+	const ticket = store.create({
+		signature: "s",
+		toolName: "bash",
+		summary: "fictional",
+		reason: "review",
+		capabilities: ["exec"],
+		ownerUserId: "audit-user",
+	});
+	store.approve(ticket.id, "audit-user");
+	store.consume("s");
+	vi.spyOn(auditStorage, "appendManagedAudit").mockImplementationOnce(() => {
+		throw new CriticalAuditError("fictional transient failure");
+	});
+	await expect(execute(channel, "/approve maintain")).rejects.toThrow(CriticalAuditError);
+	expect(store.get(ticket.id)?.archiveId).toBeUndefined();
 });
 
 it("shutdown waits for in-flight preparation and never starts a runner after the abort sweep", async () => {

@@ -50,7 +50,11 @@ it("uses the production goal loop and preserves awaiting-confirmation semantics"
 				if (calls === 1) goals.updateProgress("draft ready");
 				else
 					await goals.requestCompletion(
-						{ summary: "needs confirmation", evidence: ["draft"] },
+						{
+							summary: "needs confirmation",
+							evidence: ["draft"],
+							deliverables: { kind: "none", reason: "advice only" },
+						},
 						{
 							channelDir: directory,
 							sandbox: { type: "host" },

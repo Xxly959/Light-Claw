@@ -7,6 +7,13 @@ import { parseSandboxArg, validateSandbox } from "../sandbox.js";
 import { reliabilityCli } from "./reliability/cli.js";
 import { defaultReportPath, loadEvalCases, runEvaluation } from "./runner.js";
 
+if (process.argv.includes("--help") || process.argv.includes("-h")) {
+	console.log(
+		"lightclaw-eval --suite=reliability --mode=audit|offline|analyze --out=<fresh-directory>（offline仅faux；真实模型需审批）",
+	);
+	process.exit(0);
+}
+
 function argument(name: string, fallback?: string): string | undefined {
 	const prefix = `--${name}=`;
 	return process.argv.find((value) => value.startsWith(prefix))?.slice(prefix.length) ?? fallback;

@@ -11,11 +11,11 @@ LightClaw 是一个基于 TypeScript 的自托管个人 Agent。你在聊天中�
 
 ## 当前交付状态
 
-面向**单实例、同一信任域**的个人Agent；频道文件组织不是租户隔离。源码、离线回归与本地发行清单已有实现；**真实飞书/Slack、真实Docker、干净依赖安装与新鲜dist均未验收**。本批独立目录离线安装遇到ENOTCACHED，未运行被禁止的构建，也未发布服务。
+面向**单实例、同一信任域**的个人Agent；频道文件组织不是租户隔离。2026-11-05已在用户授权的隔离副本完成五包新鲜dist构建、macOS/Node 22.23.0独立离线安装与编译后faux流程。真实Docker历史验收在2026-11-01，本轮另有当前安全执行链路的定向验收。**真实飞书/Slack与真实模型仍待授权验收**；本地构建安装不证明平台上线或模型效果。证据与限制见[续做交付报告](docs/verification/2026-11-05/delivery.zh-CN.md)。
 
-[部署与备份恢复](packages/lightclaw/docs/deployment.zh-CN.md) · [故障排查](packages/lightclaw/docs/troubleshooting.zh-CN.md) · [日志/资源默认值](packages/lightclaw/docs/resources.zh-CN.md) · [本批验收矩阵](docs/diagnosis/2026-10-31-fourth-remediation/README.md) · [五条简历证据](docs/diagnosis/2026-10-31-fourth-remediation/resume-evidence.md)
+[部署与备份恢复](packages/lightclaw/docs/deployment.zh-CN.md) · [故障排查](packages/lightclaw/docs/troubleshooting.zh-CN.md) · [日志/资源默认值](packages/lightclaw/docs/resources.zh-CN.md) · [本批验收矩阵](docs/diagnosis/2026-10-31-fourth-remediation/README.md) · [当前验收与剩余事项](docs/verification/2026-11-05/README.zh-CN.md)
 
-`--help`无需凭证；`--health=<工作目录> --control=<控制目录>`只探测本地锁。Node Agent运行于宿主，Docker仅执行工具；正常退出收敛后才释放锁，异常执行进入unknown等待人工核对，不能因锁文件存在就删除它。
+`--help`无需凭证；`--health=<工作目录> --control=<控制目录>`分别报告锁、进程、运行时就绪与SDK连接状态；不主动连接平台或模型。Node Agent运行于宿主，Docker仅执行工具；正常退出收敛后才释放锁，异常执行进入unknown等待人工核对，不能因锁文件存在就删除它。
 
 ## 为什么用 LightClaw
 
@@ -130,6 +130,44 @@ npx tsx packages/lightclaw/src/main.ts \
 默认目标上限为 8 轮；连续失败或停滞达到 2 轮时暂停。单轮默认 5 分钟、100 次工具调用和 100,000 个已报告 Token，均可通过环境变量配置。Token 阈值在收到用量报告后生效，不能作为账单硬上限。
 
 目标控制状态保存在工作区外；对话、记忆、附件和产物按频道组织在 `lightclaw-data/` 中。排队记录可恢复；执行结果不确定的任务进入unknown并阻止自动重放，受控服务可按稳定operation ID对账，任意bash仍需人工核对副作用。当前设计面向单实例个人 Agent，详见[使用指南](packages/lightclaw/README.zh-CN.md)。
+
+## 企业部署加固
+
+默认配置保持既有行为；以下开关用于满足安全评审，缺省值不会改变现有部署：
+
+| 变量 | 作用 | 缺省 |
+| --- | --- | --- |
+| `LIGHTCLAW_TRUSTED_USER_IDS` | 可信用户名单；名单外用户触发的 run 在执行/外发前需要审批 | 空（全部可信） |
+| `LIGHTCLAW_CHANNEL_POLICY_JSON` | 频道能力策略，如 `{"default":{"caps":["fs:read"]}}` | 全量能力 |
+| `LIGHTCLAW_CHANNEL_POLICY_MAP_JSON` | 频道到策略的映射，如 `{"C123":"readonly"}` | 无 |
+| `LIGHTCLAW_POLICY_MODE` | `enforce` / `off`（应急回滚，仍写审计摘要） | `enforce` |
+| `LIGHTCLAW_AUDIT_PAYLOAD_MODE` | `off` / `digest` / `full`（原文落盘） | `digest` |
+| `LIGHTCLAW_APPROVAL_TTL_MS` | 审批票据有效期 | 30 分钟 |
+| `LIGHTCLAW_MODEL_FALLBACKS` | 主备降级，形如 `provider/model,provider/model` | 无 |
+| `LIGHTCLAW_OTLP_ENDPOINT` | span 推送地址（OTLP/JSON） | 无 |
+| `LIGHTCLAW_CHANNEL_CONTAINERS_JSON` | 频道到专属容器的映射 | 无（共用容器） |
+| `LIGHTCLAW_SANDBOX_FALLBACK` | `shared` / `deny`：未配置专属容器时共享还是拒绝 | `shared` |
+
+默认所有频道共用一个容器的 `/workspace`，因而彼此可读。需要真正隔离时，为频道单独建容器：
+
+```bash
+bash packages/lightclaw/docker.sh create-channel ./lightclaw-data <频道ID>
+export LIGHTCLAW_CHANNEL_CONTAINERS_JSON='{"<频道ID>":"lightclaw-chan-<频道ID>"}'
+```
+
+该容器只挂载 `lightclaw-data/<频道ID> → /workspace/<频道ID>`，启动时会校验挂载契约，多挂任何目录都拒绝启动。代价是频道容器内看不到工作区根的全局 `MEMORY.md`、`skills/`、`events/`；需要共享素材时创建 `lightclaw-data/.shared`，它会以只读方式挂到 `/workspace/.shared`。隔离模式下系统提示会同步声明写边界（只能写频道目录），避免模型反复尝试不可写路径。
+
+高危操作（递归删除、强制推送、下载即执行、提权、访问凭据文件等）会在执行前生成一次性票据并阻断本次调用；创建者或管理员发送 `/approve <id>` 后**自动续跑并重试同一操作**，票据只能使用一次，参数变化会重新拦截。
+
+审计分两级：`<控制目录>/.audit/tool-calls.jsonl` 始终写入脱敏摘要（工具、目标、判定、退出码、耗时）；参数原文只在 `LIGHTCLAW_AUDIT_PAYLOAD_MODE=full` 时写入 `<控制目录>/.audit/payloads/`，权限 `0600`。查询用 `lightclaw-audit`：
+
+```bash
+npx tsx packages/lightclaw/src/audit/cli.ts ./lightclaw-data --last 20
+npx tsx packages/lightclaw/src/audit/cli.ts ./lightclaw-data --blocked
+npx tsx packages/lightclaw/src/audit/cli.ts ./lightclaw-data --tool bash --json
+```
+
+`--isolation-report <工作目录>` 输出当前隔离等级（`shared-workspace` / `per-channel-container` / `host-unconfined`）与风险清单，用于评审而非替代评审；与 `--help` 一样不需要平台凭证，缺凭证时只读非凭证配置。设计与实施边界见[企业化加固](packages/lightclaw/docs/enterprise-hardening.zh-CN.md)。
 
 ## 评测与提示词优化
 

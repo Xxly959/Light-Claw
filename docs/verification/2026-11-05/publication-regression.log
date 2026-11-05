@@ -1,0 +1,719 @@
+cwd: packages/lightclaw
+$ rtk proxy npx tsx ../../node_modules/vitest/dist/cli.js --run test/manual-completion-binding.test.ts test/goals.test.ts test/goal-commands.test.ts test/goal-acceptance.test.ts test/goal-artifact.test.ts test/goal-control.test.ts test/goal-migration.test.ts test/goal-terminal-delivery.test.ts test/goal-tool-discovery.test.ts test/goal-verification.test.ts test/approval-lifecycle.test.ts test/approval-authority.test.ts test/policy-core.test.ts test/model-fallback.test.ts test/agent-runner.test.ts test/audit-integrity.test.ts test/audit-query.test.ts test/audit-routing.test.ts test/audit-redaction.test.ts test/observability.test.ts test/resource-policy.test.ts test/isolation-report-verification.test.ts test/channel-isolation.test.ts test/docker-validation.test.ts test/recovery-control.test.ts test/durable-work.test.ts test/durable-admission.test.ts test/queued-events.test.ts test/recovery-faults.test.ts test/inbox-lifecycle.test.ts test/platform-contract.test.ts test/platform-notifications.test.ts test/feishu.test.ts test/attachment-upload.test.ts test/output-tools.test.ts test/event-boundaries.test.ts test/events.test.ts test/health-readiness.test.ts test/main-lifecycle.test.ts test/runner-lifecycle.test.ts test/runtime-evaluation.test.ts test/config.test.ts test/feature-runner.test.ts test/prompt-optimization.test.ts test/optimizer-noise.test.ts test/eval-runner.test.ts test/eval-validation.test.ts test/evals.test.ts test/evaluation-seed.test.ts test/benchmark.test.ts test/packaging.test.ts test/release-readiness.test.ts test/install-preflight.test.ts test/backup-restore.test.ts test/deployment-entry.test.ts test/offline-entry.test.ts test/instance-lock.test.ts test/reliability-budgets.test.ts test/reliability-controller.test.ts test/reliability-system.test.ts test/reliability-statistics.test.ts test/docker-cancellation.test.ts test/sandbox.test.ts test/prompt-card.test.ts
+
+ RUN  v3.2.4 ${REPOSITORY}/packages/lightclaw
+
+stdout | test/reliability-system.test.ts > runs d01 through actual AgentRunner and shared production orchestration without shell/network
+[16:10:24] [system] Events watcher starting, dir: ${TEMP}
+[16:10:24] [system] Events watcher started, tracking 0 files
+
+stdout | test/reliability-system.test.ts > runs d01 through actual AgentRunner and shared production orchestration without shell/network
+[16:10:24] [system] Events watcher stopped
+
+stdout | test/reliability-system.test.ts > runs d02 through actual AgentRunner and shared production orchestration without shell/network
+[16:10:24] [system] Events watcher starting, dir: ${TEMP}
+[16:10:24] [system] Events watcher started, tracking 0 files
+
+ ✓ test/recovery-faults.test.ts (5 tests) 3700ms
+   ✓ recovers before-operation after BEFORE_OPERATION (SIGKILL) with one externally recorded side effect  950ms
+   ✓ recovers effect-before-progress after EFFECT_SAVED (SIGKILL) with one externally recorded side effect  714ms
+   ✓ recovers state-before-notification after STATE_SAVED (SIGKILL) with one externally recorded side effect  650ms
+   ✓ recovers queued after QUEUED (SIGKILL) with one externally recorded side effect  680ms
+   ✓ recovers effect-before-progress after EFFECT_SAVED (SIGTERM) with one externally recorded side effect  705ms
+stdout | test/reliability-system.test.ts > runs d02 through actual AgentRunner and shared production orchestration without shell/network
+[16:10:24] [system] Events watcher stopped
+
+stdout | test/reliability-system.test.ts > runs d03 through actual AgentRunner and shared production orchestration without shell/network
+[16:10:25] [system] Events watcher starting, dir: ${TEMP}
+[16:10:25] [system] Events watcher started, tracking 0 files
+
+stdout | test/reliability-system.test.ts > runs d03 through actual AgentRunner and shared production orchestration without shell/network
+[16:10:25] [system] Events watcher stopped
+
+stdout | test/reliability-system.test.ts > runs d04 through actual AgentRunner and shared production orchestration without shell/network
+[16:10:25] [system] Events watcher starting, dir: ${TEMP}
+[16:10:25] [system] Events watcher started, tracking 0 files
+
+stdout | test/main-lifecycle.test.ts
+正在启动 LightClaw...
+  工作目录：${TEMP}
+  沙箱：host
+
+stdout | test/main-lifecycle.test.ts
+[16:10:25] [system] ⚠ [broken] Goal recovery skipped
+           [payload omitted; 209 bytes]
+[16:10:25] [system] ⚠ [legacy] Goal recovery skipped
+           [payload omitted; 185 bytes]
+
+stdout | test/main-lifecycle.test.ts > main lifecycle with isolated platform boundary > pauses when the initial typing request hangs and ignores its late completion
+[16:10:26] [system] ⚠ [typing-timeout] Delivery error
+           [payload omitted; 68 bytes]
+
+stdout | test/reliability-system.test.ts > runs d04 through actual AgentRunner and shared production orchestration without shell/network
+[16:10:26] [system] Events watcher stopped
+
+stdout | test/reliability-system.test.ts > runs d13 through actual AgentRunner and shared production orchestration without shell/network
+[16:10:26] [system] Events watcher starting, dir: ${TEMP}
+[16:10:26] [system] Events watcher started, tracking 0 files
+
+ ✓ test/deployment-entry.test.ts (3 tests) 5276ms
+   ✓ shows source CLI help without credentials, Docker, model calls or workspace creation  1652ms
+   ✓ reports only local lock state without mistaking it for real platform health  2075ms
+   ✓ contains startup dependency exceptions instead of dumping raw stderr or SDK error objects  1545ms
+ ✓ test/sandbox.test.ts (10 tests) 5828ms
+   ✓ 宿主执行器错误与输出 > rejects output archive quota exhaustion and still accepts later small commands  1000ms
+   ✓ 宿主执行器错误与输出 > archives UTF-8 stderr fully and preserves a valid tail with private file permissions  2464ms
+   ✓ 宿主执行器错误与输出 > rejects host archive failures and permits the next command  558ms
+   ✓ 宿主执行器错误与输出 > finishes a large-output archive before rejecting cancellation  935ms
+   ✓ 宿主执行器错误与输出 > 超出捕获上限时归档完整输出并保留末尾  641ms
+stdout | test/reliability-system.test.ts > runs d13 through actual AgentRunner and shared production orchestration without shell/network
+[16:10:27] [system] Events watcher stopped
+
+stdout | test/platform-contract.test.ts > slack actual-adapter offline contract > starts/stops the SDK boundary, deduplicates redelivery after reconnect, and persists result
+[16:10:27] [system] Loaded 0 channels, 0 users
+[16:10:27] [system] Backfilling 0 channels...
+[16:10:27] [system] Backfill complete: 0 messages in 0.0s
+
+stdout | test/platform-contract.test.ts > slack actual-adapter offline contract > starts/stops the SDK boundary, deduplicates redelivery after reconnect, and persists result
+LightClaw 已连接，正在监听消息。
+
+
+stdout | test/main-lifecycle.test.ts > main lifecycle with isolated platform boundary > waits without continuation and preserves confirmed completion after notification failure
+[16:10:27] [system] ⚠ [human-confirm] Delivery error
+           [payload omitted; 36 bytes]
+
+stdout | test/platform-contract.test.ts > slack actual-adapter offline contract > retains saved output and uncertain admission after delivery failure
+[16:10:27] [system] Loaded 0 channels, 0 users
+[16:10:27] [system] Backfilling 0 channels...
+[16:10:27] [system] Backfill complete: 0 messages in 0.0s
+
+stdout | test/platform-contract.test.ts > slack actual-adapter offline contract > retains saved output and uncertain admission after delivery failure
+LightClaw 已连接，正在监听消息。
+
+
+stdout | test/platform-contract.test.ts > slack actual-adapter offline contract > retains saved output and uncertain admission after delivery failure
+[16:10:27] [system] ⚠ Queue error
+           [payload omitted; 26 bytes]
+
+ ✓ test/reliability-system.test.ts (8 tests) 3358ms
+   ✓ runs d01 through actual AgentRunner and shared production orchestration without shell/network  392ms
+   ✓ runs d02 through actual AgentRunner and shared production orchestration without shell/network  638ms
+   ✓ runs d03 through actual AgentRunner and shared production orchestration without shell/network  586ms
+   ✓ runs d04 through actual AgentRunner and shared production orchestration without shell/network  706ms
+   ✓ runs d13 through actual AgentRunner and shared production orchestration without shell/network  826ms
+stdout | test/platform-contract.test.ts > slack actual-adapter offline contract > carries authenticated platform actor on stop
+[16:10:27] [system] Loaded 0 channels, 0 users
+[16:10:27] [system] Backfilling 0 channels...
+[16:10:27] [system] Backfill complete: 0 messages in 0.0s
+
+stdout | test/platform-contract.test.ts > slack actual-adapter offline contract > carries authenticated platform actor on stop
+LightClaw 已连接，正在监听消息。
+
+
+stdout | test/platform-contract.test.ts > feishu actual-adapter offline contract > starts/stops the SDK boundary, deduplicates redelivery after reconnect, and persists result
+[16:10:27] [system] [feishu] bot open_id resolved
+
+stdout | test/platform-contract.test.ts > feishu actual-adapter offline contract > starts/stops the SDK boundary, deduplicates redelivery after reconnect, and persists result
+[16:10:27] [system] [feishu] loaded 0 chats, 0 users
+
+stdout | test/platform-contract.test.ts > feishu actual-adapter offline contract > starts/stops the SDK boundary, deduplicates redelivery after reconnect, and persists result
+LightClaw 已连接，正在监听消息。
+
+
+stdout | test/platform-contract.test.ts > feishu actual-adapter offline contract > starts/stops the SDK boundary, deduplicates redelivery after reconnect, and persists result
+[16:10:27] [system] [feishu] ws reconnected
+
+stdout | test/platform-contract.test.ts > feishu actual-adapter offline contract > retains saved output and uncertain admission after delivery failure
+[16:10:27] [system] [feishu] bot open_id resolved
+
+stdout | test/platform-contract.test.ts > feishu actual-adapter offline contract > retains saved output and uncertain admission after delivery failure
+[16:10:27] [system] [feishu] loaded 0 chats, 0 users
+
+stdout | test/platform-contract.test.ts > feishu actual-adapter offline contract > retains saved output and uncertain admission after delivery failure
+LightClaw 已连接，正在监听消息。
+
+
+stdout | test/platform-contract.test.ts > feishu actual-adapter offline contract > retains saved output and uncertain admission after delivery failure
+[16:10:27] [system] ⚠ Queue error
+           [payload omitted; 54 bytes]
+
+stdout | test/platform-contract.test.ts > feishu actual-adapter offline contract > carries authenticated platform actor on stop
+[16:10:27] [system] [feishu] bot open_id resolved
+
+stdout | test/platform-contract.test.ts > feishu actual-adapter offline contract > carries authenticated platform actor on stop
+[16:10:27] [system] [feishu] loaded 0 chats, 0 users
+
+stdout | test/platform-contract.test.ts > feishu actual-adapter offline contract > carries authenticated platform actor on stop
+LightClaw 已连接，正在监听消息。
+
+
+stdout | test/platform-contract.test.ts > downloads a Feishu file before dispatch and durably deduplicates the message
+[16:10:27] [system] [feishu] bot open_id resolved
+
+stdout | test/platform-contract.test.ts > downloads a Feishu file before dispatch and durably deduplicates the message
+[16:10:27] [system] [feishu] loaded 0 chats, 0 users
+
+stdout | test/platform-contract.test.ts > downloads a Feishu file before dispatch and durably deduplicates the message
+LightClaw 已连接，正在监听消息。
+
+
+stdout | test/main-lifecycle.test.ts > main lifecycle with isolated platform boundary > pauses on typing delivery failure without charging an execution cycle
+[16:10:27] [system] ⚠ [typing-error] Delivery error
+           [payload omitted; 35 bytes]
+
+stdout | test/platform-contract.test.ts > reports unsupported Feishu types explicitly
+[16:10:28] [system] [feishu] bot open_id resolved
+
+stdout | test/platform-contract.test.ts > reports unsupported Feishu types explicitly
+[16:10:28] [system] [feishu] loaded 0 chats, 0 users
+
+stdout | test/platform-contract.test.ts > reports unsupported Feishu types explicitly
+LightClaw 已连接，正在监听消息。
+
+
+stdout | test/platform-contract.test.ts > rejects inbound attachment permission before Agent dispatch
+[16:10:28] [system] [feishu] bot open_id resolved
+
+stdout | test/platform-contract.test.ts > rejects inbound attachment permission before Agent dispatch
+[16:10:28] [system] [feishu] loaded 0 chats, 0 users
+
+stdout | test/platform-contract.test.ts > rejects inbound attachment permission before Agent dispatch
+LightClaw 已连接，正在监听消息。
+
+
+stdout | test/main-lifecycle.test.ts > main lifecycle with isolated platform boundary > keeps completed state when the final platform update fails
+[16:10:28] [system] ⚠ [final-delivery] Delivery error
+           [payload omitted; 43 bytes]
+
+stdout | test/platform-contract.test.ts > rejects inbound attachment size before Agent dispatch
+[16:10:28] [system] [feishu] bot open_id resolved
+
+stdout | test/platform-contract.test.ts > rejects inbound attachment size before Agent dispatch
+[16:10:28] [system] [feishu] loaded 0 chats, 0 users
+
+stdout | test/platform-contract.test.ts > rejects inbound attachment size before Agent dispatch
+LightClaw 已连接，正在监听消息。
+
+
+stdout | test/platform-contract.test.ts > rejects inbound attachment timeout before Agent dispatch
+[16:10:28] [system] [feishu] bot open_id resolved
+
+stdout | test/platform-contract.test.ts > rejects inbound attachment timeout before Agent dispatch
+[16:10:28] [system] [feishu] loaded 0 chats, 0 users
+
+stdout | test/platform-contract.test.ts > rejects inbound attachment timeout before Agent dispatch
+LightClaw 已连接，正在监听消息。
+
+
+stdout | test/main-lifecycle.test.ts > main lifecycle with isolated platform boundary > charges the executed cycle before a final delivery failure
+[16:10:28] [system] ⚠ [active-final-delivery] Delivery error
+           [payload omitted; 43 bytes]
+
+stdout | test/platform-contract.test.ts > runs the production adapter, runtime and faux Agent for inbound file
+[16:10:28] [system] [feishu] bot open_id resolved
+
+stdout | test/platform-contract.test.ts > runs the production adapter, runtime and faux Agent for inbound file
+[16:10:28] [system] [feishu] loaded 0 chats, 0 users
+
+stdout | test/platform-contract.test.ts > runs the production adapter, runtime and faux Agent for inbound file
+LightClaw 已连接，正在监听消息。
+
+
+stdout | test/platform-contract.test.ts > runs the production adapter, runtime and faux Agent for inbound file
+[16:10:28] [system] Events watcher starting, dir: ${TEMP}
+[16:10:28] [system] Events watcher started, tracking 0 files
+
+stdout | test/channel-isolation.test.ts > 频道容器真实校验路径 > 接受只挂自己目录的频道容器
+  Docker channel container 'lightclaw-chan-C1' passed startup policy validation for C1.
+
+stdout | test/platform-contract.test.ts > runs the production adapter, runtime and faux Agent for inbound file
+[16:10:29] [system] Events watcher stopped
+
+stdout | test/platform-contract.test.ts > runs the production adapter, runtime and faux Agent for inbound image
+[16:10:29] [system] [feishu] bot open_id resolved
+
+stdout | test/platform-contract.test.ts > runs the production adapter, runtime and faux Agent for inbound image
+[16:10:29] [system] [feishu] loaded 0 chats, 0 users
+
+stdout | test/platform-contract.test.ts > runs the production adapter, runtime and faux Agent for inbound image
+LightClaw 已连接，正在监听消息。
+
+
+stdout | test/platform-contract.test.ts > runs the production adapter, runtime and faux Agent for inbound image
+[16:10:29] [system] Events watcher starting, dir: ${TEMP}
+[16:10:29] [system] Events watcher started, tracking 0 files
+
+ ✓ test/release-readiness.test.ts (11 tests) 8142ms
+   ✓ provides credential-free help for main  1671ms
+   ✓ provides credential-free help for benchmark/cli  787ms
+   ✓ provides credential-free help for evals/cli  840ms
+   ✓ provides credential-free help for evals/optimize-cli  772ms
+   ✓ retains checked-in provider definitions when catalog refresh omits a known provider  359ms
+   ✓ freezes installed ESM-only dependencies using import exports rather than CommonJS resolution  819ms
+   ✓ executes benchmark help through an installed-style bin symlink  727ms
+   ✓ runs benchmark tasks with an aliased system temporary directory and cleans owned control state  1820ms
+stdout | test/platform-contract.test.ts > runs the production adapter, runtime and faux Agent for inbound image
+[16:10:29] [system] Events watcher stopped
+
+stdout | test/platform-contract.test.ts > rejects a linked inbound attachment directory without modifying another channel
+[16:10:29] [system] [feishu] bot open_id resolved
+
+stdout | test/platform-contract.test.ts > rejects a linked inbound attachment directory without modifying another channel
+[16:10:29] [system] [feishu] loaded 0 chats, 0 users
+
+stdout | test/platform-contract.test.ts > rejects a linked inbound attachment directory without modifying another channel
+LightClaw 已连接，正在监听消息。
+
+
+stdout | test/platform-contract.test.ts > offers a Feishu optimization button and durably admits only its authenticated action
+[16:10:29] [system] [feishu] bot open_id resolved
+
+stdout | test/platform-contract.test.ts > offers a Feishu optimization button and durably admits only its authenticated action
+[16:10:29] [system] [feishu] loaded 0 chats, 0 users
+
+stdout | test/platform-contract.test.ts > offers a Feishu optimization button and durably admits only its authenticated action
+LightClaw 已连接，正在监听消息。
+
+
+stdout | test/platform-contract.test.ts > uses original input normally, optimizes only on the Feishu button, then returns to direct input
+[16:10:29] [system] [feishu] bot open_id resolved
+
+stdout | test/platform-contract.test.ts > uses original input normally, optimizes only on the Feishu button, then returns to direct input
+[16:10:29] [system] [feishu] loaded 0 chats, 0 users
+
+stdout | test/platform-contract.test.ts > uses original input normally, optimizes only on the Feishu button, then returns to direct input
+LightClaw 已连接，正在监听消息。
+
+
+stdout | test/platform-contract.test.ts > uses original input normally, optimizes only on the Feishu button, then returns to direct input
+[16:10:29] [system] Events watcher starting, dir: ${TEMP}
+[16:10:29] [system] Events watcher started, tracking 0 files
+
+stdout | test/main-lifecycle.test.ts > shutdown waits for in-flight preparation and never starts a runner after the abort sweep
+[16:10:30] [system] ⚠ [shutdown-preparing] Delivery error
+           [payload omitted; 70 bytes]
+
+ ✓ test/main-lifecycle.test.ts (36 tests) 4565ms
+ ✓ test/inbox-lifecycle.test.ts (7 tests) 3401ms
+   ✓ does not reread all historical JSON for each message  2688ms
+stdout | test/platform-contract.test.ts > uses original input normally, optimizes only on the Feishu button, then returns to direct input
+[16:10:30] [system] Events watcher stopped
+
+stdout | test/event-boundaries.test.ts > dead-letters invalid one-shot date nonsense without execution
+[16:10:30] [system] Events watcher starting, dir: ${TEMP}
+[16:10:30] [system] Events watcher started, tracking 0 files
+
+stdout | test/platform-contract.test.ts > lets only the requester stop a pending prompt optimization and never retries it
+[16:10:30] [system] [feishu] bot open_id resolved
+
+stdout | test/platform-contract.test.ts > lets only the requester stop a pending prompt optimization and never retries it
+[16:10:30] [system] [feishu] loaded 0 chats, 0 users
+
+stdout | test/platform-contract.test.ts > lets only the requester stop a pending prompt optimization and never retries it
+LightClaw 已连接，正在监听消息。
+
+
+stdout | test/platform-contract.test.ts > lets only the requester stop a pending prompt optimization and never retries it
+[16:10:30] [system] Events watcher starting, dir: ${TEMP}
+[16:10:30] [system] Events watcher started, tracking 0 files
+
+{"diagnostic":"faux-channel-churn","created":100,"disposed":100,"retainedAfterClose":0,"observations":[{"channels":10,"retained":8,"rssBytes":209043456,"heapUsedBytes":111115824},{"channels":20,"retained":8,"rssBytes":209027072,"heapUsedBytes":105637496},{"channels":30,"retained":8,"rssBytes":206651392,"heapUsedBytes":111993064},{"channels":40,"retained":8,"rssBytes":207454208,"heapUsedBytes":106716472},{"channels":50,"retained":8,"rssBytes":207503360,"heapUsedBytes":113009568},{"channels":60,"retained":8,"rssBytes":208535552,"heapUsedBytes":107753784},{"channels":70,"retained":8,"rssBytes":208633856,"heapUsedBytes":113986408},{"channels":80,"retained":8,"rssBytes":209682432,"heapUsedBytes":108697096},{"channels":90,"retained":8,"rssBytes":209797120,"heapUsedBytes":114836760},{"channels":100,"retained":8,"rssBytes":188366848,"heapUsedBytes":106729216}]}
+stdout | test/event-boundaries.test.ts > dead-letters invalid one-shot date nonsense without execution
+[16:10:30] [system] ⚠ Failed to parse event file after 3 retries: job.json
+           [payload omitted; 77 bytes]
+
+stdout | test/event-boundaries.test.ts > dead-letters invalid one-shot date nonsense without execution
+[16:10:30] [system] Events watcher stopped
+
+stdout | test/event-boundaries.test.ts > dead-letters invalid one-shot date 2026-11-01T12:00:00 without execution
+[16:10:30] [system] Events watcher starting, dir: ${TEMP}
+[16:10:30] [system] Events watcher started, tracking 0 files
+
+stdout | test/platform-contract.test.ts > lets only the requester stop a pending prompt optimization and never retries it
+[16:10:30] [system] Events watcher stopped
+
+ ✓ test/docker-cancellation.test.ts (4 tests) 9853ms
+   ✓ cancellation confirms that both shell and background child stopped writing  1098ms
+   ✓ timeout stops actual task bytes, not only the host client  3491ms
+   ✓ owner SIGTERM loses heartbeat and the task stops writing  2624ms
+   ✓ owner SIGKILL loses heartbeat and the task stops writing  2639ms
+ ✓ test/platform-contract.test.ts (25 tests) 3983ms
+   ✓ runs the production adapter, runtime and faux Agent for inbound file  599ms
+   ✓ runs the production adapter, runtime and faux Agent for inbound image  491ms
+   ✓ uses original input normally, optimizes only on the Feishu button, then returns to direct input  810ms
+   ✓ lets only the requester stop a pending prompt optimization and never retries it  351ms
+stdout | test/event-boundaries.test.ts > dead-letters invalid one-shot date 2026-11-01T12:00:00 without execution
+[16:10:31] [system] ⚠ Failed to parse event file after 3 retries: job.json
+           [payload omitted; 77 bytes]
+
+stdout | test/event-boundaries.test.ts > dead-letters invalid one-shot date 2026-11-01T12:00:00 without execution
+[16:10:31] [system] Events watcher stopped
+
+stdout | test/event-boundaries.test.ts > dead-letters invalid one-shot date 2026-02-30T00:00:00Z without execution
+[16:10:31] [system] Events watcher starting, dir: ${TEMP}
+[16:10:31] [system] Events watcher started, tracking 0 files
+
+ ✓ test/approval-lifecycle.test.ts (10 tests) 758ms
+ ✓ test/goals.test.ts (30 tests) 349ms
+ ✓ test/attachment-upload.test.ts (42 tests) 2079ms
+stdout | test/event-boundaries.test.ts > dead-letters invalid one-shot date 2026-02-30T00:00:00Z without execution
+[16:10:31] [system] ⚠ Failed to parse event file after 3 retries: job.json
+           [payload omitted; 77 bytes]
+
+stdout | test/event-boundaries.test.ts > dead-letters invalid one-shot date 2026-02-30T00:00:00Z without execution
+[16:10:31] [system] Events watcher stopped
+
+stdout | test/event-boundaries.test.ts > dead-letters invalid one-shot date 2026-13-01T00:00:00Z without execution
+[16:10:31] [system] Events watcher starting, dir: ${TEMP}
+[16:10:31] [system] Events watcher started, tracking 0 files
+
+stderr | test/runner-lifecycle.test.ts > runner attachment isolation and lifecycle > keeps optional diagnostic write failure nonfatal and can run again
+[lightclaw] prompt diagnostic unavailable (ERR_FS_EISDIR)
+
+stdout | test/event-boundaries.test.ts > dead-letters invalid one-shot date 2026-13-01T00:00:00Z without execution
+[16:10:31] [system] ⚠ Failed to parse event file after 3 retries: job.json
+           [payload omitted; 77 bytes]
+
+stdout | test/event-boundaries.test.ts > dead-letters invalid one-shot date 2026-13-01T00:00:00Z without execution
+[16:10:31] [system] Events watcher stopped
+
+stdout | test/event-boundaries.test.ts > dead-letters invalid one-shot date 2026-11-01T24:01:00Z without execution
+[16:10:31] [system] Events watcher starting, dir: ${TEMP}
+[16:10:31] [system] Events watcher started, tracking 0 files
+
+ ✓ test/recovery-control.test.ts (9 tests) 387ms
+stdout | test/event-boundaries.test.ts > dead-letters invalid one-shot date 2026-11-01T24:01:00Z without execution
+[16:10:32] [system] ⚠ Failed to parse event file after 3 retries: job.json
+           [payload omitted; 77 bytes]
+
+stdout | test/event-boundaries.test.ts > dead-letters invalid one-shot date 2026-11-01T24:01:00Z without execution
+[16:10:32] [system] Events watcher stopped
+
+stdout | test/event-boundaries.test.ts > dead-letters invalid one-shot date 2026-11-01T00:00:00+24:00 without execution
+[16:10:32] [system] Events watcher starting, dir: ${TEMP}
+[16:10:32] [system] Events watcher started, tracking 0 files
+
+ ✓ test/channel-isolation.test.ts (30 tests) 4536ms
+   ✓ 频道容器真实校验路径 > 接受只挂自己目录的频道容器  1021ms
+   ✓ docker.sh create-channel 的实际参数 > 只挂频道目录，并带齐最小权限参数  404ms
+   ✓ docker.sh create-channel 的实际参数 > 存在 .shared 时以只读方式追加挂载  697ms
+   ✓ 无凭证的隔离报告 > 真实 CLI 在没有凭证时也能输出隔离报告  1307ms
+stdout | test/durable-admission.test.ts > retains an event source after memory-only enqueue or rejection, and removes it only after durable acceptance
+[16:10:32] [system] Events watcher starting, dir: ${TEMP}
+[16:10:32] [system] Events watcher started, tracking 0 files
+
+stdout | test/durable-admission.test.ts > retains an event source after memory-only enqueue or rejection, and removes it only after durable acceptance
+[16:10:32] [system] One-shot event overdue, admitting for durable processing: once.json
+
+ ✓ test/packaging.test.ts (8 tests) 8619ms
+   ✓ local source release contract > prepares only release scope even when unrelated untracked names exceed the subprocess buffer  7503ms
+stdout | test/durable-admission.test.ts > retains an event source after memory-only enqueue or rejection, and removes it only after durable acceptance
+[16:10:32] [system] Events watcher stopped
+[16:10:32] [system] Events watcher starting, dir: ${TEMP}
+[16:10:32] [system] Events watcher started, tracking 0 files
+
+stdout | test/durable-admission.test.ts > retains an event source after memory-only enqueue or rejection, and removes it only after durable acceptance
+[16:10:32] [system] One-shot event overdue, admitting for durable processing: once.json
+
+ ✓ test/reliability-statistics.test.ts (5 tests) 1010ms
+   ✓ averages repetitions within tasks and bootstraps tasks, never treating repeated attempts as independent tasks  332ms
+stdout | test/durable-admission.test.ts > retains an event source after memory-only enqueue or rejection, and removes it only after durable acceptance
+[16:10:32] [system] Events watcher stopped
+[16:10:32] [system] Events watcher stopped
+
+stdout | test/event-boundaries.test.ts > dead-letters invalid one-shot date 2026-11-01T00:00:00+24:00 without execution
+[16:10:32] [system] ⚠ Failed to parse event file after 3 retries: job.json
+           [payload omitted; 77 bytes]
+
+stdout | test/event-boundaries.test.ts > dead-letters invalid one-shot date 2026-11-01T00:00:00+24:00 without execution
+[16:10:32] [system] Events watcher stopped
+
+stdout | test/event-boundaries.test.ts > dead-letters invalid one-shot date 42 without execution
+[16:10:32] [system] Events watcher starting, dir: ${TEMP}
+[16:10:32] [system] Events watcher started, tracking 0 files
+
+stdout | test/platform-notifications.test.ts > platform immediate notification boundaries > bounds a hanging notification and observes its late rejection
+[16:10:32] [system] ⚠ [channel] Platform operation failed
+           [payload omitted; 64 bytes]
+
+stdout | test/platform-notifications.test.ts > platform immediate notification boundaries > contains synchronous operation and audit write failures
+[16:10:32] [system] ⚠ [channel] Platform operation failed
+           [payload omitted; 29 bytes]
+[16:10:32] [system] ⚠ [channel] Delivery audit failed
+           [payload omitted; 66 bytes]
+
+stdout | test/platform-notifications.test.ts > platform immediate notification boundaries > observes rejection and permits the next event: mention-busy
+[16:10:32] [system] ⚠ [channel] Platform operation failed
+           [payload omitted; 31 bytes]
+
+stdout | test/platform-notifications.test.ts > platform immediate notification boundaries > observes rejection and permits the next event: dm-busy
+[16:10:32] [system] ⚠ [channel] Platform operation failed
+           [payload omitted; 31 bytes]
+
+stdout | test/platform-notifications.test.ts > platform immediate notification boundaries > observes rejection and permits the next event: mention-idle-stop
+[16:10:32] [system] ⚠ [channel] Platform operation failed
+           [payload omitted; 36 bytes]
+
+stdout | test/platform-notifications.test.ts > platform immediate notification boundaries > observes rejection and permits the next event: dm-idle-stop
+[16:10:32] [system] ⚠ [channel] Platform operation failed
+           [payload omitted; 36 bytes]
+
+stdout | test/platform-notifications.test.ts > platform immediate notification boundaries > observes rejection and permits the next event: mention-running-stop
+[16:10:32] [system] ⚠ [channel] Platform operation failed
+           [payload omitted; 28 bytes]
+
+stdout | test/platform-notifications.test.ts > platform immediate notification boundaries > observes rejection and permits the next event: dm-running-stop
+[16:10:32] [system] ⚠ [channel] Platform operation failed
+           [payload omitted; 28 bytes]
+
+stdout | test/platform-notifications.test.ts > platform immediate notification boundaries > observes rejection and permits the next event: feishu-idle-stop
+[16:10:32] [system] ⚠ [channel] Platform operation failed
+           [payload omitted; 31 bytes]
+
+stdout | test/platform-notifications.test.ts > platform immediate notification boundaries > observes rejection and permits the next event: feishu-running-stop
+[16:10:32] [system] ⚠ [channel] Platform operation failed
+           [payload omitted; 28 bytes]
+
+ ✓ test/durable-admission.test.ts (6 tests) 560ms
+ ✓ test/offline-entry.test.ts (3 tests) 1735ms
+   ✓ LightClaw offline test entry > defaults the unified evaluation CLI to a credential-free audit and rejects unknown suites  1733ms
+ ✓ test/feature-runner.test.ts (16 tests) 642ms
+ ✓ test/platform-notifications.test.ts (14 tests) 304ms
+stdout | test/event-boundaries.test.ts > dead-letters invalid one-shot date 42 without execution
+[16:10:32] [system] ⚠ Failed to parse event file after 3 retries: job.json
+           [payload omitted; 77 bytes]
+
+stdout | test/event-boundaries.test.ts > dead-letters invalid one-shot date 42 without execution
+[16:10:32] [system] Events watcher stopped
+
+stdout | test/event-boundaries.test.ts > chunks dates beyond Node's timer limit and never admits them early
+[08:00:00] [system] Events watcher starting, dir: ${TEMP}
+[08:00:00] [system] Events watcher started, tracking 0 files
+
+stdout | test/event-boundaries.test.ts > chunks dates beyond Node's timer limit and never admits them early
+[08:00:00] [system] Scheduling one-shot event: job.json in 2147534s
+
+stdout | test/event-boundaries.test.ts > chunks dates beyond Node's timer limit and never admits them early
+[04:32:13] [system] Executing one-shot event: job.json
+
+stdout | test/event-boundaries.test.ts > chunks dates beyond Node's timer limit and never admits them early
+[04:32:13] [system] Events watcher stopped
+
+stdout | test/event-boundaries.test.ts > admits overdue sources after restart exactly once when durable admission succeeds
+[16:10:33] [system] Events watcher starting, dir: ${TEMP}
+[16:10:33] [system] Events watcher started, tracking 0 files
+
+stdout | test/event-boundaries.test.ts > admits overdue sources after restart exactly once when durable admission succeeds
+[16:10:33] [system] One-shot event overdue, admitting for durable processing: job.json
+
+stdout | test/event-boundaries.test.ts > admits overdue sources after restart exactly once when durable admission succeeds
+[16:10:33] [system] Events watcher stopped
+[16:10:33] [system] Events watcher starting, dir: ${TEMP}
+[16:10:33] [system] Events watcher started, tracking 0 files
+
+stdout | test/event-boundaries.test.ts > admits overdue sources after restart exactly once when durable admission succeeds
+[16:10:33] [system] Events watcher stopped
+
+stdout | test/event-boundaries.test.ts > retains a rejected overdue source for a later restart
+[16:10:33] [system] Events watcher starting, dir: ${TEMP}
+[16:10:33] [system] Events watcher started, tracking 0 files
+
+stdout | test/event-boundaries.test.ts > retains a rejected overdue source for a later restart
+[16:10:33] [system] One-shot event overdue, admitting for durable processing: job.json
+[16:10:33] [system] ⚠ Event not admitted; source retained: job.json
+
+stdout | test/event-boundaries.test.ts > retains a rejected overdue source for a later restart
+[16:10:33] [system] Events watcher stopped
+[16:10:33] [system] Events watcher starting, dir: ${TEMP}
+[16:10:33] [system] Events watcher started, tracking 0 files
+
+stdout | test/event-boundaries.test.ts > retains a rejected overdue source for a later restart
+[16:10:33] [system] One-shot event overdue, admitting for durable processing: job.json
+
+stdout | test/event-boundaries.test.ts > retains a rejected overdue source for a later restart
+[16:10:33] [system] Events watcher stopped
+
+stdout | test/event-boundaries.test.ts > does not execute historically expired one-shot work under a bounded misfire policy
+[16:10:33] [system] Events watcher starting, dir: ${TEMP}
+[16:10:33] [system] Events watcher started, tracking 0 files
+
+stdout | test/event-boundaries.test.ts > does not execute historically expired one-shot work under a bounded misfire policy
+[16:10:33] [system] Events watcher stopped
+
+ ✓ test/event-boundaries.test.ts (11 tests) 2637ms
+   ✓ dead-letters invalid one-shot date nonsense without execution  330ms
+   ✓ dead-letters invalid one-shot date 2026-11-01T12:00:00 without execution  320ms
+   ✓ dead-letters invalid one-shot date 2026-02-30T00:00:00Z without execution  310ms
+   ✓ dead-letters invalid one-shot date 2026-13-01T00:00:00Z without execution  373ms
+   ✓ dead-letters invalid one-shot date 2026-11-01T24:01:00Z without execution  357ms
+   ✓ dead-letters invalid one-shot date 2026-11-01T00:00:00+24:00 without execution  318ms
+   ✓ dead-letters invalid one-shot date 42 without execution  306ms
+ ✓ test/reliability-budgets.test.ts (7 tests) 285ms
+ ✓ test/goal-migration.test.ts (9 tests) 690ms
+ ✓ test/runner-lifecycle.test.ts (35 tests) 9530ms
+   ✓ runner attachment isolation and lifecycle > runs 100 faux channels with bounded retention and releases all sessions  6027ms
+ ✓ test/audit-query.test.ts (8 tests) 908ms
+   ✓ 审计 CLI 端到端 > 默认输出表格并支持 --blocked、--json  659ms
+ ✓ test/durable-work.test.ts (4 tests) 203ms
+ ✓ test/backup-restore.test.ts (3 tests) 418ms
+ ✓ test/instance-lock.test.ts (3 tests) 642ms
+ ✓ test/install-preflight.test.ts (3 tests) 601ms
+   ✓ isolates npm into distinct empty config files without reading user configuration  510ms
+ ✓ test/goal-terminal-delivery.test.ts (2 tests) 382ms
+stdout | test/agent-runner.test.ts > createAgentRunner > uses the correct host environment in the actual model request
+[16:10:34] [system] Context sizes - system: 3132 chars, memory: 23 chars
+[16:10:34] [system] Channels: 1, Users: 1
+
+stdout | test/agent-runner.test.ts > createAgentRunner > uses the correct host environment in the actual model request
+[16:10:34] [#benchmark-channel:benchmark] → Streaming response...
+
+stdout | test/agent-runner.test.ts > createAgentRunner > uses the correct host environment in the actual model request
+[16:10:34] [#benchmark-channel:benchmark] 💬 Response
+           [payload omitted; 19 bytes]
+
+ ✓ test/eval-runner.test.ts (5 tests) 485ms
+   ✓ faux evaluation pipeline > preserves artifacts and explicitly opted-in tool failure diagnostics across isolated evaluation sessions  320ms
+ ✓ test/manual-completion-binding.test.ts (9 tests) 203ms
+stdout | test/agent-runner.test.ts > createAgentRunner > uses the correct host environment in the actual model request
+[16:10:34] [system] [benchmark-channel] Reloaded 2 messages from context
+
+stdout | test/agent-runner.test.ts > createAgentRunner > uses the correct host environment in the actual model request
+[16:10:34] [system] Context sizes - system: 3132 chars, memory: 23 chars
+[16:10:34] [system] Channels: 1, Users: 1
+
+stdout | test/agent-runner.test.ts > createAgentRunner > uses the correct host environment in the actual model request
+[16:10:34] [#benchmark-channel:benchmark] → Streaming response...
+
+stdout | test/agent-runner.test.ts > createAgentRunner > uses the correct host environment in the actual model request
+[16:10:34] [#benchmark-channel:benchmark] ↳ benchmark_delay: [payload omitted; 4 bytes]
+           [payload omitted; 16 bytes]
+
+stdout | test/agent-runner.test.ts > createAgentRunner > uses the correct host environment in the actual model request
+[16:10:34] [#benchmark-channel:benchmark] ✓ benchmark_delay (0.0s)
+           [payload omitted; 35 bytes]
+
+stdout | test/agent-runner.test.ts > createAgentRunner > uses the correct host environment in the actual model request
+[16:10:34] [#benchmark-channel:benchmark] → Streaming response...
+
+stdout | test/agent-runner.test.ts > createAgentRunner > uses the correct host environment in the actual model request
+[16:10:34] [#benchmark-channel:benchmark] 💬 Response
+           [payload omitted; 18 bytes]
+
+stdout | test/agent-runner.test.ts > createAgentRunner > uses the correct docker environment in the actual model request
+[16:10:34] [system] Context sizes - system: 2980 chars, memory: 23 chars
+[16:10:34] [system] Channels: 1, Users: 1
+
+stdout | test/agent-runner.test.ts > createAgentRunner > uses the correct docker environment in the actual model request
+[16:10:34] [#benchmark-channel:benchmark] → Streaming response...
+
+stdout | test/agent-runner.test.ts > createAgentRunner > uses the correct docker environment in the actual model request
+[16:10:34] [#benchmark-channel:benchmark] 💬 Response
+           [payload omitted; 19 bytes]
+
+stdout | test/agent-runner.test.ts > createAgentRunner > uses the correct docker environment in the actual model request
+[16:10:34] [system] [benchmark-channel] Reloaded 2 messages from context
+
+stdout | test/agent-runner.test.ts > createAgentRunner > uses the correct docker environment in the actual model request
+[16:10:34] [system] Context sizes - system: 2980 chars, memory: 23 chars
+[16:10:34] [system] Channels: 1, Users: 1
+
+stdout | test/agent-runner.test.ts > createAgentRunner > uses the correct docker environment in the actual model request
+[16:10:34] [#benchmark-channel:benchmark] → Streaming response...
+
+stdout | test/agent-runner.test.ts > createAgentRunner > uses the correct docker environment in the actual model request
+[16:10:34] [#benchmark-channel:benchmark] ↳ benchmark_delay: [payload omitted; 4 bytes]
+           [payload omitted; 16 bytes]
+
+stdout | test/agent-runner.test.ts > createAgentRunner > uses the correct docker environment in the actual model request
+[16:10:34] [#benchmark-channel:benchmark] ✓ benchmark_delay (0.0s)
+           [payload omitted; 35 bytes]
+
+stdout | test/agent-runner.test.ts > createAgentRunner > uses the correct docker environment in the actual model request
+[16:10:34] [#benchmark-channel:benchmark] → Streaming response...
+
+stdout | test/agent-runner.test.ts > createAgentRunner > uses the correct docker environment in the actual model request
+[16:10:34] [#benchmark-channel:benchmark] 💬 Response
+           [payload omitted; 18 bytes]
+
+ ✓ test/agent-runner.test.ts (2 tests) 225ms
+ ✓ test/resource-policy.test.ts (13 tests) 185ms
+ ✓ test/policy-core.test.ts (20 tests) 213ms
+stdout | test/health-readiness.test.ts > wires faults to a local hook without connecting an external service
+[16:10:34] [system] Events watcher starting, dir: ${TEMP}
+[16:10:34] [system] Events watcher started, tracking 0 files
+
+ ✓ test/approval-authority.test.ts (9 tests) 232ms
+stdout | test/health-readiness.test.ts > wires faults to a local hook without connecting an external service
+[16:10:34] [system] Events watcher stopped
+
+ ✓ test/goal-commands.test.ts (10 tests) 118ms
+ ✓ test/health-readiness.test.ts (2 tests) 364ms
+stdout | test/runtime-evaluation.test.ts > uses the production goal loop and preserves awaiting-confirmation semantics
+[16:10:35] [system] Events watcher starting, dir: ${TEMP}
+[16:10:35] [system] Events watcher started, tracking 0 files
+
+ ✓ test/audit-integrity.test.ts (6 tests) 70ms
+stdout | test/runtime-evaluation.test.ts > uses the production goal loop and preserves awaiting-confirmation semantics
+[16:10:35] [system] Events watcher stopped
+
+ ✓ test/runtime-evaluation.test.ts (1 test) 232ms
+ ✓ test/goal-verification.test.ts (9 tests) 56ms
+ ✓ test/audit-routing.test.ts (12 tests) 104ms
+ ✓ test/benchmark.test.ts (9 tests) 1240ms
+   ✓ benchmark workload > uses deterministic faux rounds with warmup exclusion and per-channel serialization  1207ms
+ ✓ test/goal-artifact.test.ts (7 tests) 82ms
+ ✓ test/output-tools.test.ts (6 tests) 77ms
+ ✓ test/model-fallback.test.ts (8 tests) 112ms
+stdout | test/events.test.ts > EventsWatcher fs.watch error handling > retries the events fs watcher 5 seconds after an async error
+[16:10:35] [system] Events watcher starting, dir: ${TEMP}
+[16:10:35] [system] Events watcher started, tracking 0 files
+
+stdout | test/events.test.ts > EventsWatcher fs.watch error handling > retries the events fs watcher 5 seconds after an async error
+[16:10:40] [system] Events watcher stopped
+
+ ✓ test/events.test.ts (1 test) 9ms
+stdout | test/docker-validation.test.ts > accepts the bounded docker.sh configuration after checking actual runtime UID
+  Docker container 'offline-fixture' passed startup policy validation.
+
+stdout | test/docker-validation.test.ts > preserves configured custom network names
+  Docker container 'offline-fixture' passed startup policy validation.
+
+stdout | test/docker-validation.test.ts > accepts real inspect tmpfs shape through both startup policy and control isolation
+  Docker container 'offline-fixture' passed startup policy validation.
+
+ ✓ test/docker-validation.test.ts (27 tests) 20ms
+ ✓ test/isolation-report-verification.test.ts (3 tests) 13ms
+ ✓ test/goal-tool-discovery.test.ts (1 test) 133ms
+ ✓ test/goal-acceptance.test.ts (17 tests) 7ms
+ ✓ test/audit-redaction.test.ts (1 test) 11ms
+ ✓ test/observability.test.ts (1 test) 12ms
+ ✓ test/goal-control.test.ts (5 tests) 19ms
+ ✓ test/config.test.ts (22 tests) 6ms
+ ✓ test/queued-events.test.ts (1 test) 8ms
+ ✓ test/feishu.test.ts (3 tests) 3ms
+ ✓ test/prompt-optimization.test.ts (12 tests) 11ms
+ ✓ test/eval-validation.test.ts (17 tests) 28ms
+ ✓ test/evaluation-seed.test.ts (1 test) 32ms
+ ✓ test/prompt-card.test.ts (4 tests) 44ms
+ ✓ test/evals.test.ts (7 tests) 6ms
+ ✓ test/optimizer-noise.test.ts (3 tests) 3ms
+ ✓ test/reliability-controller.test.ts (16 tests) 19525ms
+   ✓ B dispatches the same effective payload and tool schemas except the declared candidate section  3616ms
+   ✓ records s06 fault through an isolated real worker, never hiding failed attempts  2001ms
+   ✓ records s07 fault through an isolated real worker, never hiding failed attempts  2749ms
+   ✓ records s08 fault through an isolated real worker, never hiding failed attempts  1424ms
+   ✓ records s09 fault through an isolated real worker, never hiding failed attempts  1603ms
+   ✓ records d05 fault through an isolated real worker, never hiding failed attempts  1908ms
+   ✓ records d08 fault through an isolated real worker, never hiding failed attempts  1666ms
+   ✓ records d09 fault through an isolated real worker, never hiding failed attempts  1258ms
+   ✓ records d10 fault through an isolated real worker, never hiding failed attempts  870ms
+   ✓ keeps a truncated worker observation as a failed attempt rather than aborting the controller  784ms
+   ✓ enforces one global request ceiling across workers and controller resume without replay  1219ms
+
+ Test Files  64 passed (64)
+      Tests  637 passed (637)
+   Start at  16:10:20
+   Duration  19.88s (transform 2.35s, setup 614ms, collect 23.55s, tests 109.27s, environment 6ms, prepare 2.94s)
+
+
+exit=0

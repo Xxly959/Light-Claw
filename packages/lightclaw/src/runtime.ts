@@ -1,9 +1,17 @@
 import { existsSync, mkdirSync, readdirSync } from "node:fs";
 import { join } from "node:path";
-import { type AgentRunner, type AgentRunResult, getOrCreateRunner, releaseRunner } from "./agent.js";
+import {
+	type AgentRunner,
+	type AgentRunnerOverrides,
+	type AgentRunResult,
+	getOrCreateRunner,
+	releaseRunner,
+} from "./agent.js";
+import { CriticalAuditError, configureAuditDirectory } from "./audit/storage.js";
 import { assertControlAuthorized, ControlAuthorizationError } from "./authorization.js";
 import type { LightClawConfig } from "./config.js";
 import { DurableInbox } from "./durable-inbox.js";
+import { writeDurableJson } from "./durable-state.js";
 import { createEventsWatcher } from "./events.js";
 import { featureEnabled } from "./features.js";
 import type { GoalCommandResult } from "./goals/commands.js";
@@ -20,6 +28,10 @@ import * as log from "./log.js";
 import { type RunAuditEvent, appendAuditEvent as writeAuditEvent } from "./observability.js";
 import { OperationJournal } from "./operations.js";
 import { fitPlatformText } from "./platform-text.js";
+import { ApprovalStore } from "./policy/approvals.js";
+import { handleApprovalCommand } from "./policy/commands.js";
+import { createPromptOptimizer, PromptDraftStore, type PromptOptimizer } from "./prompt-input.js";
+import { handleRecoveryCommand } from "./recovery-control.js";
 import { diagnosticText } from "./redaction.js";
 import { assertNoUnconfirmedDockerTasks, type SandboxConfig } from "./sandbox.js";
 import { ChannelStore } from "./store.js";
@@ -32,7 +44,15 @@ import {
 	isImmediateGoalControl,
 } from "./transport.js";
 
+export interface RuntimeFault {
+	kind: string;
+	channelId: string;
+	detail: string;
+	timestamp: string;
+}
 export interface RuntimeOptions {
+	promptOptimizer?: PromptOptimizer;
+	onFault?: (fault: RuntimeFault) => void | Promise<void>;
 	config: LightClawConfig;
 	workingDir: string;
 	sandbox: SandboxConfig;
@@ -43,12 +63,34 @@ export interface RuntimeOptions {
 		directory: string,
 		config: LightClawConfig,
 		goals: GoalStore,
+		overrides?: AgentRunnerOverrides,
 	) => AgentRunner;
 	releaseRunner?: (directory: string) => void;
 	onRun?: (event: ChatEvent, result: AgentRunResult) => void;
 }
 
+/**
+ * 频道级沙箱解析：配置了专属容器就用它，否则按回退策略决定共享还是拒绝。
+ * host 模式不参与该策略——它本身没有容器边界，拒绝会破坏本地开发。
+ */
+export function resolveChannelSandbox(channelId: string, base: SandboxConfig, config: LightClawConfig): SandboxConfig {
+	// 基础设施特性关闭时统一走 host，频道容器映射不再生效，避免配置与特性开关互相矛盾。
+	if (!featureEnabled(config, "infrastructure")) return base;
+	const container = config.channelContainers?.[channelId];
+	if (container) return { type: "docker", container };
+	if (base.type === "docker" && config.sandboxFallback === "deny")
+		throw new Error(`频道 ${channelId} 未配置专属容器，且 LIGHTCLAW_SANDBOX_FALLBACK=deny；拒绝使用共享容器`);
+	return base;
+}
+
 /** Shared production orchestration; no configuration or credential loading on import. */
+/** 决定本次 run 的输入文本：目标续跑 > 审批续跑 > 原始消息。 */
+export function resolveRunText(event: ChatEvent, command: GoalCommandResult): string {
+	if (command.goal) return command.goal.objective;
+	if (command.retryText) return command.retryText;
+	return event.text;
+}
+
 export async function createLightClawRuntime(options: RuntimeOptions) {
 	const { config, workingDir, sandbox } = options;
 	function appendAuditEvent(workspace: string, event: RunAuditEvent): void {
@@ -58,12 +100,26 @@ export async function createLightClawRuntime(options: RuntimeOptions) {
 	mkdirSync(workingDir, { recursive: true });
 	const controlDir = resolveControlDirectory(workingDir, config.controlDir);
 	await assertControlIsolation(workingDir, controlDir, sandbox);
+	configureAuditDirectory(workingDir, controlDir);
 	const controlLock = acquireControlLock(controlDir);
 	const inbox = new DurableInbox(join(controlDir, ".inbox"));
 	inbox.recover();
 	inbox.dispatchPaused = true;
 	const operations = new OperationJournal(join(controlDir, ".operations"));
+	const promptDrafts = new PromptDraftStore(join(controlDir, ".prompt-inputs"));
+	const promptRuns = new Map<string, { controller: AbortController; user: string }>();
+
 	let stopping = false;
+	let runtimeReady = false;
+	let healthTimer: ReturnType<typeof setInterval> | undefined;
+	function reportFault(kind: string, channelId: string, detail: string): void {
+		const fault: RuntimeFault = { kind, channelId, detail, timestamp: new Date().toISOString() };
+		writeAuditEvent(workingDir, { type: "fault_raised", channelId, detail: JSON.stringify(fault) });
+		if (options.onFault)
+			void Promise.resolve()
+				.then(() => options.onFault!(fault))
+				.catch((error) => log.logWarning("Fault hook failed", diagnosticText(String(error))));
+	}
 	const inFlight = new Set<Promise<void>>();
 	const platformRequests = new Set<Promise<unknown>>();
 	function trackPlatformRequest<T>(operation: () => Promise<T>): Promise<T> {
@@ -78,6 +134,7 @@ export async function createLightClawRuntime(options: RuntimeOptions) {
 
 	function goalStore(channelId: string): GoalStore {
 		return new GoalStore({
+			confirmationTtlMs: config.goalConfirmationTtlMs,
 			enabled: featureEnabled(config, "goals"),
 			acceptanceEnabled: featureEnabled(config, "acceptance"),
 			controlsEnabled: featureEnabled(config, "controls"),
@@ -99,6 +156,7 @@ export async function createLightClawRuntime(options: RuntimeOptions) {
 		runner: AgentRunner;
 		store: ChannelStore;
 		goals: GoalStore;
+		approvals: ApprovalStore;
 		stopRequested: boolean;
 		stopMessageId?: string;
 	}
@@ -122,12 +180,35 @@ export async function createLightClawRuntime(options: RuntimeOptions) {
 			const channelDir = join(workingDir, channelId);
 			const goals = goalStore(channelId);
 			goals.get();
+			const approvals = new ApprovalStore({
+				channelControlDir: resolveControlChannelDirectory(controlDir, channelId),
+				channelId,
+				ttlMs: config.approvalTtlMs,
+				trustedUserIds: config.trustedUserIds,
+				adminUserIds: config.controlAdminUserIds,
+				onMaintenance: (phase, actor, result) =>
+					writeAuditEvent(workingDir, {
+						type: "approval_maintenance",
+						channelId,
+						detail: JSON.stringify({ phase, actor, result }),
+					}),
+				onDecision: (ticket) =>
+					appendAuditEvent(workingDir, { type: "approval_decided", channelId, detail: JSON.stringify(ticket) }),
+			});
 			return {
 				running: false,
 				inUse: 0,
 				store: createStore(),
 				goals,
-				runner: (options.createRunner ?? getOrCreateRunner)(sandbox, channelId, channelDir, config, goals),
+				approvals,
+				runner: (options.createRunner ?? getOrCreateRunner)(
+					resolveChannelSandbox(channelId, sandbox, config),
+					channelId,
+					channelDir,
+					config,
+					goals,
+					{ approvals },
+				),
 				stopRequested: false,
 			};
 		});
@@ -245,6 +326,7 @@ export async function createLightClawRuntime(options: RuntimeOptions) {
 		} catch (error) {
 			const detail = `${phase}: ${error instanceof Error ? error.message : String(error)}`;
 			log.logWarning(`[${channelId}] Delivery error`, detail);
+			reportFault("delivery_failed", channelId, detail);
 			appendAuditEvent(workingDir, { type: "delivery_failed", channelId, detail });
 			return false;
 		}
@@ -263,9 +345,10 @@ export async function createLightClawRuntime(options: RuntimeOptions) {
 	}
 
 	const executionHandler: ChatHandler = {
-		isRunning: (channelId) => channelStates.peek(channelId)?.running ?? false,
+		isRunning: (channelId) => promptRuns.has(channelId) || (channelStates.peek(channelId)?.running ?? false),
 
 		async handleQueueFailure(event, transport, reason) {
+			reportFault(`queue_${reason}`, event.channel, "Durable queue admission/expiry requires operator attention");
 			const detail =
 				reason === "full"
 					? "频道待处理队列已满，任务未接纳，请稍后重试。"
@@ -285,6 +368,20 @@ export async function createLightClawRuntime(options: RuntimeOptions) {
 		},
 
 		async handleStop(channelId, transport, actor) {
+			const optimization = promptRuns.get(channelId);
+			if (optimization) {
+				try {
+					assertControlAuthorized(actor, optimization.user, config.controlAdminUserIds);
+				} catch {
+					await deliver(channelId, "prompt-stop-denied", () =>
+						transport.postMessage(channelId, "无权限停止提示词优化"),
+					);
+					return;
+				}
+				optimization.controller.abort();
+				await deliver(channelId, "prompt-stop", () => transport.postMessage(channelId, "正在停止提示词优化"));
+				return;
+			}
 			const state = channelStates.peek(channelId);
 			if (!state?.running) {
 				await deliver(channelId, "idle-stop", () => transport.postMessage(channelId, "当前没有正在执行的任务"));
@@ -316,12 +413,180 @@ export async function createLightClawRuntime(options: RuntimeOptions) {
 		},
 
 		async handleEvent(event, transport, isEvent) {
+			const recovery = handleRecoveryCommand(event.text, {
+				inbox,
+				operations,
+				event,
+				adminUserIds: config.controlAdminUserIds,
+				trustedUserIds: config.trustedUserIds,
+				assertExclusive: () => {
+					const state = channelStates.peek(event.channel);
+					if (stopping || state?.running || (state?.inUse ?? 0) > 0)
+						throw new Error("频道或实例正在执行，不能并发人工处置");
+				},
+				audit: (entry) =>
+					writeAuditEvent(workingDir, {
+						type: "recovery_decided",
+						channelId: event.channel,
+						detail: JSON.stringify(entry),
+					}),
+			});
+			if (recovery) {
+				if (recovery.operationRetry) {
+					const record = recovery.operationRetry;
+					const receipt = await operations.execute(
+						record.scope,
+						record.key,
+						record.request,
+						{
+							replaySafe: false,
+							query: async () => ({ status: "unknown" }),
+							execute: async () => ({
+								messageId: await trackPlatformRequest(() =>
+									transport.postMessage(
+										event.channel,
+										`人工授权补发结果通知（可能重复）：${JSON.stringify(record.request)}；完整结果请核对频道已保存的交付物。`,
+									),
+								),
+							}),
+						},
+						record.ownerUserId,
+					);
+					writeAuditEvent(workingDir, {
+						type: "recovery_decided",
+						channelId: event.channel,
+						detail: `operation_retry ${record.id}: ${receipt.status}`,
+					});
+				}
+				await deliver(event.channel, "recovery", () => transport.postMessage(event.channel, recovery.response));
+				if (!inbox.unresolvedChannels().has(event.channel)) {
+					for (const record of inbox
+						.list()
+						.filter((r) => r.event.channel === event.channel && r.status === "queued"))
+						transport.enqueueAccepted?.(record.event, record.isEvent);
+				}
+				return;
+			}
 			if (
 				inbox.unresolvedChannels().has(event.channel) &&
 				!isImmediateGoalControl(event) &&
-				!/^\/goal\s+(status|confirm|reject)\b/.test(event.text.trim())
+				!/^\/(?:goal\s+(?:status|confirm|reject)|approve)\b/.test(event.text.trim())
 			) {
 				throw new Error("频道有执行结果未知的任务；先检查副作用并人工处理 inbox 记录，再重试");
+			}
+
+			if (event.promptOptimization) {
+				const action = event.promptOptimization;
+				let draft: ReturnType<PromptDraftStore["claim"]>;
+				try {
+					if (
+						event.origin !== "platform" ||
+						transport.kind !== "feishu" ||
+						!featureEnabled(config, "optimization")
+					)
+						throw new Error("提示词优化不可用");
+					if (channelStates.peek(event.channel)?.running || promptRuns.has(event.channel))
+						throw new Error("频道正在运行，请稍后点击");
+					writeAuditEvent(workingDir, {
+						type: "prompt_optimization",
+						channelId: event.channel,
+						detail: JSON.stringify({ phase: "requested", id: action.draftId, actor: event.user }),
+					});
+					draft = promptDrafts.claim(action.draftId, event.user, event.channel, action.messageId);
+				} catch (error) {
+					if (error instanceof CriticalAuditError) throw error;
+					await deliver(event.channel, "prompt-denied", () =>
+						transport.postMessage(event.channel, error instanceof Error ? error.message : "提示词优化申请无效"),
+					);
+					return;
+				}
+				const controller = new AbortController();
+				promptRuns.set(event.channel, { controller, user: event.user });
+				const timeoutMs = config.modelAttemptTimeoutMs ?? 120000;
+				const deadline = setTimeout(() => controller.abort(), timeoutMs);
+				let settled = false;
+				try {
+					const optimizer =
+						options.promptOptimizer ??
+						createPromptOptimizer(config, {
+							onUsage: (step, model, usage) =>
+								writeAuditEvent(workingDir, {
+									type: "prompt_optimization",
+									channelId: event.channel,
+									detail: JSON.stringify({
+										id: draft.id,
+										step,
+										provider: model.provider,
+										model: model.id,
+										usage,
+									}),
+								}),
+						});
+					const result = await withTimeout(
+						() => optimizer(draft.input, controller.signal),
+						timeoutMs,
+						"prompt optimization",
+					);
+					controller.signal.throwIfAborted();
+					writeAuditEvent(workingDir, {
+						type: "prompt_optimization",
+						channelId: event.channel,
+						detail: JSON.stringify({ phase: "finished", id: draft.id, score: result.score }),
+					});
+					promptDrafts.finish(draft.id, "done");
+					settled = true;
+					const text = fitPlatformText(
+						`提示词优化推荐（模型评审得分，非任务实测；未自动注入）：\n${result.candidates.map((candidate, index) => `${index + 1}. ${(candidate.score * 100).toFixed(1)}/100\n${candidate.prompt}\n理由：${candidate.reason}`).join("\n\n")}\n如需使用，请复制推荐提示词作为新消息发送；其他消息仍按原文处理。`,
+						transport.kind,
+					);
+					await deliver(event.channel, "prompt-result", () => transport.postMessage(event.channel, text));
+				} catch (error) {
+					if (!settled) {
+						writeAuditEvent(workingDir, {
+							type: "prompt_optimization",
+							channelId: event.channel,
+							detail: JSON.stringify({ phase: "failed", id: draft.id, cancelled: controller.signal.aborted }),
+						});
+						promptDrafts.finish(draft.id, "failed");
+					}
+					if (error instanceof CriticalAuditError) throw error;
+					await deliver(event.channel, "prompt-failed", () =>
+						transport.postMessage(
+							event.channel,
+							"提示词优化失败或已取消，未替换原输入；如需重试请重新发送原文。",
+						),
+					);
+				} finally {
+					controller.abort();
+					clearTimeout(deadline);
+					promptRuns.delete(event.channel);
+				}
+				return;
+			}
+			if (
+				event.origin === "platform" &&
+				transport.kind === "feishu" &&
+				transport.postPromptOptimizationCard &&
+				featureEnabled(config, "optimization") &&
+				event.text.trim() &&
+				!event.text.trim().startsWith("/") &&
+				event.text.length <= 12000
+			) {
+				try {
+					const draft = promptDrafts.create(event);
+					if (!draft.messageId) {
+						await deliver(event.channel, "prompt-card", async () => {
+							const messageId = await transport.postPromptOptimizationCard!(event.channel, draft.id);
+							promptDrafts.bindCard(draft.id, messageId);
+						});
+					}
+				} catch (error) {
+					if (error instanceof CriticalAuditError) throw error;
+					log.logWarning(
+						"Optional prompt card unavailable; keeping original input",
+						diagnosticText(String(error)),
+					);
+				}
 			}
 			let state: ChannelState;
 			let command: GoalCommandResult;
@@ -329,33 +594,67 @@ export async function createLightClawRuntime(options: RuntimeOptions) {
 				state = getState(event.channel);
 				state.inUse++;
 				try {
-					command = featureEnabled(config, "goals")
-						? await handleGoalCommand(event.text, state.goals, {
-								userId: event.user,
-								adminUserIds: config.controlAdminUserIds,
-								origin: event.origin,
-								sandbox,
-								signal: featureEnabled(config, "controls")
-									? AbortSignal.timeout(config.maxRunDurationMs ?? 300_000)
-									: new AbortController().signal,
-							})
-						: { handled: false, startRun: false };
-					// The command must pass authorization and state validation before cancellation.
-					// A historical goal does not grant control of an unrelated ordinary run.
-					if (
-						state.running &&
-						isImmediateGoalControl(event) &&
-						command.goal?.id === state.runGoalId &&
-						state.runGoalId
-					) {
-						assertControlAuthorized(event, state.runOwnerUserId, config.controlAdminUserIds);
-						state.stopRequested = true;
-						state.runner.abort();
+					// 审批命令必须绕过目标命令解析：它只处理票据，不启动 run。
+					const approval = handleApprovalCommand(event.text, {
+						assertMaintenance: () => {
+							if (stopping || state.running || state.inUse > 1 || promptRuns.has(event.channel))
+								throw new Error("频道正在执行，不能并发审批维护");
+						},
+						approvals: state.approvals,
+						userId: event.user,
+						origin: event.origin,
+						ownerUserId: state.runOwnerUserId,
+						trustedUserIds: config.trustedUserIds,
+						adminUserIds: config.controlAdminUserIds,
+					});
+					if (approval.handled) {
+						// 批准即续跑；但当前频道已有任务时不并发启动，避免 runner 重入。
+						const canResume = approval.startRun === true && !state.running;
+						const suffix =
+							approval.startRun && state.running
+								? "\n当前有任务在运行，批准已生效；等它结束后重新执行同一操作即可。"
+								: "";
+						if (approval.response)
+							await deliver(event.channel, "approval", () =>
+								transport.postMessage(event.channel, `${approval.response}${suffix}`),
+							);
+						if (!canResume) return;
+						command = {
+							handled: true,
+							startRun: true,
+							retryText: approval.retryText,
+							executionUserId: approval.executionUserId,
+						};
+					} else {
+						command = featureEnabled(config, "goals")
+							? await handleGoalCommand(event.text, state.goals, {
+									userId: event.user,
+									adminUserIds: config.controlAdminUserIds,
+									origin: event.origin,
+									sandbox,
+									signal: featureEnabled(config, "controls")
+										? AbortSignal.timeout(config.maxRunDurationMs ?? 300_000)
+										: new AbortController().signal,
+								})
+							: { handled: false, startRun: false };
+						// The command must pass authorization and state validation before cancellation.
+						// A historical goal does not grant control of an unrelated ordinary run.
+						if (
+							state.running &&
+							isImmediateGoalControl(event) &&
+							command.goal?.id === state.runGoalId &&
+							state.runGoalId
+						) {
+							assertControlAuthorized(event, state.runOwnerUserId, config.controlAdminUserIds);
+							state.stopRequested = true;
+							state.runner.abort();
+						}
 					}
 				} finally {
 					state.inUse--;
 				}
 			} catch (error) {
+				if (error instanceof CriticalAuditError) throw error;
 				if (error instanceof CacheCapacityError) {
 					await handler.handleQueueFailure(event, transport, "full");
 					return;
@@ -406,6 +705,7 @@ export async function createLightClawRuntime(options: RuntimeOptions) {
 				state.running = true;
 				state.runGoalId = state.goals.get()?.status === "active" ? state.goals.get()?.id : undefined;
 				state.runOwnerUserId =
+					command.executionUserId ??
 					command.goal?.ownerUserId ??
 					(state.goals.get()?.status === "active"
 						? state.goals.get()?.ownerUserId
@@ -413,7 +713,17 @@ export async function createLightClawRuntime(options: RuntimeOptions) {
 							? event.user
 							: undefined);
 				state.stopRequested = false;
-				let currentEvent = command.goal ? { ...event, text: command.goal.objective } : event;
+				let currentEvent = {
+					...event,
+					user:
+						command.executionUserId ??
+						command.goal?.ownerUserId ??
+						(event.origin === "recovery" && state.goals.get()?.status === "active"
+							? state.goals.get()?.ownerUserId
+							: undefined) ??
+						event.user,
+					text: resolveRunText(event, command),
+				};
 				try {
 					while (!state.stopRequested) {
 						const before = state.goals.get();
@@ -430,6 +740,7 @@ export async function createLightClawRuntime(options: RuntimeOptions) {
 							options.onRun?.(currentEvent, result);
 							if (stopping) break;
 						} catch (error) {
+							if (error instanceof CriticalAuditError) throw error;
 							if (stopping) break;
 							const detail = error instanceof Error ? error.message : String(error);
 							appendAuditEvent(workingDir, {
@@ -459,9 +770,10 @@ export async function createLightClawRuntime(options: RuntimeOptions) {
 							toolCalls: result.toolCalls,
 							verificationCommandCount: result.verificationCommandCount,
 							toolErrors: result.toolErrors,
-							inputTokens: result.inputTokens,
-							outputTokens: result.outputTokens,
-							cost: result.cost,
+							inputTokens: result.usageIncomplete ? undefined : result.inputTokens,
+							outputTokens: result.usageIncomplete ? undefined : result.outputTokens,
+							cost: result.usageIncomplete ? undefined : result.cost,
+							usageIncomplete: result.usageIncomplete,
 							detail: result.budgetReason,
 						});
 
@@ -521,6 +833,7 @@ export async function createLightClawRuntime(options: RuntimeOptions) {
 									return { delivered: true };
 								},
 							},
+							state.runOwnerUserId,
 						);
 						if (notification.status !== "succeeded") {
 							pauseActive(state, event.channel, "结果已保存但平台投递失败，发送 /goal resume 重试");
@@ -548,7 +861,7 @@ export async function createLightClawRuntime(options: RuntimeOptions) {
 							);
 							break;
 						}
-						currentEvent = continuationEvent(event, recorded.cycle);
+						currentEvent = continuationEvent(currentEvent, recorded.cycle);
 						isEvent = true;
 					}
 
@@ -559,6 +872,10 @@ export async function createLightClawRuntime(options: RuntimeOptions) {
 						state.stopMessageId = undefined;
 					}
 				} catch (error) {
+					if (error instanceof CriticalAuditError) {
+						if (state.goals.get()?.status === "active") state.goals.pause("关键审计失败，需核对恢复记录");
+						throw error;
+					}
 					log.logWarning(`[${event.channel}] Run error`, error instanceof Error ? error.message : String(error));
 					const goal = state.goals.get();
 					if (goal?.status === "active")
@@ -597,12 +914,32 @@ export async function createLightClawRuntime(options: RuntimeOptions) {
 	};
 
 	const transport = options.createTransport(handler, inbox);
-	const eventsWatcher = createEventsWatcher(workingDir, transport);
+	const eventsWatcher = createEventsWatcher(workingDir, transport, {
+		misfireMaxLatenessMs: config.scheduleMisfireMaxLatenessMs,
+		onFault: (fault) => reportFault(fault.kind, "system", JSON.stringify(fault)),
+	});
+	const writeHealth = () =>
+		writeDurableJson(join(controlDir, "health.json"), {
+			schema: 1,
+			pid: process.pid,
+			heartbeatAt: Date.now(),
+			ready: runtimeReady,
+			platform: transport.connectionStatus?.() ?? "unverified",
+		});
+	writeHealth();
 	let shutdownPromise: Promise<void> | undefined;
 	function shutdown(): Promise<void> {
 		if (shutdownPromise) return shutdownPromise;
 		stopping = true;
+		runtimeReady = false;
+		clearInterval(healthTimer);
+		try {
+			writeHealth();
+		} catch (error) {
+			log.logWarning("Shutdown health write failed; continuing cancellation/drain", diagnosticText(String(error)));
+		}
 		inbox.stopAdmission();
+		for (const run of promptRuns.values()) run.controller.abort();
 		eventsWatcher.stop();
 		for (const state of channelStates.values()) {
 			state.stopRequested = true;
@@ -625,6 +962,21 @@ export async function createLightClawRuntime(options: RuntimeOptions) {
 		try {
 			await transport.start();
 			if (stopping) throw new Error("Startup interrupted by shutdown");
+			runtimeReady = true;
+			writeHealth();
+			let lastConnection = transport.connectionStatus?.();
+			healthTimer = setInterval(() => {
+				try {
+					writeHealth();
+					const current = transport.connectionStatus?.();
+					if (current && current !== lastConnection && ["disconnected", "reconnecting"].includes(current))
+						reportFault("platform_connection", "system", current);
+					lastConnection = current;
+				} catch (error) {
+					log.logWarning("Health heartbeat failed; readiness will become stale", diagnosticText(String(error)));
+				}
+			}, 10000);
+			healthTimer.unref();
 			inbox.dispatchPaused = false;
 			// Replay only persisted queued requests. Interrupted executions become unknown/manual.
 			const recovered = inbox.list().filter((record) => record.status === "queued");

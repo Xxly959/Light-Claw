@@ -56,6 +56,8 @@ describe("createAgentRunner", () => {
 					return { content: [{ type: "text", text: "waited api_key=fictional-tool-value" }], details: undefined };
 				},
 			};
+			// 自定义工具必须声明能力，否则能力裁决按未登记工具拒绝执行。
+			Object.assign(tool, { capabilities: ["fs:read"] as const });
 			const config: LightClawConfig = {
 				transport: "slack",
 				modelProvider: "unused",

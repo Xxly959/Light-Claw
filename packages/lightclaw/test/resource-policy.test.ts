@@ -4,6 +4,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, expect, it, vi } from "vitest";
 import { downloadAttachment } from "../src/attachment-download.js";
+import { resolveAuditDirectory } from "../src/audit/storage.js";
 import { writeDurableJson } from "../src/durable-state.js";
 import * as log from "../src/log.js";
 import { appendAuditEvent } from "../src/observability.js";
@@ -55,13 +56,13 @@ it("defaults diagnostics/console to metadata and bounds redacted debug", () => {
 	expect(diagnosticText(secret)).not.toContain("fictional-");
 	expect(diagnosticText("x".repeat(9000)).length).toBeLessThan(5000);
 });
-it("audit redacts every field and diagnostic write failures are best effort", () => {
+it("audit redacts every field and critical write failures fail closed", () => {
 	const dir = root();
 	appendAuditEvent(dir, { type: "delivery_failed", channelId: secret, detail: secret });
-	expect(readFileSync(join(dir, "audit/runs.jsonl"), "utf8")).not.toContain("fictional-");
-	rmSync(join(dir, "audit"), { recursive: true });
-	writeFileSync(join(dir, "audit"), "blocked");
-	expect(() => appendAuditEvent(dir, { type: "run_finished", channelId: "C" })).not.toThrow();
+	expect(readFileSync(join(resolveAuditDirectory(dir), "runs.jsonl"), "utf8")).not.toContain("fictional-");
+	rmSync(resolveAuditDirectory(dir), { recursive: true });
+	writeFileSync(resolveAuditDirectory(dir), "blocked");
+	expect(() => appendAuditEvent(dir, { type: "run_finished", channelId: "C" })).toThrow();
 });
 it("prompt capture is opt-in, redacted and expires without pruning control state", () => {
 	const dir = root();

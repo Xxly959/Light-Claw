@@ -1,0 +1,226 @@
+cwd: ${RELEASE_CHECK}/lockfile-replay-native-final
+$ rtk proxy ${RELEASE_CHECK}/lockfile-replay-native-final/node_modules/.bin/lightclaw-eval --suite=reliability --mode=offline --axis=A --splits=development,selection --repetitions=2 --out=${RELEASE_CHECK}/compiled-faux-A-native-final
+{
+  "out": "${RELEASE_CHECK}/compiled-faux-A-native-final",
+  "overall": {
+    "planned": 100,
+    "started": 100,
+    "records": 100,
+    "terminal": {
+      "completed": 80,
+      "task_failed": 20,
+      "external_timeout": 0,
+      "worker_error": 0,
+      "missing_record": 0,
+      "not_started": 0
+    },
+    "metrics": {
+      "artifactNotApplicable": 20,
+      "artifactExact": {
+        "numerator": 70,
+        "denominator": 80,
+        "known": 80,
+        "unknown": 0,
+        "value": 0.875,
+        "knownOnlyFraction": 0.875,
+        "lowerBound": 0.875,
+        "upperBound": 0.875
+      },
+      "inputPreserved": {
+        "numerator": 100,
+        "denominator": 100,
+        "known": 100,
+        "unknown": 0,
+        "value": 1,
+        "knownOnlyFraction": 1,
+        "lowerBound": 1,
+        "upperBound": 1
+      },
+      "businessValid": {
+        "numerator": 72,
+        "denominator": 80,
+        "known": 80,
+        "unknown": 0,
+        "value": 0.9,
+        "knownOnlyFraction": 0.9,
+        "lowerBound": 0.9,
+        "upperBound": 0.9
+      },
+      "handlingCorrect": {
+        "numerator": 88,
+        "denominator": 100,
+        "known": 88,
+        "unknown": 12,
+        "value": null,
+        "knownOnlyFraction": 1,
+        "lowerBound": 0.88,
+        "upperBound": 1
+      },
+      "systemCompletion": {
+        "numerator": 60,
+        "denominator": 100,
+        "known": 100,
+        "unknown": 0,
+        "value": 0.6,
+        "knownOnlyFraction": 0.6,
+        "lowerBound": 0.6,
+        "upperBound": 0.6
+      },
+      "falseCompletionAmongKnownSystemClaims": {
+        "numerator": 0,
+        "denominator": 60,
+        "known": 60,
+        "unknown": 0,
+        "value": 0,
+        "knownOnlyFraction": 0,
+        "lowerBound": 0,
+        "upperBound": 0
+      },
+      "modelFalseCompletion": {
+        "numerator": 2,
+        "denominator": 100,
+        "known": 100,
+        "unknown": 0,
+        "value": 0.02,
+        "knownOnlyFraction": 0.02,
+        "lowerBound": 0.02,
+        "upperBound": 0.02
+      },
+      "falseRefusal": {
+        "numerator": 0,
+        "denominator": 80,
+        "known": 80,
+        "unknown": 0,
+        "value": 0,
+        "knownOnlyFraction": 0,
+        "lowerBound": 0,
+        "upperBound": 0
+      },
+      "artifactRightSystemFailure": {
+        "numerator": 8,
+        "denominator": 80,
+        "known": 80,
+        "unknown": 0,
+        "value": 0.1,
+        "knownOnlyFraction": 0.1,
+        "lowerBound": 0.1,
+        "upperBound": 0.1
+      },
+      "humanRequired": {
+        "numerator": 12,
+        "denominator": 100,
+        "known": 100,
+        "unknown": 0,
+        "value": 0.12,
+        "knownOnlyFraction": 0.12,
+        "lowerBound": 0.12,
+        "upperBound": 0.12
+      },
+      "productTimeout": {
+        "numerator": 4,
+        "denominator": 100,
+        "known": 100,
+        "unknown": 0,
+        "value": 0.04,
+        "knownOnlyFraction": 0.04,
+        "lowerBound": 0.04,
+        "upperBound": 0.04
+      },
+      "taskLoss": {
+        "numerator": 0,
+        "denominator": 100,
+        "known": 100,
+        "unknown": 0,
+        "value": 0,
+        "knownOnlyFraction": 0,
+        "lowerBound": 0,
+        "upperBound": 0
+      },
+      "duplicateEffects": {
+        "known": 4,
+        "unknown": 0,
+        "observedTotal": 0,
+        "fullTotal": 0,
+        "meanOfKnown": 0
+      },
+      "duplicateEffectsNotApplicable": 96,
+      "humanInterventions": {
+        "known": 100,
+        "unknown": 0,
+        "observedTotal": 20,
+        "fullTotal": 20,
+        "meanOfKnown": 0.2
+      },
+      "toolErrors": {
+        "known": 100,
+        "unknown": 0,
+        "observedTotal": 0,
+        "fullTotal": 0,
+        "meanOfKnown": 0
+      },
+      "unknownEligibilityRecords": 0
+    },
+    "resources": {
+      "input": {
+        "known": 100,
+        "unknown": 0,
+        "observedTotal": 327368,
+        "fullTotal": 327368,
+        "meanOfKnown": 3273.68
+      },
+      "output": {
+        "known": 100,
+        "unknown": 0,
+        "observedTotal": 6928,
+        "fullTotal": 6928,
+        "meanOfKnown": 69.28
+      },
+      "cacheRead": {
+        "known": 100,
+        "unknown": 0,
+        "observedTotal": 0,
+        "fullTotal": 0,
+        "meanOfKnown": 0
+      },
+      "cacheWrite": {
+        "known": 100,
+        "unknown": 0,
+        "observedTotal": 0,
+        "fullTotal": 0,
+        "meanOfKnown": 0
+      },
+      "modelRequests": {
+        "known": 100,
+        "unknown": 0,
+        "observedTotal": 294,
+        "fullTotal": 294,
+        "meanOfKnown": 2.94
+      },
+      "durationMs": {
+        "known": 100,
+        "unknown": 0,
+        "observedTotal": 92106,
+        "fullTotal": 92106,
+        "meanOfKnown": 921.06
+      }
+    },
+    "cost": null,
+    "pricesKnown": false,
+    "usageSource": "synthetic-faux-estimate; not billed model tokens",
+    "evidence": "faux-wiring-only"
+  },
+  "paired": {
+    "unit": "distinct task, after averaging paired repetitions",
+    "tasks": 25,
+    "attempts": 100,
+    "endpoint": "observed verified workflow completion over all planned repetitions; missing/not-started are not verified, not zero cost",
+    "difference": -0.08,
+    "taskBootstrap95": [
+      -0.2,
+      0
+    ],
+    "evidence": "faux wiring only; no semantic benefit inference"
+  }
+}
+
+exit=0

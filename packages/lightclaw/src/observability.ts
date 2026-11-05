@@ -1,6 +1,6 @@
-import { join } from "node:path";
+import { appendManagedAudit } from "./audit/storage.js";
+import type { ModelAttempt } from "./model-router.js";
 import { redactDiagnosticValue } from "./redaction.js";
-import { appendDiagnostic } from "./resource-policy.js";
 
 export interface RunAuditEvent {
 	type:
@@ -12,7 +12,15 @@ export interface RunAuditEvent {
 		| "delivery_failed"
 		| "goal_state_invalid"
 		| "queue_full"
-		| "queue_expired";
+		| "queue_expired"
+		| "model_fallback"
+		| "model_attempt"
+		| "approval_decided"
+		| "approval_maintenance"
+		| "recovery_decided"
+		| "fault_raised"
+		| "prompt_optimization";
+	modelAttempt?: ModelAttempt;
 	channelId: string;
 	attemptId?: string;
 	verificationStatus?: string;
@@ -28,13 +36,14 @@ export interface RunAuditEvent {
 	inputTokens?: number;
 	outputTokens?: number;
 	cost?: number;
+	usageIncomplete?: boolean;
 	detail?: string;
 }
 
 export function appendAuditEvent(workspaceDir: string, event: RunAuditEvent): void {
-	const path = join(workspaceDir, "audit", "runs.jsonl");
-	appendDiagnostic(
-		path,
+	appendManagedAudit(
+		workspaceDir,
+		"runs.jsonl",
 		`${JSON.stringify(redactDiagnosticValue({ ...event, timestamp: new Date().toISOString() }))}\n`,
 	);
 }

@@ -338,3 +338,19 @@ export async function optimizePrompt(
 		promoted: bestPrompt !== options.baselinePrompt,
 	};
 }
+
+/** A UI action must opt in for this input; recommendations never become a sticky injection default. */
+export async function resolvePromptInput(
+	request: { input: string; action?: "inject" | "optimize" },
+	optimize: (input: string) => Promise<{ prompt: string; score: number }>,
+): Promise<
+	{ status: "direct"; prompt: string } | { status: "recommended"; original: string; prompt: string; score: number }
+> {
+	if (request.action !== undefined && request.action !== "inject" && request.action !== "optimize")
+		throw new Error("未知提示词动作");
+	if (request.action !== "optimize") return { status: "direct", prompt: request.input };
+	const result = await optimize(request.input);
+	if (!result.prompt.trim() || !Number.isFinite(result.score) || result.score < 0 || result.score > 1)
+		throw new Error("候选提示词评分无效");
+	return { status: "recommended", original: request.input, ...result };
+}

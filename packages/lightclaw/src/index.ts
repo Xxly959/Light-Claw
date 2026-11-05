@@ -2,6 +2,7 @@
 
 export type { LightClawConfig, LightClawFeatures, TransportKind } from "./config.js";
 export { loadConfig } from "./config.js";
+export { resolvePromptInput } from "./evals/optimizer.js";
 export { featureEnabled } from "./features.js";
 export type { RuntimeOptions } from "./runtime.js";
 export { createLightClawRuntime } from "./runtime.js";

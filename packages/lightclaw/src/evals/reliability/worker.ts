@@ -2,6 +2,7 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { Socket } from "node:net";
 import { join } from "node:path";
 import { writeDurableJson } from "../../durable-state.js";
+import type { CampaignBudgetSpec } from "./budget-ledger.js";
 import { runFixture } from "./fixture-runner.js";
 import type { Job, Oracle, ReliabilityTask } from "./types.js";
 
@@ -19,6 +20,7 @@ const payload = JSON.parse(readFileSync(payloadPath, "utf8")) as {
 	job: Job;
 	root: string;
 	prompt: string;
+	campaign?: CampaignBudgetSpec;
 };
 writeFileSync(join(payload.root, "started.json"), JSON.stringify({ pid: process.pid, mode }));
 const observation = await runFixture(
@@ -28,6 +30,7 @@ const observation = await runFixture(
 	payload.root,
 	payload.prompt,
 	mode === "recover",
+	payload.campaign,
 );
 if (payload.task.scenario === "corrupt-record") writeFileSync(join(payload.root, "observation.json"), '{"decision":');
 else writeDurableJson(join(payload.root, "observation.json"), observation);

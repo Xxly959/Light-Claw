@@ -2,6 +2,7 @@ import { existsSync, mkdtempSync, readFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
+import { resolveAuditDirectory } from "../src/audit/storage.js";
 import { appendAuditEvent } from "../src/observability.js";
 
 describe("运行审计", () => {
@@ -24,7 +25,7 @@ describe("运行审计", () => {
 			inputTokens: 100,
 			outputTokens: 20,
 		});
-		const entry = JSON.parse(readFileSync(join(directory, "audit", "runs.jsonl"), "utf8"));
+		const entry = JSON.parse(readFileSync(join(resolveAuditDirectory(directory), "runs.jsonl"), "utf8"));
 		expect(entry).toMatchObject({ type: "run_finished", toolCalls: 2, inputTokens: 100 });
 		expect(entry.timestamp).toBeTypeOf("string");
 		expect(JSON.stringify(entry)).not.toContain("OPENAI_API_KEY");

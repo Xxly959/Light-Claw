@@ -3,6 +3,7 @@
 import { writeFileSync } from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
+import { MODELS } from "../src/models.generated.js";
 import { CLOUDFLARE_WORKERS_AI_BASE_URL } from "../src/providers/cloudflare.js";
 import {
 	Api,
@@ -1539,6 +1540,17 @@ async function generateModels() {
 		// Only add if not already present (models.dev takes priority over OpenRouter)
 		if (!providers[model.provider][model.id]) {
 			providers[model.provider][model.id] = model;
+		}
+	}
+
+	// A partial upstream catalog must not erase an existing provider's functionality.
+	// Retained snapshots are not fresh availability/pricing evidence.
+	for (const [providerId, models] of Object.entries(MODELS)) {
+		if (!providers[providerId] && Object.keys(models).length > 0) {
+			providers[providerId] = models;
+			console.warn(
+				`Catalog omitted ${providerId}; retaining checked-in provider snapshot (availability/pricing not refreshed)`,
+			);
 		}
 	}
 

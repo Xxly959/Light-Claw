@@ -1,0 +1,17 @@
+check-final.log
+$ rtk proxy npm run check
+$ rtk proxy npm run check
+
+regression-final.log
+cwd: packages/lightclaw
+$ rtk proxy npx tsx ../../node_modules/vitest/dist/cli.js --run test/manual-completion-binding.test.ts test/goals.test.ts test/goal-commands.test.ts test/goal-acceptance.test.ts test/goal-artifact.test.ts test/goal-control.test.ts test/goal-migration.test.ts test/goal-terminal-delivery.test.ts test/goal-tool-discovery.test.ts test/goal-verification.test.ts test/approval-lifecycle.test.ts test/approval-authority.test.ts test/policy-core.test.ts test/model-fallback.test.ts test/agent-runner.test.ts test/audit-integrity.test.ts test/audit-query.test.ts test/audit-routing.test.ts test/audit-redaction.test.ts test/observability.test.ts test/resource-policy.test.ts test/isolation-report-verification.test.ts test/channel-isolation.test.ts test/docker-validation.test.ts test/recovery-control.test.ts test/durable-work.test.ts test/durable-admission.test.ts test/queued-events.test.ts test/recovery-faults.test.ts test/inbox-lifecycle.test.ts test/platform-contract.test.ts test/platform-notifications.test.ts test/feishu.test.ts test/attachment-upload.test.ts test/output-tools.test.ts test/event-boundaries.test.ts test/events.test.ts test/health-readiness.test.ts test/main-lifecycle.test.ts test/runner-lifecycle.test.ts test/runtime-evaluation.test.ts test/config.test.ts test/feature-runner.test.ts test/prompt-optimization.test.ts test/optimizer-noise.test.ts test/eval-runner.test.ts test/eval-validation.test.ts test/evals.test.ts test/evaluation-seed.test.ts test/benchmark.test.ts test/packaging.test.ts test/release-readiness.test.ts test/install-preflight.test.ts test/backup-restore.test.ts test/deployment-entry.test.ts test/offline-entry.test.ts test/instance-lock.test.ts test/reliability-budgets.test.ts test/reliability-controller.test.ts test/reliability-system.test.ts test/reliability-statistics.test.ts test/docker-cancellation.test.ts test/sandbox.test.ts test/prompt-card.test.ts
+
+docker-final.log
+cwd: packages/lightclaw
+$ rtk proxy env LIGHTCLAW_DOCKER_EVAL_TESTS=1 LIGHTCLAW_DOCKER_FAULT_TESTS=1 npx tsx ../../node_modules/vitest/dist/cli.js --run test/reliability-docker-isolation.test.ts test/docker-live.test.ts
+
+full-flow-shared.log
+cwd: packages/lightclaw
+$ rtk proxy npx tsx ../../node_modules/vitest/dist/cli.js --run test/reliability-full-flow.test.ts
+
+Final superseding logs: check-native-final.log; regression-native-final.log (64 files / 637 tests); full-flow-native-final.log; build-lightclaw-native-final.log; clean-install-native-final.log; lockfile-replay-native-final.log; compiled-faux-native-final.log; native-benchmark-verified.log; installed-types-native-final.log. Exact commands and cwd are in each log.

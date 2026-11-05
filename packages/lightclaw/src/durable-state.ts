@@ -5,9 +5,11 @@ import { assertStateCapacity } from "./resource-policy.js";
 
 /** Local single-writer state: an atomic old/new file across process crashes. */
 export function writeDurableJson(path: string, value: unknown): void {
+	writeDurableFile(path, `${JSON.stringify(value, null, 2)}\n`);
+}
+export function writeDurableFile(path: string, text: string | Uint8Array): void {
 	const directory = dirname(path);
 	mkdirSync(directory, { recursive: true, mode: 0o700 });
-	const text = `${JSON.stringify(value, null, 2)}\n`;
 	assertStateCapacity(path, Buffer.byteLength(text));
 	const temporary = `${path}.${randomUUID()}.tmp`;
 	const fd = openSync(temporary, "wx", 0o600);

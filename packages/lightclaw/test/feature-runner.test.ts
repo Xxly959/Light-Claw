@@ -101,7 +101,7 @@ it.each(arms)("wires $name into the actual runner request (faux boundary check)"
 		const result = await runner.run(ctx, new ChannelStore({ workingDir: join(root, "work") }));
 		expect(actualPrompt.includes("GOAL_MARKER")).toBe(features.goals);
 		expect(actualTools.includes("goal_complete")).toBe(features.goals);
-		expect(actualPrompt.includes("CANDIDATE_MARKER")).toBe(features.optimization);
+		expect(actualPrompt.includes("CANDIDATE_MARKER")).toBe(true);
 		expect(executor.mock.calls[0]?.[0].type).toBe(features.infrastructure ? "docker" : "host");
 		expect(Boolean(result.budgetReason)).toBe(features.controls);
 	} finally {

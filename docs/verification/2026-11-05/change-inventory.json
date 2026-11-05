@@ -1,0 +1,814 @@
+[
+  {
+    "path": ".env.example",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "8151513a845ebbb6da2ed5cb71997384239b14ff37973518d77740f69fd08707",
+    "afterSha256": "8151513a845ebbb6da2ed5cb71997384239b14ff37973518d77740f69fd08707",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "README.md",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "2bfb929da867ef6cfddf94b178f9489c64e2250539910ceb7c0c093337da8e00",
+    "afterSha256": "1c1f1fe48a1dbf5967ad262c58fa11e8cc06aa22058d218eb4ac02048d549b93",
+    "changedThisContinuation": true
+  },
+  {
+    "path": "packages/ai/CHANGELOG.md",
+    "changedBeforeContinuation": false,
+    "beforeSha256": null,
+    "afterSha256": "254d1eae687d93fbaf3091d12ef91041e129ccd9e66507ca45f8af7b75a793cf",
+    "changedThisContinuation": true
+  },
+  {
+    "path": "packages/ai/scripts/generate-models.ts",
+    "changedBeforeContinuation": false,
+    "beforeSha256": null,
+    "afterSha256": "226ce84009c273a7dea80b5d87ab168226bcdf66c3b1b444941bfcda47291734",
+    "changedThisContinuation": true
+  },
+  {
+    "path": "packages/lightclaw/CHANGELOG.md",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "0b77d53f6598209fb1f4a135708144a90d10f81dd548a93e1bdbf9b1c3fc5974",
+    "afterSha256": "15159249e5064204579289aec3111436259933cd186681a3c5f75fe7e8ac72d8",
+    "changedThisContinuation": true
+  },
+  {
+    "path": "packages/lightclaw/README.md",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "679cd3ef330e56b19fee87206cfe794b2488ca835b2384d6cc97e6275a766cfe",
+    "afterSha256": "679cd3ef330e56b19fee87206cfe794b2488ca835b2384d6cc97e6275a766cfe",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/README.zh-CN.md",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "aed5c6fb2b136f61a957f2f6570f882fa1ea31456b33ea3edcda5930af6ea4e4",
+    "afterSha256": "aed5c6fb2b136f61a957f2f6570f882fa1ea31456b33ea3edcda5930af6ea4e4",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/docker.sh",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "06d57b7f73dda122693bc8ff74a01b88ed4f28f859470e44e2547a4def3df184",
+    "afterSha256": "06d57b7f73dda122693bc8ff74a01b88ed4f28f859470e44e2547a4def3df184",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/docs/deployment.zh-CN.md",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "e630402e684b1e125bb9353120faa9ee6bc9b7d7533f76db08d64b317b8ca08b",
+    "afterSha256": "6bc3bf17bc8d26a310ffb5e03b0063b219f97d82f84c73e45b7711318c68b356",
+    "changedThisContinuation": true
+  },
+  {
+    "path": "packages/lightclaw/docs/enterprise-hardening.zh-CN.md",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "78265725e5a78c702ddd087160c82a9fa6522adbf7909b6a3e4cb0dc09f91521",
+    "afterSha256": "78265725e5a78c702ddd087160c82a9fa6522adbf7909b6a3e4cb0dc09f91521",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/docs/goals.zh-CN.md",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "4e006f4ac1a8c8f945ea5cb1e2f60c273b3c60d2715d5ec309755ea9f0909e3b",
+    "afterSha256": "4e006f4ac1a8c8f945ea5cb1e2f60c273b3c60d2715d5ec309755ea9f0909e3b",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/docs/recovery.zh-CN.md",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "0f2a7ddf4243d43323659e23379aa59636ff5d6774913f572f5b691892b0c0a4",
+    "afterSha256": "bd89c822bd67ceb7b03526520cf636aa0bd439987e8a424a05bdf9b11e3b1de8",
+    "changedThisContinuation": true
+  },
+  {
+    "path": "packages/lightclaw/package.json",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "a511de03208c2f51ceac33231cb5ed08d3e80b0e6316f70b0eb4790ed1b76576",
+    "afterSha256": "a511de03208c2f51ceac33231cb5ed08d3e80b0e6316f70b0eb4790ed1b76576",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/scripts/acceptance-plan.mjs",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "ba249f1a2152a3822f2964b687a51ca868a060793c7a12246c2ca66629858e6f",
+    "afterSha256": "ba249f1a2152a3822f2964b687a51ca868a060793c7a12246c2ca66629858e6f",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/scripts/local-release.mjs",
+    "changedBeforeContinuation": false,
+    "beforeSha256": null,
+    "afterSha256": "0dffcfbcce72ebe9deaf2d7a2d4d62ca1fa0267f57a0d0780da6bbbf0aa11348",
+    "changedThisContinuation": true
+  },
+  {
+    "path": "packages/lightclaw/scripts/state-backup.py",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "94f0f941a5f6837b766b9002260758a90c28036ab636a1b9c4028829956df266",
+    "afterSha256": "94f0f941a5f6837b766b9002260758a90c28036ab636a1b9c4028829956df266",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/scripts/verify-install.mjs",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "1b3b56c142fcce7e63449edc56102ddb2ce62dbea782dcfa67b31807c0073d1c",
+    "afterSha256": "c850af1e9cd96651bfa5be66f2dca1497fb81ae4f2dc539d046dacf6f63b163a",
+    "changedThisContinuation": true
+  },
+  {
+    "path": "packages/lightclaw/src/agent.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "d799603d7cad3b8d9edd3cc92e67eae3e3f2b7a98e8db7aa78224c17a10fdaf4",
+    "afterSha256": "d799603d7cad3b8d9edd3cc92e67eae3e3f2b7a98e8db7aa78224c17a10fdaf4",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/src/attachment-writer.py",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "5da9cc0084cc86fa4e2a42c2b1a0816ec7138ebd8516bbf301365700436b0d27",
+    "afterSha256": "5da9cc0084cc86fa4e2a42c2b1a0816ec7138ebd8516bbf301365700436b0d27",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/src/attachments.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "b7698e1e176e597f3f5b7a560d12b7baeba6167cb5141df3894e4f4445690f5a",
+    "afterSha256": "b7698e1e176e597f3f5b7a560d12b7baeba6167cb5141df3894e4f4445690f5a",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/src/audit/cli.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "58265eafa9c6084b22b340fc1518b70ba5a03c996292f1f83e0c1bed343359a7",
+    "afterSha256": "58265eafa9c6084b22b340fc1518b70ba5a03c996292f1f83e0c1bed343359a7",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/src/audit/query.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "423f45d745f1e02df9394a9a241730df98c793f8979920a82f72ce6283f6e524",
+    "afterSha256": "423f45d745f1e02df9394a9a241730df98c793f8979920a82f72ce6283f6e524",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/src/audit/storage.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "092623347e154bded25e33d7cf9bce50465dca0cea639e0eb2c7f1554589e6ac",
+    "afterSha256": "092623347e154bded25e33d7cf9bce50465dca0cea639e0eb2c7f1554589e6ac",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/src/audit/tool-audit.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "82889ad95ca695b4df1d3f475c8fe16101fb82d711f1bbfd325965aa659188bb",
+    "afterSha256": "82889ad95ca695b4df1d3f475c8fe16101fb82d711f1bbfd325965aa659188bb",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/src/authorization.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "8decb9488de7e13ae42fe538667f55e37c4ea841da6c86d834f62d17e72cef80",
+    "afterSha256": "8decb9488de7e13ae42fe538667f55e37c4ea841da6c86d834f62d17e72cef80",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/src/benchmark/cli.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "21875d301fc7549f0a68bfac9ac613929859acb39982f9072f4fc604e2ed86bb",
+    "afterSha256": "dc25d532a891788b7d3acead6d00c8708cab5e0da55c58519c1444643c6b7729",
+    "changedThisContinuation": true
+  },
+  {
+    "path": "packages/lightclaw/src/benchmark/environment.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "387302a8b94eda5702d0477c2542544a7cd8597baeedfb61213a29eb13b0e8f8",
+    "afterSha256": "387302a8b94eda5702d0477c2542544a7cd8597baeedfb61213a29eb13b0e8f8",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/src/benchmark/workload.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "b4b397c328c35488b205269cc20ea8dfac09eac6dc966113213c9b6a42cd8125",
+    "afterSha256": "b4b397c328c35488b205269cc20ea8dfac09eac6dc966113213c9b6a42cd8125",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/src/config.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "0cd5b1e762460fb0a6081840a4d3c535e88b23f646bdcdb4116a4837be06bac7",
+    "afterSha256": "0cd5b1e762460fb0a6081840a4d3c535e88b23f646bdcdb4116a4837be06bac7",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/src/durable-inbox.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "dd8b2bc8b13f540b1811a879ffdd5b7300f2e0f959f5c3e3d0a154155996f698",
+    "afterSha256": "dd8b2bc8b13f540b1811a879ffdd5b7300f2e0f959f5c3e3d0a154155996f698",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/src/durable-state.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "2fa78acbca2e27a653e907b2065fb2b726c0cb28969e44286b87d872d1c9d309",
+    "afterSha256": "2fa78acbca2e27a653e907b2065fb2b726c0cb28969e44286b87d872d1c9d309",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/src/evals/cli.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "9de119f4a71437682cedccdf2a537f14f78edc118d2aa89b096b0d560b90fea4",
+    "afterSha256": "9de119f4a71437682cedccdf2a537f14f78edc118d2aa89b096b0d560b90fea4",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/src/evals/optimize-cli.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "5b372298d883a1801207e398a27c5fb7084a3864b85baa57ba032e62e4b767e5",
+    "afterSha256": "5b372298d883a1801207e398a27c5fb7084a3864b85baa57ba032e62e4b767e5",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/src/evals/optimizer.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "062fe642ffafd4a959b059de34675e931aebdc44ae069585d7a4fb88d15a08b1",
+    "afterSha256": "062fe642ffafd4a959b059de34675e931aebdc44ae069585d7a4fb88d15a08b1",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/src/evals/reliability/budget-ledger.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "2d9ee3d80e59711df0f739cb0f452919a36d46ec719ca554cfebb66be7457f33",
+    "afterSha256": "e058a3a37b59a5ba0d984a7420ef6367a72382f2b5d62167f5e737f63138a738",
+    "changedThisContinuation": true
+  },
+  {
+    "path": "packages/lightclaw/src/evals/reliability/cli.ts",
+    "changedBeforeContinuation": false,
+    "beforeSha256": null,
+    "afterSha256": "63630b2f001b2492015c1c2c34b0f4d9012aef896a7779c0fee0f90ae48371b4",
+    "changedThisContinuation": true
+  },
+  {
+    "path": "packages/lightclaw/src/evals/reliability/controller.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "f5c533c52fd5b568dba45f5ff35c4cf3d45b4d7f983f7f7b8dfd07dfcc03849a",
+    "afterSha256": "93a0dcdf424ea695c1ca166f3dfccb03a47d9871df91cff990d88617c93c85ef",
+    "changedThisContinuation": true
+  },
+  {
+    "path": "packages/lightclaw/src/evals/reliability/fixture-runner.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "d83c502fc30ba8df0c485165644a289c05a19948dbae8e126ccb702dfffbb9f7",
+    "afterSha256": "c9e937ad1aa4ee7175f7d4d55690ad6fa9c0827bdcd9758852f94dc167513553",
+    "changedThisContinuation": true
+  },
+  {
+    "path": "packages/lightclaw/src/evals/reliability/protocol.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "f105ee2d0c2669685fb22e24a105bf3f9d382530e546912285ee0d08a2d81c6c",
+    "afterSha256": "4e0e534f8f7acbe6595a30ddf3b8f3a6ada1ce5b54b312389b985a74e81b140a",
+    "changedThisContinuation": true
+  },
+  {
+    "path": "packages/lightclaw/src/evals/reliability/task-sandbox.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "13107930ffecfdb72c0740e29d00895e287fd1886b70282bb7508adbc163d422",
+    "afterSha256": "13107930ffecfdb72c0740e29d00895e287fd1886b70282bb7508adbc163d422",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/src/evals/reliability/types.ts",
+    "changedBeforeContinuation": false,
+    "beforeSha256": null,
+    "afterSha256": "732a41180445a4b819bd0564a9ad48c19cfc6efa7838f7d94ea4d26f220ccf93",
+    "changedThisContinuation": true
+  },
+  {
+    "path": "packages/lightclaw/src/evals/reliability/worker.ts",
+    "changedBeforeContinuation": false,
+    "beforeSha256": null,
+    "afterSha256": "54883d6de8f8201596af95ec4da5c537b42e8ae0adc8c8dba1f1c5f081aa8bca",
+    "changedThisContinuation": true
+  },
+  {
+    "path": "packages/lightclaw/src/events.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "453402508f548bc131bbaf7e9a7f4ac722db53ebc560be0b2ab0bf011402b1b9",
+    "afterSha256": "453402508f548bc131bbaf7e9a7f4ac722db53ebc560be0b2ab0bf011402b1b9",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/src/feishu-resources.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "f5450aa594f0695e360e35e9b65eee12525943f359dc163b9a3931490bf956bd",
+    "afterSha256": "f5450aa594f0695e360e35e9b65eee12525943f359dc163b9a3931490bf956bd",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/src/feishu.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "8dba449f78c80e8cf87c7a15640bf71a55eb4d1d99e34b6416eebbd7148202fb",
+    "afterSha256": "8dba449f78c80e8cf87c7a15640bf71a55eb4d1d99e34b6416eebbd7148202fb",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/src/goals/acceptance.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "264cddfb74069882bf84222d63a68310fdea8cb08de457bf1ceb36c7198f8b59",
+    "afterSha256": "264cddfb74069882bf84222d63a68310fdea8cb08de457bf1ceb36c7198f8b59",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/src/goals/artifact.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "e6760f53df3242ae8b72ec63088df324c50ddc39fe56d5828ea3011358346dd2",
+    "afterSha256": "e6760f53df3242ae8b72ec63088df324c50ddc39fe56d5828ea3011358346dd2",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/src/goals/commands.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "40e34a91bdd4f26ee69d35c69f6a0c0d7ada30df454158aa70830b659a78c851",
+    "afterSha256": "40e34a91bdd4f26ee69d35c69f6a0c0d7ada30df454158aa70830b659a78c851",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/src/goals/store.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "604a5977f377f125ce613e9894409a0c40ce90877b6f1b3f0999be3e03d04b71",
+    "afterSha256": "604a5977f377f125ce613e9894409a0c40ce90877b6f1b3f0999be3e03d04b71",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/src/goals/types.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "2655bccd3a3e294c99258a2161dd51f693410209aeb95ca32424e8a4f6f45f80",
+    "afterSha256": "2655bccd3a3e294c99258a2161dd51f693410209aeb95ca32424e8a4f6f45f80",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/src/goals/verifier.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "11b6f7c5f4ac8dcf3b5380280c225c0d5a083efb7fc232bc239c7c668cc2f447",
+    "afterSha256": "11b6f7c5f4ac8dcf3b5380280c225c0d5a083efb7fc232bc239c7c668cc2f447",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/src/health.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "bc131c99470e2e5f162d84c3efdee1cac18de65cea05b98c8f335b40521d7308",
+    "afterSha256": "bc131c99470e2e5f162d84c3efdee1cac18de65cea05b98c8f335b40521d7308",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/src/index.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "20ef5b61fcfbc36faf930f7d1d57144da943dcdcbe773d54c2247ea24759c13c",
+    "afterSha256": "20ef5b61fcfbc36faf930f7d1d57144da943dcdcbe773d54c2247ea24759c13c",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/src/isolation.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "999c89dd77c5213335af036b056bf26002e1a2775b67e6dfc4c814e8eda57f3c",
+    "afterSha256": "999c89dd77c5213335af036b056bf26002e1a2775b67e6dfc4c814e8eda57f3c",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/src/main.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "d78ccdfca53ea64635b76153f0ce29e60ad053a4b499c3268356a4253a48a463",
+    "afterSha256": "d78ccdfca53ea64635b76153f0ce29e60ad053a4b499c3268356a4253a48a463",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/src/model-router.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "968953b9c27538221a9f5c82853dbde59c32a9b9245983e69b80eb2112bf720d",
+    "afterSha256": "968953b9c27538221a9f5c82853dbde59c32a9b9245983e69b80eb2112bf720d",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/src/observability.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "5208971298e6d29f4b973217e32370b7a5ba1471bfd4e10455134914ba1dbfca",
+    "afterSha256": "b74b8639e6de36ea241c0546299730f16418b13f1b262ee313c85e4f5d357eeb",
+    "changedThisContinuation": true
+  },
+  {
+    "path": "packages/lightclaw/src/operations.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "bb2f727f0aefc22d313cb322f6b536d8e72f87372cc9357fa22dcec933a9f55f",
+    "afterSha256": "bb2f727f0aefc22d313cb322f6b536d8e72f87372cc9357fa22dcec933a9f55f",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/src/policy/approvals.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "aaecefd1160df735ecf855e0d75e92952bc6a5f7a409ea9d762c74f47a6eb978",
+    "afterSha256": "307d67a050ef10aa5eb6920f2bd88ab9939b3e013082e145c91e8ccd24fd41b4",
+    "changedThisContinuation": true
+  },
+  {
+    "path": "packages/lightclaw/src/policy/capabilities.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "1c8d948cf5bea725d7cb294b8c5601cce9d860af4b83518caca96def25fb6fc1",
+    "afterSha256": "1c8d948cf5bea725d7cb294b8c5601cce9d860af4b83518caca96def25fb6fc1",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/src/policy/commands.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "893f1c94fb0235270020cf0e5cac9c8225ab3246fb1fa6ce120d17de597025cb",
+    "afterSha256": "3f4a1ff707df9e7c82766f59e27b393e69dc19528b5b797dc9e96db6d940144c",
+    "changedThisContinuation": true
+  },
+  {
+    "path": "packages/lightclaw/src/policy/danger.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "62f53c742c6bfa0f582f844dfa7ea552079526b689ee4a319557c7988b2bf501",
+    "afterSha256": "62f53c742c6bfa0f582f844dfa7ea552079526b689ee4a319557c7988b2bf501",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/src/policy/decide.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "2599766f233f526e6124ce2eefa55ad3ff29b4fccd21bf475f33e87d1e37f7c0",
+    "afterSha256": "2599766f233f526e6124ce2eefa55ad3ff29b4fccd21bf475f33e87d1e37f7c0",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/src/policy/trust.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "871d7ee9f362cf1722c50a8be86469dcf6e2c730d09699aafd2ada01f98da8f0",
+    "afterSha256": "871d7ee9f362cf1722c50a8be86469dcf6e2c730d09699aafd2ada01f98da8f0",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/src/prompt-input.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "1f993033d8ae79777a0dfe3f4bcef03427d394fc33a3e33f955532d58eee6a0c",
+    "afterSha256": "1f993033d8ae79777a0dfe3f4bcef03427d394fc33a3e33f955532d58eee6a0c",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/src/queued-events.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "b7b0d366b52342c8db10159884612a789f55e8f1c4ceeae9f63a6090c3262676",
+    "afterSha256": "b7b0d366b52342c8db10159884612a789f55e8f1c4ceeae9f63a6090c3262676",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/src/recovery-control.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "0cca1a616fc77178c51c0b0fb58f0f756528748eb5871d0175ba55b62b1fd946",
+    "afterSha256": "0cca1a616fc77178c51c0b0fb58f0f756528748eb5871d0175ba55b62b1fd946",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/src/resource-policy.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "38d258cfdfc398861e5d5fac535c08ec961f76d78eb3d4be97e6ae358770385a",
+    "afterSha256": "38d258cfdfc398861e5d5fac535c08ec961f76d78eb3d4be97e6ae358770385a",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/src/runtime.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "a337db6846c8868fd913978b3b57564bedfd571f972e46bbe5320e18e8b7f071",
+    "afterSha256": "5ffc20ebab5e70228fe1f5b70e0ffdee3c3ee58b8bdc28a33b21dd2fcbd651df",
+    "changedThisContinuation": true
+  },
+  {
+    "path": "packages/lightclaw/src/sandbox.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "96e31cce6438b247db56ab43f3cb92adc3f94e936c9417b171b7357bbf20c0b7",
+    "afterSha256": "96e31cce6438b247db56ab43f3cb92adc3f94e936c9417b171b7357bbf20c0b7",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/src/slack.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "8883535a6ac3d107fd56aa1b90cc125423e91810eb132e9ef28c5c8c2096ef42",
+    "afterSha256": "8883535a6ac3d107fd56aa1b90cc125423e91810eb132e9ef28c5c8c2096ef42",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/src/telemetry/spans.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "289bbe7560610a695fc5b0f4a590577f597e67fd2f7c606ed2d84ea7cd352e83",
+    "afterSha256": "289bbe7560610a695fc5b0f4a590577f597e67fd2f7c606ed2d84ea7cd352e83",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/src/tools/goal.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "96d9d34d58cdd5e9608864a0f6715c0fdbc6cfc49b14755729b61db9bf1f55f2",
+    "afterSha256": "96d9d34d58cdd5e9608864a0f6715c0fdbc6cfc49b14755729b61db9bf1f55f2",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/src/transport.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "cb0435d5fd37be5e850e6a83cdc81f3c88ecee88d990478fa76fd50ca42a8439",
+    "afterSha256": "cb0435d5fd37be5e850e6a83cdc81f3c88ecee88d990478fa76fd50ca42a8439",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/test/agent-runner.test.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "295fb52d1a120ef42caad8d5f8836222849c799b2f28fc010f0b1df3e017d277",
+    "afterSha256": "295fb52d1a120ef42caad8d5f8836222849c799b2f28fc010f0b1df3e017d277",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/test/approval-authority.test.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "84b37885c1f037d896aa1d2639eddda60f67e60e8140e858e4dd80c1ca500513",
+    "afterSha256": "84b37885c1f037d896aa1d2639eddda60f67e60e8140e858e4dd80c1ca500513",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/test/approval-lifecycle.test.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "40a751e940afb5dc9d70192eded9408236021290c0c2de2519d2a2d4e0e2587a",
+    "afterSha256": "e7399d63d2b02de83569811d4e14746e788e0dff5771088594abd37000be010c",
+    "changedThisContinuation": true
+  },
+  {
+    "path": "packages/lightclaw/test/audit-integrity.test.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "01a911e615c1ee8808c9a154767a34ab350f7ff4c1cbb16acc4f5db3d7f135a8",
+    "afterSha256": "01a911e615c1ee8808c9a154767a34ab350f7ff4c1cbb16acc4f5db3d7f135a8",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/test/audit-query.test.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "56dd974906950b7cec4496c9196b22eeb13682e29a97326d012c927d994fa88e",
+    "afterSha256": "56dd974906950b7cec4496c9196b22eeb13682e29a97326d012c927d994fa88e",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/test/audit-redaction.test.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "5557778c58debfc5706bb652c9108c7c56b3e3153a0f9452fb622500a798cf17",
+    "afterSha256": "5557778c58debfc5706bb652c9108c7c56b3e3153a0f9452fb622500a798cf17",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/test/audit-routing.test.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "db7be028ebef030c8b03d212fcab32d6a6b42d3ed8ed956365aee73c30c3cd66",
+    "afterSha256": "db7be028ebef030c8b03d212fcab32d6a6b42d3ed8ed956365aee73c30c3cd66",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/test/backup-restore.test.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "87f23a4c68373deaf31d2b416220d59a3c8886f3fcd41fe3d3ef19277efd8cd7",
+    "afterSha256": "87f23a4c68373deaf31d2b416220d59a3c8886f3fcd41fe3d3ef19277efd8cd7",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/test/channel-isolation.test.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "513bdbace6b14e9aef3dcd84e85ac7dc944e45d8dc3ac4ffa117889a6dbc76f4",
+    "afterSha256": "513bdbace6b14e9aef3dcd84e85ac7dc944e45d8dc3ac4ffa117889a6dbc76f4",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/test/docker-cancellation.test.ts",
+    "changedBeforeContinuation": false,
+    "beforeSha256": null,
+    "afterSha256": "081c13f2bc4aeddbc43bac1c28cad26a7639426f4e57dd3ec925cb00993cddbd",
+    "changedThisContinuation": true
+  },
+  {
+    "path": "packages/lightclaw/test/durable-admission.test.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "34a1a2b0d6e2e7fa552b5601fed2a83b3737076ab1dc5748d5bf72d1b9413056",
+    "afterSha256": "34a1a2b0d6e2e7fa552b5601fed2a83b3737076ab1dc5748d5bf72d1b9413056",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/test/durable-work.test.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "49b437966d4566bb6af49f717df979fc175bd4c5c54a7b7b034286d736725db1",
+    "afterSha256": "49b437966d4566bb6af49f717df979fc175bd4c5c54a7b7b034286d736725db1",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/test/event-boundaries.test.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "58ee8ece0228194c794f170c9214905eb5c1e4db02aea7c5779e025974e5249b",
+    "afterSha256": "58ee8ece0228194c794f170c9214905eb5c1e4db02aea7c5779e025974e5249b",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/test/feature-runner.test.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "0fe961e7d3d2f8ed7ec45118df6b0bfac229310b73be3152793d23e3a7ffebb6",
+    "afterSha256": "0fe961e7d3d2f8ed7ec45118df6b0bfac229310b73be3152793d23e3a7ffebb6",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/test/fixtures/recovery-worker.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "92734e8a2e15bfdac41625da32f64540dd1bfa34d8dfb54904e4619175b1b6ea",
+    "afterSha256": "92734e8a2e15bfdac41625da32f64540dd1bfa34d8dfb54904e4619175b1b6ea",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/test/goal-commands.test.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "6276ae0616da033d492ee59344f0a6d1b3834125e1962709889346ab5a90820e",
+    "afterSha256": "6276ae0616da033d492ee59344f0a6d1b3834125e1962709889346ab5a90820e",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/test/goal-terminal-delivery.test.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "9ddcc61d2be973af9870124b7621eb0313f362421dc9a17b17539b87660171fa",
+    "afterSha256": "9ddcc61d2be973af9870124b7621eb0313f362421dc9a17b17539b87660171fa",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/test/goals.test.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "e1d37125820727171278e5473501a4017223cef5e26174c5ff986edb3a9d2b5e",
+    "afterSha256": "e1d37125820727171278e5473501a4017223cef5e26174c5ff986edb3a9d2b5e",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/test/health-readiness.test.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "76d2440f4ce1829c4b2c2523fd723f4836daba633c0a587543f409c56c3e256a",
+    "afterSha256": "76d2440f4ce1829c4b2c2523fd723f4836daba633c0a587543f409c56c3e256a",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/test/inbox-lifecycle.test.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "cb2981b6bc5f10f8b3efeddd8921648372a230c80584dadf5c01eda5900be738",
+    "afterSha256": "cb2981b6bc5f10f8b3efeddd8921648372a230c80584dadf5c01eda5900be738",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/test/install-preflight.test.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "0efc889a17c8221f31f7d7a584566044c8738583c39b066a8795fd33b5f219b7",
+    "afterSha256": "2a0eae1830d179ac7f14b1196286f95ef9e50281b6cfed952fde71fa39576198",
+    "changedThisContinuation": true
+  },
+  {
+    "path": "packages/lightclaw/test/isolation-report-verification.test.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "d59d3b15314e0fdb28281e0bc29cae6384e881c15630ba245bf2f676e5ddd595",
+    "afterSha256": "d59d3b15314e0fdb28281e0bc29cae6384e881c15630ba245bf2f676e5ddd595",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/test/main-lifecycle.test.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "beb83b4ad122c321930ad6963da9689a0338c501ed62ede98e1d067d33891213",
+    "afterSha256": "c0a2bd2a21ec77db2a46dbfe3bf790efd2cd38ab16c4b134dbd17c3a19dac836",
+    "changedThisContinuation": true
+  },
+  {
+    "path": "packages/lightclaw/test/manual-completion-binding.test.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "fe9ea50a8b6641cd551918577e7fb3788482d0ec3e21c5f56495d68adaa3f141",
+    "afterSha256": "fe9ea50a8b6641cd551918577e7fb3788482d0ec3e21c5f56495d68adaa3f141",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/test/model-fallback.test.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "3556888bf80afd02ec51159596e2865825c344d92ab99ca082c6494f2922419e",
+    "afterSha256": "3556888bf80afd02ec51159596e2865825c344d92ab99ca082c6494f2922419e",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/test/observability.test.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "9cecf9146187b52253f8f0b7697fb74321ad3c676fba6bf221abc878acc95cff",
+    "afterSha256": "9cecf9146187b52253f8f0b7697fb74321ad3c676fba6bf221abc878acc95cff",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/test/packaging.test.ts",
+    "changedBeforeContinuation": false,
+    "beforeSha256": null,
+    "afterSha256": "ff2875e5ac2fcb635462a2d29283cfc733c97f38ace1572cda3948575591d195",
+    "changedThisContinuation": true
+  },
+  {
+    "path": "packages/lightclaw/test/platform-contract.test.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "f0d14a229d6d21a81d58754a2cdbcd9809fdfa46843950c2910a56031ea696ae",
+    "afterSha256": "f0d14a229d6d21a81d58754a2cdbcd9809fdfa46843950c2910a56031ea696ae",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/test/platform-notifications.test.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "76fd0983152467d3f35afe6b0bd44418dd0c6148110c3164f6b45baea972cea8",
+    "afterSha256": "76fd0983152467d3f35afe6b0bd44418dd0c6148110c3164f6b45baea972cea8",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/test/policy-core.test.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "3347b273632ceb6c09fe4350a55aab92037651b72ac04c0e2812378e11227d15",
+    "afterSha256": "3347b273632ceb6c09fe4350a55aab92037651b72ac04c0e2812378e11227d15",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/test/prompt-card.test.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "b2a4b4181081ab638206fb858fcec638b69a4a1e0760d2da33f02f40f06be8c3",
+    "afterSha256": "b2a4b4181081ab638206fb858fcec638b69a4a1e0760d2da33f02f40f06be8c3",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/test/prompt-optimization.test.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "b0cff7a9c22edd323c5baf0378755102e4791731247c2b085fac53d420406414",
+    "afterSha256": "b0cff7a9c22edd323c5baf0378755102e4791731247c2b085fac53d420406414",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/test/recovery-control.test.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "27deb87268d805b46bd9712dd9e10625df04933bbe83baaaa6edf7c46bcc5f7f",
+    "afterSha256": "27deb87268d805b46bd9712dd9e10625df04933bbe83baaaa6edf7c46bcc5f7f",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/test/release-readiness.test.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "51192fadac51e2df9dd38a24e36f7a6b2eeaa8e1c35a7085e3b0da5a247c711b",
+    "afterSha256": "331a5be83ce40dd704509f1c0ba7599906310bc5effcca6eed3f971cf27fea28",
+    "changedThisContinuation": true
+  },
+  {
+    "path": "packages/lightclaw/test/reliability-budgets.test.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "5097f05071b63507804ec5e0c7be367c2e3f7484d6f0892b594b5d305947908b",
+    "afterSha256": "e444ef08cf7a559c4346ee8f65ef77fa945afb8ff5ea9ee6c2ac46814e2de598",
+    "changedThisContinuation": true
+  },
+  {
+    "path": "packages/lightclaw/test/reliability-controller.test.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "f0348de8c098b68d9161ab965efda0b017ad5fbf2b430cf0de8ed47fcc9906c1",
+    "afterSha256": "f5839fc2a22817e383cd87170de13b09214db5cacd82b16302a7cfb20e4a2c00",
+    "changedThisContinuation": true
+  },
+  {
+    "path": "packages/lightclaw/test/reliability-docker-isolation.test.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "a6bdf24b9a157e67b9481a0dbeccb7bb53d1a2222abcfeb57e29235a4898e2f2",
+    "afterSha256": "a6bdf24b9a157e67b9481a0dbeccb7bb53d1a2222abcfeb57e29235a4898e2f2",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/test/reliability-full-flow.test.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "4d098b3327aab8a57cace9f4692fce005730ac8866a4ba8b0754531689c10a03",
+    "afterSha256": "f10ba2276fa9e09ed41ff8f2982a9411455aaaa4f77b201eda4c8f1b26cdd0d1",
+    "changedThisContinuation": true
+  },
+  {
+    "path": "packages/lightclaw/test/resource-policy.test.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "c15bd34f1af54f41239c64810c473905547b525d402efa2c4dcdf55f985e8ddc",
+    "afterSha256": "c15bd34f1af54f41239c64810c473905547b525d402efa2c4dcdf55f985e8ddc",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/test/runner-lifecycle.test.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "6941edefb4e02ca39f8c83a5d6a045036c99bec028447bd7299947ef3edeb96e",
+    "afterSha256": "6941edefb4e02ca39f8c83a5d6a045036c99bec028447bd7299947ef3edeb96e",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "packages/lightclaw/test/runtime-evaluation.test.ts",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "21dfb986670c28989109209451756b0604e9ec092b0c91150b276c61bd2f3cdd",
+    "afterSha256": "21dfb986670c28989109209451756b0604e9ec092b0c91150b276c61bd2f3cdd",
+    "changedThisContinuation": false
+  },
+  {
+    "path": "scripts/start-lightclaw.sh",
+    "changedBeforeContinuation": true,
+    "beforeSha256": "7279d8da11013f6c5c43e86d9a55032b35b801d8e96a02025fb529d2f3c4e402",
+    "afterSha256": "7279d8da11013f6c5c43e86d9a55032b35b801d8e96a02025fb529d2f3c4e402",
+    "changedThisContinuation": false
+  }
+]

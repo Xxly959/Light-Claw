@@ -66,7 +66,7 @@ it("chunks dates beyond Node's timer limit and never admits them early", async (
 	expect(admitted[0]?.origin).toBe("scheduled");
 });
 it("admits overdue sources after restart exactly once when durable admission succeeds", async () => {
-	source("2001-01-01T00:00:00+08:00");
+	source(new Date(Date.now() - 1000).toISOString());
 	const admitted: ChatEvent[] = [];
 	start(admitted);
 	await vi.waitFor(() => expect(admitted).toHaveLength(1));
@@ -77,7 +77,7 @@ it("admits overdue sources after restart exactly once when durable admission suc
 	expect(existsSync(join(directory, "job.json"))).toBe(false);
 });
 it("retains a rejected overdue source for a later restart", async () => {
-	source("2000-01-01T00:00:00Z");
+	source(new Date(Date.now() - 1000).toISOString());
 	const rejected = vi.fn(() => false);
 	watcher = new EventsWatcher(directory, { durableAdmission: true, enqueueEvent: rejected });
 	watcher.start();
@@ -87,4 +87,30 @@ it("retains a rejected overdue source for a later restart", async () => {
 	const admitted: ChatEvent[] = [];
 	start(admitted);
 	await vi.waitFor(() => expect(admitted).toHaveLength(1));
+});
+
+it("does not execute historically expired one-shot work under a bounded misfire policy", async () => {
+	source("2000-01-01T00:00:00Z");
+	const admitted: ChatEvent[] = [],
+		faults: unknown[] = [];
+	watcher = new EventsWatcher(
+		directory,
+		{
+			durableAdmission: true,
+			enqueueEvent: (event) => {
+				admitted.push(event);
+				return true;
+			},
+		},
+		{
+			misfireMaxLatenessMs: 60000,
+			onFault: (fault) => {
+				faults.push(fault);
+			},
+		},
+	);
+	watcher.start();
+	await vi.waitFor(() => expect(existsSync(join(directory, "dead-letter"))).toBe(true));
+	expect(admitted).toHaveLength(0);
+	expect(faults).toHaveLength(1);
 });

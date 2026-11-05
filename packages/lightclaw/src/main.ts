@@ -1,14 +1,17 @@
 #!/usr/bin/env node
-import { resolve } from "node:path";
+import { mkdir } from "node:fs/promises";
+import { join, resolve } from "node:path";
 import { EnvHttpProxyAgent, setGlobalDispatcher } from "undici";
-import { loadConfig } from "./config.js";
+import { loadConfig, loadConfigForDiagnostics } from "./config.js";
 import { downloadChannel } from "./download.js";
 import { featureEnabled } from "./features.js";
 import { FeishuBot } from "./feishu.js";
+import { resolveControlDirectory } from "./goals/control.js";
 import { inspectLocalHealth } from "./health.js";
+import { buildIsolationReport } from "./isolation.js";
 import * as log from "./log.js";
 import { createLightClawRuntime } from "./runtime.js";
-import { parseSandboxArg, type SandboxConfig, validateSandbox } from "./sandbox.js";
+import { parseSandboxArg, type SandboxConfig, validateChannelSandbox, validateSandbox } from "./sandbox.js";
 import { SlackBot } from "./slack.js";
 import { ChannelStore } from "./store.js";
 
@@ -24,7 +27,7 @@ async function startupStep<T>(operation: () => Promise<T>): Promise<T> {
 const earlyArgs = process.argv.slice(2);
 if (earlyArgs.includes("--help") || earlyArgs.includes("-h")) {
 	console.log(
-		"用法：lightclaw [--sandbox=host|docker:<名称>] <工作目录>\n本地探测：lightclaw --health=<工作目录> [--control=<控制目录>]\nNode Agent在宿主运行；Docker仅执行工具。健康探测不验证真实平台或模型。",
+		"用法：lightclaw [--sandbox=host|docker:<名称>] <工作目录>\n本地探测：lightclaw --health=<工作目录> [--control=<控制目录>]\n隔离报告：lightclaw --isolation-report <工作目录> [--sandbox=...]（无需平台凭证）\nNode Agent在宿主运行；Docker仅执行工具。健康探测不验证真实平台或模型。",
 	);
 	process.exit(0);
 }
@@ -60,12 +63,17 @@ function parseArgs(args = process.argv.slice(2)): ParsedArgs {
 }
 
 const parsedArgs = parseArgs();
+const wantsIsolationReport = earlyArgs.some((arg) => arg.startsWith("--isolation-report"));
 let config: ReturnType<typeof loadConfig>;
 try {
 	config = loadConfig();
 } catch (error) {
-	console.error(error instanceof Error ? error.message : String(error));
-	process.exit(1);
+	// 隔离报告是评审入口，通常在没有平台凭证的机器上执行；只有它允许降级到无凭证配置。
+	if (!wantsIsolationReport) {
+		console.error(error instanceof Error ? error.message : String(error));
+		process.exit(1);
+	}
+	config = loadConfigForDiagnostics();
 }
 
 if (parsedArgs.downloadChannel) {
@@ -85,7 +93,28 @@ const { workingDir, sandbox } = {
 	workingDir: parsedArgs.workingDir,
 	sandbox: featureEnabled(config, "infrastructure") ? parsedArgs.sandbox : { type: "host" as const },
 };
+
+const isolationArg = earlyArgs.find((arg) => arg.startsWith("--isolation-report"));
+if (isolationArg) {
+	let controlDir: string;
+	try {
+		controlDir = resolveControlDirectory(workingDir, config.controlDir);
+	} catch {
+		controlDir = config.controlDir ?? join(workingDir, ".control");
+	}
+	console.log(JSON.stringify(await buildIsolationReport({ workingDir, sandbox, controlDir, config }), null, 2));
+	process.exit(0);
+}
+
 await startupStep(() => validateSandbox(sandbox, workingDir));
+// 显式配置的频道容器在启动时全部校验，避免运行到一半才发现挂载不符合隔离契约。
+for (const [channelId, container] of Object.entries(config.channelContainers ?? {})) {
+	await startupStep(async () => {
+		const channelDir = join(workingDir, channelId);
+		await mkdir(channelDir, { recursive: true });
+		await validateChannelSandbox({ type: "docker", container }, channelDir, channelId);
+	});
+}
 
 const sharedStore = new ChannelStore({ workingDir, botToken: config.slack?.botToken });
 const runtime = await startupStep(() =>

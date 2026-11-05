@@ -122,7 +122,12 @@ it("retains an event source after memory-only enqueue or rejection, and removes 
 	const events = join(f.dir, "events");
 	mkdirSync(events);
 	const path = join(events, "once.json");
-	const body = { type: "one-shot", at: "2020-01-01T00:00:00Z", channelId: "channel", text: "fictional overdue work" };
+	const body = {
+		type: "one-shot",
+		at: new Date(Date.now() - 1000).toISOString(),
+		channelId: "channel",
+		text: "fictional overdue work",
+	};
 	writeFileSync(path, JSON.stringify(body));
 	const memory = new EventsWatcher(events, { enqueueEvent: () => true });
 	watchers.push(memory);

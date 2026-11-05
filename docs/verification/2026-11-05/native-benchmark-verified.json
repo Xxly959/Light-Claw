@@ -1,0 +1,14 @@
+{
+  "artifacts": {
+    "directory": "${RELEASE_CHECK}/native-benchmark-verified/benchmark-2026-11-05T07-55-44-246Z",
+    "manifestPath": "${RELEASE_CHECK}/native-benchmark-verified/benchmark-2026-11-05T07-55-44-246Z/manifest.json",
+    "tasksPath": "${RELEASE_CHECK}/native-benchmark-verified/benchmark-2026-11-05T07-55-44-246Z/tasks.jsonl",
+    "roundsPath": "${RELEASE_CHECK}/native-benchmark-verified/benchmark-2026-11-05T07-55-44-246Z/rounds.jsonl",
+    "resourcesPath": "${RELEASE_CHECK}/native-benchmark-verified/benchmark-2026-11-05T07-55-44-246Z/resources.jsonl",
+    "summaryPath": "${RELEASE_CHECK}/native-benchmark-verified/benchmark-2026-11-05T07-55-44-246Z/summary.json",
+    "reportPath": "${RELEASE_CHECK}/native-benchmark-verified/benchmark-2026-11-05T07-55-44-246Z/report.md"
+  },
+  "taskCount": 3,
+  "allCompleted": true,
+  "evidence": "entry-functionality-only; no performance claim"
+}

@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import type { LightClawConfig } from "../src/config.js";
-import { decidePromotion, optimizePrompt, parsePromptCandidates } from "../src/evals/optimizer.js";
+import { decidePromotion, optimizePrompt, parsePromptCandidates, resolvePromptInput } from "../src/evals/optimizer.js";
 import type { runEvaluation } from "../src/evals/runner.js";
 import type { EvalCase, EvalReport } from "../src/evals/types.js";
 
@@ -163,4 +163,30 @@ describe("repeated holdout prompt promotion", () => {
 	it("rejects mixed candidate schemas instead of dropping invalid entries", () => {
 		expect(() => parsePromptCandidates('["valid", 17]')).toThrow("字符串");
 	});
+});
+
+it("injects user input unchanged without calling optimization until explicitly requested", async () => {
+	const optimize = vi.fn(async () => ({ prompt: "higher", score: 0.9 }));
+	const input = "  用户原文\n不要改写  ";
+	expect(await resolvePromptInput({ input }, optimize)).toEqual({ status: "direct", prompt: input });
+	expect(optimize).not.toHaveBeenCalled();
+	expect(await resolvePromptInput({ input, action: "optimize" }, optimize)).toEqual({
+		status: "recommended",
+		original: input,
+		prompt: "higher",
+		score: 0.9,
+	});
+	expect(optimize).toHaveBeenCalledExactlyOnceWith(input);
+	expect(await resolvePromptInput({ input: "next" }, optimize)).toEqual({ status: "direct", prompt: "next" });
+	expect(optimize).toHaveBeenCalledTimes(1);
+});
+it("does not substitute a stale or failed optimization for direct input", async () => {
+	await expect(
+		resolvePromptInput({ input: "x", action: "optimize" }, async () => {
+			throw new Error("offline");
+		}),
+	).rejects.toThrow("offline");
+	await expect(
+		resolvePromptInput({ input: "x", action: "optimize" }, async () => ({ prompt: "x", score: NaN })),
+	).rejects.toThrow();
 });

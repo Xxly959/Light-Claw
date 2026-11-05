@@ -10,6 +10,9 @@ export interface GoalCommandResult {
 	startRun: boolean;
 	response?: string;
 	goal?: GoalState;
+	/** 非目标命令（如 /approve）合成的续跑提示，用作本次 run 的输入。 */
+	retryText?: string;
+	executionUserId?: string;
 }
 
 export function formatGoalStatus(goal: GoalState | undefined): string {
@@ -32,7 +35,17 @@ export function formatGoalStatus(goal: GoalState | undefined): string {
 			...report.checks.map((check) => `${check.checkId}: ${check.status} (${check.reasonCode})`),
 		);
 	if (goal.status === "awaiting_confirmation" && report)
-		lines.push(`待确认摘要：${report.summary}`, `创建者确认命令：/goal confirm ${goal.id} ${report.attemptId}`);
+		lines.push(
+			`待确认摘要：${report.summary}`,
+			`交付物：${JSON.stringify(report.deliverables ?? "未采集")}`,
+			...report.snapshots.map(
+				(item) =>
+					`${item.path}: sha256=${item.sha256} bytes=${item.bytes} device=${item.device} inode=${item.inode}`,
+			),
+			`确认有效期：${report.expiresAt ?? "旧申请需重新采集"}`,
+			`创建者确认命令：/goal confirm ${goal.id} ${report.attemptId}`,
+			"重新申请：/goal resume 后由 Agent 重新提交交付物",
+		);
 	return lines.join("\n");
 }
 

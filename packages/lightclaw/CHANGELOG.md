@@ -4,6 +4,8 @@
 
 ### Breaking Changes
 
+- Manual completion requires structured file or explicit no-file deliverables; confirmation expires and rechecks artifact identity/content/timestamps. Execution approval under a trusted-user list requires a trusted user or administrator. Authoritative audit records move outside the tool workspace into the control directory.
+
 - Stop handlers require a platform actor. Goal/run controls check owner or explicitly configured administrators before cancellation; human confirmation remains creator-only. Docker startup rejects unsafe or unbounded configurations. Full diagnostic payload capture now requires explicit opt-in.
 
 - The unified evaluation CLI now defaults to a credential-free offline audit; the previous model-backed single-turn mode requires `--suite=legacy`.
@@ -21,6 +23,20 @@
 
 ### Added
 
+- Add authenticated `/approve maintain` and `/approve show <id>` for durable, digest-verified approval history archival without dropping valid tickets or replaying consumed operations.
+- Enforce a frozen campaign budget across faux workers and shared A/B axes, with bounded transaction contention, explicit budget initialization and controller resume that retains spent/unknown allowances.
+
+- Offer an opt-in Feishu “提示词优化” card bound to the original actor/chat/message and expiry. Generate and score candidates only after a click; show subjective scores without automatically replacing task input.
+
+- Add authenticated `/recover` inbox/operation reconciliation and duplicate-risk retry controls, terminal inbox archival with bounded deduplication, runtime heartbeat/readiness, bounded scheduling catch-up and a local fault hook.
+- Accept Feishu inbound files/images through bounded SDK streams and pinned host writes before Agent dispatch; report unsupported messages and admission failures explicitly.
+- Add task Docker isolation and persistent faux-evaluation budget ledgers, standalone install verification preparation, native backup/restore tooling and explicit platform/model authorization plans.
+
+- Add execution-side capability adjudication, one-shot human approval tickets (`/approve`) and a two-tier tool audit: a redacted summary in `<control>/.audit/tool-calls.jsonl` plus opt-in payloads in `<control>/.audit/payloads/`. Extension tools must declare `capabilities` at runtime; unregistered tools are rejected.
+- Add `--isolation-report` for a machine-readable isolation statement, OTLP/JSON-compatible spans in `<control>/.audit/spans.jsonl`, and primary/backup model routing via `LIGHTCLAW_MODEL_FALLBACKS`.
+- Add optional per-channel containers: `docker.sh create-channel`, `LIGHTCLAW_CHANNEL_CONTAINERS_JSON` and `LIGHTCLAW_SANDBOX_FALLBACK=deny`. A channel container mounts only `<workspace>/<channelId>`, and startup rejects any extra binding.
+- `/approve` now resumes the run and retries the approved operation instead of waiting for the user to prompt again; a changed argument is intercepted again.
+- Add `lightclaw-audit` for querying `<control>/.audit/tool-calls.jsonl` by tool, channel, decision and outcome, with table and JSON output.
 - Add a side-effect-free public source index, native local source-release integrity tooling, credential-free CLI help/local lock health probe, deployment/recovery guidance and explicit unverified compiled-install gates.
 - Add shared actual-adapter offline contracts, Unicode-safe reply previews, strict dated event scheduling and configurable resource/diagnostic retention and admission limits.
 
@@ -45,6 +61,10 @@
 
 ### Changed
 
+- New approval tickets use 128-bit IDs; previously issued IDs remain available for historical reconciliation. Critical approval-maintenance audit failures propagate to durable recovery.
+
+- Keep explicitly supplied prompt instructions independent of optional candidate optimization. Prompt input defaults to unchanged injection; the explicit optimization action returns a scored recommendation without changing later input defaults.
+
 - Load skill creation, event scheduling, and history-query tutorials on demand from a channel-local guide while keeping installed skills discoverable.
 - Support explicit quality, token, or latency objectives in repeated prompt selection, retaining quality and tool-error guards.
 
@@ -55,6 +75,12 @@
 - Surfaced Slack rate limits and request failures without automatic retries after uncertain delivery.
 
 ### Fixed
+
+- Execute benchmark CLI through npm bin symlinks; require observable CLI help in clean-install checks. Resolve installed ESM-only evaluation dependencies, isolate npm configuration, and bound release source enumeration to the declared scope.
+
+- Reissue expired approval requests without consuming valid pending quota; retain history and serialize ticket mutations. Route retryable stream errors through provider-specific credentials only before content output, preserving failed-attempt accounting and cooldown.
+- Count tool audits, spans and full payloads under cumulative quotas, rotate retained segments, reject linked audit paths, fail closed on critical writes and verify every configured container separately.
+- Resolve Python helpers beside compiled code, defer tsx resolution to source workers, and provide credential-free help for every CLI. Verify fresh isolated builds, independent offline installation and native compiled faux execution under explicit build authorization.
 
 - Prevent invalid historical-goal controls from cancelling another current run, pass authenticated stop identities, and validate channel storage paths.
 - Admit attachment batches atomically, enforce bounded downloads/archives, retain authoritative state on quota/write failure, and keep optional diagnostic failures nonfatal.

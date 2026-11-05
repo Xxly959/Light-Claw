@@ -40,7 +40,8 @@ function prepare(root, output) {
 	if (existsSync(output)) throw new Error("output must not exist; choose a fresh directory");
 	const location = relative(root, output);
 	if (!location.startsWith(`..${sep}`) && location !== ".." && !isAbsolute(location)) throw new Error("output must be outside source root");
-	const gitFiles = (args) => execFileSync("git", ["-C", root, "ls-files", "-z", ...args], { encoding: "utf8" }).split("\0").filter(Boolean);
+	const scope = ["package.json", "package-lock.json", "tsconfig.json", "tsconfig.base.json", "LICENSE", ...[...packages].map(name => `packages/${name}`)];
+ const gitFiles = (args) => execFileSync("git", ["-C", root, "ls-files", "-z", ...args, "--", ...scope], { encoding: "utf8", maxBuffer: 16 * 1024 * 1024 }).split("\0").filter(Boolean);
 	const tracked = new Set(gitFiles(["--cached"]));
 	const candidates = [...new Set([...tracked, ...gitFiles(["--others", "--exclude-standard"])])].filter(allowed).sort();
 	// Validate all inputs first, including ancestor symlinks. Never follow workspace links.

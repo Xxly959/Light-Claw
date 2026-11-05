@@ -1,3 +1,4 @@
+import type { ModelBudgetLimits } from "./budget-ledger.js";
 export type Split = "development" | "selection" | "blind";
 export type Decision = "complete" | "refuse" | "clarify" | "unable" | "unknown";
 export interface ReliabilityTask {
@@ -95,6 +96,11 @@ export interface Freeze {
 	python: string;
 	runtime: Record<string, unknown>;
 	prompts: { baseline: string; candidate: string };
-	budget: { maxConcurrent: number; externalTimeoutMs: number; maxRequestsPerAttempt: number };
+	budget: {
+		maxConcurrent: number;
+		externalTimeoutMs: number;
+		maxRequestsPerAttempt: number;
+		campaign?: ModelBudgetLimits;
+	};
 	candidateCost: { generation: "not_run"; selection: "recorded_per_attempt"; money: null };
 }

@@ -1,8 +1,10 @@
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { afterEach, expect, it } from "vitest";
-import { readReport, runJob } from "../src/evals/reliability/controller.js";
+import { afterEach, expect, it, vi } from "vitest";
+import { PersistentModelBudget } from "../src/evals/reliability/budget-ledger.js";
+import { reliabilityCli } from "../src/evals/reliability/cli.js";
+import { readReport, resumeFrozen, runFrozen, runJob } from "../src/evals/reliability/controller.js";
 import { loadOracles, loadTasks } from "../src/evals/reliability/data.js";
 import { makeFreeze } from "../src/evals/reliability/protocol.js";
 
@@ -65,7 +67,11 @@ it.each(["s06", "s07", "s08", "s09", "d05", "d08", "d09", "d10"])(
 			expect(record.observation?.goalStatus).toBe("awaiting_confirmation");
 			expect(record.observation?.phases).toContain("old-approval-rejected");
 		}
-		if (id === "d10") expect(record.score?.falseCompletion).toBe(true);
+		if (id === "d10") {
+			expect(record.score?.falseCompletion).toBe(false);
+			expect(record.observation?.goalStatus).toBe("awaiting_confirmation");
+			expect(record.observation?.humanRequired).toBe(true);
+		}
 	},
 	30_000,
 );
@@ -98,4 +104,107 @@ it("recovers an interrupted JSONL append, retains the frozen denominator and pre
 	expect(report.overall.terminal.external_timeout).toBe(1);
 	expect(report.overall.terminal.not_started).toBe(freeze.jobs.length - 1);
 	expect(readFileSync(join(root, "attempts.jsonl"), "utf8")).toBe('{"job":');
+});
+
+it("enforces one global request ceiling across workers and controller resume without replay", async () => {
+	const root = mkdtempSync(join(tmpdir(), "global-budget-controller-"));
+	roots.push(root);
+	const freeze = makeFreeze(loadTasks(), "B", ["development"], 1);
+	freeze.jobs = freeze.jobs.slice(0, 4);
+	freeze.budget.campaign = {
+		requests: 1,
+		tokens: 100000,
+		costMicros: 1000000,
+		wallMs: 60000,
+		tokensPerRequest: 100000,
+		costMicrosPerRequest: 1000000,
+	};
+	const out = join(root, "experiment");
+	const report = await runFrozen(freeze, out);
+	const ledger = JSON.parse(readFileSync(join(out, "campaign-budget.json"), "utf8"));
+	expect(ledger.entries).toHaveLength(1);
+	expect(report.overall.terminal.not_started).toBeGreaterThanOrEqual(2);
+	const launches = report.accounting.osLaunched;
+	const resumed = await resumeFrozen(freeze, out);
+	expect(resumed.accounting.osLaunched).toBe(launches);
+	expect(JSON.parse(readFileSync(join(out, "campaign-budget.json"), "utf8")).entries).toHaveLength(1);
+	await expect(
+		resumeFrozen(
+			{ ...freeze, budget: { ...freeze.budget, campaign: { ...freeze.budget.campaign, requests: 10 } } },
+			out,
+		),
+	).rejects.toThrow(/frozen|manifest/i);
+});
+
+it("shares a depleted campaign ledger across A/B axes and preserves unknown reservations", async () => {
+	const root = mkdtempSync(join(tmpdir(), "shared-axis-budget-"));
+	roots.push(root);
+	const limits = {
+		requests: 1,
+		tokens: 100000,
+		costMicros: 1000000,
+		wallMs: 60000,
+		tokensPerRequest: 100000,
+		costMicrosPerRequest: 1000000,
+	};
+	const path = join(root, "shared", "budget.json");
+	const ledger = new PersistentModelBudget(path, limits);
+	ledger.reserve("faux/generator", "candidate_generation");
+	for (const axis of ["A", "B"] as const) {
+		const freeze = makeFreeze(loadTasks(), axis, ["development"], 1, undefined, limits);
+		freeze.jobs = freeze.jobs.slice(0, 2);
+		const report = await runFrozen(freeze, join(root, axis), { budgetPath: path });
+		expect(report.accounting.osLaunched).toBe(0);
+		expect(report.overall.terminal.not_started).toBe(2);
+	}
+	expect(new PersistentModelBudget(path, limits).snapshot()).toMatchObject({
+		requests: 1,
+		unknown: 1,
+		chargedTokens: 100000,
+		chargedCostMicros: 1000000,
+	});
+});
+it("rejects changing limit files during resume before touching an experiment", async () => {
+	await expect(reliabilityCli(["--mode=resume", "--out=nonexistent", "--limits=unused"])).rejects.toThrow(/limits/);
+});
+
+it("refuses resume after a lost global ledger instead of resetting spent requests", async () => {
+	const root = mkdtempSync(join(tmpdir(), "lost-campaign-ledger-"));
+	roots.push(root);
+	const freeze = makeFreeze(loadTasks(), "A", ["development"], 1);
+	freeze.jobs = [];
+	const out = join(root, "run");
+	await runFrozen(freeze, out);
+	rmSync(join(out, "campaign-budget.json"));
+	await expect(resumeFrozen(freeze, out)).rejects.toThrow(/missing|reset/i);
+	expect(readReport(freeze, out).accounting.campaign?.status).toBe("missing");
+});
+
+it("initializes a shared faux budget through CLI and refuses to overwrite it", async () => {
+	const root = mkdtempSync(join(tmpdir(), "budget-cli-init-"));
+	roots.push(root);
+	const limits = join(root, "limits.json"),
+		budget = join(root, "budget.json");
+	writeFileSync(
+		limits,
+		JSON.stringify({
+			requests: 3,
+			tokens: 300,
+			costMicros: 3000,
+			wallMs: 60000,
+			tokensPerRequest: 100,
+			costMicrosPerRequest: 1000,
+		}),
+	);
+	const output = vi.spyOn(console, "log").mockImplementation(() => {});
+	try {
+		await reliabilityCli(["--mode=budget", `--budget=${budget}`, `--limits=${limits}`]);
+		const first = readFileSync(budget, "utf8");
+		await expect(reliabilityCli(["--mode=budget", `--budget=${budget}`, `--limits=${limits}`])).rejects.toThrow(
+			/exists/,
+		);
+		expect(readFileSync(budget, "utf8")).toBe(first);
+	} finally {
+		output.mockRestore();
+	}
 });

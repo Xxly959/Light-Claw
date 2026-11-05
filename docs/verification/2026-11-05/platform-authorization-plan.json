@@ -1,0 +1,48 @@
+{
+  "schema": 1,
+  "status": "pending-user-authorization",
+  "platform": null,
+  "dedicatedApplication": null,
+  "credentialInjection": null,
+  "dedicatedConversation": null,
+  "participants": [],
+  "allowCounts": {
+    "send": 0,
+    "edit": 0,
+    "recall": 0,
+    "upload": 0
+  },
+  "allowNetworkInterruption": false,
+  "allowPermissionChange": false,
+  "cases": [
+    "text send/receive",
+    "file/image read/result",
+    "duplicate delivery/reconnect",
+    "permission failure",
+    "429",
+    "approval continuation and identity",
+    "final notification failure"
+  ],
+  "proposedMinimumCounts": {
+    "send": 12,
+    "edit": 2,
+    "recall": 2,
+    "upload": 2
+  },
+  "offlineCommand": "rtk proxy npx tsx ../../node_modules/vitest/dist/cli.js --run test/platform-contract.test.ts test/platform-notifications.test.ts test/approval-authority.test.ts test/main-lifecycle.test.ts",
+  "run": [
+    "User fills application/session/participants/injection and explicit counts",
+    "Use dedicated app only; validate authorized conversation before any action",
+    "Record every created message/file ID in session-receipts.jsonl; stop before exhausting approved count",
+    "Inject only explicitly authorized connection/permission faults",
+    "Compare platform receipts, durable inbox, approvals, results and audit"
+  ],
+  "cleanup": [
+    "Restore any explicitly authorized dedicated-app permission/network changes",
+    "Recall only IDs in this session's receipts, within approved recall count",
+    "Stop dedicated test instance and confirm kernel lock release",
+    "Keep audit/inbox/operation evidence; do not delete unresolved records",
+    "Revoke dedicated app test credentials using the user's chosen injection mechanism"
+  ],
+  "safety": "This script only prepares a plan. It does not connect to any platform. No implicit live authorization."
+}

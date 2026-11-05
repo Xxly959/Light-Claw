@@ -11,6 +11,7 @@ import {
 import { AgentSession, SettingsManager } from "@mariozechner/pi-coding-agent";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { createAgentRunner, getOrCreateRunner, releaseRunner } from "../src/agent.js";
+import { CriticalAuditError, resolveAuditDirectory } from "../src/audit/storage.js";
 import type { LightClawConfig } from "../src/config.js";
 import { FeishuBot } from "../src/feishu.js";
 import { GoalStore } from "../src/goals/store.js";
@@ -143,9 +144,16 @@ describe("runner attachment isolation and lifecycle", () => {
 			new AbortController().signal,
 		);
 		fixture.provider.setResponses([
-			fauxAssistantMessage(fauxToolCall("goal_complete", { summary: "done", evidence: ["tests passed"] }), {
-				stopReason: "toolUse",
-			}),
+			fauxAssistantMessage(
+				fauxToolCall("goal_complete", {
+					summary: "done",
+					evidence: ["tests passed"],
+					deliverables: { kind: "none", reason: "advice only" },
+				}),
+				{
+					stopReason: "toolUse",
+				},
+			),
 			fauxAssistantMessage("done"),
 		]);
 		const result = await fixture.runner.run(createContext("verify-manual").context, fixture.store);
@@ -882,4 +890,30 @@ it("reserves each verifier command against the same per-run tool quota", async (
 	expect(result.toolCalls).toBe(2);
 	expect(result.budgetReason).toContain("tool");
 	expect(fixture.goals.get()?.status).not.toBe("completed");
+});
+
+it("retains partial totals as known-only and marks unknown provider usage explicitly", async () => {
+	const f = createFixture("unknown-provider-usage", { type: "host" }, { maxRunDurationMs: 30 });
+	f.provider.setResponses([
+		async (_context, options) => {
+			await new Promise<void>((resolve) => {
+				if (options?.signal?.aborted) resolve();
+				else options?.signal?.addEventListener("abort", () => resolve(), { once: true });
+			});
+			return fauxAssistantMessage([], { stopReason: "aborted", errorMessage: "aborted before usage" });
+		},
+	]);
+	const result = await f.runner.run(createContext("unknown-provider-usage").context, f.store);
+	expect(result.usageIncomplete).toBe(true);
+	f.runner.dispose();
+});
+
+it("fails the run when model-attempt audit cannot be persisted", async () => {
+	const fixture = createFixture("critical-attempt-audit");
+	fixture.provider.setResponses([fauxAssistantMessage("done")]);
+	mkdirSync(join(resolveAuditDirectory(fixture.workspace), ".writer.lock"), { recursive: true });
+	await expect(fixture.runner.run(createContext("critical-attempt-audit").context, fixture.store)).rejects.toThrow(
+		CriticalAuditError,
+	);
+	expect(fixture.provider.state.callCount).toBeLessThanOrEqual(1);
 });

@@ -1,0 +1,40 @@
+{
+  "baselineChangedFiles": 108,
+  "preservedBaselineFiles": 108,
+  "addedOnPreviouslyCleanPaths": [
+    "packages/ai/CHANGELOG.md",
+    "packages/ai/scripts/generate-models.ts",
+    "packages/lightclaw/scripts/local-release.mjs",
+    "packages/lightclaw/src/evals/reliability/cli.ts",
+    "packages/lightclaw/src/evals/reliability/types.ts",
+    "packages/lightclaw/src/evals/reliability/worker.ts",
+    "packages/lightclaw/test/docker-cancellation.test.ts",
+    "packages/lightclaw/test/packaging.test.ts"
+  ],
+  "overlaidBaselineFiles": [
+    "README.md",
+    "packages/lightclaw/CHANGELOG.md",
+    "packages/lightclaw/docs/deployment.zh-CN.md",
+    "packages/lightclaw/docs/recovery.zh-CN.md",
+    "packages/lightclaw/scripts/verify-install.mjs",
+    "packages/lightclaw/src/benchmark/cli.ts",
+    "packages/lightclaw/src/evals/reliability/budget-ledger.ts",
+    "packages/lightclaw/src/evals/reliability/controller.ts",
+    "packages/lightclaw/src/evals/reliability/fixture-runner.ts",
+    "packages/lightclaw/src/evals/reliability/protocol.ts",
+    "packages/lightclaw/src/observability.ts",
+    "packages/lightclaw/src/policy/approvals.ts",
+    "packages/lightclaw/src/policy/commands.ts",
+    "packages/lightclaw/src/runtime.ts",
+    "packages/lightclaw/test/approval-lifecycle.test.ts",
+    "packages/lightclaw/test/install-preflight.test.ts",
+    "packages/lightclaw/test/main-lifecycle.test.ts",
+    "packages/lightclaw/test/release-readiness.test.ts",
+    "packages/lightclaw/test/reliability-budgets.test.ts",
+    "packages/lightclaw/test/reliability-controller.test.ts",
+    "packages/lightclaw/test/reliability-full-flow.test.ts"
+  ],
+  "missingBaselineFiles": [],
+  "stagedFiles": [],
+  "diagnosisArtifactsExcludedFromCodeInventory": true
+}

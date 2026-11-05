@@ -63,7 +63,11 @@ const result = await new OperationJournal(join(root, "control", "operations")).e
 if (result.status !== "succeeded") throw new Error(`unresolved ${result.status}`);
 if (goals.get()?.status !== "completed") {
 	const completion = await goals.requestCompletion(
-		{ summary: "mock effect reconciled", evidence: [result.id] },
+		{
+			summary: "mock effect reconciled",
+			evidence: [result.id],
+			deliverables: { kind: "none", reason: "external mock receipt" },
+		},
 		{
 			channelDir: join(root, "workspace", "channel"),
 			sandbox: { type: "host" },

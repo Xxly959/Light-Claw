@@ -41,6 +41,17 @@ export async function verifyGoalCompletion(
 	const add = (check: GoalCheckResult) => report.checks.push(check);
 	try {
 		active();
+		if (request.deliverables?.kind === "files") {
+			for (const path of request.deliverables.paths) {
+				const read = await readGoalArtifact(runtime.channelDir, path, { signal: runtime.signal });
+				active();
+				if (read.status !== "snapshot") {
+					report.status = "failed";
+					return report;
+				}
+				snapshots.set(path, read.snapshot);
+			}
+		}
 		if (goal.acceptance.mode === "automatic") {
 			for (const [index, rule] of goal.acceptance.files.entries()) {
 				active();

@@ -42,7 +42,10 @@ it("recovers queued work, preserves deduplication and quarantines interrupted ex
 	next.retry(a.id, true);
 	next.start(a.id);
 	next.finish(a.id, "dead", "injected");
-	expect(() => next.retry(a.id, true)).toThrow("attempt");
+	const manuallyQueued = next.retry(a.id, true);
+	expect(manuallyQueued.status).toBe("queued");
+	expect(manuallyQueued.attempts).toBeGreaterThan(0);
+	expect(manuallyQueued.manualRetries).toBeGreaterThan(0);
 });
 it("retains expired and rejected outcomes and refuses changed payload for a duplicate identity", () => {
 	const inbox = new DurableInbox(root());

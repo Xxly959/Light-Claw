@@ -1,0 +1,50 @@
+cwd: ${RELEASE_CHECK}/source
+$ rtk proxy npm run build --workspace=@mariozechner/pi-ai
+
+> @mariozechner/pi-ai@0.70.6 build
+> npm run generate-models && tsgo -p tsconfig.build.json
+
+
+> @mariozechner/pi-ai@0.70.6 generate-models
+> npx tsx scripts/generate-models.ts
+
+Fetching models from models.dev API...
+Loaded 632 tool-capable models from models.dev
+Fetching models from OpenRouter API...
+Fetched 390 tool-capable models from OpenRouter
+Fetching models from Vercel AI Gateway API...
+Fetched 303 tool-capable models from Vercel AI Gateway
+Catalog omitted kimi-coding; retaining checked-in provider snapshot (availability/pricing not refreshed)
+Generated src/models.generated.ts
+
+Model Statistics:
+  Total tool-capable models: 1389
+  Reasoning-capable models: 1160
+  amazon-bedrock: 198 models
+  anthropic: 17 models
+  google: 24 models
+  openai: 46 models
+  groq: 7 models
+  cerebras: 2 models
+  cloudflare-workers-ai: 19 models
+  xai: 8 models
+  zai: 7 models
+  mistral: 34 models
+  huggingface: 78 models
+  fireworks: 29 models
+  opencode: 81 models
+  opencode-go: 31 models
+  github-copilot: 27 models
+  minimax: 2 models
+  minimax-cn: 2 models
+  moonshotai: 6 models
+  moonshotai-cn: 6 models
+  openrouter: 391 models
+  vercel-ai-gateway: 303 models
+  deepseek: 2 models
+  openai-codex: 10 models
+  google-vertex: 13 models
+  azure-openai-responses: 46 models
+  kimi-coding: 4 models
+
+exit=0

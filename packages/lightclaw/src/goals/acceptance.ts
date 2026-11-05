@@ -1,6 +1,6 @@
 import type { SandboxConfig } from "../sandbox.js";
 import { assertRecord, assertText } from "../validation.js";
-import type { GoalCommandRule, GoalCreateInput, GoalFileRule } from "./types.js";
+import type { GoalCommandRule, GoalCreateInput, GoalDeliverables, GoalFileRule } from "./types.js";
 
 export function validateArtifactPath(value: unknown): string {
 	assertText(value, "path");
@@ -72,4 +72,19 @@ export function parseGoalCreateInput(value: unknown, ownerUserId: string, sandbo
 	if (!files.length && !commands.length) throw new Error("acceptance 至少包含一项检查");
 	if (commands.length && sandbox.type !== "docker") throw new Error("命令验收仅支持 Docker");
 	return { objective: value.objective.trim(), ownerUserId, acceptance: { mode: "automatic", files, commands } };
+}
+
+/** Evidence is descriptive only. Paths must come from this explicit declaration. */
+export function parseGoalDeliverables(value: unknown): GoalDeliverables {
+	assertRecord(value, "交付物 deliverables");
+	if (value.kind === "none") {
+		assertFields(value, ["kind", "reason"]);
+		assertText(value.reason, "无文件交付原因");
+		return { kind: "none", reason: value.reason.trim() };
+	}
+	if (value.kind !== "files") throw new Error("必须明确声明文件或无文件交付");
+	assertFields(value, ["kind", "paths"]);
+	const paths = strings(value.paths, "交付物 paths").map(validateArtifactPath);
+	if (new Set(paths).size !== paths.length) throw new Error("交付物路径重复");
+	return { kind: "files", paths };
 }

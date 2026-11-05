@@ -28,8 +28,10 @@ import { validateArtifactPath } from "../../goals/acceptance.js";
 import { OperationJournal, type OperationRecord } from "../../operations.js";
 import { createLightClawRuntime } from "../../runtime.js";
 import type { Executor } from "../../sandbox.js";
+import { withTimeout } from "../../timeouts.js";
 import { createGoalTools } from "../../tools/goal.js";
 import type { ChatEvent } from "../../transport.js";
+import { budgetOperation, type CampaignBudgetSpec, PersistentModelBudget } from "./budget-ledger.js";
 import { sha256 } from "./data.js";
 import { SimulatedPlatform } from "./simulated-platform.js";
 import type { Decision, Job, Observation, Oracle, ReliabilityTask } from "./types.js";
@@ -47,8 +49,25 @@ export async function runFixture(
 	root: string,
 	prompt: string,
 	recoverOnly = false,
+	campaignSpec?: CampaignBudgetSpec,
 ): Promise<Observation> {
 	if (task.split === "blind") throw new Error("Blind tasks cannot enter faux wiring runs or candidate selection");
+	const budget = new PersistentModelBudget(
+		join(root, "model-budget.json"),
+		{
+			requests: 16,
+			tokens: 16 * 100000,
+			costMicros: 16000000,
+			wallMs: 12000,
+			tokensPerRequest: 100000,
+			costMicrosPerRequest: 1000000,
+		},
+		Date.now,
+		recoverOnly,
+	);
+	const campaign = campaignSpec
+		? await budgetOperation(() => new PersistentModelBudget(campaignSpec.path, campaignSpec.limits, Date.now, true))
+		: undefined;
 	const started = Date.now(),
 		work = join(root, "work"),
 		channel = "evaluation",
@@ -134,7 +153,14 @@ export async function runFixture(
 					errorMessage: "Injected system failure after correct artifact",
 				}),
 			);
-		else if (longGoal) steps.push(call("goal_complete", { summary: complete, evidence: [task.output] }));
+		else if (longGoal)
+			steps.push(
+				call("goal_complete", {
+					summary: complete,
+					evidence: [task.output],
+					deliverables: { kind: "files", paths: [task.output] },
+				}),
+			);
 		else steps.push(fauxAssistantMessage(complete));
 	}
 	model.setResponses(steps);
@@ -201,6 +227,8 @@ export async function runFixture(
 					};
 				},
 			};
+			// 评测工具同样受能力裁决约束，必须声明能力，否则按未登记工具拒绝。
+			Object.assign(tool, { capabilities: ["fs:read", "fs:write"] as const });
 			const effectSchema = Type.Object({ key: Type.String(), payload: Type.String() });
 			const effect: AgentTool<typeof effectSchema> = {
 				name: "controlled_effect",
@@ -231,6 +259,7 @@ export async function runFixture(
 					return { content: [{ type: "text", text: result.status }], details: result };
 				},
 			};
+			Object.assign(effect, { capabilities: ["fs:write"] as const });
 			const goalTools = createGoalTools(goals, () => ({
 				channelDir: path,
 				sandbox,
@@ -252,18 +281,65 @@ export async function runFixture(
 			runners.set(path, runner);
 			const original = getApiProvider(model.api);
 			if (!original) throw new Error("missing faux provider");
-			const observe = (source: AssistantMessageEventStream) => {
+
+			const request = async (
+				context: { systemPrompt?: string; tools?: unknown; messages: unknown[] },
+				signal?: AbortSignal,
+			) => {
+				const reservations: Array<{ store: PersistentModelBudget; id: string }> = [];
+				for (const store of campaign ? [campaign, budget] : [budget])
+					reservations.push({
+						store,
+						id: await budgetOperation(
+							() =>
+								store.reserve(
+									`${model.getModel().provider}/${model.getModel().id}`,
+									job.arm === "candidate" ? "selection" : "task",
+								),
+							signal,
+						),
+					});
+				const normalized = (context.systemPrompt ?? "")
+					.split(root)
+					.join("<RUN_ROOT>")
+					.replace(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/g, "<UUID>");
+				appendFileSync(
+					join(root, "requests.jsonl"),
+					`${JSON.stringify({ systemPrompt: context.systemPrompt, normalizedSystemPrompt: normalized, tools: context.tools, messages: context.messages, messageCount: context.messages.length, payloadHash: sha256(JSON.stringify(context)) })}\n`,
+				);
+				return reservations;
+			};
+			const observe = (
+				dispatch: () => AssistantMessageEventStream,
+				context: { systemPrompt?: string; tools?: unknown; messages: unknown[] },
+				signal?: AbortSignal,
+			) => {
 				const output = createAssistantMessageEventStream();
 				void (async () => {
 					try {
-						for await (const event of source) {
+						const reservations = await request(context, signal);
+						signal?.throwIfAborted();
+						let terminal = false;
+						for await (const event of dispatch()) {
 							if (event.type === "done" || event.type === "error") {
 								const response = event.type === "done" ? event.message : event.error;
+								const known = event.type === "done" || response.usage.totalTokens > 0;
+								for (const { store, id } of reservations)
+									await budgetOperation(() =>
+										store.settle(
+											id,
+											known ? response.usage.totalTokens : null,
+											known ? Math.ceil(response.usage.cost.total * 1000000) : null,
+										),
+									);
 								usage.push(response.usage);
 								appendFileSync(join(root, "usage.jsonl"), `${JSON.stringify(response.usage)}\n`);
+								terminal = true;
 							}
 							output.push(event);
+							if (terminal) break;
 						}
+						if (!terminal) throw new Error("Model stream ended without terminal usage; reservations retained");
 					} catch (error) {
 						output.push({
 							type: "error",
@@ -275,34 +351,13 @@ export async function runFixture(
 				})();
 				return output;
 			};
-			let requestCount = 0;
-			const request = (context: { systemPrompt?: string; tools?: unknown; messages: unknown[] }) => {
-				if (++requestCount > 16) throw new Error("Offline request ceiling reached");
-				const normalized = (context.systemPrompt ?? "")
-					.split(root)
-					.join("<RUN_ROOT>")
-					.replace(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/g, "<UUID>");
-				appendFileSync(
-					join(root, "requests.jsonl"),
-					`${JSON.stringify({
-						systemPrompt: context.systemPrompt,
-						normalizedSystemPrompt: normalized,
-						tools: context.tools,
-						messages: context.messages,
-						messageCount: context.messages.length,
-						payloadHash: sha256(JSON.stringify(context)),
-					})}\n`,
-				);
-			};
 			registerApiProvider({
 				api: model.api,
 				stream: (m, c, o) => {
-					request(c);
-					return observe(original.stream(m, c, o));
+					return observe(() => original.stream(m, c, o), c, o?.signal);
 				},
 				streamSimple: (m, c, o) => {
-					request(c);
-					return observe(original.streamSimple(m, c, o));
+					return observe(() => original.streamSimple(m, c, o), c, o?.signal);
 				},
 			});
 			return runner;
@@ -332,16 +387,34 @@ export async function runFixture(
 			const text = longGoal
 				? `/goal create ${JSON.stringify({ objective: task.prompt, ...(["manual-confirm", "stale-confirm", "artifact-change"].includes(task.scenario) ? {} : { acceptance: { files: [{ path: task.output }] } }) })}`
 				: task.prompt;
+
 			if (task.scenario === "queue-expiry") {
+				let entered!: () => void, release!: () => void;
+				const ready = new Promise<void>((resolve) => {
+					entered = resolve;
+				});
+				const gate = new Promise<void>((resolve) => {
+					release = resolve;
+				});
 				model.setResponses([
 					async () => {
-						await pause(70);
+						entered();
+						await gate;
 						return fauxAssistantMessage(complete);
 					},
 					...steps,
 				]);
-				platform.receive(event("queue blocker", "blocker"));
-				platform.receive(event(text));
+				const blocker = event("queue blocker", "blocker");
+				// The blocker must start before the short pending deadline is tested.
+				runtime.inbox.admit(platform.kind, blocker, false, 30000);
+				try {
+					platform.receive(blocker);
+					await withTimeout(() => ready, 4000, "queue blocker readiness");
+					platform.receive(event(text));
+					await pause(70);
+				} finally {
+					release();
+				}
 				await platform.drain();
 			} else if (task.scenario === "pause-resume" && governed) {
 				let entered!: () => void;
@@ -470,6 +543,7 @@ export async function runFixture(
 			: Boolean(own && own.status !== "rejected");
 		if (own?.status === "expired") phases.push("queue-expired");
 		if (recoverOnly && own?.status === "unknown") phases.push("crash-recovered-unknown");
+		writeDurableJson(join(root, "budget-summary.json"), budget.snapshot());
 		return {
 			decision,
 			systemCompleted: goal

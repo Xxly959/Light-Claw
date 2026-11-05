@@ -69,7 +69,11 @@ it.each(["automatic", "manual"] as const)(
 				{ stopReason: "toolUse" },
 			),
 			fauxAssistantMessage(
-				fauxToolCall("goal_complete", { summary: "Report_READY", evidence: ["scratch/report.txt"] }),
+				fauxToolCall("goal_complete", {
+					summary: "Report_READY",
+					evidence: ["scratch/report.txt"],
+					deliverables: { kind: "files", paths: ["scratch/report.txt"] },
+				}),
 				{ stopReason: "toolUse" },
 			),
 		]);

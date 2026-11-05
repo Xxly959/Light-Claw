@@ -1,0 +1,27 @@
+cwd: packages/lightclaw
+$ rtk proxy env LIGHTCLAW_DOCKER_EVAL_TESTS=1 LIGHTCLAW_DOCKER_FAULT_TESTS=1 npx tsx ../../node_modules/vitest/dist/cli.js --run test/reliability-docker-isolation.test.ts test/docker-live.test.ts
+
+ RUN  v3.2.4 ${REPOSITORY}/packages/lightclaw
+
+stdout | test/reliability-docker-isolation.test.ts > verifies actual Docker mounts and runs faux Agent without exposing hidden assets
+[14:57:38] [system] Events watcher starting, dir: ${TEMP}
+[14:57:38] [system] Events watcher started, tracking 0 files
+
+stdout | test/reliability-docker-isolation.test.ts > verifies actual Docker mounts and runs faux Agent without exposing hidden assets
+[14:57:39] [system] Events watcher stopped
+
+ ✓ test/reliability-docker-isolation.test.ts (2 tests) 1623ms
+   ✓ verifies actual Docker mounts and runs faux Agent without exposing hidden assets  1616ms
+ ✓ test/docker-live.test.ts (4 tests) 10463ms
+   ✓ real isolated Docker task stops descendants: cancel  2985ms
+   ✓ real isolated Docker task stops descendants: timeout  1832ms
+   ✓ real isolated Docker task stops descendants: SIGTERM  2854ms
+   ✓ real isolated Docker task stops descendants: SIGKILL  2790ms
+
+ Test Files  2 passed (2)
+      Tests  6 passed (6)
+   Start at  14:57:35
+   Duration  10.86s (transform 1.24s, setup 39ms, collect 2.52s, tests 12.09s, environment 0ms, prepare 86ms)
+
+
+exit=0

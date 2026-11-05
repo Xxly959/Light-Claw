@@ -53,7 +53,12 @@ it("cancellation confirms that both shell and background child stopped writing",
 });
 it("timeout stops actual task bytes, not only the host client", async () => {
 	const f = fixture();
-	await expect(f.executor.exec(f.command, { timeout: 0.4 })).rejects.toThrow("timed out");
+	// Include Python/shim startup in the wall deadline, but prove the task actually ran.
+	const result = expect(f.executor.exec(f.command, { timeout: 3 })).rejects.toThrow("timed out");
+	await writing(f.log);
+	await result;
+	expect(readFileSync(f.log, "utf8")).toContain("parent");
+	expect(readFileSync(f.log, "utf8")).toContain("child");
 	await stopped(f.log);
 });
 it.each(["SIGTERM", "SIGKILL"] as const)("owner %s loses heartbeat and the task stops writing", async (signal) => {

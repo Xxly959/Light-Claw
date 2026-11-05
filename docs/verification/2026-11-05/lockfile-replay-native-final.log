@@ -1,0 +1,54 @@
+cwd: ${RELEASE_CHECK}/lockfile-replay-native-final
+$ rtk proxy npm ci --offline --ignore-scripts --no-audit --no-fund
+npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead
+
+added 249 packages in 6s
+
+exit=0
+cwd: ${RELEASE_CHECK}/lockfile-replay-native-final
+$ rtk proxy ${RELEASE_CHECK}/lockfile-replay-native-final/node_modules/.bin/lightclaw --help
+用法：lightclaw [--sandbox=host|docker:<名称>] <工作目录>
+本地探测：lightclaw --health=<工作目录> [--control=<控制目录>]
+隔离报告：lightclaw --isolation-report <工作目录> [--sandbox=...]（无需平台凭证）
+Node Agent在宿主运行；Docker仅执行工具。健康探测不验证真实平台或模型。
+
+exit=0
+cwd: ${RELEASE_CHECK}/lockfile-replay-native-final
+$ rtk proxy ${RELEASE_CHECK}/lockfile-replay-native-final/node_modules/.bin/lightclaw-benchmark --help
+lightclaw-benchmark --channels=1,5,10,20 --warmup-rounds=2 --measurement-rounds=10 --tasks-per-channel=5 --output=<directory> (offline faux only)
+
+exit=0
+cwd: ${RELEASE_CHECK}/lockfile-replay-native-final
+$ rtk proxy ${RELEASE_CHECK}/lockfile-replay-native-final/node_modules/.bin/lightclaw-eval --help
+lightclaw-eval --suite=reliability --mode=audit|offline|analyze --out=<fresh-directory>（offline仅faux；真实模型需审批）
+
+exit=0
+cwd: ${RELEASE_CHECK}/lockfile-replay-native-final
+$ rtk proxy ${RELEASE_CHECK}/lockfile-replay-native-final/node_modules/.bin/lightclaw-prompt-optimize --help
+lightclaw-prompt-optimize --dataset=<file> --holdout=<file> --workspace=<dir> --candidates=2 --repetitions=5（可能调用付费模型，必须先批准预算）
+
+exit=0
+cwd: ${RELEASE_CHECK}/lockfile-replay-native-final
+$ rtk proxy ${RELEASE_CHECK}/lockfile-replay-native-final/node_modules/.bin/lightclaw-goal-migrate --help
+停机后运行：lightclaw-goal-migrate --workspace <目录> [--control-dir <目录>] --channel <频道ID> --owner <平台用户ID>
+迁移与 Bot 共用互斥锁；不会删除旧文件或覆盖新状态。
+
+exit=0
+cwd: ${RELEASE_CHECK}/lockfile-replay-native-final
+$ rtk proxy ${RELEASE_CHECK}/lockfile-replay-native-final/node_modules/.bin/lightclaw-audit --help
+用法：lightclaw-audit <工作目录> [选项]
+  --last=N        只显示最近 N 条（默认 20）
+  --all           显示全部
+  --tool=bash     按工具过滤
+  --channel=C1    按频道过滤
+  --outcome=ok|error|blocked  按结果过滤
+  --decision=allow|approve|deny  按裁决过滤
+  --blocked       等价于 --outcome=blocked
+  --json          输出 JSON 行，便于二次处理
+
+exit=0
+cwd: ${RELEASE_CHECK}/lockfile-replay-native-final
+$ rtk proxy node --version
+v22.23.0
+
+exit=0

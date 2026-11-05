@@ -64,8 +64,27 @@ export function enqueueChatEvent(
 				await report("expired");
 				return;
 			}
+			let prepared = event;
+			if (transport.prepareEvent) {
+				try {
+					prepared = await transport.prepareEvent(event);
+				} catch (error) {
+					if (record)
+						inbox?.finish(
+							record.id,
+							"rejected",
+							`Attachment preparation failed before Agent dispatch: ${String(error)}`,
+						);
+					await transport.postMessage(
+						event.channel,
+						"附件下载/接纳失败，尚未交给Agent处理；请检查权限、大小或网络后重新发送。",
+					);
+					return;
+				}
+				if (record) inbox?.recordPrepared(record.id, prepared);
+			}
 			try {
-				await handler.handleEvent(event, transport, isEvent);
+				await handler.handleEvent(prepared, transport, isEvent);
 				if (record) inbox?.finish(record.id, "completed");
 			} catch (error) {
 				if (record)

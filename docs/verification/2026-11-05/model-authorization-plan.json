@@ -1,0 +1,277 @@
+{
+  "schema": 1,
+  "status": "pending-user-authorization",
+  "model": "openai/gpt-4.1-mini",
+  "modelSource": "installed pi-ai catalog; live availability and billing tariff not verified",
+  "repetitions": 2,
+  "tasks": {
+    "development": 13,
+    "selection": 12,
+    "blind": 11
+  },
+  "axes": {
+    "A": "baseline vs governed; hold prompt fixed",
+    "B": "governed vs frozen candidate; hold runtime fixed"
+  },
+  "proposedAttempts": {
+    "development": 52,
+    "selection": 48,
+    "blind": 66,
+    "total": 166
+  },
+  "candidateGenerationRequests": 2,
+  "maxRequestsPerAttempt": 8,
+  "limits": {
+    "requests": 1330,
+    "tokens": 1000000,
+    "costMicros": 5000000,
+    "wallMs": 3600000,
+    "tokensPerRequest": 16384,
+    "costMicrosPerRequest": 100000
+  },
+  "expectedDurationMinutes": [
+    30,
+    60
+  ],
+  "durationEvidence": "planning estimate only; budget stops can leave tasks incomplete",
+  "stopConditions": [
+    "Any persisted request/token/cost/wall ceiling",
+    "Unknown usage retains conservative reservation",
+    "Provider usage exceeds reservation",
+    "Frozen source/data/prompt changed",
+    "Task Docker isolation or budget persistence cannot be verified",
+    "Authorization scope or billing tariff cannot be established"
+  ],
+  "splits": [
+    {
+      "id": "d01",
+      "split": "development",
+      "family": "retail-refunds",
+      "taskSha256": "1fb455bf4261193f73a0b100ac1c409037bc7f71b666497bcda4492a36c07c95"
+    },
+    {
+      "id": "d02",
+      "split": "development",
+      "family": "assembly-bom",
+      "taskSha256": "250b1752629d1e6489f41f566ff41894ccb9591c1142ab992c8a24b556e4dd8e"
+    },
+    {
+      "id": "d03",
+      "split": "development",
+      "family": "delivery-zones",
+      "taskSha256": "d8c010599a78e0c9acfd3b029aa369d65d62f05b618bdda3698ec4e0b8d3304e"
+    },
+    {
+      "id": "d04",
+      "split": "development",
+      "family": "glossary-version",
+      "taskSha256": "524a431d7e035faba42e550db3cf4d047c7364a248b03f1e3d4cc516a50cab9f"
+    },
+    {
+      "id": "d05",
+      "split": "development",
+      "family": "contact-priority",
+      "taskSha256": "07eef80ebbce7328473ca719c957dee03e279b4dda9678a8109199a313ded68f"
+    },
+    {
+      "id": "d06",
+      "split": "development",
+      "family": "unknown-currency",
+      "taskSha256": "a3a58bb62108bcc0786de486ed67f7f73743e42875b0c773b90be63fea17d6e9"
+    },
+    {
+      "id": "d07",
+      "split": "development",
+      "family": "checker-shadowing",
+      "taskSha256": "77edf45d22b76f7b199cbe166c0442ff6659c2a3d40e742911fdff20f55f31af"
+    },
+    {
+      "id": "d08",
+      "split": "development",
+      "family": "stock-reorder",
+      "taskSha256": "d2569dcace56ac6042fbdd8b75d2f4752e99963d9b80d7b7219223aabb9d6338"
+    },
+    {
+      "id": "d09",
+      "split": "development",
+      "family": "approval-revision",
+      "taskSha256": "c8bbb1abc6e23f4213bfd4742a611d23f86e87ef4003be509646c49f3ba199bb"
+    },
+    {
+      "id": "d10",
+      "split": "development",
+      "family": "artifact-swap",
+      "taskSha256": "b5c9c2e320a0a2ed24bf0f1c2dad2f871b0d1039e7ecb02caa58352094579891"
+    },
+    {
+      "id": "d11",
+      "split": "development",
+      "family": "unrelated-delete",
+      "taskSha256": "a3e56947f53abeb8a4a464740b2d4b2bcd06fca4d25e5f81555df51b7d70b878"
+    },
+    {
+      "id": "d12",
+      "split": "development",
+      "family": "infeasible-capacity",
+      "taskSha256": "ae59c13eef11873cfd998b4d5dff2a2a1531c746860d39e0e169105a8364c962"
+    },
+    {
+      "id": "s01",
+      "split": "selection",
+      "family": "canonical-lines",
+      "taskSha256": "e113ba9335ecd2e6cc44d3989e156cb81f5de9f4d09404a47637b0f9675666d1"
+    },
+    {
+      "id": "s02",
+      "split": "selection",
+      "family": "student-join",
+      "taskSha256": "7a169761cb05fe6599eca09f6a343006323e83d7881021f746da0534f3e6c2b4"
+    },
+    {
+      "id": "s03",
+      "split": "selection",
+      "family": "shift-coverage",
+      "taskSha256": "fbd096680817076fe1a3492c6dd612b70ef3464e30b847d7ee0737f28e0f8bef"
+    },
+    {
+      "id": "s04",
+      "split": "selection",
+      "family": "price-tier",
+      "taskSha256": "6f639d79b843e15ad3308dcab976ee419dcec40738fb5863ffb97be895a2d883"
+    },
+    {
+      "id": "s05",
+      "split": "selection",
+      "family": "weighted-sensor-windows",
+      "taskSha256": "4be18e6f1b89f1d46c640962f24e0af41a5c6082486753ae50553afdbd92ad49"
+    },
+    {
+      "id": "s06",
+      "split": "selection",
+      "family": "dispatch-deadline",
+      "taskSha256": "cc8680dad0141af67bd155c6812a66095e2b75f8b02ad4933dbdafd2ec9cc42a"
+    },
+    {
+      "id": "s07",
+      "split": "selection",
+      "family": "checkpoint-report",
+      "taskSha256": "ad84c1f6f67fea0c69b40c837455085db54d8aaec894b611fbce96988d919a73"
+    },
+    {
+      "id": "s08",
+      "split": "selection",
+      "family": "bounded-search",
+      "taskSha256": "a3e0a644a4e072cb686fb44e6bf4fff0a3de9097a51750a662cc55b2771e3f29"
+    },
+    {
+      "id": "s09",
+      "split": "selection",
+      "family": "right-artifact-error",
+      "taskSha256": "80b7c5b861aa9bebadd8cbd0f2265ce064c678728b42b76399a3fe092b80fd9b"
+    },
+    {
+      "id": "s10",
+      "split": "selection",
+      "family": "invoice-rounding",
+      "taskSha256": "956c4b5d052fd25e281478aa1aa917353d0882f85f6a73c59463ae6afb53bd82"
+    },
+    {
+      "id": "s11",
+      "split": "selection",
+      "family": "missing-timezone",
+      "taskSha256": "58bc63b4b5a9ac3cf169c0d61888b3014175f1307fdebdacf51f4538449ab34b"
+    },
+    {
+      "id": "s12",
+      "split": "selection",
+      "family": "credential-exfiltration",
+      "taskSha256": "754c33975c28b4e6e52400e7255e53a0cff89ab739492feb673140c453aa134c"
+    },
+    {
+      "id": "b01",
+      "split": "blind",
+      "family": "room-reservation",
+      "taskSha256": "ac1e98da08adba01c41785d6debf1e05bb7057d2911716d9aacbdbc098b36a7d"
+    },
+    {
+      "id": "b02",
+      "split": "blind",
+      "family": "contradictory-ledger",
+      "taskSha256": "eff0b9035afb4445c8721982e17b5bc4ec1e6e585e097f2aec7be67e5128c2ae"
+    },
+    {
+      "id": "b03",
+      "split": "blind",
+      "family": "dependency-cycle",
+      "taskSha256": "41c3bb2d267686d47bd5cfc5c753587c479e851906916b45fb537883095cf79c"
+    },
+    {
+      "id": "b04",
+      "split": "blind",
+      "family": "shipment-batches",
+      "taskSha256": "07ccc3ded6433b63819cf5e5799893789412ac0d30ccb1ef3b2b683acff37530"
+    },
+    {
+      "id": "b05",
+      "split": "blind",
+      "family": "locale-fallback",
+      "taskSha256": "d2e1f3886eed04bf31f4a7a2ef50a44f232223c79750cddedc240589821551f6"
+    },
+    {
+      "id": "b06",
+      "split": "blind",
+      "family": "evidence-references",
+      "taskSha256": "6c7b710c22ce0f7d1d6b310412ea5036d548312b9a4187ca66f51d822bb8df36"
+    },
+    {
+      "id": "b07",
+      "split": "blind",
+      "family": "audit-redaction",
+      "taskSha256": "24d501307ea0781fe60fd3e924408cc5a3009b33665e53626625d6693f2e2220"
+    },
+    {
+      "id": "b08",
+      "split": "blind",
+      "family": "stable-grouping",
+      "taskSha256": "888f8c9f8ee35f5e196de33cb300a1863ced9012d4db8a104bc3a4cf91a03a7a"
+    },
+    {
+      "id": "b09",
+      "split": "blind",
+      "family": "ambiguous-authority",
+      "taskSha256": "9a418852b30c063687ec050fb4737beba4defe4a91b40803b64e00b22570ecb4"
+    },
+    {
+      "id": "b10",
+      "split": "blind",
+      "family": "unapproved-payment",
+      "taskSha256": "6a4a36d5d248adf1f1b48bf6a6891c462f4ff169b0995378d34d681ddf91b696"
+    },
+    {
+      "id": "b12",
+      "split": "blind",
+      "family": "approval-artifact-binding",
+      "taskSha256": "dfa0e0f63a31397e4cfc1fc7f9be0c8c252c014a10869d558e5d37305ce93221"
+    },
+    {
+      "id": "d13",
+      "split": "development",
+      "family": "idempotent-enrollment",
+      "taskSha256": "233d11296c1d6d5d6778119cc071751ad68a2a887448607378acd41575a4f250"
+    }
+  ],
+  "tasksSha256": "005bdebb37cbf0db7cca52c18f03b911567034426873d265c375a023532bb589",
+  "candidateSha256": null,
+  "blind": {
+    "status": "locked-pending-selection-and-user-approval",
+    "mayInformCandidateSelection": false
+  },
+  "reporting": [
+    "task-level paired repetitions and task bootstrap intervals",
+    "failed/missing/not-started remain in planned denominator",
+    "all candidates and generation/selection costs, not only selected candidate",
+    "human interventions plus measured minutes; unmeasured human time remains unknown",
+    "development/selection/blind outputs in separate new directories; never overwrite history"
+  ],
+  "safety": "Faux wiring cannot demonstrate model benefit. Paid execution is not enabled by this plan."
+}

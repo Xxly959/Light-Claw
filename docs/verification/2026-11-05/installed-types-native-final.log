@@ -1,0 +1,3 @@
+$ rtk proxy ${REPOSITORY}/node_modules/.bin/tsgo -p ${RELEASE_CHECK}/install-verification-native-final/install/tsconfig.consumer.json
+
+exit=0

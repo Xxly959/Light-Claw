@@ -1,0 +1,17 @@
+{
+  "status": "lockfile-replay-verified",
+  "replay": "${RELEASE_CHECK}/lockfile-replay-native-final",
+  "lockfileSha256": "b57972384dbc6b3af3a96daff9aa9410ea683c516dbe8dea92ebba76a8b5d840",
+  "sameLockfile": true,
+  "tsxInstalled": false,
+  "helpOutputVerified": [
+    "lightclaw",
+    "lightclaw-benchmark",
+    "lightclaw-eval",
+    "lightclaw-prompt-optimize",
+    "lightclaw-goal-migrate",
+    "lightclaw-audit"
+  ],
+  "node": "v22.23.0",
+  "network": "offline npm ci"
+}

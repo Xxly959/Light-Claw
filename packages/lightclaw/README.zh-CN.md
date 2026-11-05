@@ -1,6 +1,6 @@
 # LightClaw 使用指南
 
-部署状态：实现与离线验证分开记录，真实平台/真实Docker/干净编译安装均未验收。详见[部署](docs/deployment.zh-CN.md)、[故障排查](docs/troubleshooting.zh-CN.md)、[资源策略](docs/resources.zh-CN.md)和[第四批验收](../../docs/diagnosis/2026-10-31-fourth-remediation/README.md)。单实例、同一信任域，不提供租户隔离。
+部署状态：2026-11-05已完成真实Docker定向验收、五包隔离构建与macOS/Node22.23.0独立离线安装；真实飞书/Slack和真实模型仍待专用环境授权。详见[部署](docs/deployment.zh-CN.md)、[故障排查](docs/troubleshooting.zh-CN.md)、[资源策略](docs/resources.zh-CN.md)和[公开验收证据](../../docs/verification/2026-11-05/README.zh-CN.md)。单实例、同一信任域，不提供租户隔离。
 
 [English](README.md) · [项目首页](../../README.md) · [架构](docs/architecture.zh-CN.md) · [目标验收](docs/goals.zh-CN.md)
 
@@ -168,7 +168,6 @@ lightclaw-data/
 ├── MEMORY.md                 # 全局长期记忆
 ├── settings.json             # Agent 设置
 ├── events/                   # 定时唤醒任务
-├── audit/runs.jsonl          # 脱敏运行指标
 └── <频道 ID>/
     ├── MEMORY.md             # 频道长期记忆
     ├── log.jsonl             # 可检索聊天历史
@@ -190,3 +189,11 @@ lightclaw-data/
 静态检查在仓库根目录执行 `npm run check`，不包含测试。定向测试从对应包目录执行，遵循[开发规则](../../AGENTS.md)。
 
 统一评测CLI不带suite时默认无凭证数据审计。上面的legacy/optimize命令会消耗真实模型额度，必须另行授权；本批没有运行。完整提示/工具故障正文诊断需显式 `LIGHTCLAW_DEBUG_PAYLOADS=1`，否则保留计数而不捕获完整调试内容；候选分析未启用该项就没有完整基线提示记录，不应宣称据此检验自动优化收益。
+
+权威审计位于工作区外的 `<控制目录>/.audit/`；包含 runs/tool-calls/spans 与显式启用的 payload。路径、配额、保留期和恢复命令以 [部署说明](docs/deployment.zh-CN.md) 为准。默认使用用户输入，不自动生成、评分或加载候选提示词；显式优化动作只返回推荐，不改变后续输入默认状态。
+
+## 飞书可选提示词优化
+
+普通文本按原文交给Agent，不自动生成候选或评分。飞书同时提供“提示词优化”交互卡片；仅原发送者可在原频道原卡片点击，有效期30分钟。点击后才进行至多2次无工具模型请求（先生成至多2条候选，再连同原文评分，每次最多1536输出Token）；按模型主观评审分数展示推荐，不是任务实测收益。不会自动替换已启动任务或下一条输入；需要时复制推荐作为新消息。输入上限12000字符，重复/过期/中断不自动重试，失败可重新发送原文。
+
+`LIGHTCLAW_FEATURE_OPTIMIZATION=false`关闭卡片及候选优化，不影响原文输入。真实飞书应用需订阅`card.action.trigger`；本轮仅mock SDK+faux验证，无真实平台/模型调用。Slack不增加该按钮。

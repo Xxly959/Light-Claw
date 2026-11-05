@@ -1,6 +1,6 @@
 # LightClaw
 
-部署状态：实现与离线验证分开记录，真实平台/真实Docker/干净编译安装均未验收。详见[部署](docs/deployment.zh-CN.md)、[故障排查](docs/troubleshooting.zh-CN.md)、[资源策略](docs/resources.zh-CN.md)和[第四批验收](../../docs/diagnosis/2026-10-31-fourth-remediation/README.md)。单实例、同一信任域，不提供租户隔离。
+部署状态：2026-11-05已完成真实Docker定向验收、五包隔离构建与macOS/Node22.23.0独立离线安装；真实飞书/Slack和真实模型仍待专用环境授权。详见[部署](docs/deployment.zh-CN.md)、[故障排查](docs/troubleshooting.zh-CN.md)、[资源策略](docs/resources.zh-CN.md)和[公开验收证据](../../docs/verification/2026-11-05/README.zh-CN.md)。单实例、同一信任域，不提供租户隔离。
 
 **A self-hosted agent for Feishu and Slack that saves progress and verifies task completion.**
 
@@ -73,7 +73,7 @@ npx tsx packages/lightclaw/src/evals/cli.ts --suite=legacy \
   --workspace=./lightclaw-data
 ```
 
-Prompt optimization generates candidates from the training dataset only. It evaluates the baseline and each candidate on training and independent holdout cases at least three times, then writes a prompt only when training improves and holdout, individual cases, tool errors, and artifact checks do not regress:
+Prompt optimization generates candidates from the training dataset only. It evaluates the baseline and each candidate on training and independent holdout cases at least five times, then writes a prompt only when training improves and holdout, individual cases, tool errors, and artifact checks do not regress:
 
 ```bash
 npx --no-install tsx packages/lightclaw/src/evals/optimize-cli.ts \
@@ -169,7 +169,6 @@ lightclaw-data/
 ├── MEMORY.md
 ├── settings.json
 ├── events/
-├── audit/runs.jsonl
 └── <channel-id>/
     ├── MEMORY.md
     ├── log.jsonl
@@ -215,3 +214,9 @@ CI explicitly runs the LightClaw workspace test script. Tests isolate HOME/crede
 The runtime holds a kernel flock through a parent-owned descriptor, persists accepted messages/events before dispatch, and retains interrupted execution as unknown for manual reconciliation. Controlled operations use stable IDs and service result queries. Docker tasks are supervised inside the container and cancellation requires exit confirmation. Host POSIX/Python support is required; Docker additionally requires container Python and Linux subreaper/pidfd support. Arbitrary bash side effects do not gain exactly-once guarantees. See [recovery semantics and validation boundaries](docs/recovery.zh-CN.md).
 
 统一评测CLI不带suite时默认无凭证数据审计。上面的legacy/optimize命令会消耗真实模型额度，必须另行授权；本批没有运行。完整提示/工具故障正文诊断需显式 `LIGHTCLAW_DEBUG_PAYLOADS=1`，否则保留计数而不捕获完整调试内容；候选分析未启用该项就没有完整基线提示记录，不应宣称据此检验自动优化收益。
+
+### Explicit prompt input and optimization
+
+Ordinary messages use the supplied input without candidate generation or scoring. `LIGHTCLAW_PROMPT_INSTRUCTIONS` is explicitly supplied operator text and remains independent of the optimization feature switch; no optimized file is discovered or loaded automatically. The public `resolvePromptInput` action defaults to `inject`, preserves the input bytes, and calls its scoring dependency only for `action: "optimize"`. It returns a recommendation rather than changing future input defaults. Feishu offers a “提示词优化” interactive card for ordinary text input (up to 12,000 characters). Only the original sender can click the bound card in the original chat, within 30 minutes. Clicking makes up to two tool-free model requests (candidate generation then subjective scoring), at most 1536 output tokens each; the original is also scored. The ranked recommendation is displayed for manual use and never replaces a running task or future input. Duplicate, expired, forwarded or interrupted requests do not automatically rerun. Subscribe the dedicated Feishu application to `card.action.trigger` before live acceptance. Slack remains direct input; it has no new optimization button.
+
+权威审计位于工作区外的 `<控制目录>/.audit/`；包含 runs/tool-calls/spans 与显式启用的 payload。路径、配额、保留期和恢复命令以 [部署说明](docs/deployment.zh-CN.md) 为准。默认使用用户输入，不自动生成、评分或加载候选提示词；显式优化动作只返回推荐，不改变后续输入默认状态。

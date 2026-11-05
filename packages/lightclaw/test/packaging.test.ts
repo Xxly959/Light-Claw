@@ -68,6 +68,19 @@ describe("local source release contract", () => {
 		expect(tampered.status).toBe(1);
 		expect(tampered.stderr).toContain("hash mismatch");
 	});
+
+	it("prepares only release scope even when unrelated untracked names exceed the subprocess buffer", () => {
+		const { root, output } = fixture();
+		const dir = join(root, "docs", "diagnosis");
+		mkdirSync(dir, { recursive: true });
+		for (let n = 0; n < 5200; n++)
+			writeFileSync(join(dir, `${String(n).padStart(5, "0")}-${"x".repeat(210)}.txt`), "fictional");
+		const result = run(["prepare", "--root", root, "--output", output]);
+		expect(result.status, result.stderr).toBe(0);
+		const manifest = JSON.parse(readFileSync(join(output, "source-manifest.json"), "utf8"));
+		expect(manifest.files.some((entry: { path: string }) => entry.path.startsWith("docs/diagnosis"))).toBe(false);
+		expect(existsSync(join(output, "packages/lightclaw/src/main.ts"))).toBe(true);
+	});
 	it("rejects symlink sources instead of hiding workspace dependencies", () => {
 		const { root, output } = fixture();
 		symlinkSync(join(root, "package.json"), join(root, "packages/lightclaw/src/link.ts"));

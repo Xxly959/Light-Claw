@@ -160,6 +160,8 @@ function createChannel(options: {
 			return { content: [{ type: "text", text: "benchmark delay complete" }], details: undefined };
 		},
 	};
+	// 能力声明走运行时附加，避免改变 AgentTool 的公共类型。
+	Object.assign(delayTool, { capabilities: ["fs:read"] as const });
 	const goals = new GoalStore({
 		channelDir,
 		controlChannelDir: join(options.workingDirectory, "..", `lightclaw-benchmark-control-${options.runId}`, id),

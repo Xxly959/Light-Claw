@@ -1,0 +1,8 @@
+cwd: ${RELEASE_CHECK}/source
+$ rtk proxy npm run build --workspace=lightclaw
+
+> lightclaw@0.70.6 build
+> tsgo -p tsconfig.build.json && shx cp src/attachment-reader.py src/attachment-writer.py src/docker-supervisor.py dist/ && shx chmod +x dist/main.js dist/benchmark/cli.js dist/evals/cli.js dist/evals/optimize-cli.js dist/goals/migrate-cli.js dist/audit/cli.js
+
+
+exit=0

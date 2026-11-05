@@ -1,0 +1,18 @@
+cwd: packages/lightclaw
+$ rtk proxy npx tsx ../../node_modules/vitest/dist/cli.js --run test/reliability-full-flow.test.ts
+
+ RUN  v3.2.4 ${REPOSITORY}/packages/lightclaw
+
+stdout | test/reliability-full-flow.test.ts > retains a fresh full faux A/B matrix, frozen splits, failures, costs and paired reports
+{"evidence":"faux-wiring-only","output":"${REPOSITORY}/docs/diagnosis/2026-11-05-continuation/faux-v4-ec790d00-b2d2-4d94-8350-c8e7a7eee4d0","plannedAttempts":200,"realModelCalls":0}
+
+ ✓ test/reliability-full-flow.test.ts (1 test) 172710ms
+   ✓ retains a fresh full faux A/B matrix, frozen splits, failures, costs and paired reports  172708ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  15:55:00
+   Duration  173.17s (transform 120ms, setup 24ms, collect 157ms, tests 172.71s, environment 0ms, prepare 70ms)
+
+
+exit=0

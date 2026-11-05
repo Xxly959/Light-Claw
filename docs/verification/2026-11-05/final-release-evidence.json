@@ -1,0 +1,184 @@
+{
+  "sourceMatrix": "${REPOSITORY}/docs/diagnosis/2026-11-05-continuation/faux-v4-ec790d00-b2d2-4d94-8350-c8e7a7eee4d0",
+  "axes": {
+    "A": {
+      "frozenFiles": 317,
+      "mismatches": [],
+      "planned": 100,
+      "terminal": {
+        "completed": 80,
+        "task_failed": 20,
+        "external_timeout": 0,
+        "worker_error": 0,
+        "missing_record": 0,
+        "not_started": 0
+      },
+      "campaign": {
+        "status": "available",
+        "spec": {
+          "path": "${REPOSITORY}/docs/diagnosis/2026-11-05-continuation/faux-v4-ec790d00-b2d2-4d94-8350-c8e7a7eee4d0/shared-budget.json",
+          "limits": {
+            "requests": 3200,
+            "tokens": 320000000,
+            "costMicros": 3200000000,
+            "wallMs": 1800000,
+            "tokensPerRequest": 100000,
+            "costMicrosPerRequest": 1000000
+          }
+        },
+        "snapshot": {
+          "requests": 294,
+          "chargedTokens": 339318,
+          "chargedCostMicros": 0,
+          "unknown": 0,
+          "humanMinutes": null,
+          "elapsedMs": 80719,
+          "breached": false,
+          "remainingWallMs": 1719281,
+          "stopReason": null
+        }
+      },
+      "cost": null,
+      "pricesKnown": false
+    },
+    "B": {
+      "frozenFiles": 317,
+      "mismatches": [],
+      "planned": 100,
+      "terminal": {
+        "completed": 80,
+        "task_failed": 20,
+        "external_timeout": 0,
+        "worker_error": 0,
+        "missing_record": 0,
+        "not_started": 0
+      },
+      "campaign": {
+        "status": "available",
+        "spec": {
+          "path": "${REPOSITORY}/docs/diagnosis/2026-11-05-continuation/faux-v4-ec790d00-b2d2-4d94-8350-c8e7a7eee4d0/shared-budget.json",
+          "limits": {
+            "requests": 3200,
+            "tokens": 320000000,
+            "costMicros": 3200000000,
+            "wallMs": 1800000,
+            "tokensPerRequest": 100000,
+            "costMicrosPerRequest": 1000000
+          }
+        },
+        "snapshot": {
+          "requests": 606,
+          "chargedTokens": 729254,
+          "chargedCostMicros": 0,
+          "unknown": 0,
+          "humanMinutes": null,
+          "elapsedMs": 172615,
+          "breached": false,
+          "remainingWallMs": 1627385,
+          "stopReason": null
+        }
+      },
+      "cost": null,
+      "pricesKnown": false
+    }
+  },
+  "tests": {
+    "targetedFiles": 64,
+    "passedTests": 637,
+    "log": "regression-native-final.log",
+    "check": "check-native-final.log",
+    "realDockerTests": 6,
+    "realDockerLog": "docker-final.log"
+  },
+  "limits": {
+    "realPlatform": "not authorized / not run",
+    "realModel": "not authorized / not run",
+    "blind": "not run",
+    "sourceProviderCatalogDiff": "final-build-provenance.json"
+  },
+  "installed": {
+    "verification": "${RELEASE_CHECK}/install-verification-native-final",
+    "replay": "${RELEASE_CHECK}/lockfile-replay-native-final",
+    "platform": "darwin",
+    "node": "v22.23.0",
+    "compiledFilesVerifiedAgainstInstall": 1224,
+    "artifactMismatches": [],
+    "tarballs": [
+      {
+        "path": "${RELEASE_CHECK}/install-verification-native-final/archives/mariozechner-pi-tui-0.70.6.tgz",
+        "sha256": "53330f3cd0fa127dffe07a879eade216f2002986ac7888782b56420e1dd75c73"
+      },
+      {
+        "path": "${RELEASE_CHECK}/install-verification-native-final/archives/mariozechner-pi-ai-0.70.6.tgz",
+        "sha256": "47bf49ddf3e6d0b37adfd494d3f4229dbae62f05500a99673796d68ed8742204"
+      },
+      {
+        "path": "${RELEASE_CHECK}/install-verification-native-final/archives/mariozechner-pi-agent-core-0.70.6.tgz",
+        "sha256": "7f48aba393a5de24b0347f224e46e9040aa2450545c318c7c7ddec39fa6f84b7"
+      },
+      {
+        "path": "${RELEASE_CHECK}/install-verification-native-final/archives/mariozechner-pi-coding-agent-0.70.6.tgz",
+        "sha256": "1c5ea83db6afa7cd78ceefb8a1714c9d8b5847aec6363153f6e38ec2e5d41f9d"
+      },
+      {
+        "path": "${RELEASE_CHECK}/install-verification-native-final/archives/lightclaw-0.70.6.tgz",
+        "sha256": "09dd5f0feb0041073cc222878e7e4779157b072a6f78bdc177e0c2e3fe6a490e"
+      }
+    ],
+    "lockfile": {
+      "status": "lockfile-replay-verified",
+      "replay": "${RELEASE_CHECK}/lockfile-replay-native-final",
+      "lockfileSha256": "b57972384dbc6b3af3a96daff9aa9410ea683c516dbe8dea92ebba76a8b5d840",
+      "sameLockfile": true,
+      "tsxInstalled": false,
+      "helpOutputVerified": [
+        "lightclaw",
+        "lightclaw-benchmark",
+        "lightclaw-eval",
+        "lightclaw-prompt-optimize",
+        "lightclaw-goal-migrate",
+        "lightclaw-audit"
+      ],
+      "node": "v22.23.0",
+      "network": "offline npm ci"
+    },
+    "nativeFaux": {
+      "out": "${RELEASE_CHECK}/compiled-faux-A-native-final",
+      "planned": 100,
+      "terminal": {
+        "completed": 80,
+        "task_failed": 20,
+        "external_timeout": 0,
+        "worker_error": 0,
+        "missing_record": 0,
+        "not_started": 0
+      },
+      "frozenFiles": 622,
+      "mismatches": [],
+      "requests": {
+        "known": 100,
+        "unknown": 0,
+        "observedTotal": 294,
+        "fullTotal": 294,
+        "meanOfKnown": 2.94
+      },
+      "cost": null,
+      "pricesKnown": false
+    },
+    "benchmark": {
+      "artifacts": {
+        "directory": "${RELEASE_CHECK}/native-benchmark-verified/benchmark-2026-11-05T07-55-44-246Z",
+        "manifestPath": "${RELEASE_CHECK}/native-benchmark-verified/benchmark-2026-11-05T07-55-44-246Z/manifest.json",
+        "tasksPath": "${RELEASE_CHECK}/native-benchmark-verified/benchmark-2026-11-05T07-55-44-246Z/tasks.jsonl",
+        "roundsPath": "${RELEASE_CHECK}/native-benchmark-verified/benchmark-2026-11-05T07-55-44-246Z/rounds.jsonl",
+        "resourcesPath": "${RELEASE_CHECK}/native-benchmark-verified/benchmark-2026-11-05T07-55-44-246Z/resources.jsonl",
+        "summaryPath": "${RELEASE_CHECK}/native-benchmark-verified/benchmark-2026-11-05T07-55-44-246Z/summary.json",
+        "reportPath": "${RELEASE_CHECK}/native-benchmark-verified/benchmark-2026-11-05T07-55-44-246Z/report.md"
+      },
+      "taskCount": 3,
+      "allCompleted": true,
+      "evidence": "entry-functionality-only; no performance claim"
+    },
+    "typesLog": "installed-types-native-final.log"
+  }
+}

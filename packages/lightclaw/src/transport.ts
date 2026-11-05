@@ -12,6 +12,8 @@ export interface ChatEvent {
 	text: string;
 	files?: Array<{ name?: string; url_private_download?: string; url_private?: string }>;
 	attachments?: Attachment[];
+	promptOptimization?: { draftId: string; messageId: string };
+	resources?: Array<{ kind: "file" | "image"; key: string; name: string }>;
 }
 
 export type ChatActor = Pick<ChatEvent, "user" | "origin">;
@@ -33,13 +35,16 @@ export interface ChatTransport {
 	readonly queueWaitMs?: number;
 	readonly queueCapacity?: number;
 	readonly durableAdmission?: boolean;
+	connectionStatus?(): "connecting" | "connected" | "reconnecting" | "disconnected" | "unknown";
 	stop?(): Promise<void>;
 	drain?(): Promise<void>;
 	start(): Promise<void>;
+	prepareEvent?(event: ChatEvent): Promise<ChatEvent>;
 	getUser(userId: string): ChatUser | undefined;
 	getChannel(channelId: string): ChatChannel | undefined;
 	getAllUsers(): ChatUser[];
 	getAllChannels(): ChatChannel[];
+	postPromptOptimizationCard?(channel: string, draftId: string): Promise<string>;
 	postMessage(channel: string, text: string): Promise<string>;
 	updateMessage(channel: string, messageId: string, text: string): Promise<void>;
 	deleteMessage(channel: string, messageId: string): Promise<void>;
@@ -87,4 +92,8 @@ export function isImmediateGoalControl(event: ChatEvent): boolean {
 		Boolean(event.user.trim()) &&
 		/^\/goal\s+(pause|cancel)\s*$/.test(event.text.trim())
 	);
+}
+
+export function isRecoveryControl(event: ChatEvent): boolean {
+	return event.origin === "platform" && Boolean(event.user.trim()) && /^\/recover(?:\s|$)/.test(event.text.trim());
 }

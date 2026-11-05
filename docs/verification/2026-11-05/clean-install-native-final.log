@@ -1,0 +1,4 @@
+$ rtk proxy node ${REPOSITORY}/packages/lightclaw/scripts/verify-install.mjs verify --root ${RELEASE_CHECK}/source --out ${RELEASE_CHECK}/install-verification-native-final --cache ${RELEASE_CHECK}/npm-cache
+{"out":"${RELEASE_CHECK}/install-verification-native-final","status":"clean-install-cli-verified"}
+
+exit=0

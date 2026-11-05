@@ -13,7 +13,7 @@ import { appendConversationLine } from "./resource-policy.js";
 import { createSdkLogger } from "./sdk-logger.js";
 import type { Attachment, ChannelStore } from "./store.js";
 import type { ChatChannel, ChatEvent, ChatHandler, ChatTransport, ChatUser } from "./transport.js";
-import { isImmediateGoalControl } from "./transport.js";
+import { isImmediateGoalControl, isRecoveryControl } from "./transport.js";
 
 // ============================================================================
 // Types
@@ -30,6 +30,10 @@ export type LightClawHandler = ChatHandler;
 
 export class SlackBot implements ChatTransport {
 	readonly kind = "slack" as const;
+	private connection: "connecting" | "connected" | "reconnecting" | "disconnected" = "disconnected";
+	connectionStatus() {
+		return this.connection;
+	}
 	readonly inbox?: DurableInbox;
 	readonly queueWaitMs: number;
 	get queueCapacity(): number {
@@ -45,6 +49,7 @@ export class SlackBot implements ChatTransport {
 		await Promise.all(queues.map((queue) => queue.drain()));
 		this.queues.close();
 		await this.socketClient.disconnect();
+		this.connection = "disconnected";
 	}
 	enqueueAccepted(event: ChatEvent, isEvent: boolean): boolean {
 		return enqueueChatEvent(() => this.getQueue(event.channel), event, this.handler, this, isEvent);
@@ -100,6 +105,15 @@ export class SlackBot implements ChatTransport {
 		this.queueWaitMs = config.queueMaxWaitMs ?? 300_000;
 		this.store = config.store;
 		this.socketClient = new SocketModeClient({ appToken: config.appToken, logger: createSdkLogger("slack-socket") });
+		this.socketClient.on("connected", () => {
+			this.connection = "connected";
+		});
+		this.socketClient.on("reconnecting", () => {
+			this.connection = "reconnecting";
+		});
+		this.socketClient.on("disconnected", () => {
+			this.connection = "disconnected";
+		});
 		this.webClient = new WebClient(config.botToken, {
 			timeout: config.platformTimeoutMs ?? 30_000,
 			logger: createSdkLogger("slack-web"),
@@ -122,6 +136,7 @@ export class SlackBot implements ChatTransport {
 		await this.backfillAllChannels();
 
 		this.setupEventHandlers();
+		this.connection = "connecting";
 		await this.socketClient.start();
 
 		// Record startup time - messages older than this are just logged, not processed
@@ -261,7 +276,7 @@ export class SlackBot implements ChatTransport {
 				return;
 			}
 
-			if (isImmediateGoalControl(slackEvent)) {
+			if (isImmediateGoalControl(slackEvent) || isRecoveryControl(slackEvent)) {
 				void observePlatformOperation(
 					() => this.handler.handleEvent(slackEvent, this),
 					this.workingDir,
@@ -370,7 +385,7 @@ export class SlackBot implements ChatTransport {
 
 			// Only trigger handler for DMs
 			if (isDM) {
-				if (isImmediateGoalControl(slackEvent)) {
+				if (isImmediateGoalControl(slackEvent) || isRecoveryControl(slackEvent)) {
 					void observePlatformOperation(
 						() => this.handler.handleEvent(slackEvent, this),
 						this.workingDir,

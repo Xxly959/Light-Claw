@@ -1,8 +1,8 @@
 import { spawn } from "node:child_process";
 import { randomUUID } from "node:crypto";
-import { createWriteStream, readFileSync, realpathSync, type WriteStream } from "node:fs";
+import { createWriteStream, existsSync, readFileSync, realpathSync, type WriteStream } from "node:fs";
 import { tmpdir } from "node:os";
-import { join, resolve } from "node:path";
+import { dirname, join, resolve } from "node:path";
 import { finished } from "node:stream/promises";
 import { fileURLToPath } from "node:url";
 import { diagnosticText } from "./redaction.js";
@@ -35,11 +35,55 @@ function positive(value: unknown): value is number {
 	return typeof value === "number" && Number.isFinite(value) && value > 0;
 }
 
-export async function validateSandbox(config: SandboxConfig, workspaceDir?: string): Promise<void> {
-	if (config.type === "host") {
-		return;
-	}
+/**
+ * 挂载契约：共享模式挂工作区根，频道模式只挂该频道目录。
+ * 两种模式共用同一套安全检查，只有期望的源与目标不同。
+ */
+export interface MountContract {
+	required: { source?: string; destination: string };
+	shared?: { source: string; destination: string };
+}
 
+/** 校验挂载清单是否满足契约。导出以便在不启动 Docker 的情况下测试。 */
+export function assertManagedMounts(mounts: unknown[], contract: MountContract, label: string): void {
+	let requiredMounted = false;
+	let sharedMounted = false;
+	for (const entry of mounts) {
+		const mount = object(entry);
+		if (mount.Type === "tmpfs" && mount.Destination === "/tmp") continue;
+		if (
+			mount.Type !== "bind" ||
+			typeof mount.Source !== "string" ||
+			!mount.Source.startsWith("/") ||
+			resolve(mount.Source) === "/" ||
+			/^\/(?:etc|proc|sys|dev|run|root|var\/run)(?:\/|$)/.test(resolve(mount.Source)) ||
+			(mount.Propagation !== undefined && mount.Propagation !== "rprivate" && mount.Propagation !== "private")
+		) {
+			throw new Error(`${label} rejects unsafe/non-workspace mount`);
+		}
+		if (mount.Destination === contract.required.destination) {
+			if (requiredMounted) throw new Error(`${label} rejects duplicate workspace mount`);
+			if (contract.required.source && realpathSync(mount.Source) !== realpathSync(contract.required.source))
+				throw new Error(`${label} workspace mount must match ${contract.required.source}`);
+			requiredMounted = true;
+			continue;
+		}
+		if (contract.shared && mount.Destination === contract.shared.destination) {
+			// 共享目录必须是只读，否则频道容器可以写回全局资源，隔离即失效。
+			if (sharedMounted || mount.RW !== false)
+				throw new Error(`${label} shared mount must be read-only and appear once`);
+			if (realpathSync(mount.Source) !== realpathSync(contract.shared.source))
+				throw new Error(`${label} shared mount must match ${contract.shared.source}`);
+			sharedMounted = true;
+			continue;
+		}
+		throw new Error(`${label} rejects unexpected mount destination`);
+	}
+	if (!requiredMounted) throw new Error(`${label} missing workspace mount`);
+}
+
+/** 容器级固定契约：非 root、无提权、无宿主命名空间、资源有界。 */
+async function assertContainerBaseline(config: Extract<SandboxConfig, { type: "docker" }>): Promise<unknown[]> {
 	if (!/^[a-zA-Z0-9][a-zA-Z0-9_.-]*$/.test(config.container)) throw new Error("Docker sandbox container name invalid");
 	await execSimple("docker", ["--version"]);
 	// Docker CLI inspect returns an array with Config, HostConfig, State and Mounts.
@@ -88,33 +132,49 @@ export async function validateSandbox(config: SandboxConfig, workspaceDir?: stri
 		throw new Error("Docker sandbox requires bounded CPU, memory, memory-swap and PIDs (docker.sh contract)");
 	}
 	if (!Array.isArray(details.Mounts)) throw new Error("Docker sandbox inspect missing mounts");
-	let workspaceMounted = false;
-	for (const entry of details.Mounts) {
-		const mount = object(entry);
-		if (mount.Type === "tmpfs" && mount.Destination === "/tmp") continue;
-		if (
-			mount.Type !== "bind" ||
-			mount.Destination !== "/workspace" ||
-			workspaceMounted ||
-			typeof mount.Source !== "string" ||
-			!mount.Source.startsWith("/") ||
-			resolve(mount.Source) === "/" ||
-			/^\/(?:etc|proc|sys|dev|run|root|var\/run)(?:\/|$)/.test(resolve(mount.Source)) ||
-			(mount.Propagation !== undefined && mount.Propagation !== "rprivate" && mount.Propagation !== "private")
-		) {
-			throw new Error("Docker sandbox rejects unsafe/non-workspace mount");
-		}
-		if (workspaceDir && realpathSync(mount.Source) !== realpathSync(workspaceDir))
-			throw new Error("Docker sandbox workspace mount must match current workspace");
-		workspaceMounted = true;
-	}
-	if (!workspaceMounted) throw new Error("Docker sandbox missing workspace mount");
 	const uid = (await execSimple("docker", ["exec", config.container, "id", "-u"])).trim();
 	if (!/^\d+$/.test(uid) || Number(uid) === 0) throw new Error("Docker sandbox actual UID must be non-root");
 	const groups = (await execSimple("docker", ["exec", config.container, "id", "-G"])).trim().split(/\s+/);
 	if (!groups.length || groups.some((group) => !/^\d+$/.test(group) || Number(group) === 0))
 		throw new Error("Docker sandbox actual groups must exclude root");
-	console.log(`  Docker container '${config.container}' passed startup policy validation.`);
+	return details.Mounts;
+}
+
+export async function validateSandbox(config: SandboxConfig, workspaceDir?: string, quiet = false): Promise<void> {
+	if (config.type === "host") {
+		return;
+	}
+	const mounts = await assertContainerBaseline(config);
+	assertManagedMounts(mounts, { required: { source: workspaceDir, destination: "/workspace" } }, "Docker sandbox");
+	if (!quiet) console.log(`  Docker container '${config.container}' passed startup policy validation.`);
+}
+
+/**
+ * 频道级容器校验：只允许该频道目录挂到 `/workspace/<channelId>`，
+ * 外加一个可选的只读共享目录。任何其他绑定都拒绝启动，避免隔离被悄悄放宽。
+ */
+export async function validateChannelSandbox(
+	config: SandboxConfig,
+	channelDir: string,
+	channelId: string,
+	quiet = false,
+): Promise<void> {
+	if (config.type === "host") return;
+	if (!/^[A-Za-z0-9_-]{1,128}$/.test(channelId)) throw new Error("非法频道 ID，无法校验频道容器");
+	const mounts = await assertContainerBaseline(config);
+	const sharedDir = join(dirname(channelDir), ".shared");
+	assertManagedMounts(
+		mounts,
+		{
+			required: { source: channelDir, destination: `/workspace/${channelId}` },
+			shared: existsSync(sharedDir) ? { source: sharedDir, destination: "/workspace/.shared" } : undefined,
+		},
+		"Docker channel sandbox",
+	);
+	if (!quiet)
+		console.log(
+			`  Docker channel container '${config.container}' passed startup policy validation for ${channelId}.`,
+		);
 }
 
 function execSimple(cmd: string, args: string[]): Promise<string> {
@@ -388,7 +448,7 @@ class DockerExecutor implements Executor {
 			throw new Error("Command timeout must be a positive finite number within the Node timer range");
 		if (options?.signal?.aborted) throw new Error("Command aborted", { cause: options.signal.reason });
 		const identity = randomUUID();
-		const script = readFileSync(fileURLToPath(new URL("../src/docker-supervisor.py", import.meta.url)), "utf8");
+		const script = readFileSync(fileURLToPath(new URL("./docker-supervisor.py", import.meta.url)), "utf8");
 		const root = "/tmp/lightclaw-exec";
 		const cancel = async () => {
 			const result = await new HostExecutor(10).exec(

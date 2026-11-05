@@ -2,6 +2,7 @@ import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "nod
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, describe, expect, it, vi } from "vitest";
+import { resolveAuditDirectory } from "../src/audit/storage.js";
 import { DurableInbox } from "../src/durable-inbox.js";
 import { FeishuBot } from "../src/feishu.js";
 import { GoalStore } from "../src/goals/store.js";
@@ -57,7 +58,9 @@ describe("platform immediate notification boundaries", () => {
 		await vi.advanceTimersByTimeAsync(21);
 		expect(settled).toBe(true);
 		await pending;
-		expect(readFileSync(join(directory, "audit", "runs.jsonl"), "utf8")).toContain("timed out after 20ms");
+		expect(readFileSync(join(resolveAuditDirectory(directory), "runs.jsonl"), "utf8")).toContain(
+			"timed out after 20ms",
+		);
 		reject(new Error("late rejection"));
 		await Promise.resolve();
 		await expect(
@@ -67,7 +70,9 @@ describe("platform immediate notification boundaries", () => {
 	it("contains synchronous operation and audit write failures", async () => {
 		const directory = mkdtempSync(join(tmpdir(), "lightclaw-notice-audit-"));
 		cleanups.push(() => rmSync(directory, { recursive: true, force: true }));
-		writeFileSync(join(directory, "audit"), "blocked directory");
+		mkdirSync(resolveAuditDirectory(directory), { recursive: true });
+		rmSync(resolveAuditDirectory(directory), { recursive: true });
+		writeFileSync(resolveAuditDirectory(directory), "blocked directory");
 		await expect(
 			observePlatformOperation(
 				() => {
@@ -151,7 +156,7 @@ describe("platform immediate notification boundaries", () => {
 		dispatch("1");
 		await vi.waitFor(
 			() => {
-				const audit = readFileSync(join(directory, "audit", "runs.jsonl"), "utf8");
+				const audit = readFileSync(join(resolveAuditDirectory(directory), "runs.jsonl"), "utf8");
 				expect(audit).toContain('"type":"delivery_failed"');
 				expect(audit).toContain(
 					branch.includes("running-stop") ? "stop boundary rejected" : "rate limited notification",

@@ -8,6 +8,13 @@ import { parseSandboxArg, validateSandbox } from "../sandbox.js";
 import { meanScore, optimizePrompt } from "./optimizer.js";
 import { loadEvalCases } from "./runner.js";
 
+if (process.argv.includes("--help") || process.argv.includes("-h")) {
+	console.log(
+		"lightclaw-prompt-optimize --dataset=<file> --holdout=<file> --workspace=<dir> --candidates=2 --repetitions=5（可能调用付费模型，必须先批准预算）",
+	);
+	process.exit(0);
+}
+
 function argument(name: string, fallback?: string): string | undefined {
 	const prefix = `--${name}=`;
 	return process.argv.find((value) => value.startsWith(prefix))?.slice(prefix.length) ?? fallback;

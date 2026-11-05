@@ -24,6 +24,8 @@ export interface GoalArtifactSnapshot {
 	bytes: number;
 	device: string;
 	inode: string;
+	mtimeNs?: string;
+	ctimeNs?: string;
 }
 export type GoalArtifactRead =
 	| { status: "missing" }
@@ -42,7 +44,11 @@ export interface GoalCheckResult {
 	stdoutPreviewSha256?: string;
 	stderrPreviewSha256?: string;
 }
+export type GoalDeliverables = { kind: "files"; paths: string[] } | { kind: "none"; reason: string };
+
 export interface GoalVerificationReport {
+	deliverables?: GoalDeliverables;
+	expiresAt?: string;
 	attemptId: string;
 	goalId: string;
 	revision: number;
@@ -68,6 +74,7 @@ export interface GoalCreateInput {
 	acceptance: GoalAcceptance;
 }
 export interface GoalCompletionRequest {
+	deliverables?: GoalDeliverables;
 	summary: string;
 	evidence: string[];
 }

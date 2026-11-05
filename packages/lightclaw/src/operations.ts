@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, readFileSync } from "node:fs";
+import { existsSync, mkdirSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { requestFingerprint, stableId, writeDurableJson } from "./durable-state.js";
 
@@ -11,6 +11,8 @@ export interface OperationService {
 }
 export interface OperationRecord {
 	version: 1;
+	revision?: number;
+	ownerUserId?: string;
 	id: string;
 	scope: string;
 	key: string;
@@ -36,20 +38,32 @@ export class OperationJournal {
 			!["prepared", "started", "succeeded", "unknown", "manual"].includes(r.status)
 		)
 			throw new Error("Corrupt operation record");
-		return r;
+		return { ...r, revision: r.revision ?? 0 };
+	}
+	list(): OperationRecord[] {
+		return readdirSync(this.directory)
+			.filter((name) => /^[a-f0-9]{64}\.json$/.test(name))
+			.map((name) => this.get(name.slice(0, -5))!);
 	}
 	private save(record: OperationRecord): OperationRecord {
+		record = { ...record, revision: (this.get(record.id)?.revision ?? -1) + 1 };
 		writeDurableJson(join(this.directory, `${record.id}.json`), record);
 		return record;
 	}
-	async execute(scope: string, key: string, request: unknown, service: OperationService): Promise<OperationRecord> {
+	async execute(
+		scope: string,
+		key: string,
+		request: unknown,
+		service: OperationService,
+		ownerUserId?: string,
+	): Promise<OperationRecord> {
 		const id = stableId(scope, key);
 		const existing = this.active.get(id);
 		if (existing) {
 			await existing;
-			return this.execute(scope, key, request, service);
+			return this.execute(scope, key, request, service, ownerUserId);
 		}
-		const pending = this.run(id, scope, key, request, service);
+		const pending = this.run(id, scope, key, request, service, ownerUserId);
 		this.active.set(id, pending);
 		try {
 			return await pending;
@@ -63,9 +77,12 @@ export class OperationJournal {
 		key: string,
 		request: unknown,
 		service: OperationService,
+		ownerUserId?: string,
 	): Promise<OperationRecord> {
 		const fingerprint = requestFingerprint(request);
-		let record = this.get(id) ?? this.save({ version: 1, id, scope, key, request, fingerprint, status: "prepared" });
+		let record =
+			this.get(id) ??
+			this.save({ version: 1, id, scope, key, request, fingerprint, status: "prepared", ownerUserId });
 		if (record.fingerprint !== fingerprint) throw new Error("Operation ID reused with different request");
 		if (record.status === "succeeded" || record.status === "manual") return record;
 		if (record.status !== "prepared") {
@@ -100,6 +117,21 @@ export class OperationJournal {
 				detail: error instanceof Error ? error.message : String(error),
 			});
 		}
+	}
+	retryManually(id: string, revision: number): OperationRecord {
+		const record = this.get(id);
+		if (
+			!record ||
+			record.revision !== revision ||
+			!["unknown", "manual", "started"].includes(record.status) ||
+			this.active.has(id)
+		)
+			throw new Error("Operation version/status changed or still active");
+		return this.save({
+			...record,
+			status: "prepared",
+			detail: "Operator acknowledged duplicate risk and explicitly authorized retry",
+		});
 	}
 	/** Operator records independently verified outcome; never auto-reissues an uncertain action. */
 	resolveManually(id: string, result: unknown): OperationRecord {

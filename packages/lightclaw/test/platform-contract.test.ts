@@ -1,9 +1,24 @@
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import {
+	existsSync,
+	mkdirSync,
+	mkdtempSync,
+	readdirSync,
+	readFileSync,
+	rmSync,
+	symlinkSync,
+	writeFileSync,
+} from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { Readable } from "node:stream";
+import { fauxAssistantMessage, fauxToolCall, registerFauxProvider } from "@mariozechner/pi-ai";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { createAgentRunner } from "../src/agent.js";
+import { loadConfigForDiagnostics } from "../src/config.js";
 import { DurableInbox } from "../src/durable-inbox.js";
 import { FeishuBot } from "../src/feishu.js";
+import { createPromptOptimizer } from "../src/prompt-input.js";
+import { createLightClawRuntime } from "../src/runtime.js";
 import { SlackBot } from "../src/slack.js";
 import { ChannelStore } from "../src/store.js";
 import type { ChatEvent, ChatHandler, ChatTransport } from "../src/transport.js";
@@ -30,6 +45,10 @@ const sdk = vi.hoisted(() => ({
 	edit: vi.fn(async (_args: unknown) => ({ code: 0 })),
 	recall: vi.fn(async (_args: unknown) => ({ code: 0 })),
 	reply: vi.fn(async (_args: unknown) => ({ code: 0, data: { message_id: "thread" } })),
+	resource: vi.fn(async (_args: unknown) => ({
+		getReadableStream: () => Readable.from([Buffer.from("fictional inbound file")]),
+		headers: {},
+	})),
 	file: vi.fn(async (_args: unknown) => ({ file_key: "file-key" })),
 	socketStart: vi.fn(async () => {}),
 	socketStop: vi.fn(async () => {}),
@@ -75,6 +94,7 @@ vi.mock("@larksuiteoapi/node-sdk", () => ({
 				chat: { list: async () => ({ code: 0, data: { items: [] } }) },
 				message: { create: sdk.create, update: sdk.edit, delete: sdk.recall, reply: sdk.reply },
 				file: { create: sdk.file },
+				messageResource: { get: sdk.resource },
 			},
 		};
 	},
@@ -94,6 +114,10 @@ beforeEach(() => {
 	sdk.feishu.clear();
 	sdk.post.mockResolvedValue({ ts: "reply" });
 	sdk.create.mockResolvedValue({ code: 0, data: { message_id: "reply" } });
+	sdk.resource.mockReset().mockResolvedValue({
+		getReadableStream: () => Readable.from([Buffer.from("fictional inbound file")]),
+		headers: {},
+	});
 });
 afterEach(async () => {
 	for (const bot of bots.splice(0)) await bot.stop();
@@ -208,4 +232,381 @@ describe.each(["slack", "feishu"] as const)("%s actual-adapter offline contract"
 		else sdk.create.mockResolvedValue({ code: 0 });
 		await expect(f.bot.postMessage("channel", "test")).rejects.toThrow();
 	});
+});
+
+it("downloads a Feishu file before dispatch and durably deduplicates the message", async () => {
+	const f = fixture("feishu");
+	await f.bot.start();
+	const emit = () =>
+		sdk.feishu.get("im.message.receive_v1")!({
+			sender: { sender_id: { open_id: "owner" } },
+			message: {
+				message_id: "file-1",
+				chat_id: "channel",
+				chat_type: "p2p",
+				message_type: "file",
+				content: JSON.stringify({ file_key: "fictional-resource-key", file_name: "../../report.txt" }),
+			},
+		});
+	await emit();
+	await vi.waitFor(() => expect(f.run).toHaveBeenCalledOnce());
+	const received = f.run.mock.calls[0][0];
+	expect(received.attachments).toHaveLength(1);
+	expect(readFileSync(join(f.work, received.attachments![0].local), "utf8")).toBe("fictional inbound file");
+	expect(received.user).toBe("owner");
+	expect(received.origin).toBe("platform");
+	await emit();
+	await new Promise((resolve) => setTimeout(resolve, 20));
+	expect(f.run).toHaveBeenCalledOnce();
+	expect(sdk.resource).toHaveBeenCalledOnce();
+});
+it("reports unsupported Feishu types explicitly", async () => {
+	const f = fixture("feishu");
+	await f.bot.start();
+	await sdk.feishu.get("im.message.receive_v1")!({
+		sender: { sender_id: { open_id: "owner" } },
+		message: {
+			message_id: "unsupported",
+			chat_id: "channel",
+			chat_type: "p2p",
+			message_type: "sticker",
+			content: "{}",
+		},
+	});
+	await vi.waitFor(() => expect(sdk.create).toHaveBeenCalled());
+	expect(JSON.stringify(sdk.create.mock.calls)).toContain("不支持");
+	expect(f.run).not.toHaveBeenCalled();
+});
+it.each(["permission", "size", "timeout"])("rejects inbound attachment %s before Agent dispatch", async (mode) => {
+	const f = fixture("feishu");
+	await f.bot.start();
+	if (mode === "permission") sdk.resource.mockRejectedValueOnce(new Error("fictional missing im:resource permission"));
+	if (mode === "size") {
+		vi.stubEnv("LIGHTCLAW_ATTACHMENT_FILE_MAX_BYTES", "4");
+	}
+	if (mode === "timeout") {
+		vi.stubEnv("LIGHTCLAW_DOWNLOAD_TIMEOUT_MS", "20");
+		sdk.resource.mockResolvedValueOnce({ getReadableStream: () => new Readable({ read() {} }), headers: {} });
+	}
+	try {
+		await sdk.feishu.get("im.message.receive_v1")!({
+			sender: { sender_id: { open_id: "owner" } },
+			message: {
+				message_id: "bad-file",
+				chat_id: "channel",
+				chat_type: "p2p",
+				message_type: "file",
+				content: JSON.stringify({ file_key: "fictional-resource-key", file_name: "file.txt" }),
+			},
+		});
+		await vi.waitFor(() => expect(sdk.create).toHaveBeenCalled());
+		expect(f.run).not.toHaveBeenCalled();
+		expect(f.inbox.list()[0].status).toBe("rejected");
+	} finally {
+		vi.unstubAllEnvs();
+	}
+});
+
+it.each(["file", "image"] as const)(
+	"runs the production adapter, runtime and faux Agent for inbound %s",
+	async (kind) => {
+		const root = mkdtempSync(join(tmpdir(), "feishu-full-flow-"));
+		roots.push(root);
+		const work = join(root, "work"),
+			control = join(root, "control");
+		mkdirSync(work);
+		const provider = registerFauxProvider();
+		const bytes = Buffer.from("fictional inbound file");
+		let observed = false;
+		provider.setResponses(
+			kind === "file"
+				? [
+						() => {
+							const name = readdirSync(join(work, "channel", "attachments"))[0];
+							return fauxAssistantMessage(
+								fauxToolCall("read", {
+									label: "read received file",
+									path: join(work, "channel", "attachments", name),
+								}),
+								{ stopReason: "toolUse" },
+							);
+						},
+						(context) => {
+							expect(JSON.stringify(context.messages)).toContain(bytes.toString());
+							observed = true;
+							return fauxAssistantMessage("file processed");
+						},
+					]
+				: [
+						(context) => {
+							expect(JSON.stringify(context.messages)).toContain(bytes.toString("base64"));
+							expect(JSON.stringify(context.messages)).toContain("不可信数据");
+							observed = true;
+							return fauxAssistantMessage("image processed");
+						},
+					],
+		);
+		const config = { ...loadConfigForDiagnostics({}), controlDir: control, features: { scheduling: false } };
+		const runtime = await createLightClawRuntime({
+			config,
+			workingDir: work,
+			sandbox: { type: "host" },
+			createRunner: (sandbox, id, dir, cfg, goals, overrides) =>
+				createAgentRunner(sandbox, id, dir, cfg, goals, {
+					...overrides,
+					model: provider.getModel(),
+					inMemoryState: true,
+					apiKey: "fictional-faux-key",
+					quiet: true,
+				}),
+			createTransport: (handler, inbox) =>
+				new FeishuBot(handler, {
+					appId: "fictional",
+					appSecret: "fictional",
+					workingDir: work,
+					inbox,
+					store: new ChannelStore({ workingDir: work }),
+				}),
+		});
+		try {
+			await runtime.start();
+			await sdk.feishu.get("im.message.receive_v1")!({
+				sender: { sender_id: { open_id: "owner" } },
+				message: {
+					message_id: `production-${kind}`,
+					chat_id: "channel",
+					chat_type: "p2p",
+					message_type: kind,
+					content: JSON.stringify(
+						kind === "file"
+							? { file_key: "fictional-key", file_name: "input.txt" }
+							: { image_key: "fictional-image" },
+					),
+				},
+			});
+			await vi.waitFor(() => expect(observed).toBe(true), { timeout: 5000 });
+			await vi.waitFor(() =>
+				expect(JSON.stringify(sdk.edit.mock.calls) + JSON.stringify(sdk.create.mock.calls)).toContain(
+					`${kind} processed`,
+				),
+			);
+		} finally {
+			await runtime.shutdown();
+			provider.unregister();
+		}
+	},
+);
+it("rejects a linked inbound attachment directory without modifying another channel", async () => {
+	const f = fixture("feishu"),
+		other = join(f.work, "other");
+	mkdirSync(other);
+	symlinkSync(other, join(f.work, "channel", "attachments"));
+	await f.bot.start();
+	await sdk.feishu.get("im.message.receive_v1")!({
+		sender: { sender_id: { open_id: "owner" } },
+		message: {
+			message_id: "linked-file",
+			chat_id: "channel",
+			chat_type: "p2p",
+			message_type: "file",
+			content: JSON.stringify({ file_key: "fictional-key", file_name: "input.txt" }),
+		},
+	});
+	await vi.waitFor(() => expect(f.inbox.list()[0]?.status).toBe("rejected"));
+	expect(f.run).not.toHaveBeenCalled();
+	expect(readdirSync(other)).toEqual([]);
+});
+
+it("offers a Feishu optimization button and durably admits only its authenticated action", async () => {
+	const { bot, run, inbox } = fixture("feishu");
+	await bot.start();
+	expect(bot.kind).toBe("feishu");
+	if (!(bot instanceof FeishuBot)) throw new Error("fixture");
+	await bot.postPromptOptimizationCard("channel", "a".repeat(64));
+	const request = JSON.stringify(sdk.create.mock.calls.at(-1)?.[0]);
+	expect(request).toContain("提示词优化");
+	expect(request).toContain("interactive");
+	await sdk.feishu.get("card.action.trigger")!({
+		context: { open_chat_id: "channel", open_message_id: "reply" },
+		operator: { open_id: "owner" },
+		action: { value: { action: "prompt_optimize", draftId: "a".repeat(64) } },
+	});
+	await vi.waitFor(() => expect(run).toHaveBeenCalledTimes(1));
+	const e = run.mock.calls[0][0];
+	expect(e.user).toBe("owner");
+	expect(e.promptOptimization).toEqual({ draftId: "a".repeat(64), messageId: "reply" });
+	await sdk.feishu.get("card.action.trigger")!({
+		context: { open_chat_id: "channel", open_message_id: "reply" },
+		operator: { open_id: "owner" },
+		action: { value: { action: "prompt_optimize", draftId: "a".repeat(64) } },
+	});
+	expect(run).toHaveBeenCalledTimes(1);
+	expect(inbox.list()).toHaveLength(1);
+});
+
+it("uses original input normally, optimizes only on the Feishu button, then returns to direct input", async () => {
+	const root = mkdtempSync(join(tmpdir(), "feishu-prompt-full-"));
+	roots.push(root);
+	const provider = registerFauxProvider();
+	let bot!: FeishuBot;
+	const observed: string[] = [];
+	provider.setResponses([
+		(ctx) => {
+			observed.push(JSON.stringify(ctx.messages));
+			return fauxAssistantMessage("ordinary response");
+		},
+		fauxAssistantMessage('["高分候选"]'),
+		fauxAssistantMessage('[{"index":0,"score":50,"reason":"原文"},{"index":1,"score":90,"reason":"清晰"}]'),
+		(ctx) => {
+			observed.push(JSON.stringify(ctx.messages));
+			return fauxAssistantMessage("next response");
+		},
+	]);
+	const runtime = await createLightClawRuntime({
+		config: { ...loadConfigForDiagnostics({}), controlDir: join(root, "control") },
+		workingDir: join(root, "work"),
+		sandbox: { type: "host" },
+		promptOptimizer: createPromptOptimizer(loadConfigForDiagnostics({}), {
+			model: provider.getModel(),
+			apiKey: "fictional",
+		}),
+		createTransport: (handler, inbox) => {
+			bot = new FeishuBot(handler, {
+				appId: "fictional",
+				appSecret: "fictional",
+				workingDir: join(root, "work"),
+				store: new ChannelStore({ workingDir: join(root, "work") }),
+				inbox,
+			});
+			return bot;
+		},
+		createRunner: (sandbox, id, dir, config, goals, overrides) =>
+			createAgentRunner(sandbox, id, dir, config, goals, {
+				...overrides,
+				model: provider.getModel(),
+				apiKey: "fictional",
+				quiet: true,
+			}),
+	});
+	try {
+		await runtime.start();
+		const send = async (text: string, id: string) => {
+			await sdk.feishu.get("im.message.receive_v1")!({
+				sender: { sender_id: { open_id: "owner" }, sender_type: "user" },
+				message: {
+					message_id: id,
+					chat_id: "channel",
+					chat_type: "p2p",
+					message_type: "text",
+					content: JSON.stringify({ text }),
+				},
+			});
+			await runtime.idle();
+		};
+		await send("原始输入", "first");
+		expect(provider.state.callCount).toBe(1);
+		expect(observed[0]).toContain("原始输入");
+		const card = sdk.create.mock.calls
+			.map(([a]) => a as { data: { msg_type: string; content: string } })
+			.find((a) => a.data.msg_type === "interactive")!;
+		expect(card).toBeDefined();
+		const value = JSON.parse(card.data.content).elements[1].actions[0].value;
+		const click = async (user = "owner") => {
+			await sdk.feishu.get("card.action.trigger")!({
+				context: { open_chat_id: "channel", open_message_id: "reply" },
+				operator: { open_id: user },
+				action: { value },
+			});
+			await runtime.idle();
+		};
+		await click("outsider");
+		expect(provider.state.callCount).toBe(1);
+		await click();
+		expect(provider.state.callCount).toBe(3);
+		expect(JSON.stringify(sdk.create.mock.calls)).toContain("高分候选");
+		await click();
+		expect(provider.state.callCount).toBe(3);
+		await send("下一条原文", "second");
+		expect(provider.state.callCount).toBe(4);
+		expect(observed[1]).toContain("下一条原文");
+		expect(observed[1]).not.toContain("高分候选");
+	} finally {
+		await runtime.shutdown();
+		provider.unregister();
+	}
+});
+
+it("lets only the requester stop a pending prompt optimization and never retries it", async () => {
+	const root = mkdtempSync(join(tmpdir(), "feishu-prompt-stop-"));
+	roots.push(root);
+	const provider = registerFauxProvider();
+	provider.setResponses([fauxAssistantMessage("ordinary")]);
+	let bot!: FeishuBot;
+	const optimize = vi.fn(
+		(_input: string, signal: AbortSignal) =>
+			new Promise<never>((_resolve, reject) =>
+				signal.addEventListener("abort", () => reject(new Error("cancelled")), { once: true }),
+			),
+	);
+	const runtime = await createLightClawRuntime({
+		config: { ...loadConfigForDiagnostics({}), controlDir: join(root, "control") },
+		workingDir: join(root, "work"),
+		sandbox: { type: "host" },
+		promptOptimizer: optimize,
+		createTransport: (handler, inbox) => {
+			bot = new FeishuBot(handler, {
+				appId: "fictional",
+				appSecret: "fictional",
+				workingDir: join(root, "work"),
+				store: new ChannelStore({ workingDir: join(root, "work") }),
+				inbox,
+			});
+			return bot;
+		},
+		createRunner: (sandbox, id, dir, config, goals, overrides) =>
+			createAgentRunner(sandbox, id, dir, config, goals, {
+				...overrides,
+				model: provider.getModel(),
+				apiKey: "fictional",
+				quiet: true,
+			}),
+	});
+	try {
+		await runtime.start();
+		await sdk.feishu.get("im.message.receive_v1")!({
+			sender: { sender_id: { open_id: "owner" }, sender_type: "user" },
+			message: {
+				message_id: "stop-input",
+				chat_id: "channel",
+				chat_type: "p2p",
+				message_type: "text",
+				content: '{"text":"原文"}',
+			},
+		});
+		await runtime.idle();
+		const card = sdk.create.mock.calls
+			.map(([a]) => a as { data: { msg_type: string; content: string } })
+			.find((a) => a.data.msg_type === "interactive")!;
+		const value = JSON.parse(card.data.content).elements[1].actions[0].value;
+		const click = () =>
+			sdk.feishu.get("card.action.trigger")!({
+				context: { open_chat_id: "channel", open_message_id: "reply" },
+				operator: { open_id: "owner" },
+				action: { value },
+			});
+		await click();
+		await vi.waitFor(() => expect(optimize).toHaveBeenCalledTimes(1));
+		await runtime.handler.handleStop("channel", bot, { origin: "platform", user: "outsider" });
+		expect(runtime.handler.isRunning("channel")).toBe(true);
+		await runtime.handler.handleStop("channel", bot, { origin: "platform", user: "owner" });
+		await runtime.idle();
+		expect(runtime.handler.isRunning("channel")).toBe(false);
+		await click();
+		await runtime.idle();
+		expect(optimize).toHaveBeenCalledTimes(1);
+		expect(provider.state.callCount).toBe(1);
+	} finally {
+		await runtime.shutdown();
+		provider.unregister();
+	}
 });

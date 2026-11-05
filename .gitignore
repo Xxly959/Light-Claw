@@ -67,3 +67,6 @@ collect.sh
 # Local agent workspace and interview preparation notes; do not publish
 /.workbuddy/
 /packages/lightclaw/docs/lightclaw-explained.zh-CN.md
+
+# Generated local evaluation runs, caches and unsanitized diagnostic evidence
+/docs/diagnosis/
