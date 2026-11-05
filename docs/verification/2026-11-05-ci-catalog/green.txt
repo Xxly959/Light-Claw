@@ -1,0 +1,23 @@
+$ rtk proxy npx tsx ../../node_modules/vitest/dist/cli.js --run test/release-readiness.test.ts test/packaging.test.ts test/install-preflight.test.ts
+
+ RUN  v3.2.4 ${REPOSITORY}/packages/lightclaw
+
+ ✓ test/install-preflight.test.ts (3 tests) 218ms
+ ✓ test/packaging.test.ts (8 tests) 1028ms
+   ✓ local source release contract > prepares only release scope even when unrelated untracked names exceed the subprocess buffer  656ms
+ ✓ test/release-readiness.test.ts (12 tests) 4106ms
+   ✓ provides credential-free help for main  810ms
+   ✓ provides credential-free help for benchmark/cli  478ms
+   ✓ provides credential-free help for evals/cli  458ms
+   ✓ provides credential-free help for evals/optimize-cli  448ms
+   ✓ executes benchmark help through an installed-style bin symlink  438ms
+   ✓ runs benchmark tasks with an aliased system temporary directory and cleans owned control state  673ms
+   ✓ builds pi-ai from its pinned catalog without network or source mutation  344ms
+
+ Test Files  3 passed (3)
+      Tests  23 passed (23)
+   Start at  17:05:26
+   Duration  4.27s (transform 738ms, setup 32ms, collect 1.29s, tests 5.35s, environment 0ms, prepare 93ms)
+
+
+exit=0

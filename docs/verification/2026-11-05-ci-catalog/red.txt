@@ -1,0 +1,56 @@
+$ rtk proxy npx tsx ../../node_modules/vitest/dist/cli.js --run test/release-readiness.test.ts
+
+ RUN  v3.2.4 ${REPOSITORY}/packages/lightclaw
+
+ ❯ test/release-readiness.test.ts (12 tests | 1 failed) 4439ms
+   ✓ provides credential-free help for main  813ms
+   ✓ provides credential-free help for benchmark/cli  450ms
+   ✓ provides credential-free help for evals/cli  426ms
+   ✓ provides credential-free help for evals/optimize-cli  441ms
+   ✓ provides credential-free help for goals/migrate-cli 78ms
+   ✓ provides credential-free help for audit/cli 74ms
+   ✓ ships Python helpers beside compiled code and declares no runtime tsx dependency 0ms
+   ✓ retains checked-in provider definitions when catalog refresh omits a known provider 185ms
+   ✓ freezes installed ESM-only dependencies using import exports rather than CommonJS resolution 116ms
+   ✓ executes benchmark help through an installed-style bin symlink  452ms
+   ✓ runs benchmark tasks with an aliased system temporary directory and cleans owned control state  674ms
+   × builds pi-ai from its pinned catalog without network or source mutation 728ms
+     → Error: network attempted
+    at deny (file://${TEMP}
+    at fetchAiGatewayModels (${TEMP}
+    at generateModels (${TEMP} expected true to be false // Object.is equality
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 11 passed (12)
+   Start at  17:04:12
+   Duration  4.60s (transform 18ms, setup 9ms, collect 10ms, tests 4.44s, environment 0ms, prepare 27ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/release-readiness.test.ts > builds pi-ai from its pinned catalog without network or source mutation
+AssertionError: Error: network attempted
+    at deny (file://${TEMP}
+    at fetchAiGatewayModels (${TEMP}
+    at generateModels (${TEMP} expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ deny ../../../../../..${TEMP}
+ ❯ fetchAiGatewayModels ../../../../../..${TEMP}
+ ❯ test/release-readiness.test.ts:237:108
+    235|   });
+    236|   expect(result.status, result.stdout + result.stderr).toBe(0);
+    237|   expect(existsSync(touched), existsSync(touched) ? readFileSync(touch…
+       |                                                                                                            ^
+    238|   expect(readFileSync(catalog, "utf8")).toBe(before);
+    239|   expect(readFileSync(join(pkg, "dist/models.generated.js"), "utf8")).…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+exit=1

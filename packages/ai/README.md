@@ -1235,6 +1235,8 @@ Create a new provider file (for example `amazon-bedrock.ts`) that exports:
 
 #### 4. Model Generation (`scripts/generate-models.ts`)
 
+Normal `npm run build` compiles the checked-in `src/models.generated.ts` without network discovery. To refresh provider catalogs, explicitly run `npm run generate-models` from `packages/ai`, review the generated diff and run the repository checks before committing it. Public catalogs can remove models or change metadata; refreshes must be reviewed together with affected model references and tests. A pinned entry is not proof of current provider availability or pricing. CI rejects builds that rewrite the pinned catalog.
+
 - Add logic to fetch and parse models from the provider's source (e.g., models.dev API)
 - Map provider model data to the standardized `Model` interface
 - Handle provider-specific quirks (pricing format, capability flags, model ID transformations)

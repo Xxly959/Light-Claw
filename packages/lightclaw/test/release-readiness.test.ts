@@ -1,5 +1,15 @@
 import { spawnSync } from "node:child_process";
-import { cpSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
+import {
+	cpSync,
+	existsSync,
+	mkdirSync,
+	mkdtempSync,
+	readdirSync,
+	readFileSync,
+	rmSync,
+	symlinkSync,
+	writeFileSync,
+} from "node:fs";
 import { createRequire } from "node:module";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
@@ -181,3 +191,57 @@ it("runs benchmark tasks with an aliased system temporary directory and cleans o
 		rmSync(root, { recursive: true, force: true });
 	}
 });
+
+it("builds pi-ai from its pinned catalog without network or source mutation", () => {
+	const root = mkdtempSync(join(tmpdir(), "ai-offline-build-"));
+	try {
+		const ai = resolve(import.meta.dirname, "../../ai");
+		const pkg = join(root, "packages", "ai");
+		mkdirSync(pkg, { recursive: true });
+		for (const name of ["src", "scripts"]) cpSync(join(ai, name), join(pkg, name), { recursive: true });
+		for (const name of ["package.json", "tsconfig.build.json"]) cpSync(join(ai, name), join(pkg, name));
+		cpSync(resolve(ai, "../../tsconfig.base.json"), join(root, "tsconfig.base.json"));
+		writeFileSync(join(root, "package.json"), '{"private":true,"type":"module","workspaces":["packages/*"]}');
+		symlinkSync(resolve(ai, "../../node_modules"), join(root, "node_modules"), "dir");
+		const home = join(root, "home");
+		mkdirSync(home);
+		const userConfig = join(home, "user.npmrc"),
+			globalConfig = join(home, "global.npmrc");
+		for (const path of [userConfig, globalConfig]) writeFileSync(path, "");
+		const touched = join(root, "network-attempted");
+		const bootstrap = join(root, "deny-network.mjs");
+		writeFileSync(
+			bootstrap,
+			`import {writeFileSync} from 'node:fs'; import net from 'node:net'; const deny=()=>{writeFileSync(${JSON.stringify(touched)},new Error('network attempted').stack);throw new Error('offline build must not access the network')}; globalThis.fetch=deny; net.Socket.prototype.connect=deny;`,
+		);
+		const catalog = join(pkg, "src/models.generated.ts");
+		const before = readFileSync(catalog, "utf8");
+		const result = spawnSync("npm", ["run", "build", "--workspace=@mariozechner/pi-ai"], {
+			cwd: root,
+			encoding: "utf8",
+			timeout: 60000,
+			env: {
+				PATH: process.env.PATH,
+				HOME: home,
+				NODE_OPTIONS: `--import=${bootstrap}`,
+				npm_config_userconfig: userConfig,
+				npm_config_globalconfig: globalConfig,
+				npm_config_cache: join(root, "cache"),
+				npm_config_offline: "true",
+				npm_config_update_notifier: "false",
+				npm_config_audit: "false",
+				npm_config_fund: "false",
+			},
+		});
+		expect(result.status, result.stdout + result.stderr).toBe(0);
+		expect(existsSync(touched), existsSync(touched) ? readFileSync(touched, "utf8") : "no network attempts").toBe(
+			false,
+		);
+		expect(readFileSync(catalog, "utf8")).toBe(before);
+		expect(readFileSync(join(pkg, "dist/models.generated.js"), "utf8")).toContain('"gpt-5-mini"');
+		expect(readFileSync(join(pkg, "dist/index.d.ts"), "utf8")).toContain('"./models.js"');
+		expect(readFileSync(join(pkg, "dist/models.d.ts"), "utf8")).toContain("getModel");
+	} finally {
+		rmSync(root, { recursive: true, force: true });
+	}
+}, 70000);

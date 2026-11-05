@@ -12,6 +12,8 @@
 
 ### Fixed
 
+- Build from the checked-in model catalog without fetching or rewriting model IDs; keep catalog refresh as the explicit `generate-models` command so clean CI builds match local type checks.
+
 - Preserve a checked-in provider snapshot when public model catalogs omit that provider, rather than erasing existing provider support and breaking generated registry types. Retained availability/pricing is explicitly not refreshed.
 
 - Fixed Google Vertex Gemini 3 tool call replay by no longer sending the non-Vertex `skip_thought_signature_validator` sentinel for unsigned tool calls ([#4032](https://github.com/badlogic/pi-mono/issues/4032)).

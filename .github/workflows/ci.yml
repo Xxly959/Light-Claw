@@ -12,22 +12,22 @@ concurrency:
 
 jobs:
   build-check-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       matrix:
         node: ['22.19.0', '22']
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node }}
           cache: npm
 
       - name: Setup Python for safe attachment reads and offline statistics
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.12'
 
@@ -42,6 +42,9 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      - name: Verify build preserves the pinned model catalog
+        run: git diff --exit-code -- packages/ai/src/models.generated.ts
 
       - name: Check
         run: npm run check
