@@ -1,0 +1,287 @@
+$ rtk proxy npx tsx ../../node_modules/vitest/dist/cli.js --run test/durable-admission.test.ts test/inbox-lifecycle.test.ts test/durable-work.test.ts test/recovery-control.test.ts test/recovery-faults.test.ts test/platform-contract.test.ts test/main-lifecycle.test.ts
+
+ RUN  v3.2.4 ${REPOSITORY}/packages/lightclaw
+
+stdout | test/durable-admission.test.ts > retains an event source after memory-only enqueue or rejection, and removes it only after durable acceptance
+[20:03:30] [system] Events watcher starting, dir: ${TEMP}
+[20:03:30] [system] Events watcher started, tracking 0 files
+
+stdout | test/durable-admission.test.ts > retains an event source after memory-only enqueue or rejection, and removes it only after durable acceptance
+[20:03:30] [system] One-shot event overdue, admitting for durable processing: once.json
+
+stdout | test/durable-admission.test.ts > retains an event source after memory-only enqueue or rejection, and removes it only after durable acceptance
+[20:03:30] [system] Events watcher stopped
+[20:03:30] [system] Events watcher starting, dir: ${TEMP}
+[20:03:30] [system] Events watcher started, tracking 0 files
+
+stdout | test/durable-admission.test.ts > retains an event source after memory-only enqueue or rejection, and removes it only after durable acceptance
+[20:03:30] [system] One-shot event overdue, admitting for durable processing: once.json
+
+stdout | test/durable-admission.test.ts > retains an event source after memory-only enqueue or rejection, and removes it only after durable acceptance
+[20:03:30] [system] Events watcher stopped
+[20:03:30] [system] Events watcher stopped
+
+ ✓ test/durable-work.test.ts (4 tests) 623ms
+ ✓ test/durable-admission.test.ts (6 tests) 835ms
+   ✓ drains a durable backlog after restart even with a smaller memory queue  350ms
+ ✓ test/recovery-control.test.ts (9 tests) 885ms
+stdout | test/main-lifecycle.test.ts
+正在启动 LightClaw...
+  工作目录：${TEMP}
+  沙箱：host
+
+stdout | test/main-lifecycle.test.ts
+[20:03:31] [system] ⚠ [broken] Goal recovery skipped
+           [payload omitted; 209 bytes]
+[20:03:31] [system] ⚠ [legacy] Goal recovery skipped
+           [payload omitted; 185 bytes]
+
+stdout | test/platform-contract.test.ts > slack actual-adapter offline contract > starts/stops the SDK boundary, deduplicates redelivery after reconnect, and persists result
+[20:03:32] [system] Loaded 0 channels, 0 users
+[20:03:32] [system] Backfilling 0 channels...
+[20:03:32] [system] Backfill complete: 0 messages in 0.0s
+
+stdout | test/platform-contract.test.ts > slack actual-adapter offline contract > starts/stops the SDK boundary, deduplicates redelivery after reconnect, and persists result
+LightClaw 已连接，正在监听消息。
+
+
+ ✓ test/inbox-lifecycle.test.ts (13 tests) 2121ms
+   ✓ does not reread all historical JSON for each message  1390ms
+stdout | test/platform-contract.test.ts > slack actual-adapter offline contract > retains saved output and uncertain admission after delivery failure
+[20:03:32] [system] Loaded 0 channels, 0 users
+[20:03:32] [system] Backfilling 0 channels...
+[20:03:32] [system] Backfill complete: 0 messages in 0.0s
+
+stdout | test/platform-contract.test.ts > slack actual-adapter offline contract > retains saved output and uncertain admission after delivery failure
+LightClaw 已连接，正在监听消息。
+
+
+stdout | test/main-lifecycle.test.ts > main lifecycle with isolated platform boundary > pauses when the initial typing request hangs and ignores its late completion
+[20:03:32] [system] ⚠ [typing-timeout] Delivery error
+           [payload omitted; 68 bytes]
+
+stdout | test/platform-contract.test.ts > slack actual-adapter offline contract > retains saved output and uncertain admission after delivery failure
+[20:03:32] [system] ⚠ Queue error
+           [payload omitted; 26 bytes]
+
+stdout | test/platform-contract.test.ts > slack actual-adapter offline contract > carries authenticated platform actor on stop
+[20:03:32] [system] Loaded 0 channels, 0 users
+[20:03:32] [system] Backfilling 0 channels...
+[20:03:32] [system] Backfill complete: 0 messages in 0.0s
+
+stdout | test/platform-contract.test.ts > slack actual-adapter offline contract > carries authenticated platform actor on stop
+LightClaw 已连接，正在监听消息。
+
+
+stdout | test/platform-contract.test.ts > feishu actual-adapter offline contract > starts/stops the SDK boundary, deduplicates redelivery after reconnect, and persists result
+[20:03:32] [system] [feishu] bot open_id resolved
+
+stdout | test/platform-contract.test.ts > feishu actual-adapter offline contract > starts/stops the SDK boundary, deduplicates redelivery after reconnect, and persists result
+[20:03:32] [system] [feishu] loaded 0 chats, 0 users
+
+stdout | test/platform-contract.test.ts > feishu actual-adapter offline contract > starts/stops the SDK boundary, deduplicates redelivery after reconnect, and persists result
+LightClaw 已连接，正在监听消息。
+
+
+stdout | test/platform-contract.test.ts > feishu actual-adapter offline contract > starts/stops the SDK boundary, deduplicates redelivery after reconnect, and persists result
+[20:03:32] [system] [feishu] ws reconnected
+
+stdout | test/platform-contract.test.ts > feishu actual-adapter offline contract > retains saved output and uncertain admission after delivery failure
+[20:03:32] [system] [feishu] bot open_id resolved
+
+stdout | test/platform-contract.test.ts > feishu actual-adapter offline contract > retains saved output and uncertain admission after delivery failure
+[20:03:32] [system] [feishu] loaded 0 chats, 0 users
+
+stdout | test/platform-contract.test.ts > feishu actual-adapter offline contract > retains saved output and uncertain admission after delivery failure
+LightClaw 已连接，正在监听消息。
+
+
+stdout | test/platform-contract.test.ts > feishu actual-adapter offline contract > retains saved output and uncertain admission after delivery failure
+[20:03:32] [system] ⚠ Queue error
+           [payload omitted; 54 bytes]
+
+stdout | test/platform-contract.test.ts > feishu actual-adapter offline contract > carries authenticated platform actor on stop
+[20:03:32] [system] [feishu] bot open_id resolved
+
+stdout | test/platform-contract.test.ts > feishu actual-adapter offline contract > carries authenticated platform actor on stop
+[20:03:32] [system] [feishu] loaded 0 chats, 0 users
+
+stdout | test/platform-contract.test.ts > feishu actual-adapter offline contract > carries authenticated platform actor on stop
+LightClaw 已连接，正在监听消息。
+
+
+stdout | test/platform-contract.test.ts > downloads a Feishu file before dispatch and durably deduplicates the message
+[20:03:32] [system] [feishu] bot open_id resolved
+
+stdout | test/platform-contract.test.ts > downloads a Feishu file before dispatch and durably deduplicates the message
+[20:03:32] [system] [feishu] loaded 0 chats, 0 users
+
+stdout | test/platform-contract.test.ts > downloads a Feishu file before dispatch and durably deduplicates the message
+LightClaw 已连接，正在监听消息。
+
+
+stdout | test/main-lifecycle.test.ts > main lifecycle with isolated platform boundary > waits without continuation and preserves confirmed completion after notification failure
+[20:03:32] [system] ⚠ [human-confirm] Delivery error
+           [payload omitted; 36 bytes]
+
+stdout | test/platform-contract.test.ts > reports unsupported Feishu types explicitly
+[20:03:32] [system] [feishu] bot open_id resolved
+
+stdout | test/platform-contract.test.ts > reports unsupported Feishu types explicitly
+[20:03:32] [system] [feishu] loaded 0 chats, 0 users
+
+stdout | test/platform-contract.test.ts > reports unsupported Feishu types explicitly
+LightClaw 已连接，正在监听消息。
+
+
+stdout | test/platform-contract.test.ts > rejects inbound attachment permission before Agent dispatch
+[20:03:32] [system] [feishu] bot open_id resolved
+
+stdout | test/platform-contract.test.ts > rejects inbound attachment permission before Agent dispatch
+[20:03:32] [system] [feishu] loaded 0 chats, 0 users
+
+stdout | test/platform-contract.test.ts > rejects inbound attachment permission before Agent dispatch
+LightClaw 已连接，正在监听消息。
+
+
+stdout | test/platform-contract.test.ts > rejects inbound attachment size before Agent dispatch
+[20:03:32] [system] [feishu] bot open_id resolved
+
+stdout | test/platform-contract.test.ts > rejects inbound attachment size before Agent dispatch
+[20:03:32] [system] [feishu] loaded 0 chats, 0 users
+
+stdout | test/platform-contract.test.ts > rejects inbound attachment size before Agent dispatch
+LightClaw 已连接，正在监听消息。
+
+
+ ✓ test/recovery-faults.test.ts (5 tests) 2865ms
+   ✓ recovers before-operation after BEFORE_OPERATION (SIGKILL) with one externally recorded side effect  841ms
+   ✓ recovers effect-before-progress after EFFECT_SAVED (SIGKILL) with one externally recorded side effect  527ms
+   ✓ recovers state-before-notification after STATE_SAVED (SIGKILL) with one externally recorded side effect  500ms
+   ✓ recovers queued after QUEUED (SIGKILL) with one externally recorded side effect  475ms
+   ✓ recovers effect-before-progress after EFFECT_SAVED (SIGTERM) with one externally recorded side effect  521ms
+stdout | test/platform-contract.test.ts > rejects inbound attachment timeout before Agent dispatch
+[20:03:32] [system] [feishu] bot open_id resolved
+
+stdout | test/platform-contract.test.ts > rejects inbound attachment timeout before Agent dispatch
+[20:03:32] [system] [feishu] loaded 0 chats, 0 users
+
+stdout | test/platform-contract.test.ts > rejects inbound attachment timeout before Agent dispatch
+LightClaw 已连接，正在监听消息。
+
+
+stdout | test/platform-contract.test.ts > runs the production adapter, runtime and faux Agent for inbound file
+[20:03:32] [system] [feishu] bot open_id resolved
+
+stdout | test/platform-contract.test.ts > runs the production adapter, runtime and faux Agent for inbound file
+[20:03:32] [system] [feishu] loaded 0 chats, 0 users
+
+stdout | test/platform-contract.test.ts > runs the production adapter, runtime and faux Agent for inbound file
+LightClaw 已连接，正在监听消息。
+
+
+stdout | test/platform-contract.test.ts > runs the production adapter, runtime and faux Agent for inbound file
+[20:03:32] [system] Events watcher starting, dir: ${TEMP}
+[20:03:32] [system] Events watcher started, tracking 0 files
+
+stdout | test/main-lifecycle.test.ts > main lifecycle with isolated platform boundary > pauses on typing delivery failure without charging an execution cycle
+[20:03:32] [system] ⚠ [typing-error] Delivery error
+           [payload omitted; 35 bytes]
+
+stdout | test/main-lifecycle.test.ts > main lifecycle with isolated platform boundary > keeps completed state when the final platform update fails
+[20:03:33] [system] ⚠ [final-delivery] Delivery error
+           [payload omitted; 43 bytes]
+
+stdout | test/main-lifecycle.test.ts > main lifecycle with isolated platform boundary > charges the executed cycle before a final delivery failure
+[20:03:33] [system] ⚠ [active-final-delivery] Delivery error
+           [payload omitted; 43 bytes]
+
+stdout | test/platform-contract.test.ts > runs the production adapter, runtime and faux Agent for inbound file
+[20:03:33] [system] Events watcher stopped
+
+stdout | test/platform-contract.test.ts > runs the production adapter, runtime and faux Agent for inbound image
+[20:03:33] [system] [feishu] bot open_id resolved
+
+stdout | test/platform-contract.test.ts > runs the production adapter, runtime and faux Agent for inbound image
+[20:03:33] [system] [feishu] loaded 0 chats, 0 users
+
+stdout | test/platform-contract.test.ts > runs the production adapter, runtime and faux Agent for inbound image
+LightClaw 已连接，正在监听消息。
+
+
+stdout | test/platform-contract.test.ts > runs the production adapter, runtime and faux Agent for inbound image
+[20:03:33] [system] Events watcher starting, dir: ${TEMP}
+[20:03:33] [system] Events watcher started, tracking 0 files
+
+stdout | test/platform-contract.test.ts > runs the production adapter, runtime and faux Agent for inbound image
+[20:03:33] [system] Events watcher stopped
+
+stdout | test/platform-contract.test.ts > rejects a linked inbound attachment directory without modifying another channel
+[20:03:33] [system] [feishu] bot open_id resolved
+
+stdout | test/platform-contract.test.ts > rejects a linked inbound attachment directory without modifying another channel
+[20:03:33] [system] [feishu] loaded 0 chats, 0 users
+
+stdout | test/platform-contract.test.ts > rejects a linked inbound attachment directory without modifying another channel
+LightClaw 已连接，正在监听消息。
+
+
+stdout | test/platform-contract.test.ts > offers a Feishu optimization button and durably admits only its authenticated action
+[20:03:33] [system] [feishu] bot open_id resolved
+
+stdout | test/platform-contract.test.ts > offers a Feishu optimization button and durably admits only its authenticated action
+[20:03:33] [system] [feishu] loaded 0 chats, 0 users
+
+stdout | test/platform-contract.test.ts > offers a Feishu optimization button and durably admits only its authenticated action
+LightClaw 已连接，正在监听消息。
+
+
+stdout | test/platform-contract.test.ts > uses original input normally, optimizes only on the Feishu button, then returns to direct input
+[20:03:33] [system] [feishu] bot open_id resolved
+
+stdout | test/platform-contract.test.ts > uses original input normally, optimizes only on the Feishu button, then returns to direct input
+[20:03:33] [system] [feishu] loaded 0 chats, 0 users
+
+stdout | test/platform-contract.test.ts > uses original input normally, optimizes only on the Feishu button, then returns to direct input
+LightClaw 已连接，正在监听消息。
+
+
+stdout | test/platform-contract.test.ts > uses original input normally, optimizes only on the Feishu button, then returns to direct input
+[20:03:33] [system] Events watcher starting, dir: ${TEMP}
+[20:03:33] [system] Events watcher started, tracking 0 files
+
+stdout | test/main-lifecycle.test.ts > shutdown waits for in-flight preparation and never starts a runner after the abort sweep
+[20:03:33] [system] ⚠ [shutdown-preparing] Delivery error
+           [payload omitted; 70 bytes]
+
+stdout | test/platform-contract.test.ts > uses original input normally, optimizes only on the Feishu button, then returns to direct input
+[20:03:34] [system] Events watcher stopped
+
+stdout | test/platform-contract.test.ts > lets only the requester stop a pending prompt optimization and never retries it
+[20:03:34] [system] [feishu] bot open_id resolved
+
+stdout | test/platform-contract.test.ts > lets only the requester stop a pending prompt optimization and never retries it
+[20:03:34] [system] [feishu] loaded 0 chats, 0 users
+
+stdout | test/platform-contract.test.ts > lets only the requester stop a pending prompt optimization and never retries it
+LightClaw 已连接，正在监听消息。
+
+
+stdout | test/platform-contract.test.ts > lets only the requester stop a pending prompt optimization and never retries it
+[20:03:34] [system] Events watcher starting, dir: ${TEMP}
+[20:03:34] [system] Events watcher started, tracking 0 files
+
+ ✓ test/main-lifecycle.test.ts (36 tests) 2126ms
+stdout | test/platform-contract.test.ts > lets only the requester stop a pending prompt optimization and never retries it
+[20:03:34] [system] Events watcher stopped
+
+ ✓ test/platform-contract.test.ts (25 tests) 2219ms
+   ✓ uses original input normally, optimizes only on the Feishu button, then returns to direct input  458ms
+
+ Test Files  7 passed (7)
+      Tests  98 passed (98)
+   Start at  20:03:29
+   Duration  4.57s (transform 1.10s, setup 80ms, collect 4.74s, tests 11.67s, environment 1ms, prepare 387ms)
+
+
+exit=0

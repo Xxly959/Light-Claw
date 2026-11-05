@@ -123,3 +123,31 @@ it("keeps only dedupe identity in tombstones, not prepared attachment payloads",
 	expect(body).not.toContain("PRIVATE_PREPARED");
 	expect(body).not.toContain('"preparedEvent"');
 });
+
+it("keeps admission order across equal clocks, clock rollback, restart and terminal archival", () => {
+	const { root, inbox } = fixture();
+	const now = Date.now();
+	const first = inbox.admit("faux", event("first"), false, 300000, now);
+	inbox.admit("faux", event("second"), false, 300000, now);
+	inbox.admit("faux", event("third"), false, 300000, now - 1000);
+	inbox.finish(first.id, "completed");
+	inbox.maintain(now, "C");
+	const restarted = new DurableInbox(root);
+	restarted.admit("faux", event("fourth"), false, 300000, now - 2000);
+	expect(restarted.recover(now).map((r) => r.event.ts)).toEqual(["second", "third", "fourth"]);
+});
+
+it.each([0, -1, 1.5, "invalid"])("rejects corrupt persisted admission order %s", (admissionOrder) => {
+	const { root, inbox } = fixture();
+	const record = inbox.admit("faux", event("corrupt-order"), false, 300000);
+	writeFileSync(join(root, `${record.id}.json`), JSON.stringify({ ...record, admissionOrder }));
+	expect(() => new DurableInbox(root).recover()).toThrow(/Corrupt inbox/);
+});
+it("rejects duplicate persisted admission orders rather than guessing FIFO", () => {
+	const { root, inbox } = fixture();
+	const first = inbox.admit("faux", event("order-a"), false, 300000);
+	const second = inbox.admit("faux", event("order-b"), false, 300000);
+	writeFileSync(join(root, `${first.id}.json`), JSON.stringify({ ...first, admissionOrder: 1 }));
+	writeFileSync(join(root, `${second.id}.json`), JSON.stringify({ ...second, admissionOrder: 1 }));
+	expect(() => new DurableInbox(root).recover()).toThrow(/Corrupt inbox/);
+});

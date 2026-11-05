@@ -147,16 +147,19 @@ it("retains an event source after memory-only enqueue or rejection, and removes 
 
 it("drains a durable backlog after restart even with a smaller memory queue", async () => {
 	const f = fixture();
-	for (const ts of ["1", "2", "3", "4"]) f.inbox.admit("slack", { ...event, ts }, false, 60_000);
+	const acceptedAt = Date.now();
+	for (const ts of ["1", "2", "3", "4"]) f.inbox.admit("slack", { ...event, ts }, false, 60_000, acceptedAt);
+	const restarted = new DurableInbox(join(f.dir, "inbox"));
+	const transport = { ...f.transport, inbox: restarted };
 	const ran: string[] = [];
 	f.handler.handleEvent = async (e) => {
 		ran.push(e.ts);
 		await new Promise((r) => setTimeout(r, 5));
 	};
-	for (const r of f.inbox.recover()) expect(enqueueChatEvent(f.queue, r.event, f.handler, f.transport)).toBe(true);
+	for (const r of restarted.recover()) expect(enqueueChatEvent(f.queue, r.event, f.handler, transport)).toBe(true);
 	await vi.waitFor(() => expect(ran).toEqual(["1", "2", "3", "4"]));
 	await f.queue.drain();
-	expect(f.inbox.list().every((r) => r.status === "completed")).toBe(true);
+	expect(restarted.list().every((r) => r.status === "completed")).toBe(true);
 });
 it("persists startup arrivals without dispatching them, and holds follow-ups behind unknown work", async () => {
 	const f = fixture();

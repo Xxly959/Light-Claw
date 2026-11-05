@@ -28,3 +28,13 @@ rtk proxy npx tsx ../../node_modules/vitest/dist/cli.js --run test/release-readi
 run42021291538的两个矩阵已通过Build、固定目录守卫和Check，原类型错误及基础Action警告消失；但完整LightClaw回归发现旧diagnosis-controls.test.ts夹具缺少结构化交付物声明（fixture-before.txt）。这属于原定向64文件没有覆盖到的旧测试，不应把类型错误修好当作全CI完成。
 
 只为acceptance-off的自报完成夹具补report.md结构化声明，不创建文件，也不改“自报、不伪造通过检查”的既有断言；生产的强制声明要求保持。包根运行diagnosis-controls、release-readiness、manual-completion-binding，结果见fixture-green.txt。后续仍以最终GitHub运行结果为准。
+
+## 第二项远端后续：同毫秒接纳破坏FIFO
+
+run42022519742在Node22矩阵通过了完整LightClaw回归，Node22.19.0矩阵发现durable-admission恢复顺序从1/2/3/4变为1/3/2/4。根因为acceptedAt使用毫秒墙钟，相等时按SHA-256 ID排序，无法表示接纳先后；时钟回拨也会重排。此次是实际队列问题，不能通过放宽顺序断言或增加延时解决。
+
+先把原测试固定为同一毫秒接纳，并真正重建DurableInbox实例，稳定复现3/1/4/2；另复现回拨和终态归档后的次序错误（fifo-red.txt）。为新记录持久化正安全整数admissionOrder，从活动账本最大值恢复计数，排序优先用接纳序号；acceptedAt和expiresAt仍保留真实墙钟语义，去重/审批/副作用保护不变。无效/重复序号拒绝，写失败可有序号空隙，不会倒序或复用仍活动的序号。单实例锁仍是唯一写入者前提。
+
+既有未带序号的记录保持原先确定性顺序并位于新记录前；旧记录已经丢失的同毫秒真实先后无法可靠重建，不猜测或删记录。归档去重摘要不能重放，全部活动记录清空后新序号可重新从1起；这不会使旧归档重新执行。
+
+定向覆盖恢复队列、时钟相等/回拨、归档/重启、序号损坏，以及durable-work、人工对账、故障恢复、真实adapter+mock SDK和主入口，结果见fifo-green.txt。最终仍须核对新GitHub矩阵，不将中间失败当成成功。

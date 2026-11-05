@@ -1,0 +1,64 @@
+$ rtk proxy npx tsx ../../node_modules/vitest/dist/cli.js --run test/reliability-controller.test.ts test/reliability-system.test.ts
+
+ RUN  v3.2.4 ${REPOSITORY}/packages/lightclaw
+
+stdout | test/reliability-system.test.ts > runs d01 through actual AgentRunner and shared production orchestration without shell/network
+[20:04:31] [system] Events watcher starting, dir: ${TEMP}
+[20:04:31] [system] Events watcher started, tracking 0 files
+
+stdout | test/reliability-system.test.ts > runs d01 through actual AgentRunner and shared production orchestration without shell/network
+[20:04:31] [system] Events watcher stopped
+
+stdout | test/reliability-system.test.ts > runs d02 through actual AgentRunner and shared production orchestration without shell/network
+[20:04:31] [system] Events watcher starting, dir: ${TEMP}
+[20:04:31] [system] Events watcher started, tracking 0 files
+
+stdout | test/reliability-system.test.ts > runs d02 through actual AgentRunner and shared production orchestration without shell/network
+[20:04:31] [system] Events watcher stopped
+
+stdout | test/reliability-system.test.ts > runs d03 through actual AgentRunner and shared production orchestration without shell/network
+[20:04:31] [system] Events watcher starting, dir: ${TEMP}
+[20:04:31] [system] Events watcher started, tracking 0 files
+
+stdout | test/reliability-system.test.ts > runs d03 through actual AgentRunner and shared production orchestration without shell/network
+[20:04:32] [system] Events watcher stopped
+
+stdout | test/reliability-system.test.ts > runs d04 through actual AgentRunner and shared production orchestration without shell/network
+[20:04:32] [system] Events watcher starting, dir: ${TEMP}
+[20:04:32] [system] Events watcher started, tracking 0 files
+
+stdout | test/reliability-system.test.ts > runs d04 through actual AgentRunner and shared production orchestration without shell/network
+[20:04:32] [system] Events watcher stopped
+
+stdout | test/reliability-system.test.ts > runs d13 through actual AgentRunner and shared production orchestration without shell/network
+[20:04:32] [system] Events watcher starting, dir: ${TEMP}
+[20:04:32] [system] Events watcher started, tracking 0 files
+
+stdout | test/reliability-system.test.ts > runs d13 through actual AgentRunner and shared production orchestration without shell/network
+[20:04:33] [system] Events watcher stopped
+
+ ✓ test/reliability-system.test.ts (8 tests) 1980ms
+   ✓ runs d02 through actual AgentRunner and shared production orchestration without shell/network  435ms
+   ✓ runs d03 through actual AgentRunner and shared production orchestration without shell/network  333ms
+   ✓ runs d04 through actual AgentRunner and shared production orchestration without shell/network  419ms
+   ✓ runs d13 through actual AgentRunner and shared production orchestration without shell/network  364ms
+ ✓ test/reliability-controller.test.ts (16 tests) 11736ms
+   ✓ B dispatches the same effective payload and tool schemas except the declared candidate section  2019ms
+   ✓ records s06 fault through an isolated real worker, never hiding failed attempts  1016ms
+   ✓ records s07 fault through an isolated real worker, never hiding failed attempts  1254ms
+   ✓ records s08 fault through an isolated real worker, never hiding failed attempts  744ms
+   ✓ records s09 fault through an isolated real worker, never hiding failed attempts  814ms
+   ✓ records d05 fault through an isolated real worker, never hiding failed attempts  813ms
+   ✓ records d08 fault through an isolated real worker, never hiding failed attempts  855ms
+   ✓ records d09 fault through an isolated real worker, never hiding failed attempts  1033ms
+   ✓ records d10 fault through an isolated real worker, never hiding failed attempts  844ms
+   ✓ keeps a truncated worker observation as a failed attempt rather than aborting the controller  776ms
+   ✓ enforces one global request ceiling across workers and controller resume without replay  1141ms
+
+ Test Files  2 passed (2)
+      Tests  24 passed (24)
+   Start at  20:04:29
+   Duration  11.96s (transform 788ms, setup 20ms, collect 1.49s, tests 13.72s, environment 0ms, prepare 72ms)
+
+
+exit=0

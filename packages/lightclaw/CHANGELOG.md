@@ -76,6 +76,8 @@
 
 ### Fixed
 
+- Persist inbox admission order independently of wall-clock timestamps so equal timestamps, clock rollback and restart do not reorder accepted work; reject invalid or duplicate ordering metadata.
+
 - Execute benchmark CLI through npm bin symlinks; require observable CLI help in clean-install checks. Resolve installed ESM-only evaluation dependencies, isolate npm configuration, and bound release source enumeration to the declared scope.
 
 - Reissue expired approval requests without consuming valid pending quota; retain history and serialize ticket mutations. Route retryable stream errors through provider-specific credentials only before content output, preserving failed-attempt accounting and cooldown.

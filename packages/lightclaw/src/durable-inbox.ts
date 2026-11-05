@@ -22,6 +22,7 @@ export interface InboxRecord {
 	fingerprint: string;
 	status: InboxStatus;
 	acceptedAt: number;
+	admissionOrder?: number;
 	expiresAt: number;
 	attempts: number;
 	detail?: string;
@@ -31,6 +32,7 @@ const statuses: InboxStatus[] = ["queued", "running", "completed", "rejected", "
 export class DurableInbox {
 	private readonly records = new Map<string, InboxRecord>();
 	private loaded = false;
+	private lastAdmissionOrder = 0;
 	accepting = true;
 	dispatchPaused = false;
 	stopAdmission(): void {
@@ -61,6 +63,8 @@ export class DurableInbox {
 			!statuses.includes(r.status) ||
 			!r.event ||
 			!Number.isSafeInteger(r.attempts) ||
+			!Number.isFinite(r.acceptedAt) ||
+			(r.admissionOrder !== undefined && (!Number.isSafeInteger(r.admissionOrder) || r.admissionOrder < 1)) ||
 			!Number.isFinite(r.expiresAt)
 		)
 			throw new Error(`Corrupt inbox record ${id}`);
@@ -69,8 +73,14 @@ export class DurableInbox {
 	private load(): void {
 		if (this.loaded) return;
 		if (physicalPath(this.directory) !== this.directory) throw new Error("Inbox directory replaced");
+		const orders = new Set<number>();
 		for (const name of readdirSync(this.directory).filter((n) => /^[a-f0-9]{64}\.json$/.test(n))) {
 			const r = this.readRecord(join(this.directory, name), name.slice(0, -5))!;
+			if (r.admissionOrder !== undefined) {
+				if (orders.has(r.admissionOrder)) throw new Error("Corrupt inbox: duplicate admission order");
+				orders.add(r.admissionOrder);
+				this.lastAdmissionOrder = Math.max(this.lastAdmissionOrder, r.admissionOrder);
+			}
 			this.records.set(r.id, r);
 		}
 		this.loaded = true;
@@ -84,7 +94,13 @@ export class DurableInbox {
 	list(): InboxRecord[] {
 		this.load();
 		return [...this.records.values()]
-			.sort((a, b) => a.acceptedAt - b.acceptedAt || a.id.localeCompare(b.id))
+			.sort(
+				// Records written before ordering was recorded retain their historical deterministic order.
+				(a, b) =>
+					(a.admissionOrder ?? 0) - (b.admissionOrder ?? 0) ||
+					a.acceptedAt - b.acceptedAt ||
+					a.id.localeCompare(b.id),
+			)
 			.map((r) => structuredClone(r));
 	}
 	private save(record: InboxRecord): void {
@@ -190,6 +206,9 @@ export class DurableInbox {
 		const capacity = this.capacity();
 		if (capacity.activeRecords >= capacity.maximum)
 			throw new Error("Inbox capacity reached; run /recover maintain after reconciling terminal work");
+		const admissionOrder = this.lastAdmissionOrder + 1;
+		if (!Number.isSafeInteger(admissionOrder)) throw new Error("Inbox admission order exhausted");
+		this.lastAdmissionOrder = admissionOrder;
 		const record: InboxRecord = {
 			version: 1,
 			revision: 0,
@@ -200,6 +219,7 @@ export class DurableInbox {
 			fingerprint,
 			status: initialStatus,
 			acceptedAt: now,
+			admissionOrder,
 			expiresAt: now + maxWaitMs,
 			attempts: 0,
 		};

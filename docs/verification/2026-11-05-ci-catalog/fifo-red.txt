@@ -1,0 +1,101 @@
+$ rtk proxy npx tsx ../../node_modules/vitest/dist/cli.js --run test/durable-admission.test.ts test/inbox-lifecycle.test.ts
+
+ RUN  v3.2.4 ${REPOSITORY}/packages/lightclaw
+
+stdout | test/durable-admission.test.ts > retains an event source after memory-only enqueue or rejection, and removes it only after durable acceptance
+[20:01:52] [system] Events watcher starting, dir: ${TEMP}
+[20:01:52] [system] Events watcher started, tracking 0 files
+
+stdout | test/durable-admission.test.ts > retains an event source after memory-only enqueue or rejection, and removes it only after durable acceptance
+[20:01:52] [system] One-shot event overdue, admitting for durable processing: once.json
+
+stdout | test/durable-admission.test.ts > retains an event source after memory-only enqueue or rejection, and removes it only after durable acceptance
+[20:01:52] [system] Events watcher stopped
+[20:01:52] [system] Events watcher starting, dir: ${TEMP}
+[20:01:52] [system] Events watcher started, tracking 0 files
+
+stdout | test/durable-admission.test.ts > retains an event source after memory-only enqueue or rejection, and removes it only after durable acceptance
+[20:01:52] [system] One-shot event overdue, admitting for durable processing: once.json
+
+stdout | test/durable-admission.test.ts > retains an event source after memory-only enqueue or rejection, and removes it only after durable acceptance
+[20:01:52] [system] Events watcher stopped
+[20:01:52] [system] Events watcher stopped
+
+ ❯ test/durable-admission.test.ts (6 tests | 1 failed) 1421ms
+   ✓ persists acceptance before running and retains queued work across shutdown/restart 52ms
+   ✓ records capacity rejection and expiry without silently executing either 92ms
+   ✓ does not acknowledge acceptance or execute when persistence fails 11ms
+   ✓ retains an event source after memory-only enqueue or rejection, and removes it only after durable acceptance 112ms
+   × drains a durable backlog after restart even with a smaller memory queue 1091ms
+     → expected [ '3', '1', '4', '2' ] to deeply equal [ '1', '2', '3', '4' ]
+   ✓ persists startup arrivals without dispatching them, and holds follow-ups behind unknown work 59ms
+ ❯ test/inbox-lifecycle.test.ts (8 tests | 1 failed) 1575ms
+   ✓ archives terminal payloads but retains deduplication across restart 52ms
+   ✓ never cleans pending, running, unknown or dead records 84ms
+   ✓ has an explicit dedupe horizon and can compact after it 47ms
+   ✓ does not reread all historical JSON for each message  1170ms
+   ✓ fails closed at capacity and exposes actionable maintenance status 67ms
+   ✓ prefers an active record if interrupted archival left both a tombstone and active payload 56ms
+   ✓ keeps only dedupe identity in tombstones, not prepared attachment payloads 43ms
+   × keeps admission order across equal clocks, clock rollback, restart and terminal archival 54ms
+     → expected [ 'fourth', 'third', 'second' ] to deeply equal [ 'second', 'third', 'fourth' ]
+
+ Test Files  2 failed (2)
+      Tests  2 failed | 12 passed (14)
+   Start at  20:01:52
+   Duration  1.79s (transform 78ms, setup 23ms, collect 101ms, tests 3.00s, environment 0ms, prepare 60ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/durable-admission.test.ts > drains a durable backlog after restart even with a smaller memory queue
+AssertionError: expected [ '3', '1', '4', '2' ] to deeply equal [ '1', '2', '3', '4' ]
+
+- Expected
++ Received
+
+  [
+-   "1",
+-   "2",
+    "3",
++   "1",
+    "4",
++   "2",
+  ]
+
+ ❯ test/durable-admission.test.ts:160:37
+    158|  };
+    159|  for (const r of restarted.recover()) expect(enqueueChatEvent(f.queue,…
+    160|  await vi.waitFor(() => expect(ran).toEqual(["1", "2", "3", "4"]));
+       |                                     ^
+    161|  await f.queue.drain();
+    162|  expect(restarted.list().every((r) => r.status === "completed")).toBe(…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  test/inbox-lifecycle.test.ts > keeps admission order across equal clocks, clock rollback, restart and terminal archival
+AssertionError: expected [ 'fourth', 'third', 'second' ] to deeply equal [ 'second', 'third', 'fourth' ]
+
+- Expected
++ Received
+
+  [
+-   "second",
+-   "third",
+    "fourth",
++   "third",
++   "second",
+  ]
+
+ ❯ test/inbox-lifecycle.test.ts:137:56
+    135|  const restarted = new DurableInbox(root);
+    136|  restarted.admit("faux", event("fourth"), false, 300000, now - 2000);
+    137|  expect(restarted.recover(now).map((r) => r.event.ts)).toEqual(["secon…
+       |                                                        ^
+    138| });
+    139|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+exit=1

@@ -1,0 +1,18 @@
+$ rtk proxy npm run check
+
+> lightclaw-monorepo@0.0.3 check
+> biome check --write --error-on-warnings . && tsgo --noEmit && npm run check:browser-smoke && cd packages/web-ui && npm run check
+
+Checked 776 files in 4s. Fixed 2 files.
+
+> lightclaw-monorepo@0.0.3 check:browser-smoke
+> node scripts/check-browser-smoke.mjs
+
+
+> @mariozechner/pi-web-ui@0.70.6 check
+> biome check --write --error-on-warnings . && tsc --noEmit && cd example && biome check --write --error-on-warnings . && tsc --noEmit
+
+Checked 73 files in 31ms. No fixes applied.
+Checked 3 files in 5ms. No fixes applied.
+
+exit=0
