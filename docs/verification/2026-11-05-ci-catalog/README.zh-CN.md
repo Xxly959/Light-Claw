@@ -38,3 +38,11 @@ run42022519742在Node22矩阵通过了完整LightClaw回归，Node22.19.0矩阵�
 既有未带序号的记录保持原先确定性顺序并位于新记录前；旧记录已经丢失的同毫秒真实先后无法可靠重建，不猜测或删记录。归档去重摘要不能重放，全部活动记录清空后新序号可重新从1起；这不会使旧归档重新执行。
 
 定向覆盖恢复队列、时钟相等/回拨、归档/重启、序号损坏，以及durable-work、人工对账、故障恢复、真实adapter+mock SDK和主入口，结果见fifo-green.txt。最终仍须核对新GitHub矩阵，不将中间失败当成成功。
+
+## 第三项远端后续：大输出取消夹具的就绪同步
+
+run42024376747两组都通过了完整LightClaw专项，随后全仓库测试中的第二遍LightClaw执行，在Node22发现sandbox.test.ts等待输出写完标记超出5秒（archive-before.txt）。其余全仓库测试日志未出现另一个失败用例；另一矩阵按fail-fast取消。
+
+目标是验证12MiB输出在取消前产生、取消返回前归档完成，不是5秒吞吐SLA。修改仅在该夹具：提前订阅独立临时目录的fs.watch，等待子进程stdout写回调产生ready标记；命令提前失败立即传播，取消/等待进程退出/关闭watcher/清理目录都放在finally路径。单次夹具执行设20秒（原执行器默认120秒），整体测试30秒不变，生产超时不变；保留12MiB精确长度、CANCEL-END结尾、Command aborted和归档路径断言。没有跳过Linux测试或改变生产取消行为。
+
+包根执行test/sandbox.test.ts和test/docker-cancellation.test.ts，2文件14项通过（archive-green.txt）。后者是本地shim，不能冒充真实Linux Docker验收。完整check与最终远端矩阵另核对。

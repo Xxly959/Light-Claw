@@ -1,0 +1,28 @@
+build-check-test (22)	Test	2026-11-05T12:19:09.6898309Z ^[[31m⎯⎯⎯⎯⎯⎯⎯^[[39m^[[1m^[[41m Failed Tests 1 ^[[49m^[[22m^[[31m⎯⎯⎯⎯⎯⎯⎯^[[39m
+build-check-test (22)	Test	2026-11-05T12:19:09.6933073Z
+build-check-test (22)	Test	2026-11-05T12:19:09.6934681Z ^[[41m^[[1m FAIL ^[[22m^[[49m test/sandbox.test.ts^[[2m > ^[[22m宿主执行器错误与输出^[[2m > ^[[22mfinishes a large-output archive before rejecting cancellation
+build-check-test (22)	Test	2026-11-05T12:19:09.6935821Z ^[[31m^[[1mAssertionError^[[22m: expected false to be true // Object.is equality^[[39m
+build-check-test (22)	Test	2026-11-05T12:19:09.6936387Z
+build-check-test (22)	Test	2026-11-05T12:19:09.6936565Z ^[[32m- Expected^[[39m
+build-check-test (22)	Test	2026-11-05T12:19:09.6937379Z ^[[31m+ Received^[[39m
+build-check-test (22)	Test	2026-11-05T12:19:09.6937552Z
+build-check-test (22)	Test	2026-11-05T12:19:09.6937695Z ^[[32m- true^[[39m
+build-check-test (22)	Test	2026-11-05T12:19:09.6937989Z ^[[31m+ false^[[39m
+build-check-test (22)	Test	2026-11-05T12:19:09.6938137Z
+build-check-test (22)	Test	2026-11-05T12:19:09.6938603Z ^[[36m ^[[2m❯^[[22m vi.waitFor.timeout test/sandbox.test.ts:^[[2m91:54^[[22m^[[39m
+build-check-test (22)	Test	2026-11-05T12:19:09.6957849Z     ^[[90m 89| ^[[39m   )^[[33m;^[[39m
+build-check-test (22)	Test	2026-11-05T12:19:09.6958307Z     ^[[90m 90| ^[[39m  ^[[35mtry^[[39m {
+build-check-test (22)	Test	2026-11-05T12:19:09.6959024Z     ^[[90m 91| ^[[39m   await vi.waitFor(() => expect(existsSync(marker)).toBe(true), { tim…
+build-check-test (22)	Test	2026-11-05T12:19:09.6959751Z     ^[[90m   | ^[[39m                                                     ^[[31m^^[[39m
+build-check-test (22)	Test	2026-11-05T12:19:09.6960277Z     ^[[90m 92| ^[[39m  } ^[[35mfinally^[[39m {
+build-check-test (22)	Test	2026-11-05T12:19:09.6960822Z     ^[[90m 93| ^[[39m   controller^[[33m.^[[39m^[[34mabort^[[39m()^[[33m;^[[39m
+build-check-test (22)	Test	2026-11-05T12:19:09.6961141Z
+build-check-test (22)	Test	2026-11-05T12:19:09.6961437Z ^[[31m^[[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯^[[22m^[[39m
+build-check-test (22)	Test	2026-11-05T12:19:09.6961693Z
+build-check-test (22)	Test	2026-11-05T12:19:09.6963409Z
+build-check-test (22)	Test	2026-11-05T12:19:09.6970024Z ^[[2m Test Files ^[[22m ^[[1m^[[31m1 failed^[[39m^[[22m^[[2m | ^[[22m^[[1m^[[32m72 passed^[[39m^[[22m^[[2m | ^[[22m^[[33m1 skipped^[[39m^[[90m (74)^[[39m
+build-check-test (22)	Test	2026-11-05T12:19:09.6972342Z ^[[2m      Tests ^[[22m ^[[1m^[[31m1 failed^[[39m^[[22m^[[2m | ^[[22m^[[1m^[[32m679 passed^[[39m^[[22m^[[2m | ^[[22m^[[33m5 skipped^[[39m^[[90m (685)^[[39m
+build-check-test (22)	Test	2026-11-05T12:19:09.6973229Z ^[[2m   Start at ^[[22m 12:13:59
+build-check-test (22)	Test	2026-11-05T12:19:09.6976705Z ^[[2m   Duration ^[[22m 310.18s^[[2m (transform 6.18s, setup 1.64s, collect 47.55s, tests 502.72s, environment 35ms, prepare 11.05s)^[[22m
+build-check-test (22)	Test	2026-11-05T12:19:09.6977307Z
+build-check-test (22)	Test	2026-11-05T12:19:09.6989158Z

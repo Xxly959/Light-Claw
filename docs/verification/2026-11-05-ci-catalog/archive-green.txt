@@ -1,0 +1,22 @@
+$ rtk proxy npx tsx ../../node_modules/vitest/dist/cli.js --run test/sandbox.test.ts test/docker-cancellation.test.ts
+
+ RUN  v3.2.4 ${REPOSITORY}/packages/lightclaw
+
+ ✓ test/sandbox.test.ts (10 tests) 3627ms
+   ✓ 宿主执行器错误与输出 > rejects output archive quota exhaustion and still accepts later small commands  391ms
+   ✓ 宿主执行器错误与输出 > archives UTF-8 stderr fully and preserves a valid tail with private file permissions  1665ms
+   ✓ 宿主执行器错误与输出 > finishes a large-output archive before rejecting cancellation  546ms
+   ✓ 宿主执行器错误与输出 > 超出捕获上限时归档完整输出并保留末尾  541ms
+ ✓ test/docker-cancellation.test.ts (4 tests) 9907ms
+   ✓ cancellation confirms that both shell and background child stopped writing  1191ms
+   ✓ timeout stops actual task bytes, not only the host client  3403ms
+   ✓ owner SIGTERM loses heartbeat and the task stops writing  2683ms
+   ✓ owner SIGKILL loses heartbeat and the task stops writing  2629ms
+
+ Test Files  2 passed (2)
+      Tests  14 passed (14)
+   Start at  20:24:54
+   Duration  10.12s (transform 46ms, setup 21ms, collect 64ms, tests 13.53s, environment 0ms, prepare 65ms)
+
+
+exit=0

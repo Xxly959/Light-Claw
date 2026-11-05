@@ -1,6 +1,6 @@
 import { spawn } from "node:child_process";
-import { existsSync } from "node:fs";
-import { readFile, rm, stat } from "node:fs/promises";
+import { existsSync, watch } from "node:fs";
+import { mkdtemp, readFile, rm, stat } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -76,31 +76,48 @@ describe("宿主执行器错误与输出", () => {
 	});
 
 	it("finishes a large-output archive before rejecting cancellation", async () => {
-		const marker = join(tmpdir(), `lightclaw-archive-flushed-${process.pid}`);
-		archives.push(marker);
-		await rm(marker, { force: true });
+		const directory = await mkdtemp(join(tmpdir(), "lightclaw-archive-flushed-"));
+		const marker = join(directory, "ready");
+		const watcher = watch(directory);
+		const ready = new Promise<void>((resolve, reject) => {
+			watcher.on("change", () => {
+				if (existsSync(marker)) resolve();
+			});
+			watcher.once("error", reject);
+		});
 		const controller = new AbortController();
 		const script = `process.stdout.write('x'.repeat(12 * 1024 * 1024) + 'CANCEL-END', () => require('node:fs').writeFileSync(${JSON.stringify(marker)}, 'ready')); setInterval(()=>{},1000);`;
 		const pending = createExecutor({ type: "host" })
-			.exec(nodeCommand(script), { signal: controller.signal })
+			.exec(nodeCommand(script), { signal: controller.signal, timeout: 20 })
 			.then(
 				() => undefined,
 				(error: unknown) => error,
 			);
 		try {
-			await vi.waitFor(() => expect(existsSync(marker)).toBe(true), { timeout: 5000, interval: 10 });
+			// Observe completion of the producer write, not an incidental five-second throughput target.
+			// The command deadline bounds readiness; propagate real execution failures before waiting forever.
+			await Promise.race([
+				ready,
+				pending.then((error) => {
+					throw error instanceof Error ? error : new Error("Command ended before output readiness");
+				}),
+			]);
+			controller.abort();
+			const error = await pending;
+			if (!(error instanceof Error)) throw new Error("expected aborted command");
+			expect(error.message.endsWith("Command aborted")).toBe(true);
+			const archive = /Full output: ([^\n]+)/.exec(error.message)?.[1];
+			if (!archive) throw new Error("missing cancellation archive");
+			archives.push(archive);
+			const full = await readFile(archive, "utf8");
+			expect(full.length).toBe(12 * 1024 * 1024 + "CANCEL-END".length);
+			expect(full.endsWith("CANCEL-END")).toBe(true);
 		} finally {
 			controller.abort();
+			await pending;
+			watcher.close();
+			await rm(directory, { recursive: true, force: true });
 		}
-		const error = await pending;
-		if (!(error instanceof Error)) throw new Error("expected aborted command");
-		expect(error.message.endsWith("Command aborted")).toBe(true);
-		const archive = /Full output: ([^\n]+)/.exec(error.message)?.[1];
-		if (!archive) throw new Error("missing cancellation archive");
-		archives.push(archive);
-		const full = await readFile(archive, "utf8");
-		expect(full.length).toBe(12 * 1024 * 1024 + "CANCEL-END".length);
-		expect(full.endsWith("CANCEL-END")).toBe(true);
 	});
 	it("超出捕获上限时归档完整输出并保留末尾", async () => {
 		const result = await createExecutor({ type: "host" }).exec(
