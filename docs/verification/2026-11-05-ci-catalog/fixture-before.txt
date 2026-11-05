@@ -1,0 +1,38 @@
+build-check-test (22)	LightClaw offline regressions (required workspace)	2026-11-05T11:49:22.3733896Z ^[[31m⎯⎯⎯⎯⎯⎯⎯^[[39m^[[1m^[[41m Failed Tests 1 ^[[49m^[[22m^[[31m⎯⎯⎯⎯⎯⎯⎯^[[39m
+build-check-test (22)	LightClaw offline regressions (required workspace)	2026-11-05T11:49:22.3734206Z
+build-check-test (22)	LightClaw offline regressions (required workspace)	2026-11-05T11:49:22.3735845Z ^[[41m^[[1m FAIL ^[[22m^[[49m test/diagnosis-controls.test.ts^[[2m > ^[[22mdiagnostic switches at execution boundaries^[[2m > ^[[22macceptance off records self-reported completion without fabricating a passed check
+build-check-test (22)	LightClaw offline regressions (required workspace)	2026-11-05T11:49:22.3750332Z ^[[31m^[[1mError^[[22m: 交付物 deliverables 必须是对象^[[39m
+build-check-test (22)	LightClaw offline regressions (required workspace)	2026-11-05T11:49:22.3750968Z ^[[36m ^[[2m❯^[[22m assertRecord src/validation.ts:^[[2m2:73^[[22m^[[39m
+build-check-test (22)	LightClaw offline regressions (required workspace)	2026-11-05T11:49:22.3783959Z     ^[[90m  1| ^[[39mexport function assertRecord(value: unknown, field: string): asserts v…
+build-check-test (22)	LightClaw offline regressions (required workspace)	2026-11-05T11:49:22.3784938Z     ^[[90m  2| ^[[39m if (!value || typeof value !== "object" || Array.isArray(value)) thro…
+build-check-test (22)	LightClaw offline regressions (required workspace)	2026-11-05T11:49:22.3785694Z     ^[[90m   | ^[[39m                                                                        ^[[31m^^[[39m
+build-check-test (22)	LightClaw offline regressions (required workspace)	2026-11-05T11:49:22.3786231Z     ^[[90m  3| ^[[39m}
+build-check-test (22)	LightClaw offline regressions (required workspace)	2026-11-05T11:49:22.3787042Z     ^[[90m  4| ^[[39m
+build-check-test (22)	LightClaw offline regressions (required workspace)	2026-11-05T11:49:22.3787718Z ^[[90m ^[[2m❯^[[22m parseGoalDeliverables src/goals/acceptance.ts:^[[2m79:2^[[22m^[[39m
+build-check-test (22)	LightClaw offline regressions (required workspace)	2026-11-05T11:49:22.3788456Z ^[[90m ^[[2m❯^[[22m GoalStore.requestCompletion src/goals/store.ts:^[[2m355:8^[[22m^[[39m
+build-check-test (22)	LightClaw offline regressions (required workspace)	2026-11-05T11:49:22.3789071Z ^[[90m ^[[2m❯^[[22m test/diagnosis-controls.test.ts:^[[2m92:30^[[22m^[[39m
+build-check-test (22)	LightClaw offline regressions (required workspace)	2026-11-05T11:49:22.3789372Z
+build-check-test (22)	LightClaw offline regressions (required workspace)	2026-11-05T11:49:22.3789630Z ^[[31m^[[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯^[[22m^[[39m
+build-check-test (22)	LightClaw offline regressions (required workspace)	2026-11-05T11:49:22.3789845Z
+build-check-test (22)	LightClaw offline regressions (required workspace)	2026-11-05T11:49:22.3792499Z
+build-check-test (22)	LightClaw offline regressions (required workspace)	2026-11-05T11:49:22.3805309Z ^[[2m Test Files ^[[22m ^[[1m^[[31m1 failed^[[39m^[[22m^[[2m | ^[[22m^[[1m^[[32m72 passed^[[39m^[[22m^[[2m | ^[[22m^[[33m1 skipped^[[39m^[[90m (74)^[[39m
+build-check-test (22)	LightClaw offline regressions (required workspace)	2026-11-05T11:49:22.3806184Z ^[[2m      Tests ^[[22m ^[[1m^[[31m1 failed^[[39m^[[22m^[[2m | ^[[22m^[[1m^[[32m673 passed^[[39m^[[22m^[[2m | ^[[22m^[[33m5 skipped^[[39m^[[90m (679)^[[39m
+build-check-test (22)	LightClaw offline regressions (required workspace)	2026-11-05T11:49:22.3806746Z ^[[2m   Start at ^[[22m 11:45:14
+build-check-test (22)	LightClaw offline regressions (required workspace)	2026-11-05T11:49:22.3807597Z ^[[2m   Duration ^[[22m 247.73s^[[2m (transform 3.11s, setup 844ms, collect 30.36s, tests 317.99s, environment 12ms, prepare 6.45s)^[[22m
+build-check-test (22)	LightClaw offline regressions (required workspace)	2026-11-05T11:49:22.3807985Z
+build-check-test (22)	LightClaw offline regressions (required workspace)	2026-11-05T11:49:22.3815644Z
+build-check-test (22)	LightClaw offline regressions (required workspace)	2026-11-05T11:49:22.3838546Z ##[error]Error: 交付物 deliverables 必须是对象
+build-check-test (22)	LightClaw offline regressions (required workspace)	 ❯ assertRecord src/validation.ts:2:73
+build-check-test (22)	LightClaw offline regressions (required workspace)	 ❯ parseGoalDeliverables src/goals/acceptance.ts:79:2
+build-check-test (22)	LightClaw offline regressions (required workspace)	 ❯ GoalStore.requestCompletion src/goals/store.ts:355:8
+build-check-test (22)	LightClaw offline regressions (required workspace)	 ❯ test/diagnosis-controls.test.ts:92:30
+build-check-test (22)	LightClaw offline regressions (required workspace)
+build-check-test (22)	LightClaw offline regressions (required workspace)
+build-check-test (22)	LightClaw offline regressions (required workspace)	2026-11-05T11:49:22.4684918Z npm error Lifecycle script `test` failed with error:
+build-check-test (22)	LightClaw offline regressions (required workspace)	2026-11-05T11:49:22.4685387Z npm error code 1
+build-check-test (22)	LightClaw offline regressions (required workspace)	2026-11-05T11:49:22.4685814Z npm error path /home/runner/work/Light-Claw/Light-Claw/packages/lightclaw
+build-check-test (22)	LightClaw offline regressions (required workspace)	2026-11-05T11:49:22.4686291Z npm error workspace lightclaw@0.70.6
+build-check-test (22)	LightClaw offline regressions (required workspace)	2026-11-05T11:49:22.4686777Z npm error location /home/runner/work/Light-Claw/Light-Claw/packages/lightclaw
+build-check-test (22)	LightClaw offline regressions (required workspace)	2026-11-05T11:49:22.4687206Z npm error command failed
+build-check-test (22)	LightClaw offline regressions (required workspace)	2026-11-05T11:49:22.4687640Z npm error command sh -c tsx ../../node_modules/vitest/dist/cli.js --run
+build-check-test (22)	LightClaw offline regressions (required workspace)	2026-11-05T11:49:22.4726737Z ##[error]Process completed with exit code 1.

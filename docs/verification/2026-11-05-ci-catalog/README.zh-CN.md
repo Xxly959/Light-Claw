@@ -22,3 +22,9 @@ rtk proxy npx tsx ../../node_modules/vitest/dist/cli.js --run test/release-readi
 3文件23项通过，red.txt记录旧脚本预期失败，green.txt记录修复后通过。根目录rtk proxy npm run check完整通过，见check.txt。正常提交钩子照常运行；GitHub两组矩阵结果在推送后核对，不能用本地结果替代。只在临时隔离副本构建已获授权的pi-ai，没有共享仓库构建、付费模型或真实平台请求。
 
 日志公开副本替换本机路径为${REPOSITORY}/${TEMP}；原始副本保留本地。历史run上的红色注释不会被修改；请看新提交对应的CI结果。
+
+## 远端后续发现：诊断夹具迁移
+
+run42021291538的两个矩阵已通过Build、固定目录守卫和Check，原类型错误及基础Action警告消失；但完整LightClaw回归发现旧diagnosis-controls.test.ts夹具缺少结构化交付物声明（fixture-before.txt）。这属于原定向64文件没有覆盖到的旧测试，不应把类型错误修好当作全CI完成。
+
+只为acceptance-off的自报完成夹具补report.md结构化声明，不创建文件，也不改“自报、不伪造通过检查”的既有断言；生产的强制声明要求保持。包根运行diagnosis-controls、release-readiness、manual-completion-binding，结果见fixture-green.txt。后续仍以最终GitHub运行结果为准。

@@ -1,0 +1,22 @@
+$ rtk proxy npx tsx ../../node_modules/vitest/dist/cli.js --run test/diagnosis-controls.test.ts test/release-readiness.test.ts test/manual-completion-binding.test.ts
+
+ RUN  v3.2.4 ${REPOSITORY}/packages/lightclaw
+
+ ✓ test/manual-completion-binding.test.ts (9 tests) 35ms
+ ✓ test/diagnosis-controls.test.ts (8 tests) 22ms
+ ✓ test/release-readiness.test.ts (12 tests) 4121ms
+   ✓ provides credential-free help for main  869ms
+   ✓ provides credential-free help for benchmark/cli  437ms
+   ✓ provides credential-free help for evals/cli  421ms
+   ✓ provides credential-free help for evals/optimize-cli  430ms
+   ✓ executes benchmark help through an installed-style bin symlink  436ms
+   ✓ runs benchmark tasks with an aliased system temporary directory and cleans owned control state  718ms
+   ✓ builds pi-ai from its pinned catalog without network or source mutation  348ms
+
+ Test Files  3 passed (3)
+      Tests  29 passed (29)
+   Start at  19:51:25
+   Duration  4.30s (transform 94ms, setup 28ms, collect 212ms, tests 4.18s, environment 0ms, prepare 96ms)
+
+
+exit=0

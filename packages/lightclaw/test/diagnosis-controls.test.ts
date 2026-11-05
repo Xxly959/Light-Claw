@@ -89,7 +89,10 @@ describe("diagnostic switches at execution boundaries", () => {
 			{ objective: "write report", ownerUserId: "owner", acceptance: { mode: "manual" } },
 			runtime.signal,
 		);
-		const result = await store.requestCompletion({ summary: "done", evidence: ["report"] }, runtime);
+		const result = await store.requestCompletion(
+			{ summary: "done", evidence: ["report"], deliverables: { kind: "files", paths: ["report.md"] } },
+			runtime,
+		);
 		expect(result.goal).toMatchObject({ status: "completed", completion: { method: "self_reported" } });
 		expect(result.report.status).toBe("inconclusive");
 		expect(result.report.checks).toEqual([]);
