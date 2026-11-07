@@ -1,0 +1,16 @@
+
+ RUN  v3.2.4 /Users/x/Light-Claw/packages/lightclaw
+
+ ✓ test/release-readiness.test.ts (6 tests) 1751ms
+   ✓ provides credential-free help for main  976ms
+   ✓ builds pi-ai from its pinned catalog without network or source mutation  419ms
+ ✓ test/docker-live.test.ts (4 tests) 9258ms
+   ✓ real isolated Docker task stops descendants: cancel  2117ms
+   ✓ real isolated Docker task stops descendants: timeout  1685ms
+   ✓ real isolated Docker task stops descendants: SIGTERM  2715ms
+   ✓ real isolated Docker task stops descendants: SIGKILL  2741ms
+
+ Test Files  2 passed (2)
+      Tests  10 passed (10)
+   Start at  22:33:43
+   Duration  9.46s (transform 44ms, setup 22ms, collect 45ms, tests 11.01s, environment 0ms, prepare 67ms)

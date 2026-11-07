@@ -11,9 +11,11 @@ LightClaw 是一个基于 TypeScript 的自托管个人 Agent。你在聊天中�
 
 ## 当前交付状态
 
-面向**单实例、同一信任域**的个人Agent；频道文件组织不是租户隔离。2026-11-05已在用户授权的隔离副本完成五包新鲜dist构建、macOS/Node 22.23.0独立离线安装与编译后faux流程。真实Docker历史验收在2026-11-01，本轮另有当前安全执行链路的定向验收。**真实飞书/Slack与真实模型仍待授权验收**；本地构建安装不证明平台上线或模型效果。证据与限制见[续做交付报告](docs/verification/2026-11-05/delivery.zh-CN.md)。
+最终目标是单实例、同一信任域的个人Agent：飞书优先，保留Slack接入；通过文件和Shell工具完成任务，保存对话、目标和产物，支持受控执行、恢复与备份。项目功能收敛，开始按[学习路线](packages/lightclaw/docs/learning-path.zh-CN.md)阅读源码。
 
-[部署与备份恢复](packages/lightclaw/docs/deployment.zh-CN.md) · [故障排查](packages/lightclaw/docs/troubleshooting.zh-CN.md) · [日志/资源默认值](packages/lightclaw/docs/resources.zh-CN.md) · [本批验收矩阵](docs/diagnosis/2026-10-31-fourth-remediation/README.md) · [当前验收与剩余事项](docs/verification/2026-11-05/README.zh-CN.md)
+当前采用源码启动。飞书私聊与提示词交互已有用户实际使用；工程回归与静态检查用于保障功能，不开展Agent效果评测。评测框架、数据集、候选筛选CLI和性能基准已删除；历史记录保留在docs/history与既有证据目录。模型与平台表现受环境影响，不承诺任务必然成功；本轮已在隔离副本完成5包构建、独立安装及有限飞书私聊/模型验收，未开展完整跨平台线上验收。详见docs/reports/FINAL-ACCEPTANCE-2026-11-06.zh-CN.md。
+
+[最终范围与完成清单](packages/lightclaw/docs/project-scope.zh-CN.md) · [部署与备份恢复](packages/lightclaw/docs/deployment.zh-CN.md) · [故障排查](packages/lightclaw/docs/troubleshooting.zh-CN.md) · [资源策略](packages/lightclaw/docs/resources.zh-CN.md)
 
 `--help`无需凭证；`--health=<工作目录> --control=<控制目录>`分别报告锁、进程、运行时就绪与SDK连接状态；不主动连接平台或模型。Node Agent运行于宿主，Docker仅执行工具；正常退出收敛后才释放锁，异常执行进入unknown等待人工核对，不能因锁文件存在就删除它。
 
@@ -26,7 +28,7 @@ LightClaw 是一个基于 TypeScript 的自托管个人 Agent。你在聊天中�
 | 受控执行 | 工具调用可能超时、失败或持续循环 | 单轮时间、工具和 Token 阈值；失败与停滞熔断 |
 | 多频道调度 | 同一频道的请求需要有序处理 | 频道队列、排队期限、容量限制和空闲缓存回收 |
 | 工具沙箱 | 文件与 Shell 操作需要限制影响范围 | 可选 Docker 执行环境，配置 CPU、内存、进程数和网络 |
-| 可检查的运行过程 | 需要知道一次任务做了什么、花了多少资源 | JSONL 审计、产物评测、重复评测与提示词候选门禁 |
+| 可检查的运行过程 | 需要知道一次任务做了什么、花了多少资源 | JSONL审计、工具判定与退出码、运行用量及结果通知 |
 
 飞书和 Slack 共用一套 `ChatTransport` 接口。模型、工具、会话和上下文管理复用 [pi-mono](https://github.com/badlogic/pi-mono)；LightClaw 的业务代码集中在 [`packages/lightclaw`](packages/lightclaw)。
 
@@ -131,7 +133,7 @@ npx tsx packages/lightclaw/src/main.ts \
 
 目标控制状态保存在工作区外；对话、记忆、附件和产物按频道组织在 `lightclaw-data/` 中。排队记录可恢复；执行结果不确定的任务进入unknown并阻止自动重放，受控服务可按稳定operation ID对账，任意bash仍需人工核对副作用。当前设计面向单实例个人 Agent，详见[使用指南](packages/lightclaw/README.zh-CN.md)。
 
-## 企业部署加固
+## 权限与执行配置
 
 默认配置保持既有行为；以下开关用于满足安全评审，缺省值不会改变现有部署：
 
@@ -169,37 +171,34 @@ npx tsx packages/lightclaw/src/audit/cli.ts ./lightclaw-data --tool bash --json
 
 `--isolation-report <工作目录>` 输出当前隔离等级（`shared-workspace` / `per-channel-container` / `host-unconfined`）与风险清单，用于评审而非替代评审；与 `--help` 一样不需要平台凭证，缺凭证时只读非凭证配置。设计与实施边界见[企业化加固](packages/lightclaw/docs/enterprise-hardening.zh-CN.md)。
 
-## 评测与提示词优化
+## 提示词预览
 
-LightClaw 提供分层验证入口：
+飞书发送 `任务入口` 或 `/prompt-entry`，打开“输入任务”。原文发送直接执行；“优化并预览”在独立临时请求中生成候选并检查约束，显示修改说明、假设与待确认信息。编辑后点击“确认发送”，只有最终文本进入主Agent会话。原文与优化过程仍在控制目录留作去重记录，不是零落盘。群成员可见卡片，不要输入密钥。
 
-- **长期任务离线评测**：统一eval CLI默认做无凭证数据审计；`--suite=reliability --mode=offline`复用生产编排，faux只证明接线/评分。见[评测协议](packages/lightclaw/docs/reliability-evaluation.zh-CN.md)。
-
-- **确定性性能基准**：使用 faux provider 测量队列与运行时，保留原始任务和资源记录，不调用真实模型。
-- **Agent 任务评测**：调用配置的模型，检查回复、文件产物、工具错误、耗时和 Token；提示词候选须通过训练集与独立留出集的重复评测门禁。
+## 从源码启动
 
 ```bash
-# 不消耗模型额度的运行时基准
-cd packages/lightclaw
-npx tsx src/benchmark/cli.ts --output=../../lightclaw-data/benchmarks
+cp packages/lightclaw/config.env.example .env
+# 在本地编辑.env：填入飞书应用凭证、模型provider/ID和对应API key
+bash scripts/start-lightclaw.sh
 ```
 
-真实模型评测及提示词优化会消耗 API 额度，命令见[使用指南](packages/lightclaw/README.zh-CN.md)。随包小数据集用于展示和回归；历史冒烟结果与 faux-provider 基准不代表生产可靠性或真实平台性能。
+模板默认host模式，工具使用当前OS用户权限；需要Docker时先创建容器并将 `LIGHTCLAW_SANDBOX` 改为 `docker:lightclaw-sandbox`。启动器会读取.env，直接调用main.ts则只读进程环境。已有.env无需覆盖。自定义网关模型用 `LIGHTCLAW_MODELS_FILE`，见部署说明。
 
 ## 项目结构与文档
 
 | 路径 | 用途 |
 | --- | --- |
-| [`packages/lightclaw`](packages/lightclaw) | 平台接入、目标、队列、沙箱、审计与评测 |
+| [`packages/lightclaw`](packages/lightclaw) | 平台接入、目标、队列、沙箱、提示词预览与审计 |
 | [`packages/ai`](packages/ai) | 模型接口与流式事件 |
 | [`packages/agent`](packages/agent) | Agent 工具循环 |
 | [`packages/coding-agent`](packages/coding-agent) | 会话、上下文压缩与工具基础设施 |
 | [`packages/tui`](packages/tui) | coding-agent 所依赖的终端组件 |
 
 - [中文使用指南](packages/lightclaw/README.zh-CN.md) / [English guide](packages/lightclaw/README.md)
+- [学习路线](packages/lightclaw/docs/learning-path.zh-CN.md) · [最终范围](packages/lightclaw/docs/project-scope.zh-CN.md)
 - [架构设计](packages/lightclaw/docs/architecture.zh-CN.md) · [目标状态与验收](packages/lightclaw/docs/goals.zh-CN.md)
 - [沙箱配置](packages/lightclaw/docs/sandbox.zh-CN.md) · [定时事件](packages/lightclaw/docs/events.md)
-- [评测记录](packages/lightclaw/docs/evaluation.zh-CN.md) · [性能基准方法](packages/lightclaw/docs/performance-benchmark.zh-CN.md)
 
 ## 开发检查
 

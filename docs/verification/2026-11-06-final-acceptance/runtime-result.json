@@ -1,0 +1,19 @@
+{
+  "status": "passed",
+  "checkedAt": "2026-11-06T14:40:46.376Z",
+  "pid": 27095,
+  "ready": true,
+  "platform": "connected",
+  "heartbeatAgeMs": 5936,
+  "instanceIdentityAndKernelLockVerified": true,
+  "entry": "source",
+  "pending": {
+    "queued": 0,
+    "running": 0,
+    "activeGoals": 0,
+    "promptRunning": 0,
+    "startedOperations": 0,
+    "unreadable": 0
+  },
+  "restarted": false
+}

@@ -1,0 +1,45 @@
+{
+  "status": "clean-install-cli-verified",
+  "platform": "darwin",
+  "node": "v22.22.2",
+  "builtPackages": [
+    "tui",
+    "ai",
+    "agent",
+    "coding-agent",
+    "lightclaw"
+  ],
+  "cli": [
+    "lightclaw",
+    "lightclaw-audit",
+    "lightclaw-goal-migrate"
+  ],
+  "artifacts": [
+    {
+      "file": "mariozechner-pi-tui-0.70.6.tgz",
+      "sha256": "53330f3cd0fa127dffe07a879eade216f2002986ac7888782b56420e1dd75c73",
+      "bytes": 322092
+    },
+    {
+      "file": "mariozechner-pi-ai-0.70.6.tgz",
+      "sha256": "d789fb3c29a47fac6833fbb7f31c20d2f792f58cf89bc524076752d3ab025b02",
+      "bytes": 473979
+    },
+    {
+      "file": "mariozechner-pi-agent-core-0.70.6.tgz",
+      "sha256": "7f48aba393a5de24b0347f224e46e9040aa2450545c318c7c7ddec39fa6f84b7",
+      "bytes": 48239
+    },
+    {
+      "file": "mariozechner-pi-coding-agent-0.70.6.tgz",
+      "sha256": "1c5ea83db6afa7cd78ceefb8a1714c9d8b5847aec6363153f6e38ec2e5d41f9d",
+      "bytes": 4225834
+    },
+    {
+      "file": "lightclaw-0.70.6.tgz",
+      "sha256": "861a962f18773dc5d5e6b42c585d7fd22fed267bc6843e83f14ad7824d3d972e",
+      "bytes": 547986
+    }
+  ],
+  "limits": "Clean offline install with lifecycle scripts disabled, using prepared public dependency cache; native functional receipts recorded separately. Production entry remains source."
+}

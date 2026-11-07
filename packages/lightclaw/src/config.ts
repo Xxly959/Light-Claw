@@ -40,6 +40,8 @@ export interface LightClawConfig {
 	transport: TransportKind;
 	modelProvider: string;
 	modelId: string;
+	/** Explicit upstream ModelRegistry definitions for private gateways. */
+	modelsFile?: string;
 	modelFallbacks?: ModelFallback[];
 	openaiBaseUrl?: string;
 	promptInstructions?: string;
@@ -180,6 +182,7 @@ function loadBase(env: NodeJS.ProcessEnv = process.env): LightClawConfig {
 		],
 		modelProvider: env.LIGHTCLAW_MODEL_PROVIDER?.trim() || "zai",
 		modelId: env.LIGHTCLAW_MODEL_ID?.trim() || "glm-5.3-flash",
+		modelsFile: env.LIGHTCLAW_MODELS_FILE?.trim() || undefined,
 		modelFallbacks: parseModelFallbacks(env.LIGHTCLAW_MODEL_FALLBACKS),
 		openaiBaseUrl: env.OPENAI_BASE_URL?.trim() || undefined,
 		promptInstructions: env.LIGHTCLAW_PROMPT_INSTRUCTIONS?.trim() || undefined,

@@ -37,3 +37,11 @@ describe("飞书消息解析", () => {
 		expect(textOfContent("image", "{}")).toBe("");
 	});
 });
+
+it("normalizes only explicit SDK bot mention keys and preserves token prefixes", () => {
+	expect(stripAtTags("@_user_1 只回复 AGENT-fixed。 @_user_10", ["@_user_1"])).toBe("只回复 AGENT-fixed。 @_user_10");
+	expect(stripAtTags("@_user_1 is literal without mention metadata")).toBe(
+		"@_user_1 is literal without mention metadata",
+	);
+	expect(stripAtTags("@_user_1 检查", [""])).toBe("@_user_1 检查");
+});

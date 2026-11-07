@@ -15,6 +15,8 @@ import {
 	type Usage,
 } from "@mariozechner/pi-ai";
 
+import { EMPTY_MODEL_RESPONSE_ERROR, hasActionableModelContent } from "./model-response.js";
+
 export interface ModelRouterOptions {
 	primary: Model<Api>;
 	fallbacks: readonly Model<Api>[];
@@ -213,6 +215,9 @@ export function createRoutedStream(configuration: {
 					final = failureMessage(selected, error, options?.signal?.aborted ?? false);
 				} finally {
 					clearTimeout(timer);
+				}
+				if (final.stopReason !== "error" && final.stopReason !== "aborted" && !hasActionableModelContent(final)) {
+					final = { ...final, stopReason: "error", errorMessage: EMPTY_MODEL_RESPONSE_ERROR };
 				}
 				const success = final.stopReason !== "error" && final.stopReason !== "aborted";
 				const reason = final.errorMessage;

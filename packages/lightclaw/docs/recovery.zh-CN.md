@@ -62,8 +62,8 @@ Docker 需要容器内 Python 3.9+、Linux subreaper 与 pidfd 支持；当前 D
 
 本批验证的是进程退出、SIGTERM、SIGKILL 和原子文件状态恢复。新 journal 的 fsync/rename 增强本地提交顺序，GoalStore 仍沿用既有原子 rename；未做断电、磁盘损坏、NFS、主机内核崩溃或生产平台测试。不以进程崩溃测试宣称断电后不丢数据。
 
-## 审批归档与评测控制器恢复
+## 审批归档
 
 审批活动历史满额无需手改JSON：使用`/approve maintain`归档终态/过期票据，`/approve show <id>`核对历史。有效pending/approved和其他未决恢复状态不普通清理。身份、实例锁、空闲频道、文件事务与意图/结果审计均须通过；审计瞬时失败也不能当作普通命令失败吞掉。归档先持久发布，再更新活动文件，中断保留双份并以活动记录优先。
 
-离线评测`--mode=resume --out=<已有目录>`保留原freeze、共享预算startedAt、已花费/未知预留，不重新执行已有任务目录。全局账本丢失必须停止核对，不能重置额度；新输出实验仍不得覆盖旧结果。具体命令与限额文件格式见部署说明。
+独立评测控制器已从当前产品移除；其resume命令不再适用。旧说明已保存于docs/history/2026-11-06-retired-evaluation/recovery-before-capability-audit.zh-CN.md，不作为运行恢复入口。

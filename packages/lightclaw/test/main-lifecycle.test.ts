@@ -93,7 +93,7 @@ const audit = vi.hoisted(() => {
 	return { directory: workspace, fixtureRoot, control, originalArgs, originalSignals, state, result, AuditTransport };
 });
 
-vi.mock("undici", () => ({ EnvHttpProxyAgent: class {}, setGlobalDispatcher: () => {} }));
+vi.mock("undici", () => ({ EnvHttpProxyAgent: class {}, install: () => {}, setGlobalDispatcher: () => {} }));
 vi.mock("../src/config.js", () => ({
 	loadConfig: (): LightClawConfig => {
 		mkdirSync(audit.directory, { recursive: true });

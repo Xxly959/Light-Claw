@@ -22,6 +22,7 @@ packages/*/dist-firefox/
 
 # Package specific
 /lightclaw-data/
+/lightclaw-control/
 .npm/
 coverage/
 .nyc_output/
@@ -70,3 +71,7 @@ collect.sh
 
 # Generated local evaluation runs, caches and unsanitized diagnostic evidence
 /docs/diagnosis/
+
+# Private acceptance receipts and temporary source snapshots
+*.private.json
+/docs/verification/**/*.source.txt

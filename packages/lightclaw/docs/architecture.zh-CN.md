@@ -5,7 +5,7 @@
 ```mermaid
 flowchart LR
     User[飞书 / Slack 用户] --> Transport[ChatTransport 适配层]
-    Transport --> Main[main.ts 调度与队列]
+    Transport --> Main[main.ts 启动 / runtime.ts 编排]
 
     subgraph Runtime[Agent 运行时]
         Main --> Runner[AgentRunner]
@@ -24,25 +24,16 @@ flowchart LR
     Runner --> Audit[(audit/runs.jsonl<br/>Token、耗时、工具错误)]
     Runner --> Transport
 
-    subgraph Quality[质量闭环]
-        Dataset[JSON 评测集] --> Eval[Eval Runner<br/>规则评分]
-        Eval --> Runner
-        Eval --> Report[JSON 评测报告]
-        Report --> Optimizer[Prompt Optimizer]
-        Optimizer --> Candidates[候选行为指令]
-        Candidates --> Eval
-        Optimizer -->|仅得分严格提高| Prompt[最佳提示词]
-        Prompt -.-> Runner
-    end
+
 ```
 
-实线表示线上请求或状态读写，虚线表示经过评测门禁后才允许进入运行时的提示词。核心原则是：模型负责决策，确定性代码负责状态、安全边界和验收。
+图中只描述线上请求和状态读写；独立评测与基准框架已退役。核心原则是：模型负责决策，确定性代码负责状态、安全边界和验收。
 
 ## 为什么需要传输层
 
 飞书用 message ID，Slack 用时间戳；飞书的文件、回复线程和消息编辑限制也与 Slack 不同。如果 Agent 逻辑直接依赖某个平台，增加新平台时就要复制整套业务代码。
 
-`ChatTransport` 只保留 Agent 真正需要的最小能力：发送、更新、回复、删除、上传文件、查询用户和入队事件。Slack 与飞书分别实现它，`main.ts` 不再关心 SDK 细节。这就是适配器模式，也是依赖倒置的一个小例子。
+`ChatTransport` 只保留 Agent 真正需要的最小能力：发送、更新、回复、删除、上传文件、查询用户和入队事件。Slack 与飞书分别实现它，`runtime.ts` 不再关心 SDK 细节。这就是适配器模式，也是依赖倒置的一个小例子。
 
 ## Agent Loop
 
@@ -70,3 +61,11 @@ LightClaw 默认推荐 Docker 沙箱。长期 Agent 比普通聊天机器人风�
 审计日志只保存指标，不保存完整提示词、工具参数和回复正文。凭证只从环境变量或 pi 的认证存储读取。
 
 固定契约由真实平台事件创建，恢复／调度／续跑事件通过显式 origin 区分。`goal_complete` 经验证器读取实际文件或执行预定命令，failed 保持 active，inconclusive 等待创建者确认。验证命令共享单轮工具预算与取消信号。启动验证 Docker mount 未覆盖控制目录，Bot／迁移工具用同一互斥锁。相同 UID 的 host 命令、多租户共享挂载和远端取消仍有边界，详见[验收说明](goals.zh-CN.md)。
+
+## 临时提示词工作流
+
+飞书表单 → prompt-input.ts独立生成与约束复核 → feishu.ts可编辑预览 → 原用户确认 → runtime.ts把最终文本交给AgentRunner。修改说明/假设/问题属于控制与UI数据，不进入主会话。主Agent的稳定行为规则在agent.ts中，优化器元指令在prompt-rewrite.ts中，两者职责不同。
+
+## 学习入口
+
+按learning-path.zh-CN.md中的顺序读源码。Goal验收、审计和回归测试是运行保障，不是独立Agent效果评测。

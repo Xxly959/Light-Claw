@@ -1,0 +1,13 @@
+{
+  "status": "passed",
+  "installedNativeNode": true,
+  "provider": "faux",
+  "actualTools": [
+    "write",
+    "read"
+  ],
+  "toolCalls": 2,
+  "persistedContext": true,
+  "networkRequests": 0,
+  "limits": "Controlled fixture, policy off inside isolated directory; not a live model tool-selection or production authorization proof"
+}

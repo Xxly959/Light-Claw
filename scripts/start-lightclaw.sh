@@ -23,7 +23,7 @@ if [[ -f "$ENV_FILE" ]]; then
 	set +a
 else
 	echo "未找到 $ENV_FILE" >&2
-	echo "先执行：cp .env.example .env，然后填入飞书应用凭证" >&2
+	echo "先执行：cp packages/lightclaw/config.env.example .env，然后填入飞书应用凭证" >&2
 	exit 1
 fi
 
@@ -42,7 +42,7 @@ fi
 
 if [[ -n "$missing" ]]; then
 	echo "缺少环境变量：$missing" >&2
-	echo "请在 $ENV_FILE 中补齐（格式参考 .env.example）" >&2
+	echo "请在 $ENV_FILE 中补齐（格式参考 packages/lightclaw/config.env.example）" >&2
 	exit 1
 fi
 
@@ -63,4 +63,5 @@ esac
 
 echo "启动：transport=$TRANSPORT sandbox=$SANDBOX workdir=$WORK_DIR" >&2
 
+cd "$REPO_ROOT"
 exec "$TSX_BIN" "$REPO_ROOT/packages/lightclaw/src/main.ts" "--sandbox=$SANDBOX" "$WORK_DIR" "$@"

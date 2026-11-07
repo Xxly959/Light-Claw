@@ -1,12 +1,24 @@
 # LightClaw
 
-部署状态：2026-11-05已完成真实Docker定向验收、五包隔离构建与macOS/Node22.23.0独立离线安装；真实飞书/Slack和真实模型仍待专用环境授权。详见[部署](docs/deployment.zh-CN.md)、[故障排查](docs/troubleshooting.zh-CN.md)、[资源策略](docs/resources.zh-CN.md)和[公开验收证据](../../docs/verification/2026-11-05/README.zh-CN.md)。单实例、同一信任域，不提供租户隔离。
+状态：2026-11-06功能收敛为个人Agent，采用源码启动；工程回归保留，独立评测与基准已退役。见[最终范围](docs/project-scope.zh-CN.md)、[部署](docs/deployment.zh-CN.md)和[学习路线](docs/learning-path.zh-CN.md)。
 
 **A self-hosted agent for Feishu and Slack that saves progress and verifies task completion.**
 
 [中文](README.zh-CN.md) · [Repository overview](../../README.md) · [Architecture](docs/architecture.zh-CN.md) · [Goal acceptance](docs/goals.zh-CN.md)
 
 Give LightClaw a task in chat. It uses file and shell tools, keeps conversation and goal state on disk, and checks completion against fixed file/command rules or the goal owner's confirmation.
+
+## 推荐的源码启动方式
+
+已有.env不要覆盖。首次配置：
+
+```bash
+cp packages/lightclaw/config.env.example .env
+# 本地编辑.env，填写平台凭证与模型配置
+bash scripts/start-lightclaw.sh
+```
+
+启动器会载入.env并从仓库根运行；main.ts直接入口仍只读进程环境。模板默认host模式，按当前OS用户权限执行工具；如需Docker，先创建容器再修改LIGHTCLAW_SANDBOX。自定义网关使用LIGHTCLAW_MODELS_FILE，与完整步骤见[部署](docs/deployment.zh-CN.md)。项目不再包含Agent效果评测、性能基准或离线候选晋升功能。
 
 ## Highlights
 
@@ -15,7 +27,8 @@ Give LightClaw a task in chat. It uses file and shell tools, keeps conversation 
 - **Bounded execution:** per-run deadlines, tool and reported-token limits, plus failure and stale-progress circuit breakers.
 - **Channel scheduling:** bounded queues, queue expiry, and idle state disposal.
 - **Tool sandbox:** optional Docker execution with CPU, memory, process, and network settings.
-- **Evaluation workflow:** artifact checks, JSONL audit metrics, repeated train/holdout evaluation, and guarded prompt promotion.
+- **Controlled operation:** deterministic goal acceptance, protected state, approvals, recovery and audit logs.
+- **Editable prompt preview:** isolated suggestions with explicit user confirmation before execution.
 
 Built on pi's model, Agent, and session infrastructure. LightClaw adds chat transports and the task lifecycle in this package.
 
@@ -62,49 +75,6 @@ npx tsx packages/lightclaw/src/main.ts --sandbox=docker:lightclaw-sandbox ./ligh
 ```
 
 Credentials come from environment variables or pi's auth store; the entrypoint does not load `.env` automatically. Omitting `--sandbox` runs tools on the host. Docker uses `bridge` networking by default; set `LIGHTCLAW_SANDBOX_NETWORK=none` before creating the container for offline tool execution. See [sandbox configuration](docs/sandbox.zh-CN.md).
-
-## Evaluation and prompt optimization
-
-The included evaluation set runs the real Agent loop and checks responses, files, tool errors, latency, tokens, and cost. It calls the configured model and therefore consumes API quota:
-
-```bash
-npx tsx packages/lightclaw/src/evals/cli.ts --suite=legacy \
-  --sandbox=docker:lightclaw-sandbox \
-  --workspace=./lightclaw-data
-```
-
-Prompt optimization generates candidates from the training dataset only. It evaluates the baseline and each candidate on training and independent holdout cases at least five times, then writes a prompt only when training improves and holdout, individual cases, tool errors, and artifact checks do not regress:
-
-```bash
-npx --no-install tsx packages/lightclaw/src/evals/optimize-cli.ts \
-  --sandbox=docker:lightclaw-sandbox \
-  --workspace=./lightclaw-data \
-  --dataset=packages/lightclaw/evals/basic.json \
-  --holdout=packages/lightclaw/evals/holdout.json \
-  --repetitions=5 \
-  --candidates=2
-```
-
-To use the promoted instructions, load the generated text before starting LightClaw:
-
-```bash
-export LIGHTCLAW_PROMPT_INSTRUCTIONS="$(cat ./lightclaw-data/evals/optimized-prompt.txt)"
-```
-
-Add project-specific cases by copying `evals/basic.json`. Evaluation directories and reports live under `lightclaw-data/` and are excluded from Git.
-
-Training and holdout cases must have distinct IDs and task prompts. The small bundled sets demonstrate the workflow; repeated validation is a regression gate, not proof of production generalization or statistical significance. Default optimization now runs 60 task evaluations for two candidates and two cases in each dataset, plus candidate generation, and consumes the configured model quota. Schema 4 optimization reports retain every repetition and rejection reason. Dataset validation also applies to programmatic evaluation: unknown fields, empty checks, and escaping paths are rejected; artifact checks require regular files within the channel directory.
-
-## Deterministic performance benchmark
-
-The benchmark exercises the LightClaw channel queue and Agent Runtime with pi-mono's faux provider. It does not call a real model or chat platform and does not consume API quota:
-
-```bash
-cd packages/lightclaw
-npx tsx src/benchmark/cli.ts --output=../../lightclaw-data/benchmarks
-```
-
-The defaults run 1, 5, 10, and 20 concurrent channels with warmup and repeated measurement rounds. Each run preserves task-, round-, and resource-level JSONL records; its summary is rebuilt from those raw files. Results describe only the recorded machine, Node.js version, source state, and parameters, not real-model or Slack/Feishu performance. See [benchmark methodology](docs/performance-benchmark.zh-CN.md).
 
 ## Long-running goals
 
@@ -185,8 +155,6 @@ The audit log contains operational metadata only. It does not intentionally stor
 - [Chinese guide](README.zh-CN.md)
 - [Architecture](docs/architecture.zh-CN.md)
 - [Long-running goals](docs/goals.zh-CN.md)
-- [Evaluation record](docs/evaluation.zh-CN.md)
-- [Performance benchmark methodology](docs/performance-benchmark.zh-CN.md)
 - [Events](docs/events.md)
 - [Sandbox](docs/sandbox.md)
 - [Slack setup](docs/slack-bot-minimal-guide.md)
@@ -213,10 +181,15 @@ CI explicitly runs the LightClaw workspace test script. Tests isolate HOME/crede
 
 The runtime holds a kernel flock through a parent-owned descriptor, persists accepted messages/events before dispatch, and retains interrupted execution as unknown for manual reconciliation. Controlled operations use stable IDs and service result queries. Docker tasks are supervised inside the container and cancellation requires exit confirmation. Host POSIX/Python support is required; Docker additionally requires container Python and Linux subreaper/pidfd support. Arbitrary bash side effects do not gain exactly-once guarantees. See [recovery semantics and validation boundaries](docs/recovery.zh-CN.md).
 
-统一评测CLI不带suite时默认无凭证数据审计。上面的legacy/optimize命令会消耗真实模型额度，必须另行授权；本批没有运行。完整提示/工具故障正文诊断需显式 `LIGHTCLAW_DEBUG_PAYLOADS=1`，否则保留计数而不捕获完整调试内容；候选分析未启用该项就没有完整基线提示记录，不应宣称据此检验自动优化收益。
 
 ### Explicit prompt input and optimization
 
-Ordinary messages use the supplied input without candidate generation or scoring. `LIGHTCLAW_PROMPT_INSTRUCTIONS` is explicitly supplied operator text and remains independent of the optimization feature switch; no optimized file is discovered or loaded automatically. The public `resolvePromptInput` action defaults to `inject`, preserves the input bytes, and calls its scoring dependency only for `action: "optimize"`. It returns a recommendation rather than changing future input defaults. Feishu offers a “提示词优化” interactive card for ordinary text input (up to 12,000 characters). Only the original sender can click the bound card in the original chat, within 30 minutes. Clicking makes up to two tool-free model requests (candidate generation then subjective scoring), at most 1536 output tokens each; the original is also scored. The ranked recommendation is displayed for manual use and never replaces a running task or future input. Duplicate, expired, forwarded or interrupted requests do not automatically rerun. Subscribe the dedicated Feishu application to `card.action.trigger` before live acceptance. Slack remains direct input; it has no new optimization button.
+Ordinary messages execute unchanged. `LIGHTCLAW_PROMPT_INSTRUCTIONS` remains explicit operator configuration, independent of optional rewriting. In a Feishu group, send `@bot 任务入口` (alias `/prompt-entry`) and manually pin the reusable entry card. Click **输入任务** to open a fresh actor-bound form; alternatively send `@bot /prompt` with an optional prefill. The entry is bound to its original chat/message and survives restart; missing interaction tokens and forwarded cards are refused. Forms and previews are visible to the group. Enter up to 1,000 UTF-16 units and choose **原文发送** to execute unchanged, or **优化并预览** to make a tool-free candidate request (at most 2048 output tokens) and a separate constraint review (at most 1024 output tokens). The original card then shows task type, actual change suggestions, assumptions and open questions separately from the editable prompt and **确认发送**. Those explanations are rendered as literal text and are not sent to the Agent. No Agent task runs during preview. Edit the text, then confirm to execute exactly the final submitted text; confirmation never rewrites it again. Results over 1,000 units use sequential fields (up to 12,000 units total), concatenated without extra separators or broken surrogate pairs. Each field allows at most 1,000 units, and a short preview can be edited up to that field limit.
 
-权威审计位于工作区外的 `<控制目录>/.audit/`；包含 runs/tool-calls/spans 与显式启用的 payload。路径、配额、保留期和恢复命令以 [部署说明](docs/deployment.zh-CN.md) 为准。默认使用用户输入，不自动生成、评分或加载候选提示词；显式优化动作只返回推荐，不改变后续输入默认状态。
+For open-ended requests, the rewriter adds task-specific execution and output guidance (for research: classification, mechanisms, comparison and verifiable sources) rather than merely polishing punctuation. Identical or punctuation/whitespace-only responses are explicitly labeled in the preview. The rewriter preserves intent and constraints, avoids forced expansion or invented context, and receives its own system prompt, original input and host-provided target capability description as a JSON data envelope (`context: null`; web search is unverified by default). It returns bounded JSON metadata and a candidate prompt. Protected code, URLs, paths, variables and numbers are checked before a separate tool-free original/candidate constraint review; rejection fails closed without running the task. These checks do not establish general semantic equivalence or improved downstream quality. Neither raw input, rewrite instructions, change metadata, nor preview interactions are automatically appended to the Agent session. Only the final confirmed text becomes a user turn alongside prior conversation. Feishu `/prompt` commands and prefills are excluded from log-to-session import, including after restart. This is **session-context isolation**, not zero retention: source chat logs, protected drafts and durable inbox records still retain input for reconciliation; existing session entries and older summaries are unchanged. Ordinary chat messages remain conversation history, so enter a draft in the form instead of sending it as ordinary chat first.
+
+Only the creator can submit or confirm in the original chat/card within the original 30-minute expiry. Confirmation rechecks expiry, current channel activity and active goals; pause a long-running goal before submitting an independent task. Duplicate or interrupted requests never replay automatically, including after restart. A preview can survive restart until expiry. Malformed/incomplete rewrites, failed or uncertain preview delivery, cancellation and timeout do not execute the task or fall back to the original. A consumed confirmation cannot execute again. Submitted controls collapse to a status card; the navigation entry remains reusable. Open a new form for a new task or a different sending mode. Callback receipts acknowledge admission only; conflicting payloads return a safe error toast rather than throwing through the SDK. Rewritten or edited task text cannot invoke `/approve`, `/recover` or `/goal` command routing. Enable `card.action.trigger` and a client supporting card JSON 2.0 forms. Slack and ordinary text remain unchanged.
+
+The 2026-11-06 [functional acceptance report](../../docs/reports/FINAL-ACCEPTANCE-2026-11-06.zh-CN.md) records fresh isolated builds, clean installation, live private-chat/model checks, and the user-completed preview/edit/confirm flow with session inspection. Standalone evaluation, candidate-promotion and benchmark CLIs have been removed. Operational regression tests and interactive prompt suggestions remain. Existing processes need a controlled restart to load source changes.
+
+权威审计位于工作区外的 `<控制目录>/.audit/`；包含 runs/tool-calls/spans 与显式启用的 payload。路径、配额、保留期和恢复命令以 [部署说明](docs/deployment.zh-CN.md) 为准。普通聊天直接使用用户输入；飞书表单在“优化并预览”后展示可编辑结果，点击“确认发送”才执行最终文本，不评分，不改变后续输入默认状态。

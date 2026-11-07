@@ -1,0 +1,47 @@
+{
+  "schema": 1,
+  "startedAt": "2026-11-06T14:32:09.884Z",
+  "authorization": "2026-11-06 user reply: private chat max send5/edit5/upload1; isolated build/install",
+  "destinationSha256": "ab95a27a90aba7d7750dc13fec40194eb7add64b44edbe1c71dd93de3790ad5d",
+  "limits": {
+    "send": 2,
+    "edit": 1,
+    "upload": 1
+  },
+  "reservedForManual": {
+    "send": 3,
+    "edit": 4
+  },
+  "counts": {
+    "send": 2,
+    "edit": 1,
+    "upload": 1
+  },
+  "steps": [
+    "real-api-destination-p2p-verified",
+    "installed-real-rewrite-and-constraint-review",
+    "installed-real-agent-no-tool-roundtrip",
+    "real-private-send",
+    "real-private-update",
+    "installed-python-helper-upload-and-file-message"
+  ],
+  "status": "passed",
+  "realUserCallbackTested": false,
+  "destinationCheck": {
+    "code": 0,
+    "mode": "p2p"
+  },
+  "rewrite": {
+    "taskType": "exact",
+    "chars": 55,
+    "changes": 1
+  },
+  "model": {
+    "stopReason": "stop",
+    "toolCalls": 0,
+    "inputTokens": 1161,
+    "outputTokens": 9,
+    "providerReportedCost": 0,
+    "usageIncomplete": false
+  }
+}

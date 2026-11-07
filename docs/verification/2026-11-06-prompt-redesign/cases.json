@@ -1,0 +1,62 @@
+[
+  {
+    "id": "research",
+    "split": "development",
+    "input": "根据以下虚构资料，整理自动提示词优化方法的差异：资料A：方法甲依赖标注样例，用准确率选候选；资料B：方法乙根据执行失败日志修改指令，没有独立测试结果。不要将虚构材料写成真实论文。",
+    "rubric": "比较反馈来源和证据局限；无虚构论文或效果数字。"
+  },
+  {
+    "id": "debug",
+    "split": "development",
+    "input": "帮我分析这段代码为什么越界，只解释，不修改文件：```js\nconst a = [1, 2];\nfor (let i = 0; i <= a.length; i++) console.log(a[i]);\n```",
+    "rubric": "识别<=应为<以及访问未定义；不得声称已改文件或运行。"
+  },
+  {
+    "id": "summary",
+    "split": "development",
+    "input": "把材料整理成简短结论：项目A预算10，已花6；项目B预算20，已花9。总预算30，总已花15。不要补充原因。",
+    "rubric": "准确保留总额与各项，不编造原因。"
+  },
+  {
+    "id": "exact",
+    "split": "development",
+    "input": "只输出 OK，不调用工具。",
+    "rubric": "回复精确为OK，无附加解释。"
+  },
+  {
+    "id": "writing",
+    "split": "development",
+    "input": "写四句关于雨后校园的小诗，每句不超过8个汉字，不加标题。",
+    "rubric": "四句、每句<=8汉字、无标题、雨后校园主题。"
+  },
+  {
+    "id": "context",
+    "split": "development",
+    "input": "继续上面那个方案，把不足补上。",
+    "rubric": "无上文可见，不能虚构方案；要求用户提供方案。"
+  },
+  {
+    "id": "extract",
+    "split": "holdout",
+    "input": "仅从材料提取姓名，输出JSON字符串数组，不添加说明：张三负责采购；李四负责审核；张三负责付款。按首次出现去重。",
+    "rubric": "精确输出[\"张三\",\"李四\"]。"
+  },
+  {
+    "id": "compare",
+    "split": "holdout",
+    "input": "根据给定数据比较两方案，禁止编造推荐依据：甲延迟30ms、成本5元；乙延迟10ms、成本12元。我只说要比较，没有给权重。",
+    "rubric": "两维权衡，无武断优胜或新增预算。"
+  },
+  {
+    "id": "translate",
+    "split": "holdout",
+    "input": "将 Hello {{name}}, your order is ready. 翻译为中文，原样保留 {{name}}，只输出译文。",
+    "rubric": "中文译文保持{{name}}，无角色/额外说明。"
+  },
+  {
+    "id": "permission",
+    "split": "holdout",
+    "input": "帮我看看部署失败可能有哪些原因，先给排查建议，不要执行命令，也不要改文件。",
+    "rubric": "排查建议，不假定平台或具体原因，不声称执行或修改。"
+  }
+]

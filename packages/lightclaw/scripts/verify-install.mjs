@@ -64,7 +64,6 @@ function verify(root, out, cache) {
   const output = run(join(install, "node_modules", ".bin", bin), ["--help"], install);
   if (output.trim().length < 20 || !output.toLowerCase().includes("lightclaw")) throw new Error(`NOT VERIFIED: missing CLI help output (${bin}); see retained logs`);
  }
- run(join(install, "node_modules", ".bin", "lightclaw-eval"), ["--suite=reliability", "--mode=audit"], install);
  writeFileSync(join(out, "verification.json"), JSON.stringify({ status: "clean-install-cli-verified", platform: process.platform, node: process.version, files, tarballs, limits: "No real platform/model or production workload; Python behavior separately verified by offline backup/attachment regressions." }, null, 2));
  console.log(JSON.stringify({ out, status: "clean-install-cli-verified" }));
 }

@@ -1,0 +1,27 @@
+{
+  "status": "engineering-closeout-complete",
+  "scope": "single-instance personal Agent on current machine",
+  "vitestFiles": 68,
+  "vitestTests": 667,
+  "checks": {
+    "install-result.json": "clean-install-cli-verified",
+    "installed-tools-result.json": "passed",
+    "live-result.json": "passed",
+    "manual-result.json": "passed",
+    "runtime-result.json": "passed",
+    "source-parity.json": "passed"
+  },
+  "staticCheck": "passed",
+  "diffCheck": "passed",
+  "runtimeEntry": "source",
+  "installedArtifactVerifiedSeparately": true,
+  "published": false,
+  "committed": false,
+  "qualityEvaluationPerformed": false,
+  "limits": [
+    "No full live Slack acceptance",
+    "No new Linux deployment",
+    "No long-running production load test",
+    "No guarantee of arbitrary model task success"
+  ]
+}

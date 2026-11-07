@@ -16,8 +16,8 @@ function allowed(path) {
 	if (parts.some((part) => part.startsWith(".") || ["node_modules", "dist"].includes(part))) return false;
 	if (parts[0] !== "packages" || !packages.has(parts[1])) return false;
 	return parts.length === 3
-		? /^(package\.json|tsconfig[^/]*\.json|README[^/]*|CHANGELOG\.md|Dockerfile|docker\.sh|vitest\.config\.ts)$/.test(parts[2])
-		: ["src", "scripts", "docs", "evals", "test"].includes(parts[2]);
+		? /^(package\.json|tsconfig[^/]*\.json|config\.env\.example|README[^/]*|CHANGELOG\.md|Dockerfile|docker\.sh|vitest\.config\.ts)$/.test(parts[2])
+		: ["src", "scripts", "docs", "test"].includes(parts[2]);
 }
 
 function safePath(root, path) {
@@ -71,7 +71,7 @@ function prepare(root, output) {
 		kind: "local-source-review-material",
 		compiledRuntime: "NOT VERIFIED: no build or dependency installation performed",
 		createdAt: new Date().toISOString(),
-		evaluatorBoundary: "evals and tests remain in their package trees; never copy blind evaluator assets into an Agent working directory",
+		runtimeBoundary: "Source package and regression tests only; live workspaces, credentials and research evaluation assets are excluded",
 		files: files.map(({ content: _content, ...file }) => file),
 	};
 	writeFileSync(join(output, manifestName), `${JSON.stringify(manifest, null, 2)}\n`);

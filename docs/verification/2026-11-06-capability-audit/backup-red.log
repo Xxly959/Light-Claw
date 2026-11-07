@@ -1,0 +1,64 @@
+
+ RUN  v3.2.4 /Users/x/Light-Claw/packages/lightclaw
+
+ ❯ test/backup-restore.test.ts (7 tests | 3 failed) 337ms
+   ✓ roundtrips both roots with hashes and excludes credential/ephemeral files 86ms
+   ✓ cannot bypass a running instance's kernel lock 50ms
+   ✓ rejects a corrupt backup and never overwrites destination state 66ms
+   × refuses a workspace backup root that is a missing without creating output or source state 35ms
+     → {"backup": "/private/var/folders/qs/lw_gmsyx0xb4yxy56dwzc97c0000gn/T/state-backup-7upq89/backup", "files": 1, "credentials": "excluded"}
+: expected +0 not to be +0 // Object.is equality
+   × refuses a control backup root that is a missing without creating output or source state 34ms
+     → {"backup": "/private/var/folders/qs/lw_gmsyx0xb4yxy56dwzc97c0000gn/T/state-backup-SFo0Rs/backup", "files": 1, "credentials": "excluded"}
+: expected +0 not to be +0 // Object.is equality
+   × refuses a workspace backup root that is a file without creating output or source state 33ms
+     → {"backup": "/private/var/folders/qs/lw_gmsyx0xb4yxy56dwzc97c0000gn/T/state-backup-6zkYTQ/backup", "files": 1, "credentials": "excluded"}
+: expected +0 not to be +0 // Object.is equality
+   ✓ refuses a control backup root that is a file without creating output or source state 31ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/backup-restore.test.ts > refuses a workspace backup root that is a missing without creating output or source state
+AssertionError: {"backup": "/private/var/folders/qs/lw_gmsyx0xb4yxy56dwzc97c0000gn/T/state-backup-7upq89/backup", "files": 1, "credentials": "excluded"}
+: expected +0 not to be +0 // Object.is equality
+ ❯ test/backup-restore.test.ts:94:43
+     92|   f.backup,
+     93|  ]);
+     94|  expect(result.status, result.stdout).not.toBe(0);
+       |                                           ^
+     95|  expect(existsSync(f.backup)).toBe(false);
+     96|  if (kind === "missing") expect(existsSync(invalid)).toBe(false);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  test/backup-restore.test.ts > refuses a control backup root that is a missing without creating output or source state
+AssertionError: {"backup": "/private/var/folders/qs/lw_gmsyx0xb4yxy56dwzc97c0000gn/T/state-backup-SFo0Rs/backup", "files": 1, "credentials": "excluded"}
+: expected +0 not to be +0 // Object.is equality
+ ❯ test/backup-restore.test.ts:94:43
+     92|   f.backup,
+     93|  ]);
+     94|  expect(result.status, result.stdout).not.toBe(0);
+       |                                           ^
+     95|  expect(existsSync(f.backup)).toBe(false);
+     96|  if (kind === "missing") expect(existsSync(invalid)).toBe(false);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  test/backup-restore.test.ts > refuses a workspace backup root that is a file without creating output or source state
+AssertionError: {"backup": "/private/var/folders/qs/lw_gmsyx0xb4yxy56dwzc97c0000gn/T/state-backup-6zkYTQ/backup", "files": 1, "credentials": "excluded"}
+: expected +0 not to be +0 // Object.is equality
+ ❯ test/backup-restore.test.ts:94:43
+     92|   f.backup,
+     93|  ]);
+     94|  expect(result.status, result.stdout).not.toBe(0);
+       |                                           ^
+     95|  expect(existsSync(f.backup)).toBe(false);
+     96|  if (kind === "missing") expect(existsSync(invalid)).toBe(false);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  3 failed | 4 passed (7)
+   Start at  23:30:15
+   Duration  521ms (transform 21ms, setup 10ms, collect 12ms, tests 337ms, environment 0ms, prepare 36ms)

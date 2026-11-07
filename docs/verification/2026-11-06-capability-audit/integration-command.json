@@ -1,0 +1,14 @@
+{
+  "cwd": "/Users/x/Light-Claw/packages/lightclaw",
+  "command": [
+    "npx",
+    "tsx",
+    "../../node_modules/vitest/dist/cli.js",
+    "--run",
+    "test/platform-contract.test.ts",
+    "test/runner-lifecycle.test.ts",
+    "test/goal-commands.test.ts",
+    "--silent"
+  ],
+  "exitCode": 0
+}

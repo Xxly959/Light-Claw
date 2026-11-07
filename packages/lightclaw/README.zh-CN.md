@@ -1,12 +1,24 @@
 # LightClaw 使用指南
 
-部署状态：2026-11-05已完成真实Docker定向验收、五包隔离构建与macOS/Node22.23.0独立离线安装；真实飞书/Slack和真实模型仍待专用环境授权。详见[部署](docs/deployment.zh-CN.md)、[故障排查](docs/troubleshooting.zh-CN.md)、[资源策略](docs/resources.zh-CN.md)和[公开验收证据](../../docs/verification/2026-11-05/README.zh-CN.md)。单实例、同一信任域，不提供租户隔离。
+状态：2026-11-06功能收敛为个人Agent，采用源码启动；工程回归保留，独立评测与基准已退役。见[最终范围](docs/project-scope.zh-CN.md)、[部署](docs/deployment.zh-CN.md)和[学习路线](docs/learning-path.zh-CN.md)。
 
 [English](README.md) · [项目首页](../../README.md) · [架构](docs/architecture.zh-CN.md) · [目标验收](docs/goals.zh-CN.md)
 
-LightClaw 将飞书和 Slack 消息接入同一套 Agent 运行时，支持多轮任务、进度持久化、文件与命令验收、Docker 工具执行，以及运行审计和评测。
+LightClaw 将飞书和 Slack 消息接入同一套 Agent 运行时，支持多轮任务、进度持久化、文件与命令验收、Docker 工具执行，以及运行审计和故障恢复。
 
-项目首页介绍使用场景与核心能力；本指南说明启动、模型配置、目标控制和评测方法。
+项目首页介绍使用场景与核心能力；本指南说明启动、模型配置、目标控制和日常操作。
+
+## 推荐的源码启动方式
+
+已有.env不要覆盖。首次配置：
+
+```bash
+cp packages/lightclaw/config.env.example .env
+# 本地编辑.env，填写平台凭证与模型配置
+bash scripts/start-lightclaw.sh
+```
+
+启动器会载入.env并从仓库根运行；main.ts直接入口仍只读进程环境。模板默认host模式，按当前OS用户权限执行工具；如需Docker，先创建容器再修改LIGHTCLAW_SANDBOX。自定义网关使用LIGHTCLAW_MODELS_FILE，与完整步骤见[部署](docs/deployment.zh-CN.md)。项目不再包含Agent效果评测、性能基准或离线候选晋升功能。
 
 ## 安装与启动
 
@@ -67,57 +79,14 @@ npx tsx packages/lightclaw/src/main.ts --sandbox=docker:lightclaw-sandbox ./ligh
 在 `packages/lightclaw` 目录运行已授权的具体回归：
 
 ```bash
-rtk proxy npx tsx ../../node_modules/vitest/dist/cli.js --run test/attachment-upload.test.ts test/runner-lifecycle.test.ts test/offline-entry.test.ts test/diagnosis-statistics.test.ts
+rtk proxy npx tsx ../../node_modules/vitest/dist/cli.js --run test/attachment-upload.test.ts test/runner-lifecycle.test.ts test/offline-entry.test.ts test/runtime-goal-loop.test.ts
 ```
 
-包级 `test` 脚本由根 workspace 测试入口发现，CI 另有必跑的 LightClaw 步骤，防止再次被 `--if-present` 静默跳过。测试使用临时 HOME、移除继承的凭证变量、阻止 Node TCP/fetch 请求，模型与平台调用使用 faux/mock。统计回归调用 Python 标准库读取虚构 JSON；历史数据重算入口为 `docs/diagnosis/2026-10-21/analyze-live-v2.py`，`--check` 只读验证已生成 v2 文件，不调用模型。
+包级 `test` 脚本由根 workspace 测试入口发现，CI 另有必跑的 LightClaw 步骤，防止再次被 `--if-present` 静默跳过。测试使用临时 HOME、移除继承的凭证变量、阻止 Node TCP/fetch 请求，模型与平台调用使用 faux/mock。
 
 ## 崩溃恢复与受控执行
 
 运行时通过内核锁保持单实例；消息和一次性事件先持久接纳，执行中断保留 unknown 并等待人工核对。受控操作使用稳定 ID 和服务结果查询；任意 bash 的外部副作用仍需人工检查。Docker 使用容器内监督器确认取消。依赖、状态、人工恢复和实测边界见[恢复说明](docs/recovery.zh-CN.md)。
-
-## 运行 Agent 评测
-
-下面的命令会调用你配置的模型接口，消耗相应 API 额度：
-
-```bash
-npx tsx packages/lightclaw/src/evals/cli.ts --suite=legacy \
-  --sandbox=docker:lightclaw-sandbox \
-  --workspace=./lightclaw-data
-```
-
-默认评测集是 `packages/lightclaw/evals/basic.json`。它不只判断模型“说得像不像”，还会检查 Agent 是否真的创建了文件、工具有没有报错，以及耗时、Token 和费用。结果保存在 `lightclaw-data/evals/report-*.json`。
-
-## 自动优化提示词
-
-```bash
-npx --no-install tsx packages/lightclaw/src/evals/optimize-cli.ts \
-  --sandbox=docker:lightclaw-sandbox \
-  --workspace=./lightclaw-data \
-  --dataset=packages/lightclaw/evals/basic.json \
-  --holdout=packages/lightclaw/evals/holdout.json \
-  --repetitions=5 \
-  --candidates=2
-```
-
-流程是“训练集/留出集各跑至少 5 次基线 → 只用训练集生成候选 → 两组各重复评测 → 检查退化”。候选训练均分须严格提高，留出均分与逐用例最低得分不下降，工具错误和文件产物检查不能变差；通过才写入 `lightclaw-data/evals/optimized-prompt.txt`。两组不能共享 ID 或任务提示。默认两个候选、每组两个用例、重复 5 次共执行 60 项任务评测，另有候选生成，会消耗配置模型的实际额度。schema 4 报告保存每次结果与拒绝原因。启用它：
-
-```bash
-export LIGHTCLAW_PROMPT_INSTRUCTIONS="$(cat ./lightclaw-data/evals/optimized-prompt.txt)"
-```
-
-随包小数据集只演示流程，留出复测是回归门禁，不证明生产泛化或统计显著性。频繁选择候选也可能使留出集逐渐成为调参依据；工程验收应另外保留未用于选型的最终测试任务。评测输入统一校验文件和程序内用例，拒绝未知字段、空检查及越界路径；文件检查要求频道目录内的常规文件，取消/截断不算成功。
-
-## 运行确定性性能基准
-
-该基准使用 pi-mono 的 faux provider 测量 LightClaw 频道队列与 Agent Runtime，不连接真实模型、飞书或 Slack，也不消耗 API 额度：
-
-```bash
-cd packages/lightclaw
-npx tsx src/benchmark/cli.ts --output=../../lightclaw-data/benchmarks
-```
-
-默认测试 1、5、10、20 个并发频道，每个级别包含预热和多轮正式测量。每次运行保留任务、轮次与资源采样 JSONL，汇总从这些原始文件重建。结果仅适用于报告记录的机器、Node.js 版本、源码状态和参数，不能表述为真实模型或消息平台性能。详见[性能基准方法](docs/performance-benchmark.zh-CN.md)。
 
 ## 使用长期目标
 
@@ -183,17 +152,26 @@ lightclaw-data/
 - [长期目标与完成验收](docs/goals.zh-CN.md)
 - [沙箱配置](docs/sandbox.zh-CN.md)
 - [定时事件](docs/events.md)
-- [历史评测记录](docs/evaluation.zh-CN.md)
-- [性能基准方法](docs/performance-benchmark.zh-CN.md)
 
 静态检查在仓库根目录执行 `npm run check`，不包含测试。定向测试从对应包目录执行，遵循[开发规则](../../AGENTS.md)。
 
-统一评测CLI不带suite时默认无凭证数据审计。上面的legacy/optimize命令会消耗真实模型额度，必须另行授权；本批没有运行。完整提示/工具故障正文诊断需显式 `LIGHTCLAW_DEBUG_PAYLOADS=1`，否则保留计数而不捕获完整调试内容；候选分析未启用该项就没有完整基线提示记录，不应宣称据此检验自动优化收益。
 
-权威审计位于工作区外的 `<控制目录>/.audit/`；包含 runs/tool-calls/spans 与显式启用的 payload。路径、配额、保留期和恢复命令以 [部署说明](docs/deployment.zh-CN.md) 为准。默认使用用户输入，不自动生成、评分或加载候选提示词；显式优化动作只返回推荐，不改变后续输入默认状态。
+权威审计位于工作区外的 `<控制目录>/.audit/`；包含 runs/tool-calls/spans 与显式启用的 payload。路径、配额、保留期和恢复命令以 [部署说明](docs/deployment.zh-CN.md) 为准。默认使用用户输入，不自动生成、评分或加载候选提示词；显式优化动作先预览，确认后才执行最终文本，不改变后续输入默认状态。
 
 ## 飞书可选提示词优化
 
-普通文本按原文交给Agent，不自动生成候选或评分。飞书同时提供“提示词优化”交互卡片；仅原发送者可在原频道原卡片点击，有效期30分钟。点击后才进行至多2次无工具模型请求（先生成至多2条候选，再连同原文评分，每次最多1536输出Token）；按模型主观评审分数展示推荐，不是任务实测收益。不会自动替换已启动任务或下一条输入；需要时复制推荐作为新消息。输入上限12000字符，重复/过期/中断不自动重试，失败可重新发送原文。
+普通文本直接交给Agent，不自动优化。在群里发送 `@机器人 任务入口` 或 `@机器人 /prompt-entry`，点击卡片的“输入任务”；也可用 `/prompt`（可附带预填原文）打开表单。任务入口可手动置顶，绑定原群原消息，跨重启保留。
 
-`LIGHTCLAW_FEATURE_OPTIMIZATION=false`关闭卡片及候选优化，不影响原文输入。真实飞书应用需订阅`card.action.trigger`；本轮仅mock SDK+faux验证，无真实平台/模型调用。Slack不增加该按钮。
+1. 在表单输入原文（最多1000个UTF-16单元）。点击“原文发送”会直接执行；点击“优化并预览”只生成候选并进行一次独立约束复核，不启动Agent任务。
+2. 原卡片更新为“优化结果预览（尚未执行）”，卡片单独显示任务类型、改动说明、假设与待确认信息；输入框预填候选提示词，可直接修改。说明不会随任务发送，需要的补充信息请写入编辑框。超过1000单元的结果分段编辑（总上限12000单元），确认时按顺序无损拼接，不额外插入换行。单个编辑框最多1000单元，短结果可在当前框上限内扩写。
+3. 检查并修改后，点击“确认发送”。Agent仅收到最终提交文本，确认不会再次改写。未确认就不执行；新任务或更换发送方式请重新打开表单。
+
+对于“调研、整理、比较”等开放任务，改写会要求补充与原任务相关的执行指引和输出结构，例如调研分类、机制、对比与可核验来源；不虚构用户项目背景或授权。如果模型仍返回原文或仅改标点/空白，预览会明确提示，不能把这类变化当作已验证的实质优化。
+
+改写使用独立、无工具的临时模型上下文，包含专用系统提示词、本次原文和宿主提供的目标工具能力描述（JSON数据，`context: null`；默认不声称具备网页搜索能力），不读取主会话历史。原文、改写系统提示词、修改说明、假设、待确认信息及复核反馈及预览交互不会自动写入主Agent的 `context.jsonl`。只有最终确认文本作为一个用户轮次加入已有会话。`/prompt`及预填内容也不会被日志同步重新导入。普通聊天仍属于聊天历史，因此应在卡片里输入草稿，不要先作为普通消息发送原文。既有会话和历史压缩摘要不会追溯清理。
+
+这是会话上下文隔离，不是零留存：控制目录中的草稿和inbox记录仍用于审计、去重与恢复，源聊天日志也保留；表单和预览对群成员可见。候选生成最多2048输出Token，独立约束复核最多1024输出Token。JSON格式、字面材料与数字保持检查不代替语义验证；模型复核也可能漏判，不能据此宣称普遍质量提升。复核失败不会发布候选或执行任务。
+
+原发送者须在原群原卡片确认，有效期沿用首次表单的30分钟。确认时重新检查频道忙碌状态和活跃长期目标。预览可跨重启确认，但重复确认最多执行一次；过期、中断、改写失败、超时、取消或预览投递失败/不确定均不会自动执行或退回原文。确认文本中的 `/approve`、`/recover`、`/goal`按任务数据处理，不升级为控制命令。
+
+`LIGHTCLAW_FEATURE_OPTIMIZATION=false`关闭表单优化入口，不影响普通原文输入。真实飞书应用需订阅 `card.action.trigger` 并支持卡片JSON 2.0。流程经实际adapter+mock SDK+faux验证；本轮另已完成独立安装产物真实模型/私聊附件验收，以及用户在真实客户端优化预览、编辑和确认，主会话记录核对了隔离边界。见[最终验收报告](../../docs/reports/FINAL-ACCEPTANCE-2026-11-06.zh-CN.md)。已有进程须重启才加载后续源码改动。Slack不增加该入口。

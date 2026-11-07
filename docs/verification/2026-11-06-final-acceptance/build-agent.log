@@ -1,0 +1,3 @@
+
+> @mariozechner/pi-agent-core@0.70.6 build
+> tsgo -p tsconfig.build.json

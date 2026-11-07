@@ -1,0 +1,15 @@
+
+ RUN  v3.2.4 /Users/x/Light-Claw/packages/lightclaw
+
+ ✓ test/goal-commands.test.ts (10 tests) 20ms
+{"diagnostic":"faux-channel-churn","created":100,"disposed":100,"retainedAfterClose":0,"observations":[{"channels":10,"retained":8,"rssBytes":253624320,"heapUsedBytes":111089920},{"channels":20,"retained":8,"rssBytes":255197184,"heapUsedBytes":105627448},{"channels":30,"retained":8,"rssBytes":255295488,"heapUsedBytes":111991600},{"channels":40,"retained":8,"rssBytes":251985920,"heapUsedBytes":106713512},{"channels":50,"retained":8,"rssBytes":252035072,"heapUsedBytes":112999456},{"channels":60,"retained":8,"rssBytes":252854272,"heapUsedBytes":107781128},{"channels":70,"retained":8,"rssBytes":252968960,"heapUsedBytes":114018776},{"channels":80,"retained":8,"rssBytes":245547008,"heapUsedBytes":108752184},{"channels":90,"retained":8,"rssBytes":245645312,"heapUsedBytes":114909040},{"channels":100,"retained":8,"rssBytes":245841920,"heapUsedBytes":121024328}]}
+ ✓ test/runner-lifecycle.test.ts (35 tests) 4802ms
+   ✓ runner attachment isolation and lifecycle > runs 100 faux channels with bounded retention and releases all sessions  2497ms
+ ✓ test/platform-contract.test.ts (41 tests) 5317ms
+   ✓ replaces raw input with one optimized user turn, preserving prior context without rewrite traffic after restart  980ms
+   ✓ reuses a channel-bound entry across actors and restart without duplicate forms or premature model calls  1111ms
+
+ Test Files  3 passed (3)
+      Tests  86 passed (86)
+   Start at  23:24:49
+   Duration  6.85s (transform 818ms, setup 28ms, collect 2.85s, tests 10.14s, environment 0ms, prepare 131ms)

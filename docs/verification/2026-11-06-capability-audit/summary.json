@@ -1,0 +1,24 @@
+{
+  "status": "verified-with-documented-boundaries",
+  "capabilities": [
+    "session-memory",
+    "tool-execution",
+    "prompt-preview",
+    "long-running-goals",
+    "runtime-recovery",
+    "backup-restore"
+  ],
+  "testFiles": 18,
+  "tests": 214,
+  "staticCheck": "passed",
+  "backupRegressions": 8,
+  "newMemoryRegression": 1,
+  "fixed": [
+    "invalid backup roots could silently omit source state",
+    "unreadable backup subtrees could be silently omitted",
+    "stale retired evaluation recovery documentation"
+  ],
+  "newLiveApiCalls": 0,
+  "newBuildOrInstall": false,
+  "historicalInstallPredatesBackupFix": true
+}

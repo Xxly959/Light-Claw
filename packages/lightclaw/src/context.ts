@@ -43,6 +43,7 @@ export function syncLogToSessionManager(
 	sessionManager: SessionManager,
 	channelDir: string,
 	excludeSlackTs?: string,
+	options: { excludePromptForms?: boolean } = {},
 ): number {
 	const logFile = join(channelDir, "log.jsonl");
 
@@ -105,6 +106,14 @@ export function syncLogToSessionManager(
 
 			// Skip the current message being processed (will be added via prompt())
 			if (excludeSlackTs && slackTs === excludeSlackTs) continue;
+
+			// Feishu /prompt opens a composer; its prefill is not an executed user turn.
+			// Keep the source log for reconciliation, but never re-import it as task context.
+			if (
+				options.excludePromptForms &&
+				/^(?:\/prompt(?:\s|$)|\/prompt-entry$|任务入口$)/.test(logMsg.text?.trim() ?? "")
+			)
+				continue;
 
 			// Skip bot messages - added through agent flow
 			if (logMsg.isBot) continue;

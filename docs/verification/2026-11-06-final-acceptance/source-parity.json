@@ -1,0 +1,9 @@
+{
+  "status": "passed",
+  "comparedSourceAndPackageFiles": 298,
+  "mismatches": [],
+  "builtSnapshot": "/Users/x/.pi/lightclaw/releases/20261106-final/source",
+  "deliverySnapshot": "/Users/x/.pi/lightclaw/releases/20261106-final/source-delivery",
+  "deliveryManifestSha256": "deddd8d32cc73b487b105315b5807da16f18561fc64960ea9cbdcca8bbe1be3b",
+  "limits": "Documentation updated after original build; all five packages source and manifests identical to built snapshot"
+}

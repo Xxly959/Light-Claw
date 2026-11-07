@@ -5,9 +5,6 @@
 	"type": "module",
 	"bin": {
 		"lightclaw": "dist/main.js",
-		"lightclaw-benchmark": "dist/benchmark/cli.js",
-		"lightclaw-eval": "dist/evals/cli.js",
-		"lightclaw-prompt-optimize": "dist/evals/optimize-cli.js",
 		"lightclaw-goal-migrate": "dist/goals/migrate-cli.js",
 		"lightclaw-audit": "dist/audit/cli.js"
 	},
@@ -16,25 +13,29 @@
 	"files": [
 		"dist",
 		"src/attachment-reader.py",
-        "src/attachment-writer.py",
+		"src/attachment-writer.py",
 		"src/docker-supervisor.py",
 		"scripts/local-release.mjs",
-        "scripts/verify-install.mjs",
-        "scripts/acceptance-plan.mjs",
-        "scripts/state-backup.py",
+		"scripts/verify-install.mjs",
+		"scripts/acceptance-plan.mjs",
+		"scripts/state-backup.py",
 		"docs/deployment.zh-CN.md",
-		"evals",
 		"CHANGELOG.md",
 		"Dockerfile",
 		"docker.sh",
 		"docs/resources.zh-CN.md",
-		"docs/troubleshooting.zh-CN.md"
+		"docs/troubleshooting.zh-CN.md",
+		"config.env.example",
+		"docs/project-scope.zh-CN.md",
+		"docs/learning-path.zh-CN.md",
+		"docs/architecture.zh-CN.md",
+		"docs/goals.zh-CN.md"
 	],
 	"scripts": {
 		"release:source": "node scripts/local-release.mjs",
 		"test": "tsx ../../node_modules/vitest/dist/cli.js --run",
 		"clean": "shx rm -rf dist",
-		"build": "tsgo -p tsconfig.build.json && shx cp src/attachment-reader.py src/attachment-writer.py src/docker-supervisor.py dist/ && shx chmod +x dist/main.js dist/benchmark/cli.js dist/evals/cli.js dist/evals/optimize-cli.js dist/goals/migrate-cli.js dist/audit/cli.js",
+		"build": "tsgo -p tsconfig.build.json && shx cp src/attachment-reader.py src/attachment-writer.py src/docker-supervisor.py dist/ && shx chmod +x dist/main.js dist/goals/migrate-cli.js dist/audit/cli.js",
 		"dev": "tsgo -p tsconfig.build.json --watch --preserveWatchOutput",
 		"prepublishOnly": "npm run clean && npm run build"
 	},

@@ -115,6 +115,9 @@ describe("createAgentRunner", () => {
 					},
 				);
 				await runner.run(context, new ChannelStore({ workingDir: workspace }));
+				expect(actualPrompt).toContain("Evidence and execution");
+				expect(actualPrompt).toContain("Never invent citations");
+				expect(actualPrompt).toContain("Completion check");
 				expect(actualPrompt).toContain("benchmark-user\t@benchmark\tBenchmark");
 				expect(actualPrompt).toContain(
 					`Current working directory: ${sandbox === "docker" ? "/workspace" : process.cwd()}`,
@@ -151,4 +154,61 @@ describe("createAgentRunner", () => {
 			}
 		},
 	);
+});
+
+it("replaces the thinking placeholder when a provider completes without an answer", async () => {
+	vi.stubEnv("LIGHTCLAW_DEBUG_PAYLOADS", "0");
+	const workspace = mkdtempSync(join(tmpdir(), "lightclaw-empty-response-"));
+	temporaryPaths.push(workspace);
+	const channel = "empty-response";
+	const channelDir = join(workspace, channel);
+	const faux = registerFauxProvider();
+	faux.setResponses([fauxAssistantMessage([])]);
+	const goals = new GoalStore({
+		channelDir,
+		controlChannelDir: join(workspace, "control", channel),
+		limits: { maxCycles: 8, maxFailures: 2, maxStaleCycles: 2 },
+	});
+	const replaceMessage = vi.fn(async (_text: string) => {});
+	const ctx: ChatContext = {
+		message: { text: "hello", rawText: "hello", user: "owner", channel, ts: "1", attachments: [] },
+		channelName: channel,
+		channels: [{ id: channel, name: channel }],
+		users: [],
+		respond: async () => {},
+		replaceMessage,
+		respondInThread: async () => {},
+		setTyping: async () => {},
+		uploadFile: async () => {},
+		setWorking: async () => {},
+		deleteMessage: async () => {},
+	};
+	const runner = createAgentRunner(
+		{ type: "host" },
+		channel,
+		channelDir,
+		{
+			transport: "feishu",
+			modelProvider: "unused",
+			modelId: "unused",
+			maxGoalCycles: 8,
+			maxGoalFailures: 2,
+			maxStaleCycles: 2,
+		},
+		goals,
+		{ model: faux.getModel(), tools: [], apiKey: "fictional" },
+	);
+	try {
+		const result = await runner.run(ctx, new ChannelStore({ workingDir: workspace }));
+		expect(result.stopReason).toBe("error");
+		expect(result.inputTokens).toBeGreaterThan(0);
+		expect(result.usageIncomplete).toBe(false);
+		expect(replaceMessage).toHaveBeenCalledWith(
+			"模型返回空响应，本次请求已结束，未取得任务结果；请联系管理员核对接口。",
+		);
+		expect(faux.state.callCount).toBe(1);
+	} finally {
+		runner.dispose();
+		faux.unregister();
+	}
 });

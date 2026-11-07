@@ -30,7 +30,14 @@ import { OperationJournal } from "./operations.js";
 import { fitPlatformText } from "./platform-text.js";
 import { ApprovalStore } from "./policy/approvals.js";
 import { handleApprovalCommand } from "./policy/commands.js";
-import { createPromptOptimizer, PromptDraftStore, type PromptOptimizer } from "./prompt-input.js";
+import {
+	createPromptRewriter,
+	describePromptFailure,
+	PromptDraftStore,
+	PromptEntryStore,
+	type PromptRewriter,
+} from "./prompt-input.js";
+import type { PromptRewriteResult } from "./prompt-rewrite.js";
 import { handleRecoveryCommand } from "./recovery-control.js";
 import { diagnosticText } from "./redaction.js";
 import { assertNoUnconfirmedDockerTasks, type SandboxConfig } from "./sandbox.js";
@@ -51,7 +58,7 @@ export interface RuntimeFault {
 	timestamp: string;
 }
 export interface RuntimeOptions {
-	promptOptimizer?: PromptOptimizer;
+	promptRewriter?: PromptRewriter;
 	onFault?: (fault: RuntimeFault) => void | Promise<void>;
 	config: LightClawConfig;
 	workingDir: string;
@@ -106,7 +113,8 @@ export async function createLightClawRuntime(options: RuntimeOptions) {
 	inbox.recover();
 	inbox.dispatchPaused = true;
 	const operations = new OperationJournal(join(controlDir, ".operations"));
-	const promptDrafts = new PromptDraftStore(join(controlDir, ".prompt-inputs"));
+	const promptEntries = new PromptEntryStore(join(controlDir, ".prompt-entry-cards"));
+	const promptDrafts = new PromptDraftStore(join(controlDir, ".prompt-composer-v2"));
 	const promptRuns = new Map<string, { controller: AbortController; user: string }>();
 
 	let stopping = false;
@@ -475,119 +483,228 @@ export async function createLightClawRuntime(options: RuntimeOptions) {
 				throw new Error("频道有执行结果未知的任务；先检查副作用并人工处理 inbox 记录，再重试");
 			}
 
-			if (event.promptOptimization) {
-				const action = event.promptOptimization;
-				let draft: ReturnType<PromptDraftStore["claim"]>;
+			if (
+				transport.kind === "feishu" &&
+				/^(?:任务入口|\/prompt-entry)$/.test(event.text.trim()) &&
+				!event.promptSubmission &&
+				!event.promptConfirmation &&
+				!event.promptEntry
+			) {
+				try {
+					if (
+						event.origin !== "platform" ||
+						!event.user ||
+						!featureEnabled(config, "optimization") ||
+						!transport.postPromptEntryCard
+					)
+						throw new Error("当前入口不支持任务卡片");
+					const entry = promptEntries.create(event);
+					writeAuditEvent(workingDir, {
+						type: "prompt_optimization",
+						channelId: event.channel,
+						detail: JSON.stringify({ phase: "entry_requested", id: entry.id, actor: event.user }),
+					});
+					if (!entry.messageId)
+						await deliver(event.channel, "prompt-entry", async () => {
+							const messageId = await transport.postPromptEntryCard!(event.channel, entry.id);
+							promptEntries.bind(entry.id, messageId);
+						});
+				} catch (error) {
+					if (error instanceof CriticalAuditError) throw error;
+					await deliver(event.channel, "prompt-entry-error", () =>
+						transport.postMessage(event.channel, describePromptFailure(error).message),
+					);
+				}
+				return;
+			}
+
+			if (
+				transport.kind === "feishu" &&
+				(event.promptEntry || /^\/prompt(?:\s|$)/.test(event.text.trim())) &&
+				!event.promptSubmission &&
+				!event.promptConfirmation
+			) {
+				try {
+					if (
+						event.origin !== "platform" ||
+						transport.kind !== "feishu" ||
+						!featureEnabled(config, "optimization") ||
+						!transport.postPromptComposerCard
+					)
+						throw new Error("当前入口不支持提示词表单");
+					if (event.promptEntry) {
+						promptEntries.assertBound(event.promptEntry.id, event.channel, event.promptEntry.messageId);
+						writeAuditEvent(workingDir, {
+							type: "prompt_optimization",
+							channelId: event.channel,
+							detail: JSON.stringify({ phase: "entry_opened", id: event.promptEntry.id, actor: event.user }),
+						});
+					}
+					const initialInput = event.promptEntry ? "" : event.text.trim().slice("/prompt".length).trimStart();
+					const draft = promptDrafts.create({ ...event, text: initialInput });
+					if (!draft.messageId) {
+						const sent = await deliver(event.channel, "prompt-form", async () => {
+							const messageId = await transport.postPromptComposerCard!(event.channel, draft.id, initialInput);
+							promptDrafts.bindCard(draft.id, messageId);
+						});
+						if (!sent) return;
+					}
+				} catch (error) {
+					if (error instanceof CriticalAuditError) throw error;
+					await deliver(event.channel, "prompt-form-error", () =>
+						transport.postMessage(event.channel, describePromptFailure(error).message),
+					);
+				}
+				return;
+			}
+			const fromPromptForm = event.promptSubmission !== undefined || event.promptConfirmation !== undefined;
+			const promptAction = event.promptSubmission ?? event.promptConfirmation;
+			if (promptAction) {
+				const action = promptAction;
+				const confirming = event.promptConfirmation !== undefined;
+				let claimed = false,
+					consumed = false;
+				const controller = new AbortController();
+				let deadline: ReturnType<typeof setTimeout> | undefined;
+				let rewriteTimedOut = false;
 				try {
 					if (
 						event.origin !== "platform" ||
 						transport.kind !== "feishu" ||
 						!featureEnabled(config, "optimization")
 					)
-						throw new Error("提示词优化不可用");
+						throw new Error("提示词表单不可用");
 					if (channelStates.peek(event.channel)?.running || promptRuns.has(event.channel))
-						throw new Error("频道正在运行，请稍后点击");
+						throw new Error("频道正在运行，请结束后重新打开 /prompt");
+					if (goalStore(event.channel).get()?.status === "active")
+						throw new Error("请先暂停当前长期目标，再提交独立提示词");
+					if (!confirming && event.promptSubmission?.optimize && !transport.showPromptPreviewCard)
+						throw new Error("当前入口不支持提示词表单");
+					const draft = confirming
+						? promptDrafts.confirm(action.draftId, event.user, event.channel, action.messageId, action.input)
+						: promptDrafts.claim(
+								action.draftId,
+								event.user,
+								event.channel,
+								action.messageId,
+								action.input,
+								event.promptSubmission!.optimize,
+							);
+					claimed = true;
 					writeAuditEvent(workingDir, {
 						type: "prompt_optimization",
 						channelId: event.channel,
-						detail: JSON.stringify({ phase: "requested", id: action.draftId, actor: event.user }),
+						detail: JSON.stringify({
+							phase: confirming ? "confirmed" : "submitted",
+							id: draft.id,
+							actor: event.user,
+							optimize: draft.optimize,
+						}),
 					});
-					draft = promptDrafts.claim(action.draftId, event.user, event.channel, action.messageId);
-				} catch (error) {
-					if (error instanceof CriticalAuditError) throw error;
-					await deliver(event.channel, "prompt-denied", () =>
-						transport.postMessage(event.channel, error instanceof Error ? error.message : "提示词优化申请无效"),
-					);
-					return;
-				}
-				const controller = new AbortController();
-				promptRuns.set(event.channel, { controller, user: event.user });
-				const timeoutMs = config.modelAttemptTimeoutMs ?? 120000;
-				const deadline = setTimeout(() => controller.abort(), timeoutMs);
-				let settled = false;
-				try {
-					const optimizer =
-						options.promptOptimizer ??
-						createPromptOptimizer(config, {
-							onUsage: (step, model, usage) =>
-								writeAuditEvent(workingDir, {
-									type: "prompt_optimization",
-									channelId: event.channel,
-									detail: JSON.stringify({
-										id: draft.id,
-										step,
-										provider: model.provider,
-										model: model.id,
-										usage,
-									}),
-								}),
-						});
-					const result = await withTimeout(
-						() => optimizer(draft.input, controller.signal),
-						timeoutMs,
-						"prompt optimization",
-					);
+					promptRuns.set(event.channel, { controller, user: event.user });
+					if (transport.closePromptComposerCard)
+						await deliver(event.channel, "prompt-form-close", () =>
+							transport.closePromptComposerCard!(event.channel, action.messageId, "submitted"),
+						);
 					controller.signal.throwIfAborted();
-					writeAuditEvent(workingDir, {
-						type: "prompt_optimization",
-						channelId: event.channel,
-						detail: JSON.stringify({ phase: "finished", id: draft.id, score: result.score }),
-					});
-					promptDrafts.finish(draft.id, "done");
-					settled = true;
-					const text = fitPlatformText(
-						`提示词优化推荐（模型评审得分，非任务实测；未自动注入）：\n${result.candidates.map((candidate, index) => `${index + 1}. ${(candidate.score * 100).toFixed(1)}/100\n${candidate.prompt}\n理由：${candidate.reason}`).join("\n\n")}\n如需使用，请复制推荐提示词作为新消息发送；其他消息仍按原文处理。`,
-						transport.kind,
-					);
-					await deliver(event.channel, "prompt-result", () => transport.postMessage(event.channel, text));
-				} catch (error) {
-					if (!settled) {
+					let effectiveInput = confirming ? action.input : draft.input;
+					let rewriteDetails: PromptRewriteResult | undefined;
+					if (draft.optimize && !confirming) {
+						const timeoutMs = config.modelAttemptTimeoutMs ?? 120000;
+						deadline = setTimeout(() => {
+							rewriteTimedOut = true;
+							controller.abort();
+						}, timeoutMs);
+						const rewrite =
+							options.promptRewriter ??
+							createPromptRewriter(config, {
+								onUsage: (step, model, usage) =>
+									writeAuditEvent(workingDir, {
+										type: "prompt_optimization",
+										channelId: event.channel,
+										detail: JSON.stringify({
+											id: draft.id,
+											step,
+											provider: model.provider,
+											model: model.id,
+											usage,
+										}),
+									}),
+							});
+						rewriteDetails = await withTimeout(
+							() => rewrite(draft.input, controller.signal),
+							timeoutMs,
+							"prompt rewrite",
+						);
+						effectiveInput = rewriteDetails.prompt;
+						controller.signal.throwIfAborted();
+					}
+					if (stopping) throw new Error("停止期间不执行提示词");
+					if (draft.optimize && !confirming) {
+						promptDrafts.preview(draft.id, effectiveInput, rewriteDetails);
+						const shown = await deliver(event.channel, "prompt-preview", () =>
+							transport.showPromptPreviewCard!(
+								event.channel,
+								action.messageId,
+								draft.id,
+								effectiveInput,
+								draft.input,
+								rewriteDetails,
+							),
+						);
+						if (!shown) throw new Error("提示词预览未确认送达");
+						controller.signal.throwIfAborted();
 						writeAuditEvent(workingDir, {
 							type: "prompt_optimization",
 							channelId: event.channel,
-							detail: JSON.stringify({ phase: "failed", id: draft.id, cancelled: controller.signal.aborted }),
+							detail: JSON.stringify({ phase: "preview", id: draft.id, effectiveChars: effectiveInput.length }),
 						});
-						promptDrafts.finish(draft.id, "failed");
+						return; // Preview is UI/control state, never an Agent turn.
 					}
+					promptDrafts.consume(draft.id, effectiveInput);
+					consumed = true;
+					writeAuditEvent(workingDir, {
+						type: "prompt_optimization",
+						channelId: event.channel,
+						detail: JSON.stringify({
+							phase: "consumed",
+							id: draft.id,
+							optimize: draft.optimize,
+							originalChars: draft.input.length,
+							effectiveChars: effectiveInput.length,
+						}),
+					});
+					event = { ...event, text: effectiveInput, promptSubmission: undefined, promptConfirmation: undefined };
+				} catch (error) {
 					if (error instanceof CriticalAuditError) throw error;
-					await deliver(event.channel, "prompt-failed", () =>
+					const failure = describePromptFailure(error, {
+						timedOut: rewriteTimedOut,
+						cancelled: controller.signal.aborted,
+					});
+					if (claimed && !consumed) promptDrafts.fail(action.draftId, failure.code);
+					writeAuditEvent(workingDir, {
+						type: "prompt_optimization",
+						channelId: event.channel,
+						detail: JSON.stringify({ phase: "failed", id: action.draftId, failureCode: failure.code }),
+					});
+					if (claimed && transport.closePromptComposerCard)
+						await deliver(event.channel, "prompt-form-failed", () =>
+							transport.closePromptComposerCard!(event.channel, action.messageId, "failed", failure.message),
+						);
+					await deliver(event.channel, "prompt-submission-failed", () =>
 						transport.postMessage(
 							event.channel,
-							"提示词优化失败或已取消，未替换原输入；如需重试请重新发送原文。",
+							`提示词未执行：${failure.message} 请点击任务入口的“输入任务”重新打开表单。`,
 						),
 					);
+					return;
 				} finally {
 					controller.abort();
 					clearTimeout(deadline);
-					promptRuns.delete(event.channel);
-				}
-				return;
-			}
-			if (
-				event.origin === "platform" &&
-				transport.kind === "feishu" &&
-				transport.postPromptOptimizationCard &&
-				featureEnabled(config, "optimization") &&
-				event.text.trim() &&
-				!event.text.trim().startsWith("/") &&
-				event.text.length <= 12000
-			) {
-				try {
-					const draft = promptDrafts.create(event);
-					if (!draft.messageId) {
-						await deliver(event.channel, "prompt-card", async () => {
-							const messageId = await transport.postPromptOptimizationCard!(event.channel, draft.id);
-							promptDrafts.bindCard(draft.id, messageId);
-						});
-					}
-				} catch (error) {
-					if (error instanceof CriticalAuditError) throw error;
-					log.logWarning(
-						"Optional prompt card unavailable; keeping original input",
-						diagnosticText(String(error)),
-					);
+					if (promptRuns.get(event.channel)?.controller === controller) promptRuns.delete(event.channel);
 				}
 			}
+
 			let state: ChannelState;
 			let command: GoalCommandResult;
 			try {
@@ -595,18 +712,20 @@ export async function createLightClawRuntime(options: RuntimeOptions) {
 				state.inUse++;
 				try {
 					// 审批命令必须绕过目标命令解析：它只处理票据，不启动 run。
-					const approval = handleApprovalCommand(event.text, {
-						assertMaintenance: () => {
-							if (stopping || state.running || state.inUse > 1 || promptRuns.has(event.channel))
-								throw new Error("频道正在执行，不能并发审批维护");
-						},
-						approvals: state.approvals,
-						userId: event.user,
-						origin: event.origin,
-						ownerUserId: state.runOwnerUserId,
-						trustedUserIds: config.trustedUserIds,
-						adminUserIds: config.controlAdminUserIds,
-					});
+					const approval: ReturnType<typeof handleApprovalCommand> = fromPromptForm
+						? { handled: false }
+						: handleApprovalCommand(event.text, {
+								assertMaintenance: () => {
+									if (stopping || state.running || state.inUse > 1 || promptRuns.has(event.channel))
+										throw new Error("频道正在执行，不能并发审批维护");
+								},
+								approvals: state.approvals,
+								userId: event.user,
+								origin: event.origin,
+								ownerUserId: state.runOwnerUserId,
+								trustedUserIds: config.trustedUserIds,
+								adminUserIds: config.controlAdminUserIds,
+							});
 					if (approval.handled) {
 						// 批准即续跑；但当前频道已有任务时不并发启动，避免 runner 重入。
 						const canResume = approval.startRun === true && !state.running;
@@ -626,17 +745,19 @@ export async function createLightClawRuntime(options: RuntimeOptions) {
 							executionUserId: approval.executionUserId,
 						};
 					} else {
-						command = featureEnabled(config, "goals")
-							? await handleGoalCommand(event.text, state.goals, {
-									userId: event.user,
-									adminUserIds: config.controlAdminUserIds,
-									origin: event.origin,
-									sandbox,
-									signal: featureEnabled(config, "controls")
-										? AbortSignal.timeout(config.maxRunDurationMs ?? 300_000)
-										: new AbortController().signal,
-								})
-							: { handled: false, startRun: false };
+						command = fromPromptForm
+							? { handled: false, startRun: false, executionUserId: event.user }
+							: featureEnabled(config, "goals")
+								? await handleGoalCommand(event.text, state.goals, {
+										userId: event.user,
+										adminUserIds: config.controlAdminUserIds,
+										origin: event.origin,
+										sandbox,
+										signal: featureEnabled(config, "controls")
+											? AbortSignal.timeout(config.maxRunDurationMs ?? 300_000)
+											: new AbortController().signal,
+									})
+								: { handled: false, startRun: false };
 						// The command must pass authorization and state validation before cancellation.
 						// A historical goal does not grant control of an unrelated ordinary run.
 						if (

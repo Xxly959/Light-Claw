@@ -26,7 +26,8 @@ def separate(a, b):
 
 def inventory(directory, prefix):
     files, excluded = [], []
-    for current, dirs, names in os.walk(directory, followlinks=False):
+    def fail_walk(error): raise error
+    for current, dirs, names in os.walk(directory, followlinks=False, onerror=fail_walk):
         for name in list(dirs):
             path = pathlib.Path(current) / name
             if path.is_symlink(): raise ValueError("backup directory link refused")
@@ -60,6 +61,8 @@ def main():
     args = parser.parse_args()
     if args.mode == "backup":
         work, control, output = root(args.workspace), root(args.control), root(args.out)
+        if not work.is_dir() or not control.is_dir():
+            raise ValueError("backup requires existing workspace and control directories")
         separate(work, control); separate(work, output); separate(control, output)
         if output.exists(): raise ValueError("fresh output required")
         with locked(control):

@@ -1,5 +1,7 @@
 import type { AssistantMessage } from "@mariozechner/pi-ai";
 
+import { EMPTY_MODEL_RESPONSE_ERROR } from "./model-response.js";
+
 export interface AssistantPresentation {
 	text: string;
 	thinking: string[];
@@ -25,6 +27,9 @@ export function splitAssistantContent(content: AssistantMessage["content"]): Ass
 export function formatRunError(errorMessage: string, goalCompleted: boolean): ErrorPresentation {
 	if (goalCompleted) {
 		return { message: "目标已完成并保存证据。模型网关在生成收尾回复时暂时不可用，可稍后继续对话。" };
+	}
+	if (errorMessage === EMPTY_MODEL_RESPONSE_ERROR) {
+		return { message: "模型返回空响应，本次请求已结束，未取得任务结果；请联系管理员核对接口。" };
 	}
 	return { message: "执行失败，请查看话题中的错误详情。", detail: errorMessage };
 }

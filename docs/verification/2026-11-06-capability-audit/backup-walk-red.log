@@ -1,0 +1,35 @@
+
+ RUN  v3.2.4 /Users/x/Light-Claw/packages/lightclaw
+
+ ❯ test/backup-restore.test.ts (8 tests | 1 failed) 366ms
+   ✓ roundtrips both roots with hashes and excludes credential/ephemeral files 90ms
+   ✓ cannot bypass a running instance's kernel lock 47ms
+   ✓ rejects a corrupt backup and never overwrites destination state 66ms
+   ✓ rejects a workspace backup root (missing) before creating output or source state 32ms
+   ✓ rejects a control backup root (missing) before creating output or source state 33ms
+   ✓ rejects a workspace backup root (file) before creating output or source state 31ms
+   ✓ rejects a control backup root (file) before creating output or source state 32ms
+   × refuses an unreadable source subtree instead of silently omitting it 34ms
+     → {"backup": "/private/var/folders/qs/lw_gmsyx0xb4yxy56dwzc97c0000gn/T/state-backup-EgdjiF/backup", "files": 2, "credentials": "excluded"}
+: expected +0 not to be +0 // Object.is equality
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/backup-restore.test.ts > refuses an unreadable source subtree instead of silently omitting it
+AssertionError: {"backup": "/private/var/folders/qs/lw_gmsyx0xb4yxy56dwzc97c0000gn/T/state-backup-EgdjiF/backup", "files": 2, "credentials": "excluded"}
+: expected +0 not to be +0 // Object.is equality
+ ❯ test/backup-restore.test.ts:108:44
+    106|  try {
+    107|   const result = run(["backup", "--workspace", f.work, "--control", f.…
+    108|   expect(result.status, result.stdout).not.toBe(0);
+       |                                            ^
+    109|   expect(existsSync(f.backup)).toBe(false);
+    110|  } finally {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 7 passed (8)
+   Start at  23:32:35
+   Duration  545ms (transform 24ms, setup 10ms, collect 12ms, tests 366ms, environment 0ms, prepare 32ms)

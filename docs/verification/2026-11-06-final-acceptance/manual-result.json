@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "status": "passed",
+  "source": "User reported completion plus actual native Feishu UI and protected draft/session inspection",
+  "originalInput": "只回复：收尾验收通过",
+  "finalEditedInput": "人工确认验收通过",
+  "draftStatus": "consumed",
+  "structuredRewriteDetailsPresent": true,
+  "finalTextInLastAgentUserTurn": true,
+  "originalInputAbsentFromMainSession": true,
+  "rewriteChangesAbsentFromMainSession": true,
+  "realUserCallbackTested": true,
+  "uiFinalResponseObserved": true,
+  "previousConversationRetained": true,
+  "limits": "Fixed functional flow only; user edited final input to an acknowledgement without the literal-only instruction. The contextual response is not scored as exact-output quality."
+}

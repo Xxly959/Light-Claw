@@ -1,0 +1,3 @@
+
+> lightclaw@0.70.6 build
+> tsgo -p tsconfig.build.json && shx cp src/attachment-reader.py src/attachment-writer.py src/docker-supervisor.py dist/ && shx chmod +x dist/main.js dist/goals/migrate-cli.js dist/audit/cli.js

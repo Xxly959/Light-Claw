@@ -127,3 +127,22 @@ it("times out a stalled attempt and tries a backup", async () => {
 	expect((await stream.result()).provider).toBe("fictional-backup");
 	expect(attempts[0].reason).toMatch(/timeout/i);
 });
+
+it.each(
+	[[], [{ type: "text" as const, text: "  " }], [{ type: "thinking" as const, thinking: "internal only" }]].map(
+		(content) => ({ content }),
+	),
+)("fails a completed stream without an actionable answer and retains any known usage", async ({ content }) => {
+	primary.setResponses([fauxAssistantMessage(content)]);
+	const { routed, attempts } = setup();
+	const stream = await routed(primary.getModel(), { messages: [] });
+	for await (const _event of stream) {
+	}
+	expect((await stream.result()).stopReason).toBe("error");
+	expect((await stream.result()).errorMessage).toBe("Model returned no usable content");
+	expect(attempts).toHaveLength(1);
+	expect(attempts[0].status).toBe("error");
+	expect(attempts[0].fallback).toBe(false);
+	if (content.length === 0) expect(attempts[0].usage).toBeNull();
+	else expect(attempts[0].usage?.output).toBeGreaterThan(0);
+});

@@ -1,0 +1,9 @@
+
+ RUN  v3.2.4 /Users/x/Light-Claw/packages/lightclaw
+
+ ✓ test/backup-restore.test.ts (8 tests) 368ms
+
+ Test Files  1 passed (1)
+      Tests  8 passed (8)
+   Start at  23:33:06
+   Duration  553ms (transform 20ms, setup 10ms, collect 12ms, tests 368ms, environment 0ms, prepare 29ms)

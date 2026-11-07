@@ -1,0 +1,18 @@
+{
+  "initialRequests": 50,
+  "developmentRecheckRequests": 10,
+  "userRewriteRequests": 2,
+  "totalRequests": 62,
+  "initialJudgePreferences": {
+    "original": 0,
+    "rewritten": 2,
+    "tie": 8
+  },
+  "manualFindings": [
+    "Initial writing original and rewritten both violate no-title and add unrequested self-certification.",
+    "Initial rewritten debug answer falsely suggests assigning an out-of-bounds JS array index throws; auxiliary judge missed it.",
+    "Development recheck: both poems four lines with <=8 Chinese characters and no heading; incorrect JS assignment aside absent.",
+    "Same-model judge is not independent human evidence.",
+    "Holdout4 belongs to initial system instructions; final self-check wording revision was only rechecked on development2."
+  ]
+}

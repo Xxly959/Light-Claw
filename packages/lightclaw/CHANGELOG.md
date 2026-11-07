@@ -4,6 +4,8 @@
 
 ### Breaking Changes
 
+- Replace Feishu chat candidate scoring with a before-send `/prompt` form: send unchanged by default or explicitly rewrite once and execute; old scoring cards require reopening the form.
+
 - Manual completion requires structured file or explicit no-file deliverables; confirmation expires and rechecks artifact identity/content/timestamps. Execution approval under a trusted-user list requires a trusted user or administrator. Authoritative audit records move outside the tool workspace into the control directory.
 
 - Stop handlers require a platform actor. Goal/run controls check owner or explicitly configured administrators before cancellation; human confirmation remains creator-only. Docker startup rejects unsafe or unbounded configurations. Full diagnostic payload capture now requires explicit opt-in.
@@ -23,10 +25,16 @@
 
 ### Added
 
+- Add a reusable Feishu task-entry card (`任务入口` or `/prompt-entry`) that opens fresh actor-bound forms without model calls, with persisted chat/card binding and callback deduplication across restart.
+
+- Support explicitly selected custom gateway model definitions through `LIGHTCLAW_MODELS_FILE`, using the upstream ModelRegistry schema without substituting a built-in model ID.
+
+- Add a credential-free Feishu acceptance scope preflight and blank scope template; validate explicit identities, participants, action limits and fault permissions without reading credential references or starting online actions.
+
 - Add authenticated `/approve maintain` and `/approve show <id>` for durable, digest-verified approval history archival without dropping valid tickets or replaying consumed operations.
 - Enforce a frozen campaign budget across faux workers and shared A/B axes, with bounded transaction contention, explicit budget initialization and controller resume that retains spent/unknown allowances.
 
-- Offer an opt-in Feishu “提示词优化” card bound to the original actor/chat/message and expiry. Generate and score candidates only after a click; show subjective scores without automatically replacing task input.
+- Add a Feishu `/prompt` input form bound to the original actor/chat/card and expiry. Submit unchanged or explicitly rewrite once and execute the effective prompt, without chat candidate scoring or sticky defaults.
 
 - Add authenticated `/recover` inbox/operation reconciliation and duplicate-risk retry controls, terminal inbox archival with bounded deduplication, runtime heartbeat/readiness, bounded scheduling catch-up and a local fault hook.
 - Accept Feishu inbound files/images through bounded SDK streams and pinned host writes before Agent dispatch; report unsupported messages and admission failures explicitly.
@@ -61,9 +69,17 @@
 
 ### Changed
 
+- Redesign optional Feishu rewriting as task-aware structured suggestions with visible changes, assumptions and questions, target capability evidence, protected-literal checks and a separate tool-free constraint review. Only confirmed editable text reaches the Agent. Add stable evidence, failure reporting and completion checks to the Agent system instructions.
+
+- Replace Feishu rewrite-and-execute with an editable preview and explicit confirmation. Preserve actor/chat/card/expiry binding and restart deduplication; only final confirmed text enters the Agent session, with no original prompt or rewrite traffic. Long results use bounded sequential editable fields.
+
+- Collapse validly submitted Feishu input forms into status cards while keeping the reusable entry, and report fixed safe failure reasons with durable/audit categories instead of diagnostic payload placeholders.
+
+- Refine optional chat rewriting to preserve intent without forced expansion, serialize input as data, and execute only a valid structured prompt while excluding rewrite explanations.
+
 - New approval tickets use 128-bit IDs; previously issued IDs remain available for historical reconciliation. Critical approval-maintenance audit failures propagate to durable recovery.
 
-- Keep explicitly supplied prompt instructions independent of optional candidate optimization. Prompt input defaults to unchanged injection; the explicit optimization action returns a scored recommendation without changing later input defaults.
+- Keep explicitly supplied prompt instructions independent of optional rewriting. Plain chat input stays unchanged; only the explicit form action rewrites the current task, with no command-privilege promotion or change to future defaults.
 
 - Load skill creation, event scheduling, and history-query tutorials on demand from a channel-local guide while keeping installed skills discoverable.
 - Support explicit quality, token, or latency objectives in repeated prompt selection, retaining quality and tool-error guards.
@@ -75,6 +91,20 @@
 - Surfaced Slack rate limits and request failures without automatic retries after uncertain delivery.
 
 ### Fixed
+
+- Reject missing or non-directory workspace/control backup roots before creating locks or output, and fail on unreadable subtrees instead of silently producing an incomplete successful backup.
+
+- Give open-ended prompt rewrites task-specific execution and output guidance instead of treating a clear high-level goal as a complete instruction; explicitly label unchanged or punctuation-only previews.
+
+- Initialize fetch and the proxy dispatcher from the same Undici implementation so compressed HTTP/2 model streams retain their headers and decode correctly instead of appearing empty.
+
+- Reject empty or thinking-only model completions as explicit failures, replace stale thinking placeholders, and distinguish empty rewrite responses from malformed prompt envelopes without automatically replaying requests.
+
+- Return explicit Feishu card receipts and safe admission-error toasts instead of leaking inbox payload-conflict exceptions into SDK 500 responses when a submitted form changes mode or text. Clarify that forms are single-use.
+
+- Exclude Feishu `/prompt` composer commands and their prefills from history import so optional rewrites retain only the effective task in Agent context across subsequent turns and restarts.
+
+- Normalize SDK mention keys identifying the Feishu bot before task dispatch, preserving other users’ mention tokens and literal text without mention metadata.
 
 - Persist inbox admission order independently of wall-clock timestamps so equal timestamps, clock rollback and restart do not reorder accepted work; reject invalid or duplicate ordering metadata.
 
@@ -123,6 +153,10 @@
 - Observed immediate platform notifications with deadlines and failure auditing.
 - Rejected prompt candidates with increased tool-error or artifact-failure frequency across repeated evaluations.
 - Rejected explicit shell timeouts outside the Node timer range before command execution.
+
+### Removed
+
+- Remove standalone Agent evaluation, candidate-promotion and deterministic benchmark modules, datasets, CLIs and evaluation-only runtime seed injection. Keep operational regression tests, goal acceptance, audit and interactive prompt previews.
 
 ## [0.70.6] - 2026-04-28
 

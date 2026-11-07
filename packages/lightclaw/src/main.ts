@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 import { mkdir } from "node:fs/promises";
 import { join, resolve } from "node:path";
-import { EnvHttpProxyAgent, setGlobalDispatcher } from "undici";
 import { loadConfig, loadConfigForDiagnostics } from "./config.js";
 import { downloadChannel } from "./download.js";
 import { featureEnabled } from "./features.js";
 import { FeishuBot } from "./feishu.js";
 import { resolveControlDirectory } from "./goals/control.js";
 import { inspectLocalHealth } from "./health.js";
+import { initializeHttpTransport } from "./http.js";
 import { buildIsolationReport } from "./isolation.js";
 import * as log from "./log.js";
 import { createLightClawRuntime } from "./runtime.js";
@@ -40,7 +40,7 @@ if (healthArg) {
 	console.log(JSON.stringify(health));
 	process.exit(health.lock === "unavailable" ? 1 : 0);
 }
-setGlobalDispatcher(new EnvHttpProxyAgent({ bodyTimeout: 0, headersTimeout: 0 }));
+initializeHttpTransport();
 interface ParsedArgs {
 	workingDir?: string;
 	sandbox: SandboxConfig;

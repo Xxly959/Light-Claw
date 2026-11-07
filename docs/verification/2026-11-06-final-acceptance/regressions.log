@@ -1,0 +1,133 @@
+
+ RUN  v3.2.4 /Users/x/Light-Claw/packages/lightclaw
+
+ ✓ test/recovery-faults.test.ts (5 tests) 3556ms
+   ✓ recovers before-operation after BEFORE_OPERATION (SIGKILL) with one externally recorded side effect  917ms
+   ✓ recovers effect-before-progress after EFFECT_SAVED (SIGKILL) with one externally recorded side effect  645ms
+   ✓ recovers state-before-notification after STATE_SAVED (SIGKILL) with one externally recorded side effect  594ms
+   ✓ recovers queued after QUEUED (SIGKILL) with one externally recorded side effect  638ms
+   ✓ recovers effect-before-progress after EFFECT_SAVED (SIGTERM) with one externally recorded side effect  758ms
+ ✓ test/http-transport.test.ts (4 tests) 4352ms
+   ✓ preserves headers and decodes br SSE over h2 with the production dispatcher  1535ms
+   ✓ preserves headers and decodes gzip SSE over h2 with the production dispatcher  890ms
+   ✓ preserves headers and decodes br SSE over http1 with the production dispatcher  981ms
+   ✓ preserves headers and decodes gzip SSE over http1 with the production dispatcher  941ms
+ ✓ test/deployment-entry.test.ts (3 tests) 4581ms
+   ✓ shows source CLI help without credentials, Docker, model calls or workspace creation  1435ms
+   ✓ reports only local lock state without mistaking it for real platform health  1851ms
+   ✓ contains startup dependency exceptions instead of dumping raw stderr or SDK error objects  1291ms
+ ✓ test/sandbox.test.ts (10 tests) 5372ms
+   ✓ 宿主执行器错误与输出 > rejects output archive quota exhaustion and still accepts later small commands  851ms
+   ✓ 宿主执行器错误与输出 > archives UTF-8 stderr fully and preserves a valid tail with private file permissions  2172ms
+   ✓ 宿主执行器错误与输出 > rejects host archive failures and permits the next command  483ms
+   ✓ 宿主执行器错误与输出 > finishes a large-output archive before rejecting cancellation  881ms
+   ✓ 宿主执行器错误与输出 > 超出捕获上限时归档完整输出并保留末尾  774ms
+ ✓ test/channel-isolation.test.ts (30 tests) 3598ms
+   ✓ 频道容器真实校验路径 > 接受只挂自己目录的频道容器  391ms
+   ✓ 频道容器真实校验路径 > 拒绝额外挂载其他频道目录  656ms
+   ✓ docker.sh create-channel 的实际参数 > 只挂频道目录，并带齐最小权限参数  498ms
+   ✓ docker.sh create-channel 的实际参数 > 存在 .shared 时以只读方式追加挂载  409ms
+   ✓ 无凭证的隔离报告 > 真实 CLI 在没有凭证时也能输出隔离报告  732ms
+ ✓ test/event-boundaries.test.ts (11 tests) 2643ms
+   ✓ dead-letters invalid one-shot date nonsense without execution  319ms
+   ✓ dead-letters invalid one-shot date 2026-11-01T12:00:00 without execution  314ms
+   ✓ dead-letters invalid one-shot date 2026-02-30T00:00:00Z without execution  358ms
+   ✓ dead-letters invalid one-shot date 2026-13-01T00:00:00Z without execution  320ms
+   ✓ dead-letters invalid one-shot date 2026-11-01T24:01:00Z without execution  325ms
+   ✓ dead-letters invalid one-shot date 2026-11-01T00:00:00+24:00 without execution  330ms
+   ✓ dead-letters invalid one-shot date 42 without execution  318ms
+ ✓ test/audit-query.test.ts (8 tests) 615ms
+   ✓ 审计 CLI 端到端 > 默认输出表格并支持 --blocked、--json  432ms
+ ✓ test/instance-lock.test.ts (3 tests) 386ms
+{"diagnostic":"faux-channel-churn","created":100,"disposed":100,"retainedAfterClose":0,"observations":[{"channels":10,"retained":8,"rssBytes":238616576,"heapUsedBytes":111154808},{"channels":20,"retained":8,"rssBytes":201424896,"heapUsedBytes":105668992},{"channels":30,"retained":8,"rssBytes":199901184,"heapUsedBytes":112020424},{"channels":40,"retained":8,"rssBytes":197410816,"heapUsedBytes":106757312},{"channels":50,"retained":8,"rssBytes":197492736,"heapUsedBytes":113082712},{"channels":60,"retained":8,"rssBytes":198361088,"heapUsedBytes":107691312},{"channels":70,"retained":8,"rssBytes":191365120,"heapUsedBytes":113908160},{"channels":80,"retained":8,"rssBytes":191545344,"heapUsedBytes":120148216},{"channels":90,"retained":8,"rssBytes":192790528,"heapUsedBytes":114422632},{"channels":100,"retained":8,"rssBytes":192888832,"heapUsedBytes":120533128}]}
+ ✓ test/install-preflight.test.ts (3 tests) 1016ms
+   ✓ isolates npm into distinct empty config files without reading user configuration  955ms
+ ✓ test/durable-admission.test.ts (6 tests) 785ms
+ ✓ test/platform-preflight.test.ts (20 tests) 777ms
+ ✓ test/attachment-upload.test.ts (42 tests) 2840ms
+ ✓ test/inbox-lifecycle.test.ts (13 tests) 3929ms
+   ✓ does not reread all historical JSON for each message  2837ms
+ ✓ test/durable-work.test.ts (4 tests) 654ms
+   ✓ recovers queued work, preserves deduplication and quarantines interrupted execution  302ms
+ ✓ test/goal-migration.test.ts (9 tests) 962ms
+ ✓ test/approval-lifecycle.test.ts (10 tests) 1703ms
+   ✓ expired pending tickets do not consume quota  556ms
+ ✓ test/docker-cancellation.test.ts (4 tests) 9973ms
+   ✓ cancellation confirms that both shell and background child stopped writing  1217ms
+   ✓ timeout stops actual task bytes, not only the host client  3380ms
+   ✓ owner SIGTERM loses heartbeat and the task stops writing  2678ms
+   ✓ owner SIGKILL loses heartbeat and the task stops writing  2697ms
+ ✓ test/backup-restore.test.ts (3 tests) 432ms
+ ✓ test/agent-runner.test.ts (3 tests) 418ms
+ ✓ test/main-lifecycle.test.ts (36 tests) 5234ms
+   ✓ main lifecycle with isolated platform boundary > pauses when the initial typing request hangs and ignores its late completion  312ms
+   ✓ main lifecycle with isolated platform boundary > pauses at the configured cycle ceiling even with progress  430ms
+ ✓ test/feature-runner.test.ts (16 tests) 1460ms
+ ✓ test/health-readiness.test.ts (2 tests) 328ms
+ ✓ test/runtime-goal-loop.test.ts (1 test) 404ms
+   ✓ uses the production goal loop and preserves awaiting-confirmation semantics  400ms
+ ✓ test/goal-terminal-delivery.test.ts (2 tests) 616ms
+   ✓ delivers a terminal manual goal outcome without another model request  304ms
+ ✓ test/recovery-control.test.ts (9 tests) 779ms
+ ✓ test/prompt-card.test.ts (18 tests) 443ms
+ ✓ test/gateway-model.test.ts (8 tests) 238ms
+ ✓ test/policy-core.test.ts (20 tests) 267ms
+ ✓ test/platform-contract.test.ts (41 tests) 9272ms
+   ✓ runs the production adapter, runtime and faux Agent for inbound file  343ms
+   ✓ replaces raw input with one optimized user turn, preserving prior context without rewrite traffic after restart  1009ms
+   ✓ reuses a channel-bound entry across actors and restart without duplicate forms or premature model calls  2536ms
+   ✓ closes a claimed form and reports a safe outcome without replay: timeout  496ms
+   ✓ closes a claimed form and reports a safe outcome without replay: format  404ms
+   ✓ closes a claimed form and reports a safe outcome without replay: service  455ms
+   ✓ closes a claimed form and reports a safe outcome without replay: close_failure  542ms
+   ✓ closes a claimed form and reports a safe outcome without replay: close_cancel  489ms
+   ✓ closes a claimed form and reports a safe outcome without replay: preview_failure  389ms
+   ✓ lets only the creator cancel a pending form rewrite and never executes its task or retries it  339ms
+   ✓ rechecks busy at confirmation without executing the preview  419ms
+ ✓ test/goals.test.ts (30 tests) 1044ms
+ ✓ test/resource-policy.test.ts (13 tests) 192ms
+ ✓ test/approval-authority.test.ts (9 tests) 152ms
+ ✓ test/goal-commands.test.ts (10 tests) 75ms
+ ✓ test/runner-lifecycle.test.ts (35 tests) 9307ms
+   ✓ runner attachment isolation and lifecycle > runs 100 faux channels with bounded retention and releases all sessions  5255ms
+   ✓ runner attachment isolation and lifecycle > routes interleaved channel uploads to their own contexts  371ms
+ ✓ test/packaging.test.ts (8 tests) 9413ms
+   ✓ local source release contract > prepares only release scope even when unrelated untracked names exceed the subprocess buffer  8046ms
+   ✓ local source release contract > rejects dangling source symlinks rather than silently excluding them  441ms
+   ✓ local source release contract > rejects unlisted files and symlinks added to release material  313ms
+ ✓ test/goal-artifact.test.ts (7 tests) 51ms
+ ✓ test/model-fallback.test.ts (11 tests) 111ms
+ ✓ test/audit-integrity.test.ts (6 tests) 37ms
+ ✓ test/goal-verification.test.ts (9 tests) 53ms
+ ✓ test/output-tools.test.ts (6 tests) 60ms
+ ✓ test/platform-notifications.test.ts (14 tests) 160ms
+ ✓ test/audit-routing.test.ts (12 tests) 58ms
+ ✓ test/docker-validation.test.ts (27 tests) 23ms
+ ✓ test/goal-control.test.ts (5 tests) 22ms
+ ✓ test/isolation-report-verification.test.ts (3 tests) 8ms
+ ✓ test/diagnosis-controls.test.ts (8 tests) 41ms
+ ✓ test/manual-completion-binding.test.ts (9 tests) 116ms
+ ✓ test/idle-cache.test.ts (3 tests) 18ms
+ ✓ test/observability.test.ts (1 test) 13ms
+ ✓ test/audit-redaction.test.ts (1 test) 10ms
+ ✓ test/timeouts.test.ts (8 tests) 8ms
+ ✓ test/queued-events.test.ts (1 test) 5ms
+ ✓ test/goal-acceptance.test.ts (17 tests) 6ms
+ ✓ test/events.test.ts (1 test) 9ms
+ ✓ test/channel-queue.test.ts (6 tests) 6ms
+ ✓ test/goal-tool-discovery.test.ts (1 test) 85ms
+ ✓ test/model-http-trace.test.ts (3 tests) 8ms
+ ✓ test/platform-text.test.ts (2 tests) 3ms
+ ✓ test/config.test.ts (22 tests) 7ms
+ ✓ test/offline-entry.test.ts (2 tests) 3ms
+ ✓ test/presentation.test.ts (3 tests) 4ms
+ ✓ test/feishu.test.ts (4 tests) 5ms
+ ✓ test/feishu-callback-wire.test.ts (2 tests) 3ms
+ ✓ test/product-scope.test.ts (3 tests) 67ms
+ ✓ test/prompt-redesign.test.ts (9 tests) 5ms
+ ✓ test/context-prompt.test.ts (2 tests) 3ms
+
+ Test Files  66 passed (66)
+      Tests  657 passed (657)
+   Start at  22:22:46
+   Duration  13.15s (transform 1.90s, setup 521ms, collect 17.56s, tests 88.82s, environment 6ms, prepare 2.49s)

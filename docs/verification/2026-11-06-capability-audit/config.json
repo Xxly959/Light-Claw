@@ -1,0 +1,19 @@
+{
+  "kind": "current-local-config-only",
+  "features": {
+    "goals": true,
+    "acceptance": true,
+    "feishu": true,
+    "controls": true,
+    "scheduling": true,
+    "optimization": true,
+    "infrastructure": true
+  },
+  "policyMode": "enforce",
+  "goalLimits": {
+    "maxCycles": 8,
+    "maxFailures": 2,
+    "maxStaleCycles": 2
+  },
+  "limits": "Read current .env only; does not prove a running process hot-reloaded config. No keys or identifiers emitted."
+}

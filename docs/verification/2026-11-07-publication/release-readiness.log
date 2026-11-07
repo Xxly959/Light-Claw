@@ -1,0 +1,10 @@
+
+ RUN  v3.2.4 /Users/x/Light-Claw/packages/lightclaw
+
+ ✓ test/release-readiness.test.ts (6 tests | 1 skipped) 900ms
+   ✓ provides credential-free help for main  567ms
+
+ Test Files  1 passed (1)
+      Tests  5 passed | 1 skipped (6)
+   Start at  08:55:54
+   Duration  1.05s (transform 17ms, setup 9ms, collect 7ms, tests 900ms, environment 0ms, prepare 21ms)

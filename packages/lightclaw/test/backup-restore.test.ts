@@ -1,5 +1,5 @@
 import { spawnSync } from "node:child_process";
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { chmodSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -71,4 +71,43 @@ it("rejects a corrupt backup and never overwrites destination state", () => {
 	]);
 	expect(result.status).not.toBe(0);
 	expect(existsSync(join(f.root, "restored-work"))).toBe(false);
+});
+
+it.each([
+	["workspace", "missing"],
+	["control", "missing"],
+	["workspace", "file"],
+	["control", "file"],
+] as const)("rejects a %s backup root (%s) before creating output or source state", (category, kind) => {
+	const f = fixture();
+	const invalid = join(f.root, "invalid-source");
+	if (kind === "file") writeFileSync(invalid, "not a source directory");
+	const result = run([
+		"backup",
+		"--workspace",
+		category === "workspace" ? invalid : f.work,
+		"--control",
+		category === "control" ? invalid : f.control,
+		"--out",
+		f.backup,
+	]);
+	expect(result.status, result.stdout).not.toBe(0);
+	expect(existsSync(f.backup)).toBe(false);
+	if (kind === "missing") expect(existsSync(invalid)).toBe(false);
+	expect(readFileSync(join(f.work, "report.txt"), "utf8")).toBe("fictional report");
+});
+
+it.skipIf(process.getuid?.() === 0)("refuses an unreadable source subtree instead of silently omitting it", () => {
+	const f = fixture();
+	const blocked = join(f.work, "blocked");
+	mkdirSync(blocked);
+	writeFileSync(join(blocked, "required.txt"), "must not disappear from a successful backup");
+	chmodSync(blocked, 0o000);
+	try {
+		const result = run(["backup", "--workspace", f.work, "--control", f.control, "--out", f.backup]);
+		expect(result.status, result.stdout).not.toBe(0);
+		expect(existsSync(f.backup)).toBe(false);
+	} finally {
+		chmodSync(blocked, 0o700);
+	}
 });

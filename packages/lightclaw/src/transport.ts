@@ -1,4 +1,5 @@
 import type { DurableInbox } from "./durable-inbox.js";
+import type { PromptRewriteResult } from "./prompt-rewrite.js";
 import type { Attachment } from "./store.js";
 
 export type ChatEventOrigin = "platform" | "scheduled" | "recovery" | "continuation";
@@ -12,7 +13,10 @@ export interface ChatEvent {
 	text: string;
 	files?: Array<{ name?: string; url_private_download?: string; url_private?: string }>;
 	attachments?: Attachment[];
-	promptOptimization?: { draftId: string; messageId: string };
+	promptEntry?: { id: string; messageId: string };
+	promptSubmission?: { draftId: string; messageId: string; input: string; optimize: boolean };
+	promptConfirmation?: { draftId: string; messageId: string; input: string };
+	originalPrompt?: string;
 	resources?: Array<{ kind: "file" | "image"; key: string; name: string }>;
 }
 
@@ -44,7 +48,22 @@ export interface ChatTransport {
 	getChannel(channelId: string): ChatChannel | undefined;
 	getAllUsers(): ChatUser[];
 	getAllChannels(): ChatChannel[];
-	postPromptOptimizationCard?(channel: string, draftId: string): Promise<string>;
+	postPromptEntryCard?(channel: string, entryId: string): Promise<string>;
+	postPromptComposerCard?(channel: string, draftId: string, initialInput: string): Promise<string>;
+	showPromptPreviewCard?(
+		channel: string,
+		messageId: string,
+		draftId: string,
+		input: string,
+		originalInput?: string,
+		details?: PromptRewriteResult,
+	): Promise<void>;
+	closePromptComposerCard?(
+		channel: string,
+		messageId: string,
+		state: "submitted" | "failed",
+		reason?: string,
+	): Promise<void>;
 	postMessage(channel: string, text: string): Promise<string>;
 	updateMessage(channel: string, messageId: string, text: string): Promise<void>;
 	deleteMessage(channel: string, messageId: string): Promise<void>;

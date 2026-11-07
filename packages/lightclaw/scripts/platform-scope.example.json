@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "platform": "feishu",
+  "dedicatedApplication": null,
+  "dedicatedConversation": null,
+  "participants": [],
+  "credentialInjection": { "kind": "environment", "reference": "" },
+  "allowCounts": { "send": 0, "edit": 0, "recall": 0, "upload": 0 },
+  "allowNetworkInterruption": false,
+  "allowPermissionChange": false
+}
