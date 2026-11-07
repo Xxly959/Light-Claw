@@ -13,7 +13,7 @@ LightClaw 是一个基于 TypeScript 的自托管个人 Agent。你在聊天中�
 
 最终目标是单实例、同一信任域的个人Agent：飞书优先，保留Slack接入；通过文件和Shell工具完成任务，保存对话、目标和产物，支持受控执行、恢复与备份。项目功能收敛，开始按[学习路线](packages/lightclaw/docs/learning-path.zh-CN.md)阅读源码。
 
-当前采用源码启动。飞书私聊与提示词交互已有用户实际使用；工程回归与静态检查用于保障功能，不开展Agent效果评测。评测框架、数据集、候选筛选CLI和性能基准已删除；历史记录保留在docs/history与既有证据目录。模型与平台表现受环境影响，不承诺任务必然成功；本轮已在隔离副本完成5包构建、独立安装及有限飞书私聊/模型验收，未开展完整跨平台线上验收。详见docs/reports/FINAL-ACCEPTANCE-2026-11-06.zh-CN.md。
+当前采用源码启动。飞书私聊与提示词交互已有用户实际使用；工程回归与静态检查用于保障功能，不开展Agent效果评测。评测框架、数据集、候选筛选CLI和性能基准已删除；历史记录保留在docs/history与既有证据目录。模型与平台表现受环境影响，不承诺任务必然成功；2026-11-06 已在隔离副本完成5包构建、独立安装及有限飞书私聊/模型验收，未开展完整跨平台线上验收。详见[验收报告](docs/reports/FINAL-ACCEPTANCE-2026-11-06.zh-CN.md)。
 
 [最终范围与完成清单](packages/lightclaw/docs/project-scope.zh-CN.md) · [部署与备份恢复](packages/lightclaw/docs/deployment.zh-CN.md) · [故障排查](packages/lightclaw/docs/troubleshooting.zh-CN.md) · [资源策略](packages/lightclaw/docs/resources.zh-CN.md)
 
@@ -65,7 +65,7 @@ Agent 可以多轮读取、写入和检查产物。自然语言目标提交完�
 
 ## 快速开始
 
-需要 **Node.js >= 22.19.0**、npm、可用的模型凭证，以及飞书或 Slack 应用。以下步骤使用 Docker 运行工具，Node Agent 在宿主机运行。
+需要 **Node.js >= 22.19.0**、npm、Linux/macOS 宿主环境、宿主 Python 3.9+、可用的模型凭证，以及飞书或 Slack 应用。以下步骤还需要已安装并运行的 Docker；Node Agent 在宿主机运行，附件安全读写需要宿主 Python，容器内的 Python 不能替代它。
 
 ### 1. 安装并创建工具环境
 
@@ -79,12 +79,12 @@ bash packages/lightclaw/docker.sh create ./lightclaw-data
 
 ### 2. 配置模型与聊天平台
 
-以下使用仓库默认的 `zai/glm-5.3-flash`。provider 与 model ID 必须存在于 pi 的模型注册表中；OpenAI 兼容网关可通过 `OPENAI_BASE_URL` 覆盖地址。
+以下示例与 `.env` 模板统一使用 `deepseek/deepseek-v4-flash`；该 ID 存在于仓库模型目录中，不代表其供应商实时可用性已经验收。provider 与 model ID 必须存在于 pi 的模型注册表或 `LIGHTCLAW_MODELS_FILE` 中。自定义 OpenAI 兼容网关可通过 `OPENAI_BASE_URL` 覆盖地址，并按需设置 `OPENAI_API_KEY`。
 
 ```bash
-export LIGHTCLAW_MODEL_PROVIDER=zai
-export LIGHTCLAW_MODEL_ID=glm-5.3-flash
-export OPENAI_API_KEY='your-api-key'
+export LIGHTCLAW_MODEL_PROVIDER=deepseek
+export LIGHTCLAW_MODEL_ID=deepseek-v4-flash
+export DEEPSEEK_API_KEY='your-api-key'
 # 使用自定义 OpenAI 兼容网关时设置：
 # export OPENAI_BASE_URL='https://your-gateway.example/v1'
 
@@ -93,7 +93,7 @@ export LIGHTCLAW_FEISHU_APP_ID='cli_xxx'
 export LIGHTCLAW_FEISHU_APP_SECRET='your-app-secret'
 ```
 
-飞书应用需开启机器人能力，使用长连接订阅 `im.message.receive_v1`，并具备读取和发送消息的权限。私聊直接发送，群聊 @ 机器人。
+飞书应用需开启机器人能力，使用长连接订阅 `im.message.receive_v1`，并具备读取和发送消息的权限。提示词表单与预览还需要订阅 `card.action.trigger`，并使用支持卡片 JSON 2.0 的客户端。私聊直接发送，群聊 @ 机器人。
 
 <details>
 <summary>改用 Slack</summary>
@@ -118,7 +118,7 @@ npx tsx packages/lightclaw/src/main.ts \
 
 先发送一条普通消息验证连接，再尝试 `/goal`。凭证通过环境变量或 pi 认证存储读取；启动入口不会自动加载 `.env`。
 
-省略 `--sandbox` 会使用宿主机执行。Docker 默认网络为 `bridge`；离线工具环境可在创建容器前设置 `LIGHTCLAW_SANDBOX_NETWORK=none`。详细参数见[沙箱说明](packages/lightclaw/docs/sandbox.zh-CN.md)。
+省略 `--sandbox` 会使用宿主机执行。Docker 工具容器默认网络为 `none`；需要联网时，在创建容器前显式设置 `LIGHTCLAW_SANDBOX_NETWORK=bridge`。宿主 Agent 的平台连接和模型请求不受容器断网影响。详细参数见[沙箱说明](packages/lightclaw/docs/sandbox.zh-CN.md)。
 
 ## 目标控制与执行边界
 
@@ -150,26 +150,28 @@ npx tsx packages/lightclaw/src/main.ts \
 | `LIGHTCLAW_CHANNEL_CONTAINERS_JSON` | 频道到专属容器的映射 | 无（共用容器） |
 | `LIGHTCLAW_SANDBOX_FALLBACK` | `shared` / `deny`：未配置专属容器时共享还是拒绝 | `shared` |
 
-默认所有频道共用一个容器的 `/workspace`，因而彼此可读。需要真正隔离时，为频道单独建容器：
+默认所有频道共用一个容器的 `/workspace`，因而彼此可读。需要限制工具跨频道访问文件时，为频道单独建容器：
 
 ```bash
 bash packages/lightclaw/docker.sh create-channel ./lightclaw-data <频道ID>
 export LIGHTCLAW_CHANNEL_CONTAINERS_JSON='{"<频道ID>":"lightclaw-chan-<频道ID>"}'
 ```
 
-该容器只挂载 `lightclaw-data/<频道ID> → /workspace/<频道ID>`，启动时会校验挂载契约，多挂任何目录都拒绝启动。代价是频道容器内看不到工作区根的全局 `MEMORY.md`、`skills/`、`events/`；需要共享素材时创建 `lightclaw-data/.shared`，它会以只读方式挂到 `/workspace/.shared`。隔离模式下系统提示会同步声明写边界（只能写频道目录），避免模型反复尝试不可写路径。
+该容器只挂载 `lightclaw-data/<频道ID> → /workspace/<频道ID>`，启动时会校验挂载契约，额外挂载除受控只读 `.shared` 和 `/tmp` 临时文件系统之外的目录会被拒绝。代价是频道容器内看不到工作区根的全局 `MEMORY.md`、`skills/`、`events/`；需要共享素材时创建 `lightclaw-data/.shared`，它会以只读方式挂到 `/workspace/.shared`。隔离模式下系统提示会声明只能写频道目录。此处限制的是工具文件系统访问；宿主 Agent 仍会读取全局 `MEMORY.md` 并注入模型上下文，也会加载全局技能元数据，因此不构成完整的频道信息或多租户隔离。未映射频道默认仍使用共享容器，可设 `LIGHTCLAW_SANDBOX_FALLBACK=deny` 拒绝回落。
 
-高危操作（递归删除、强制推送、下载即执行、提权、访问凭据文件等）会在执行前生成一次性票据并阻断本次调用；创建者或管理员发送 `/approve <id>` 后**自动续跑并重试同一操作**，票据只能使用一次，参数变化会重新拦截。
+在 `LIGHTCLAW_POLICY_MODE=enforce` 时，命中危险规则的工具调用（如部分递归删除、强制推送、下载即执行、提权或凭据文件访问形态）会在执行前生成一次性票据并阻断本次调用。规则匹配不能覆盖任意 Shell 或脚本，未命中不代表安全。创建者或管理员发送 `/approve <id>` 后，系统发起续跑并要求模型以相同参数重试；不保证模型必然重试或操作成功。票据只能使用一次，变化后的参数不继承原票据，需重新接受策略裁决。
 
 审计分两级：`<控制目录>/.audit/tool-calls.jsonl` 始终写入脱敏摘要（工具、目标、判定、退出码、耗时）；参数原文只在 `LIGHTCLAW_AUDIT_PAYLOAD_MODE=full` 时写入 `<控制目录>/.audit/payloads/`，权限 `0600`。查询用 `lightclaw-audit`：
 
 ```bash
-npx tsx packages/lightclaw/src/audit/cli.ts ./lightclaw-data --last 20
+npx tsx packages/lightclaw/src/audit/cli.ts ./lightclaw-data --last=20
 npx tsx packages/lightclaw/src/audit/cli.ts ./lightclaw-data --blocked
-npx tsx packages/lightclaw/src/audit/cli.ts ./lightclaw-data --tool bash --json
+npx tsx packages/lightclaw/src/audit/cli.ts ./lightclaw-data --tool=bash --json
 ```
 
-`--isolation-report <工作目录>` 输出当前隔离等级（`shared-workspace` / `per-channel-container` / `host-unconfined`）与风险清单，用于评审而非替代评审；与 `--help` 一样不需要平台凭证，缺凭证时只读非凭证配置。设计与实施边界见[企业化加固](packages/lightclaw/docs/enterprise-hardening.zh-CN.md)。
+自定义控制目录时，查询审计前需设置与服务一致的 `LIGHTCLAW_CONTROL_DIR`；审计 CLI 不会自动加载 `.env`。
+
+`--isolation-report <工作目录>` 输出当前隔离等级（`shared-workspace` / `per-channel-container` / `host-unconfined`，容器检查未通过时为 `unverified`）与风险清单，用于评审而非替代评审；与 `--help` 一样不需要平台凭证，缺凭证时只读非凭证配置。设计与实施边界见[企业化加固](packages/lightclaw/docs/enterprise-hardening.zh-CN.md)。
 
 ## 提示词预览
 

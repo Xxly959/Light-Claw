@@ -24,7 +24,7 @@ bash scripts/start-lightclaw.sh
 
 在仓库根目录安装依赖：
 
-LightClaw 要求 Node.js >=22.19.0，与 undici 的最低版本要求一致。Node Agent 在宿主机运行，Docker 镜像提供工具执行环境。
+LightClaw 要求 Node.js >=22.19.0、npm、Linux/macOS 和宿主 Python 3.9+；附件安全读写与运行锁需要宿主 POSIX/Python 支持。以下方案还需要已安装并运行的 Docker。Node Agent 在宿主机运行，Docker 镜像提供工具执行环境。
 
 ```bash
 git clone https://github.com/Xxly959/Light-Claw.git
@@ -34,17 +34,17 @@ mkdir -p lightclaw-data
 bash packages/lightclaw/docker.sh create ./lightclaw-data
 ```
 
-配置 OpenAI 兼容模型：
+以下模型示例与 `.env` 模板一致，目录中存在该 ID 不代表供应商实时可用性已经验收：
 
 ```bash
-export LIGHTCLAW_MODEL_PROVIDER=zai
-export LIGHTCLAW_MODEL_ID=glm-5.3-flash
-export OPENAI_API_KEY=你的密钥
-# 使用自定义 OpenAI 兼容网关时设置：
+export LIGHTCLAW_MODEL_PROVIDER=deepseek
+export LIGHTCLAW_MODEL_ID=deepseek-v4-flash
+export DEEPSEEK_API_KEY=你的密钥
+# 使用自定义 OpenAI 兼容网关时按需设置 OPENAI_API_KEY 和地址：
 # export OPENAI_BASE_URL=https://your-gateway.example/v1
 ```
 
-`LIGHTCLAW_MODEL_PROVIDER` 和 `LIGHTCLAW_MODEL_ID` 必须能在 pi 的模型注册表中找到。也可以改用 `deepseek`、`moonshotai-cn` 等已有 provider。
+`LIGHTCLAW_MODEL_PROVIDER` 和 `LIGHTCLAW_MODEL_ID` 必须能在 pi 的模型注册表中找到。自定义模型可通过 `LIGHTCLAW_MODELS_FILE` 注册；也可以改用 `zai`、`moonshotai-cn` 等已有 provider，并设置对应凭证。
 
 ### 飞书模式
 
@@ -55,7 +55,7 @@ export LIGHTCLAW_FEISHU_APP_SECRET=xxx
 npx tsx packages/lightclaw/src/main.ts --sandbox=docker:lightclaw-sandbox ./lightclaw-data
 ```
 
-飞书应用需启用机器人能力，通过长连接订阅 `im.message.receive_v1`，并允许机器人读取和发送消息。群聊中需要 @ 机器人，私聊可以直接发送。
+飞书应用需启用机器人能力，通过长连接订阅 `im.message.receive_v1`，并允许机器人读取和发送消息。提示词表单与预览还需订阅 `card.action.trigger`，客户端须支持卡片 JSON 2.0。群聊中需要 @ 机器人，私聊可以直接发送。
 
 ### Slack 模式
 
@@ -68,7 +68,7 @@ export LIGHTCLAW_SLACK_BOT_TOKEN=xoxb-xxx
 npx tsx packages/lightclaw/src/main.ts --sandbox=docker:lightclaw-sandbox ./lightclaw-data
 ```
 
-凭证通过环境变量或 pi 认证存储读取，启动入口不会自动加载 `.env`。省略 `--sandbox` 时工具在宿主机执行；Docker 默认使用 `bridge` 网络，创建容器前可设置 `LIGHTCLAW_SANDBOX_NETWORK=none`。详见[沙箱配置](docs/sandbox.zh-CN.md)。
+凭证通过环境变量或 pi 认证存储读取，启动入口不会自动加载 `.env`。省略 `--sandbox` 时工具在宿主机执行；Docker 工具容器默认使用 `none` 网络；需要联网时，创建容器前显式设置 `LIGHTCLAW_SANDBOX_NETWORK=bridge`。容器断网不影响宿主 Agent 的平台连接与模型请求。详见[沙箱配置](docs/sandbox.zh-CN.md)。
 
 ## 附件权限与离线回归
 
@@ -174,4 +174,4 @@ lightclaw-data/
 
 原发送者须在原群原卡片确认，有效期沿用首次表单的30分钟。确认时重新检查频道忙碌状态和活跃长期目标。预览可跨重启确认，但重复确认最多执行一次；过期、中断、改写失败、超时、取消或预览投递失败/不确定均不会自动执行或退回原文。确认文本中的 `/approve`、`/recover`、`/goal`按任务数据处理，不升级为控制命令。
 
-`LIGHTCLAW_FEATURE_OPTIMIZATION=false`关闭表单优化入口，不影响普通原文输入。真实飞书应用需订阅 `card.action.trigger` 并支持卡片JSON 2.0。流程经实际adapter+mock SDK+faux验证；本轮另已完成独立安装产物真实模型/私聊附件验收，以及用户在真实客户端优化预览、编辑和确认，主会话记录核对了隔离边界。见[最终验收报告](../../docs/reports/FINAL-ACCEPTANCE-2026-11-06.zh-CN.md)。已有进程须重启才加载后续源码改动。Slack不增加该入口。
+`LIGHTCLAW_FEATURE_OPTIMIZATION=false`关闭表单优化入口，不影响普通原文输入。真实飞书应用需订阅 `card.action.trigger` 并支持卡片JSON 2.0。流程经实际adapter+mock SDK+faux验证；2026-11-06 另已完成独立安装产物真实模型/私聊附件验收，以及用户在真实客户端优化预览、编辑和确认，主会话记录核对了隔离边界。见[最终验收报告](../../docs/reports/FINAL-ACCEPTANCE-2026-11-06.zh-CN.md)。已有进程须重启才加载后续源码改动。Slack不增加该入口。

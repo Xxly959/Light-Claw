@@ -36,7 +36,7 @@ Built on pi's model, Agent, and session infrastructure. LightClaw adds chat tran
 
 Install dependencies from the repository root:
 
-LightClaw requires Node.js 22.19.0 or newer, matching its undici dependency. The Docker sandbox contains tools; the Node agent runs on the host.
+LightClaw requires Node.js 22.19.0 or newer, npm, a Linux/macOS host, and host Python 3.9+ for secure attachments and POSIX runtime locking. The following setup also requires an installed and running Docker engine. The Docker sandbox contains tools; the Node agent runs on the host.
 
 ```bash
 git clone https://github.com/Xxly959/Light-Claw.git
@@ -46,17 +46,17 @@ mkdir -p lightclaw-data
 bash packages/lightclaw/docker.sh create ./lightclaw-data
 ```
 
-Configure a model. The provider and model must exist in pi's model registry:
+This model example matches the `.env` template. Its presence in the checked-in catalog does not verify live provider access. The provider and model must exist in pi's registry or a custom `LIGHTCLAW_MODELS_FILE`:
 
 ```bash
-export LIGHTCLAW_MODEL_PROVIDER=zai
-export LIGHTCLAW_MODEL_ID=glm-5.3-flash
-export OPENAI_API_KEY=your-key
-# Optional: override the provider endpoint for an OpenAI-compatible gateway
+export LIGHTCLAW_MODEL_PROVIDER=deepseek
+export LIGHTCLAW_MODEL_ID=deepseek-v4-flash
+export DEEPSEEK_API_KEY=your-key
+# For a custom OpenAI-compatible gateway, set OPENAI_API_KEY as needed and override the endpoint
 # export OPENAI_BASE_URL=https://your-openai-compatible-gateway.example/v1
 ```
 
-For Feishu, enable the bot, subscribe to `im.message.receive_v1` through a long connection, and grant message read/send permissions. Send a direct message or mention the bot in a group:
+For Feishu, enable the bot, subscribe to `im.message.receive_v1` through a long connection, and grant message read/send permissions. Prompt forms and previews additionally require `card.action.trigger` and a client supporting card JSON 2.0. Send a direct message or mention the bot in a group:
 
 ```bash
 export LIGHTCLAW_TRANSPORT=feishu
@@ -74,7 +74,13 @@ export LIGHTCLAW_SLACK_BOT_TOKEN=xoxb-xxx
 npx tsx packages/lightclaw/src/main.ts --sandbox=docker:lightclaw-sandbox ./lightclaw-data
 ```
 
-Credentials come from environment variables or pi's auth store; the entrypoint does not load `.env` automatically. Omitting `--sandbox` runs tools on the host. Docker uses `bridge` networking by default; set `LIGHTCLAW_SANDBOX_NETWORK=none` before creating the container for offline tool execution. See [sandbox configuration](docs/sandbox.zh-CN.md).
+Credentials come from environment variables or pi's auth store; the entrypoint does not load `.env` automatically. Omitting `--sandbox` runs tools on the host. Docker tool containers use `none` networking by default; explicitly set `LIGHTCLAW_SANDBOX_NETWORK=bridge` before creating a container when tools need network access. Container networking does not restrict the host agent’s platform connections or model requests. See [sandbox configuration](docs/sandbox.zh-CN.md).
+
+## Execution boundaries
+
+Per-channel containers restrict tool filesystem access. The host agent still injects global `MEMORY.md` into model context and loads global skill metadata, so this is not complete channel information or tenant isolation. Unmapped channels use the shared container unless `LIGHTCLAW_SANDBOX_FALLBACK=deny` is set.
+
+With `LIGHTCLAW_POLICY_MODE=enforce`, calls matching danger rules require a one-time approval. These rules do not cover arbitrary shell commands or scripts. Approval starts a model continuation requesting the same operation; it does not guarantee a retry or success. Changed arguments do not inherit the original ticket and are evaluated again.
 
 ## Long-running goals
 
@@ -98,7 +104,7 @@ For automatic file acceptance:
 
 Contracts are fixed at creation. File changes compare actual SHA-256 against the creation baseline. Docker-only `commands` require `command`, `sourcePaths`, and optional `stdoutIncludes`; they run again under `/workspace/<channel>` with the run's shared tool quota, deadline, and cancellation signal. Use repeatable test commands. Maximums: 16 files, 4 commands, 16 source paths per command, 4096 command characters; file hashing 10 MiB and content matching 1 MiB. Symlinks and nonregular files are rejected. Snapshot identity and content are checked again before committing.
 
-Schema 2 state lives outside the workspace at `~/.pi/lightclaw/control/<SHA-256 of canonical workspace>/<channel>/goal.json`. `LIGHTCLAW_CONTROL_DIR` overrides the control root. Docker mounts overlapping any protected state prevent startup. The current workspace must map exactly to `/workspace`, without nested mounts shadowing channels or sources. Host mode with the same UID remains outside the adversarial isolation guarantee. Bot and migration share `instance.lock`; verify all instances are stopped before manually removing a stale lock. Only active protected goals recover; awaiting confirmation does not.
+Schema 2 state lives outside the workspace at `~/.pi/lightclaw/control/<SHA-256 of canonical workspace>/<channel>/goal.json`. `LIGHTCLAW_CONTROL_DIR` overrides the control root. Docker mounts overlapping any protected state prevent startup. The current workspace must map exactly to `/workspace`, without nested mounts shadowing channels or sources. Host mode with the same UID remains outside the adversarial isolation guarantee. Bot and migration share `instance.lock`; wait for shutdown and kernel lock release; an existing lock file alone is not a reason to delete it. Only active protected goals recover; awaiting confirmation does not.
 
 Stop the bot before explicitly migrating old workspace `goal.json` files:
 

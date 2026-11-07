@@ -4,7 +4,7 @@
 
 ## 首次启动
 
-需要Node.js>=22.19.0、npm、宿主Python3（3.9+）、平台机器人应用及模型凭证。先安装仓库依赖，再从根目录：
+需要Node.js>=22.19.0、npm、Linux/macOS宿主、宿主Python3（3.9+）、平台机器人应用及模型凭证。Docker方案还需已安装并运行的Docker。先安装仓库依赖，再从根目录：
 
 ```bash
 cp packages/lightclaw/config.env.example .env
@@ -30,7 +30,7 @@ bash packages/lightclaw/docker.sh create ./lightclaw-data
 bash scripts/start-lightclaw.sh
 ```
 
-容器非root、资源受限；宿主Python负责安全附件读写，容器Python负责任务监督。全局共享容器不是租户隔离，频道专用容器及挂载规则见sandbox.zh-CN.md。定时事件的真实可见路径应与所选挂载方式一致。
+容器非root、资源受限；宿主Python负责安全附件读写，容器Python负责任务监督。容器默认网络为none，需要联网工具时应在创建前显式设置LIGHTCLAW_SANDBOX_NETWORK=bridge；不影响宿主平台连接与模型请求。全局共享容器不是租户隔离，频道专用容器只限制工具文件访问；宿主仍会将全局MEMORY.md注入模型上下文并加载全局技能元数据。挂载规则见sandbox.zh-CN.md。定时事件的真实可见路径应与所选挂载方式一致。
 
 ## 日常操作
 
@@ -46,10 +46,10 @@ bash scripts/start-lightclaw.sh
 npx tsx packages/lightclaw/src/main.ts --help
 npx tsx packages/lightclaw/src/main.ts --health=./lightclaw-data --control=./lightclaw-control
 npx tsx packages/lightclaw/src/main.ts --isolation-report ./lightclaw-data --sandbox=host
-npx tsx packages/lightclaw/src/audit/cli.ts ./lightclaw-data --last 20
+LIGHTCLAW_CONTROL_DIR=./lightclaw-control npx tsx packages/lightclaw/src/audit/cli.ts ./lightclaw-data --last=20
 ```
 
-上述探测不发试验消息。健康JSON中的lock、runtime和platform各有含义；锁持有不等于平台就绪，ready不证明模型可用。心跳过期、权限失败、空模型回复等处理见troubleshooting.zh-CN.md。模型报价缺失时cost=0不代表免费。资源/保留期以resources.zh-CN.md为准。
+审计示例使用模板中的控制目录；自定义部署需设置与运行实例一致的LIGHTCLAW_CONTROL_DIR，CLI不会自动读取.env。上述探测不发试验消息。健康JSON中的lock、runtime和platform各有含义；锁持有不等于平台就绪，ready不证明模型可用。心跳过期、权限失败、空模型回复等处理见troubleshooting.zh-CN.md。模型报价缺失时cost=0不代表免费。资源/保留期以resources.zh-CN.md为准。
 
 正常停止使用Ctrl-C或对确认身份的进程发SIGINT/SIGTERM，等待任务收敛与内核锁释放。更新源码后，只有实例空闲（无排队/执行/活动目标/已开始操作）才进行受控重启；不强杀或启动第二实例。不要因锁文件存在就删它。
 
