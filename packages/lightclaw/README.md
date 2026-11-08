@@ -78,7 +78,7 @@ Credentials come from environment variables or pi's auth store; the entrypoint d
 
 ## Execution boundaries
 
-Per-channel containers restrict tool filesystem access. The host agent still injects global `MEMORY.md` into model context and loads global skill metadata, so this is not complete channel information or tenant isolation. Unmapped channels use the shared container unless `LIGHTCLAW_SANDBOX_FALLBACK=deny` is set.
+Per-channel containers restrict tool filesystem access. The host agent still injects the global memory index excerpt into model context and loads global skill metadata, so this is not complete channel information or tenant isolation. Unmapped channels use the shared container unless `LIGHTCLAW_SANDBOX_FALLBACK=deny` is set.
 
 With `LIGHTCLAW_POLICY_MODE=enforce`, calls matching danger rules require a one-time approval. These rules do not cover arbitrary shell commands or scripts. Approval starts a model continuation requesting the same operation; it does not guarantee a retry or success. Changed arguments do not inherit the original ticket and are evaluated again.
 
@@ -143,16 +143,20 @@ Model/tool cancellation is cooperative. Reported-token limits can overshoot with
 ```text
 lightclaw-data/
 ├── MEMORY.md
+├── .shared/memory/
 ├── settings.json
 ├── events/
 └── <channel-id>/
     ├── MEMORY.md
+    ├── memory/
     ├── log.jsonl
     ├── context.jsonl
     ├── attachments/
     ├── scratch/
     └── skills/
 ```
+
+Each `MEMORY.md` is re-read on every run. LightClaw injects up to 4 KiB of complete lines from each file and leaves the rest on disk for on-demand lookup. Keep stable preferences and links in the indexes, and put longer notes under the corresponding `memory/` directory. An isolated channel can read shared notes when `.shared/` is mounted read-only.
 
 The audit log contains operational metadata only. It does not intentionally store prompts, tool arguments, API keys, or response bodies.
 

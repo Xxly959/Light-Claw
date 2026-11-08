@@ -1,28 +1,26 @@
-import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { fauxAssistantMessage, registerFauxProvider } from "@mariozechner/pi-ai";
+import { type AssistantMessage, fauxAssistantMessage, fauxToolCall, registerFauxProvider } from "@mariozechner/pi-ai";
 import { expect, it } from "vitest";
 import { type AgentRunner, createAgentRunner } from "../src/agent.js";
 import type { LightClawConfig } from "../src/config.js";
 import { GoalStore } from "../src/goals/store.js";
+import { createExecutor } from "../src/sandbox.js";
 import { ChannelStore } from "../src/store.js";
+import { createReadTool } from "../src/tools/read.js";
 import type { ChatContext } from "../src/transport.js";
 
-it("refreshes file memory and reloads persisted history without mixing channel-private data", async () => {
-	// Catches cached memory, a wrong channel memory path, or dropping the persisted session on recreation.
+function createFixture(makeReplies: (workspace: string) => AssistantMessage[], { withReadTool = false } = {}) {
 	const root = mkdtempSync(join(tmpdir(), "lightclaw-session-memory-"));
-	const workspace = join(root, "work");
+	const workspace = join(root, "chat-a-work");
 	for (const channel of ["chat-a", "chat-b"]) mkdirSync(join(workspace, channel), { recursive: true });
-	writeFileSync(join(workspace, "MEMORY.md"), "LC_GLOBAL_MEMORY_V1");
-	writeFileSync(join(workspace, "chat-a", "MEMORY.md"), "LC_PRIVATE_A_V1");
-	writeFileSync(join(workspace, "chat-b", "MEMORY.md"), "LC_PRIVATE_B");
 	const provider = registerFauxProvider();
 	const requests: { system: string; messages: string }[] = [];
 	provider.setResponses(
-		["LC_A_REPLY_ONE", "LC_A_REPLY_TWO", "LC_A_REPLY_RELOADED", "LC_B_REPLY"].map((reply) => (context) => {
+		makeReplies(workspace).map((reply) => (context) => {
 			requests.push({ system: context.systemPrompt ?? "", messages: JSON.stringify(context.messages) });
-			return fauxAssistantMessage(reply);
+			return reply;
 		}),
 	);
 	const config: LightClawConfig = {
@@ -44,7 +42,7 @@ it("refreshes file memory and reloads persisted history without mixing channel-p
 		const runner = createAgentRunner({ type: "host" }, channel, channelDir, config, goals, {
 			model: provider.getModel(),
 			apiKey: "faux-key",
-			tools: [],
+			tools: withReadTool ? [createReadTool(createExecutor({ type: "host" }))] : [],
 			inMemoryState: true,
 			quiet: true,
 		});
@@ -64,7 +62,24 @@ it("refreshes file memory and reloads persisted history without mixing channel-p
 		deleteMessage: async () => {},
 	});
 	const store = new ChannelStore({ workingDir: workspace });
+	const cleanup = () => {
+		for (const runner of runners) runner.dispose();
+		provider.unregister();
+		rmSync(root, { recursive: true, force: true });
+	};
+	return { workspace, requests, create, context, store, cleanup };
+}
+
+it("refreshes file memory and reloads persisted history without mixing channel-private data", async () => {
+	const { workspace, requests, create, context, store, cleanup } = createFixture(() =>
+		["LC_A_REPLY_ONE", "LC_A_REPLY_TWO", "LC_A_REPLY_RELOADED", "LC_B_REPLY"].map((reply) =>
+			fauxAssistantMessage(reply),
+		),
+	);
 	try {
+		writeFileSync(join(workspace, "MEMORY.md"), "LC_GLOBAL_MEMORY_V1");
+		writeFileSync(join(workspace, "chat-a", "MEMORY.md"), "LC_PRIVATE_A_V1");
+		writeFileSync(join(workspace, "chat-b", "MEMORY.md"), "LC_PRIVATE_B");
 		const first = create("chat-a");
 		expect((await first.run(context("chat-a", "LC_A_REQUEST_ONE", "1"), store)).stopReason).toBe("stop");
 		expect(requests[0].system).toContain("LC_GLOBAL_MEMORY_V1");
@@ -98,8 +113,107 @@ it("refreshes file memory and reloads persisted history without mixing channel-p
 		expect(requests[3].messages).not.toContain("LC_A_REPLY");
 		expect(readFileSync(join(workspace, "chat-a", "context.jsonl"), "utf8")).toContain("LC_A_REQUEST_ONE");
 	} finally {
-		for (const runner of runners) runner.dispose();
-		provider.unregister();
-		rmSync(root, { recursive: true, force: true });
+		cleanup();
+	}
+});
+
+it("loads bounded complete lines from both indexes and reads a detailed note only on demand", async () => {
+	const { workspace, requests, create, context, store, cleanup } = createFixture(
+		(workspace) => [
+			fauxAssistantMessage(
+				fauxToolCall("read", {
+					label: "Read deployment note",
+					path: join(workspace, "chat-a", "memory", "deployment.md"),
+				}),
+				{ stopReason: "toolUse" },
+			),
+			fauxAssistantMessage("LC_READ_COMPLETE"),
+		],
+		{ withReadTool: true },
+	);
+	try {
+		const channelDir = join(workspace, "chat-a");
+		const notePath = join(channelDir, "memory", "deployment.md");
+		const globalIndex = `LC_GLOBAL_INDEX\nLC_PARTIAL_LINE${"记".repeat(1365)}LC_GLOBAL_TAIL`;
+		const channelIndex = `LC_CHANNEL_INDEX: memory/deployment.md\n${"x".repeat(4096)}LC_CHANNEL_TAIL`;
+		writeFileSync(join(workspace, "MEMORY.md"), globalIndex);
+		writeFileSync(join(channelDir, "MEMORY.md"), channelIndex);
+		mkdirSync(join(channelDir, "memory"));
+		writeFileSync(notePath, "LC_DEPLOYMENT_DETAILS");
+		// Use the actual read tool so a later request receives the note as a tool result.
+		const runner = create("chat-a");
+		expect((await runner.run(context("chat-a", "LC_REQUEST_DETAILS", "1"), store)).stopReason).toBe("stop");
+		expect(requests[0].system).toContain("LC_GLOBAL_INDEX");
+		expect(requests[0].system).toContain("LC_CHANNEL_INDEX: memory/deployment.md");
+		expect(requests[0].system).toContain(`Channel notes: ${channelDir}/memory/`);
+		expect(requests[0].system).toContain("Read this channel's MEMORY.md for the omitted entries");
+		expect(requests[0].system).toContain("Read the workspace MEMORY.md for the omitted entries");
+		expect(requests[0].system.includes("LC_GLOBAL_TAIL")).toBe(false);
+		expect(requests[0].system.includes("LC_CHANNEL_TAIL")).toBe(false);
+		expect(requests[0].system).not.toContain("LC_PARTIAL_LINE");
+		expect(requests[0].system).not.toContain("LC_DEPLOYMENT_DETAILS");
+		expect(requests[1].messages).toContain("LC_DEPLOYMENT_DETAILS");
+		expect(readFileSync(join(workspace, "MEMORY.md"), "utf8")).toBe(globalIndex);
+		expect(readFileSync(join(channelDir, "MEMORY.md"), "utf8")).toBe(channelIndex);
+	} finally {
+		cleanup();
+	}
+});
+
+it("does not inject another channel's memory through a symbolic link", async () => {
+	const { workspace, requests, create, context, store, cleanup } = createFixture(() => [
+		fauxAssistantMessage("LC_REPLY"),
+	]);
+	try {
+		writeFileSync(join(workspace, "MEMORY.md"), "LC_GLOBAL");
+		writeFileSync(join(workspace, "chat-b", "MEMORY.md"), "LC_OTHER_CHANNEL");
+		symlinkSync("../chat-b/MEMORY.md", join(workspace, "chat-a", "MEMORY.md"));
+		expect((await create("chat-a").run(context("chat-a", "LC_REQUEST", "1"), store)).stopReason).toBe("stop");
+		expect(requests[0].system).toContain("LC_GLOBAL");
+		expect(requests[0].system).not.toContain("LC_OTHER_CHANNEL");
+	} finally {
+		cleanup();
+	}
+});
+
+it("rejects a channel directory replaced with a symbolic link after runner creation", async () => {
+	const { workspace, requests, create, context, store, cleanup } = createFixture(() => [
+		fauxAssistantMessage("LC_REPLY"),
+	]);
+	try {
+		const channelDir = join(workspace, "chat-a");
+		const runner = create("chat-a");
+		rmSync(channelDir, { recursive: true });
+		symlinkSync("chat-b", channelDir, "dir");
+		await expect(runner.run(context("chat-a", "LC_REQUEST", "1"), store)).rejects.toThrow(
+			"Channel storage directory must not be linked",
+		);
+		expect(requests).toHaveLength(0);
+	} finally {
+		cleanup();
+	}
+});
+
+it.each([
+	{
+		name: "a line ending beyond the byte budget",
+		index: `LC_OMITTED${"x".repeat(4086)}\nLC_TAIL`,
+	},
+	{
+		name: "invalid UTF-8",
+		index: Buffer.concat([Buffer.from("LC_OMITTED"), Buffer.from([0xff])]),
+	},
+])("omits $name from the system prompt", async ({ index }) => {
+	const { workspace, requests, create, context, store, cleanup } = createFixture(() => [
+		fauxAssistantMessage("LC_REPLY"),
+	]);
+	try {
+		writeFileSync(join(workspace, "MEMORY.md"), "LC_GLOBAL");
+		writeFileSync(join(workspace, "chat-a", "MEMORY.md"), index);
+		expect((await create("chat-a").run(context("chat-a", "LC_REQUEST", "1"), store)).stopReason).toBe("stop");
+		expect(requests[0].system).toContain("LC_GLOBAL");
+		expect(requests[0].system.includes("LC_OMITTED")).toBe(false);
+	} finally {
+		cleanup();
 	}
 });

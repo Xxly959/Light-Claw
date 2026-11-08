@@ -89,6 +89,7 @@
 - Decoupled the agent, event watcher, and message context from Slack-specific transport types.
 - Tested LightClaw against workspace package sources and configured CI for minimum and current Node 22 versions.
 - Surfaced Slack rate limits and request failures without automatic retries after uncertain delivery.
+- Limit automatic memory injection to 4 KiB of complete lines per global or channel index, with on-demand Markdown notes and source lookups in channel logs. Reject symbolic links and non-regular files for injected indexes.
 
 ### Fixed
 

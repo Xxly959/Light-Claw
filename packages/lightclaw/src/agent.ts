@@ -23,7 +23,7 @@ import {
 	SettingsManager,
 	type Skill,
 } from "@mariozechner/pi-coding-agent";
-import { existsSync, readFileSync } from "fs";
+import { closeSync, constants, existsSync, fstatSync, lstatSync, openSync, readSync } from "fs";
 import { mkdir, writeFile } from "fs/promises";
 import { homedir } from "os";
 import { dirname, join, resolve } from "path";
@@ -196,40 +196,53 @@ function getImageMimeType(filename: string): string | undefined {
 	return IMAGE_MIME_TYPES[filename.toLowerCase().split(".").pop() || ""];
 }
 
-function getMemory(channelDir: string): string {
-	const parts: string[] = [];
+const MEMORY_INDEX_BYTES = 4 * 1024;
 
-	// Read workspace-level memory (shared across all channels)
-	const workspaceMemoryPath = join(channelDir, "..", "MEMORY.md");
-	if (existsSync(workspaceMemoryPath)) {
+function readMemoryIndex(path: string, title: string, overflowHint: string): string | undefined {
+	try {
+		// The host reads these files, so a channel symlink must not redirect this read.
+		const fd = openSync(path, constants.O_RDONLY | constants.O_NOFOLLOW | constants.O_NONBLOCK);
 		try {
-			const content = readFileSync(workspaceMemoryPath, "utf-8").trim();
-			if (content) {
-				parts.push(`### Global Workspace Memory\n${content}`);
+			if (!fstatSync(fd).isFile()) throw new Error("Expected a regular file");
+			const buffer = Buffer.alloc(MEMORY_INDEX_BYTES + 1);
+			let size = 0;
+			while (size < buffer.length) {
+				const bytes = readSync(fd, buffer, size, buffer.length - size, null);
+				if (bytes === 0) break;
+				size += bytes;
 			}
-		} catch (error) {
-			log.logWarning("Failed to read workspace memory", `${workspaceMemoryPath}: ${error}`);
+			const overflow = size > MEMORY_INDEX_BYTES;
+			// Keep complete UTF-8 lines even when the byte limit splits a character.
+			const end = overflow ? buffer.lastIndexOf(0x0a, MEMORY_INDEX_BYTES - 1) + 1 : size;
+			const content = new TextDecoder("utf-8", { fatal: true }).decode(buffer.subarray(0, end)).trim();
+			if (!overflow && !content) return undefined;
+			const hint = overflow ? `\n[Memory index exceeds 4 KiB. ${overflowHint}]` : "";
+			return `### ${title}\n${content}${hint}`;
+		} finally {
+			closeSync(fd);
 		}
-	}
-
-	// Read channel-specific memory
-	const channelMemoryPath = join(channelDir, "MEMORY.md");
-	if (existsSync(channelMemoryPath)) {
-		try {
-			const content = readFileSync(channelMemoryPath, "utf-8").trim();
-			if (content) {
-				parts.push(`### Channel-Specific Memory\n${content}`);
-			}
-		} catch (error) {
-			log.logWarning("Failed to read channel memory", `${channelMemoryPath}: ${error}`);
+	} catch (error) {
+		if ((error as NodeJS.ErrnoException).code !== "ENOENT") {
+			log.logWarning("Failed to read memory index", `${path}: ${error}`);
 		}
+		return undefined;
 	}
+}
 
-	if (parts.length === 0) {
-		return "(no working memory yet)";
-	}
-
-	return parts.join("\n\n");
+function getMemory(channelDir: string, channelIsolated: boolean): string {
+	const global = readMemoryIndex(
+		join(channelDir, "..", "MEMORY.md"),
+		"Global Workspace Memory",
+		channelIsolated
+			? "Look for relevant shared notes under .shared/memory/ if mounted, or ask the operator to check the full index on the host."
+			: "Read the workspace MEMORY.md for the omitted entries if needed.",
+	);
+	const channel = readMemoryIndex(
+		join(channelDir, "MEMORY.md"),
+		"Channel-Specific Memory",
+		"Read this channel's MEMORY.md for the omitted entries if needed.",
+	);
+	return [global, channel].filter(Boolean).join("\n\n") || "(no working memory yet)";
 }
 
 function loadLightClawSkills(channelDir: string, workspacePath: string): Skill[] {
@@ -369,17 +382,21 @@ Update this file whenever you modify the environment. On fresh container, read i
 ## Log Queries (for older history)
 Format: \`{"date":"...","ts":"...","user":"...","userName":"...","text":"...","isBot":false}\`
 The log contains user messages and your final responses (not tool calls/results).
+Run these queries from this channel's directory (${channelPath}). Keep the date and ts so a memory note can cite the source.
 Check command availability before using jq; do not install system packages in Docker.
 
 \`\`\`bash
 # Recent messages
-tail -30 log.jsonl | jq -c '{date: .date[0:19], user: (.userName // .user), text}'
+tail -30 log.jsonl | jq -c '{date, ts, user: (.userName // .user), text}'
 
 # Search for specific topic
-grep -i "topic" log.jsonl | jq -c '{date: .date[0:19], user: (.userName // .user), text}'
+grep -Fi -- "topic" log.jsonl | tail -20 | jq -c '{date, ts, user: (.userName // .user), text}'
 
 # Messages from specific user
-grep '"userName":"mario"' log.jsonl | tail -20 | jq -c '{date: .date[0:19], text}'
+grep '"userName":"mario"' log.jsonl | tail -20 | jq -c '{date, ts, text}'
+
+# Find a source message by log ts (Feishu message ID or Slack timestamp)
+grep -F -- '"ts":"MESSAGE_ID"' log.jsonl | jq -c '{date, ts, user: (.userName // .user), text}'
 \`\`\`
 
 `;
@@ -406,14 +423,15 @@ export function buildSystemPrompt(
 	// 频道容器只挂频道目录，工作区根在容器内不存在；提示必须与事实一致。
 	const layoutSection = channelIsolated
 		? `${workspacePath}/
-└── ${channelId}/                # This channel — the only mounted directory
+├── .shared/                      # Optional read-only shared files
+└── ${channelId}/                # The only mounted directory with workspace write access
     ├── MEMORY.md                # Channel-specific memory
     ├── log.jsonl                # Message history (no tool results)
     ├── attachments/             # User-shared files
     ├── scratch/                 # Your working directory
     └── skills/                  # Channel-specific tools
 
-Global MEMORY.md, skills/ and events/ are NOT mounted in this container. Global memory is already injected below and stays readable here, but it cannot be edited from the container.`
+Global MEMORY.md, skills/ and events/ are NOT mounted in this container. The global memory index excerpt is injected below. If mounted, .shared/ is read-only here.`
 		: `${workspacePath}/
 ├── MEMORY.md                    # Global memory (all channels)
 ├── skills/                      # Global CLI tools you create
@@ -427,6 +445,9 @@ Global MEMORY.md, skills/ and events/ are NOT mounted in this container. Global 
 	const writeBoundary = channelIsolated
 		? `All file writes must stay under ${channelPath}/. Writing to ${workspacePath}/ or outside the channel will fail: the container has no writable mount there. If a task needs a global file, tell the user instead of retrying the same path.`
 		: `Channel output belongs under ${channelPath}/. The workspace root stays writable for shared memory and skills; do not place channel deliverables there.`;
+	const sharedMemoryAccess = channelIsolated
+		? "Shared memory is maintained on the host. Shared notes are readable only when .shared/ is mounted."
+		: "Save shared notes there only when they are intended for all channels.";
 
 	// Format channel mappings
 	const channelMappings =
@@ -487,10 +508,10 @@ Available skills: ${skills.length > 0 ? formatSkillsForPrompt(skills) : "(none i
 Before creating skills, scheduling/managing events, querying older logs, or restoring environment configuration, read ${channelPath}/.lightclaw-guide.md using the read tool. It contains the full formats and examples. These capabilities remain available; ordinary file tasks do not require reading this guide.
 
 ## Memory
-Write to MEMORY.md files to persist context across conversations.
-- Global (${workspacePath}/MEMORY.md): skills, preferences, project info
-- Channel (${channelPath}/MEMORY.md): channel-specific decisions, ongoing work
-Update when you learn something important or when asked to remember something.
+Keep each MEMORY.md index within 4 KiB. Put stable preferences, current agreements, and links to topical notes in the index.
+- Global index: ${workspacePath}/MEMORY.md. Shared notes: ${workspacePath}/.shared/memory/. ${sharedMemoryAccess}
+- Channel index: ${channelPath}/MEMORY.md. Channel notes: ${channelPath}/memory/. Keep this channel's private information here.
+Read relevant notes on demand. When asked to remember something or when you learn something worth reusing, record its date and source if available (this channel's log.jsonl ts or a verified artifact path). Distinguish unverified claims from confirmed facts, replace superseded entries when corrected, and check the source when a note is uncertain or stale. Use goal state for live goal status.
 
 ### Current Memory
 ${memory}
@@ -622,9 +643,9 @@ export function createAgentRunner(
 			);
 	const modelRouter = new ModelRouter({ primary: primaryModel, fallbacks: fallbackModels });
 	const model = modelRouter.current();
-	const workspacePath = executor.getWorkspacePath(channelDir.replace(`/${channelId}`, ""));
 	// 审计写宿主路径；workspacePath 在 Docker 下是容器内路径，不能用于落盘。
 	const workspaceHostDir = dirname(channelDir);
+	const workspacePath = executor.getWorkspacePath(workspaceHostDir);
 	const policySet = loadPolicySet(config.channelPolicyJson, config.channelPolicyMapJson);
 	const channelGrant: ChannelGrant = grantForChannel(policySet, channelId);
 	const policyEnforced = config.policyMode !== "off";
@@ -685,7 +706,7 @@ export function createAgentRunner(
 	}
 
 	// Initial system prompt (will be updated each run with fresh memory/channels/users/skills)
-	const memory = getMemory(channelDir);
+	const memory = getMemory(channelDir, channelIsolated);
 	const skills = loadLightClawSkills(channelDir, workspacePath);
 	let capabilities: string | undefined;
 	let systemPrompt = buildSystemPrompt(
@@ -1226,6 +1247,8 @@ export function createAgentRunner(
 				const startedAt = Date.now();
 				// Ensure channel directory exists
 				await mkdir(channelDir, { recursive: true });
+				if (!lstatSync(resolve(channelDir)).isDirectory())
+					throw new Error("Channel storage directory must not be linked");
 				assertContextCapacity(channelDir, Buffer.byteLength(ctx.message.text));
 
 				// Sync messages from log.jsonl that arrived while we were offline or busy
@@ -1246,7 +1269,7 @@ export function createAgentRunner(
 				}
 
 				// Update system prompt with fresh memory, channel/user info, and skills
-				const memory = getMemory(channelDir);
+				const memory = getMemory(channelDir, channelIsolated);
 				const skills = loadLightClawSkills(channelDir, workspacePath);
 				if (capabilities === undefined && overrides.tools === undefined) {
 					try {

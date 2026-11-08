@@ -134,17 +134,23 @@ export LIGHTCLAW_GOAL_MAX_STALE_CYCLES=2
 
 ```text
 lightclaw-data/
-├── MEMORY.md                 # 全局长期记忆
+├── MEMORY.md                 # 全局记忆索引
+├── .shared/memory/           # 可选的共享专题笔记
 ├── settings.json             # Agent 设置
 ├── events/                   # 定时唤醒任务
 └── <频道 ID>/
-    ├── MEMORY.md             # 频道长期记忆
+    ├── MEMORY.md             # 频道记忆索引
+    ├── memory/               # 可选的频道专题笔记
     ├── log.jsonl             # 可检索聊天历史
     ├── context.jsonl         # 发送给模型的上下文
     ├── attachments/
     ├── scratch/
     └── skills/
 ```
+
+每次运行会重读两份 `MEMORY.md`，每份最多注入前 4 KiB 的完整行。超出时系统提示会提示按需回查，磁盘原文保留。建议索引只放稳定偏好、现行约定和专题笔记路径，例如 `月报统一用 CSV，详情见 memory/monthly-report.md`。笔记可记录日期和来源，来源可以是同频道 `log.jsonl` 的 `ts`（飞书消息 ID 或 Slack 时间戳），也可以是已验证的产物路径。
+
+频道隔离容器只能在挂载 `.shared/` 后读取共享笔记，且该挂载只读。全局索引及共享笔记由宿主维护。已有大文件可在宿主手工把详细内容移到专题笔记，并把链接放到索引前部。
 
 ## 文档与开发
 

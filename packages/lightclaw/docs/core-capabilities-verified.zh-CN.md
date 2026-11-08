@@ -6,6 +6,8 @@
 
 ## 1. 会话记忆
 
+2026-11-08 更新：共享和频道 `MEMORY.md` 仍逐轮重读，每份自动注入前 4 KiB 的完整行，超限保留磁盘原文并提供按需读取提示。专题笔记可放在频道的 `memory/` 或工作区的 `.shared/memory/`。下文保留 2026-11-06 的验证范围。
+
 实现入口：[agent.ts](../src/agent.ts)的getMemory、createAgentRunner、run；[context.ts](../src/context.ts)的syncLogToSessionManager；[store.ts](../src/store.ts)。pi基础实现位于packages/coding-agent/src/core/session-manager.ts及agent-session.ts。
 
 | 数据 | 位置 | 实际用途 |
