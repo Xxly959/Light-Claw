@@ -2,13 +2,21 @@
 from collections import defaultdict
 from pathlib import PurePosixPath
 
-FEATURES = {"i1"}
+FEATURES = {"i1", "i2"}
 CHANNEL = "eval-chat-001"
+INDEX_CHAR_BUDGET = 1800
+INDEX_BYTE_BUDGET = 4096
+FOOTER_RESERVE = 256
 
 
 def _order(fact):
     order = fact.get("order")
     return (1 if order is None else 0, order or 0, fact["id"])
+
+
+def _fits(lines, line):
+    text = "\n".join([*lines, line]) + "\n"
+    return len(text) <= INDEX_CHAR_BUDGET - FOOTER_RESERVE and len(text.encode()) <= INDEX_BYTE_BUDGET - FOOTER_RESERVE
 
 
 def render_s2(document, *, features=FEATURES, channel=CHANNEL):
@@ -30,7 +38,7 @@ def render_s2(document, *, features=FEATURES, channel=CHANNEL):
         for row in rows:
             if row["kind"] == "rule" and ("i1" in enabled or row.get("placement") == "inline"):
                 rules.append(row)
-            elif row.get("hot"):
+            elif row.get("hot") or ("i2" in enabled and row["kind"] == "correction"):
                 inline.append(row)
             else:
                 groups[row.get("topic", row["kind"])].append(row)
@@ -38,11 +46,23 @@ def render_s2(document, *, features=FEATURES, channel=CHANNEL):
         lines = ["# Memory index"]
         if rules:
             lines.append("## Standing rules")
+        if "i2" in enabled:
+            inline.sort(key=lambda row: (row["kind"] != "correction", _order(row)))
+        overflow = 0
         for row in rules + inline:
-            lines.append(f"- {row['text']}")
+            entry = f"- {row['text']}"
+            if "i2" in enabled and not _fits(lines, entry):
+                if row in rules:
+                    raise ValueError("Standing rules exceed the index budget")
+                groups[row.get("topic", row["kind"])].append(row)
+                overflow += 1
+                continue
+            lines.append(entry)
             mapping[row["id"]] = index
         if groups:
             lines.append("## Topic notes")
+        catalog = []
+        omitted_routes = 0
         for group_number, (topic, members) in enumerate(sorted(groups.items()), 1):
             for offset in range(0, len(members), 24):
                 path = f"{note_dir}/note-{group_number:02d}-{offset // 24 + 1:03d}.md"
@@ -52,8 +72,21 @@ def render_s2(document, *, features=FEATURES, channel=CHANNEL):
                 if scope == "channel":
                     route = route.relative_to(channel)
                 names = ", ".join(dict.fromkeys(f.get("entity", "") for f in page if f.get("entity")))
-                lines.append(f"- [{topic}: {names}]({route})")
+                label = f"{topic}: {names}" if names else topic
+                entry = f"- [{label}]({route})"
+                if "i2" in enabled and not _fits(lines, entry):
+                    omitted_routes += 1
+                else:
+                    lines.append(entry)
+                catalog.append(f"- [{label}]({route.name})")
                 mapping.update((row["id"], path) for row in page)
+        if omitted_routes or overflow:
+            catalog_path = f"{note_dir}/catalog.md"
+            files[catalog_path] = "# Topic catalog\n\n" + "\n".join(catalog) + "\n"
+            route = PurePosixPath(catalog_path)
+            if scope == "channel":
+                route = route.relative_to(channel)
+            lines.append(f"- Omitted from inline: {overflow} facts and {omitted_routes} routes. [Full topic catalog]({route}).")
         files[index] = "\n".join(lines) + "\n"
     if set(mapping) != {f["id"] for f in facts}:
         raise ValueError("Unsupported fact scope")
