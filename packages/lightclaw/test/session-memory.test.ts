@@ -2,7 +2,7 @@ import { mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSyn
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { type AssistantMessage, fauxAssistantMessage, fauxToolCall, registerFauxProvider } from "@mariozechner/pi-ai";
-import { expect, it } from "vitest";
+import { expect, it, vi } from "vitest";
 import { type AgentRunner, createAgentRunner } from "../src/agent.js";
 import type { LightClawConfig } from "../src/config.js";
 import { GoalStore } from "../src/goals/store.js";
@@ -214,6 +214,23 @@ it.each([
 		expect(requests[0].system).toContain("LC_GLOBAL");
 		expect(requests[0].system.includes("LC_OMITTED")).toBe(false);
 	} finally {
+		cleanup();
+	}
+});
+
+it("opts into lightweight memory guidance without changing the stored memory", async () => {
+	const { workspace, requests, create, context, store, cleanup } = createFixture(() => [
+		fauxAssistantMessage("LC_REPLY"),
+	]);
+	vi.stubEnv("MEMORY_FEATURES", "i7");
+	try {
+		writeFileSync(join(workspace, "MEMORY.md"), "LC_SHARED_GUIDANCE");
+		expect((await create("chat-a").run(context("chat-a", "LC_REQUEST", "1"), store)).stopReason).toBe("stop");
+		expect(requests[0].system).toContain("Use the current indexes for relevant standing rules");
+		expect(requests[0].system).not.toContain("Keep each MEMORY.md index within 4 KiB");
+		expect(requests[0].system).toContain("LC_SHARED_GUIDANCE");
+	} finally {
+		vi.unstubAllEnvs();
 		cleanup();
 	}
 });

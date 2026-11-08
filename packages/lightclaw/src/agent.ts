@@ -416,6 +416,7 @@ export function buildSystemPrompt(
 	capabilities?: string,
 	goalsEnabled = true,
 	channelIsolated = false,
+	memoryGuidance?: { searchAvailable: boolean },
 ): string {
 	const channelPath = `${workspacePath}/${channelId}`;
 	const isDocker = sandboxConfig.type === "docker";
@@ -448,6 +449,12 @@ Global MEMORY.md, skills/ and events/ are NOT mounted in this container. The glo
 	const sharedMemoryAccess = channelIsolated
 		? "Shared memory is maintained on the host. Shared notes are readable only when .shared/ is mounted."
 		: "Save shared notes there only when they are intended for all channels.";
+	const memoryIntro = memoryGuidance
+		? "Use the current indexes for relevant standing rules and saved context."
+		: "Keep each MEMORY.md index within 4 KiB. Put stable preferences, current agreements, and links to topical notes in the index.";
+	const memoryUse = memoryGuidance
+		? `If a task depends on missing remembered details, follow a topic link or read the relevant note.${memoryGuidance.searchAvailable ? " Use memory_search with a literal term when the note location is unclear." : ""} Use saved memory to carry context across conversations.`
+		: "Read relevant notes on demand. When asked to remember something or when you learn something worth reusing, record its date and source if available (this channel's log.jsonl ts or a verified artifact path). Distinguish unverified claims from confirmed facts, replace superseded entries when corrected, and check the source when a note is uncertain or stale. Use goal state for live goal status.";
 
 	// Format channel mappings
 	const channelMappings =
@@ -508,10 +515,10 @@ Available skills: ${skills.length > 0 ? formatSkillsForPrompt(skills) : "(none i
 Before creating skills, scheduling/managing events, querying older logs, or restoring environment configuration, read ${channelPath}/.lightclaw-guide.md using the read tool. It contains the full formats and examples. These capabilities remain available; ordinary file tasks do not require reading this guide.
 
 ## Memory
-Keep each MEMORY.md index within 4 KiB. Put stable preferences, current agreements, and links to topical notes in the index.
+${memoryIntro}
 - Global index: ${workspacePath}/MEMORY.md. Shared notes: ${workspacePath}/.shared/memory/. ${sharedMemoryAccess}
 - Channel index: ${channelPath}/MEMORY.md. Channel notes: ${channelPath}/memory/. Keep this channel's private information here.
-Read relevant notes on demand. When asked to remember something or when you learn something worth reusing, record its date and source if available (this channel's log.jsonl ts or a verified artifact path). Distinguish unverified claims from confirmed facts, replace superseded entries when corrected, and check the source when a note is uncertain or stale. Use goal state for live goal status.
+${memoryUse}
 
 ### Current Memory
 ${memory}
@@ -697,6 +704,10 @@ export function createAgentRunner(
 		);
 
 	const tools = featureEnabled(config, "goals") ? allTools : allTools.filter((tool) => !tool.name.startsWith("goal_"));
+	const memoryFeatures = new Set(process.env.MEMORY_FEATURES?.split(",").map((feature) => feature.trim()));
+	const memoryGuidance = memoryFeatures.has("i7")
+		? { searchAvailable: tools.some((tool) => tool.name === "memory_search") }
+		: undefined;
 
 	// 扩展工具可在自身声明能力；未声明时回落到注册表，两者都没有则拒绝执行。
 	const toolCapabilityMap = new Map<string, readonly ToolCapability[]>();
@@ -723,6 +734,7 @@ export function createAgentRunner(
 		undefined,
 		featureEnabled(config, "goals"),
 		channelIsolated,
+		memoryGuidance,
 	);
 
 	// Create session manager and settings manager
@@ -1306,6 +1318,7 @@ export function createAgentRunner(
 					capabilities,
 					featureEnabled(config, "goals"),
 					channelIsolated,
+					memoryGuidance,
 				);
 				const activeGoal = featureEnabled(config, "goals") && goalStore.get()?.status === "active";
 				session.setActiveToolsByName(
