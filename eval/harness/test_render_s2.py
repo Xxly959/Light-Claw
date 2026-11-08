@@ -46,3 +46,11 @@ class RenderTest(unittest.TestCase):
         bad = {**FACT, "id": "c", "kind": "correction", "attr": "owner", "supersedes": "f"}
         with self.assertRaisesRegex(ValueError, "correction target"):
             render_s2({"facts": [FACT, bad]}, features={"i3"})
+
+    def test_entity_notes_do_not_return_unrelated_records(self):
+        other = {**FACT, "id": "other", "entity": "Harbor", "text": "The Harbor contact is Iris."}
+        files, mapping = render_s2({"facts": [FACT, other]}, features={"i9"})
+        self.assertNotEqual(mapping["f"], mapping["other"])
+        self.assertIn("Lantern", files[mapping["f"]].splitlines()[0])
+        self.assertNotIn(other["text"], files[mapping["f"]])
+        self.assertIn(other["text"], files[mapping["other"]])

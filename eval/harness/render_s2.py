@@ -1,8 +1,9 @@
 """Render evaluation fixtures from fact records without reading questions."""
 from collections import defaultdict
+from hashlib import sha256
 from pathlib import PurePosixPath
 
-FEATURES = {"i1", "i2", "i3"}
+FEATURES = {"i1", "i2", "i3", "i9"}
 CHANNEL = "eval-chat-001"
 INDEX_CHAR_BUDGET = 1800
 INDEX_BYTE_BUDGET = 4096
@@ -59,6 +60,11 @@ def _canonical(facts):
     return current, aliases
 
 
+def _group(row, enabled):
+    topic = row.get("topic", row["kind"])
+    return (topic, row.get("entity", "") if "i9" in enabled else "")
+
+
 def render_s2(document, *, features=FEATURES, channel=CHANNEL):
     """Return workspace-relative UTF-8 files and a fact-ID-to-file map."""
     enabled = set(features)
@@ -82,7 +88,7 @@ def render_s2(document, *, features=FEATURES, channel=CHANNEL):
             elif row.get("hot") or ("i2" in enabled and row["kind"] == "correction"):
                 inline.append(row)
             else:
-                groups[row.get("topic", row["kind"])].append(row)
+                groups[_group(row, enabled)].append(row)
 
         lines = ["# Memory index"]
         if rules:
@@ -95,7 +101,7 @@ def render_s2(document, *, features=FEATURES, channel=CHANNEL):
             if "i2" in enabled and not _fits(lines, entry):
                 if row in rules:
                     raise ValueError("Standing rules exceed the index budget")
-                groups[row.get("topic", row["kind"])].append(row)
+                groups[_group(row, enabled)].append(row)
                 overflow += 1
                 continue
             lines.append(entry)
@@ -104,11 +110,17 @@ def render_s2(document, *, features=FEATURES, channel=CHANNEL):
             lines.append("## Topic notes")
         catalog = []
         omitted_routes = 0
-        for group_number, (topic, members) in enumerate(sorted(groups.items()), 1):
+        for group_number, ((topic, entity), members) in enumerate(sorted(groups.items()), 1):
+            heading = f"{entity} ({topic})" if entity else topic
+            prefix = f"note-{group_number:02d}"
+            if entity:
+                label = "".join(c if c.isalnum() or c in "-_" else "-" for c in entity[:48])
+                digest = sha256(f"{topic}\0{entity}".encode()).hexdigest()[:12]
+                prefix = f"{label}-{digest}"
             for offset in range(0, len(members), 24):
-                path = f"{note_dir}/note-{group_number:02d}-{offset // 24 + 1:03d}.md"
+                path = f"{note_dir}/{prefix}-{offset // 24 + 1:03d}.md"
                 page = members[offset:offset + 24]
-                files[path] = f"# {topic}\n\n" + "".join(f"- {f['text']}\n" for f in page)
+                files[path] = f"# {heading}\n\n" + "".join(f"- {f['text']}\n" for f in page)
                 route = PurePosixPath(path)
                 if scope == "channel":
                     route = route.relative_to(channel)
