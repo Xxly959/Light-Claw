@@ -28,3 +28,21 @@ class RenderTest(unittest.TestCase):
         self.assertEqual(set(mapping), {f["id"] for f in facts})
         for fact in facts:
             self.assertIn(fact["text"], files[mapping[fact["id"]]])
+
+    def test_correction_chain_has_only_current_value(self):
+        newer = {**FACT, "id": "c1", "kind": "correction", "value": 8122,
+                 "text": "Port changed to 8122 from 7182.", "supersedes": "f"}
+        latest = {**newer, "id": "c2", "value": 9101, "date": "2026-10-22",
+                  "text": "Port changed to 9101 from 8122.", "supersedes": "c1"}
+        files, mapping = render_s2({"facts": [latest, FACT, newer]}, features={"i2", "i3"})
+        contents = "\n".join(files.values())
+        self.assertIn("9101", contents)
+        self.assertNotIn("7182", contents)
+        self.assertNotIn("8122", contents)
+        self.assertEqual(mapping["f"], mapping["c1"])
+        self.assertEqual(mapping["f"], mapping["c2"])
+
+    def test_correction_cannot_cross_fact_keys(self):
+        bad = {**FACT, "id": "c", "kind": "correction", "attr": "owner", "supersedes": "f"}
+        with self.assertRaisesRegex(ValueError, "correction target"):
+            render_s2({"facts": [FACT, bad]}, features={"i3"})

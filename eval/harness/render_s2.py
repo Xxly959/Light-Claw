@@ -2,7 +2,7 @@
 from collections import defaultdict
 from pathlib import PurePosixPath
 
-FEATURES = {"i1", "i2"}
+FEATURES = {"i1", "i2", "i3"}
 CHANNEL = "eval-chat-001"
 INDEX_CHAR_BUDGET = 1800
 INDEX_BYTE_BUDGET = 4096
@@ -19,14 +19,55 @@ def _fits(lines, line):
     return len(text) <= INDEX_CHAR_BUDGET - FOOTER_RESERVE and len(text.encode()) <= INDEX_BYTE_BUDGET - FOOTER_RESERVE
 
 
+def _canonical(facts):
+    by_id = {f["id"]: f for f in facts}
+    successor = {}
+    key = ("scope", "entity", "attr")
+    for row in facts:
+        if row["kind"] != "correction":
+            continue
+        previous = row.get("supersedes")
+        target = by_id.get(previous)
+        if (
+            target is None or previous in successor or target["kind"] not in {"fact", "correction"}
+            or any(row.get(k) != target.get(k) for k in key)
+        ):
+            raise ValueError(f"Invalid correction target for {row['id']}")
+        successor[previous] = row["id"]
+
+    aliases = {}
+    for previous in successor:
+        tip = previous
+        visited = set()
+        while tip in successor:
+            if tip in visited:
+                raise ValueError(f"Cycle in correction chain at {tip}")
+            visited.add(tip)
+            tip = successor[tip]
+        aliases[previous] = tip
+
+    current = []
+    for row in facts:
+        if row["id"] in aliases:
+            continue
+        if row["kind"] == "correction":
+            text = f"{row['entity']} / {row['attr']}: {row['value']}"
+            if row.get("date"):
+                text += f" (updated {row['date']})"
+            row = {**row, "text": text}
+        current.append(row)
+    return current, aliases
+
+
 def render_s2(document, *, features=FEATURES, channel=CHANNEL):
     """Return workspace-relative UTF-8 files and a fact-ID-to-file map."""
     enabled = set(features)
     if enabled - FEATURES:
         raise ValueError(f"Unknown features: {sorted(enabled - FEATURES)}")
-    facts = document["facts"]
-    if len({f["id"] for f in facts}) != len(facts):
+    original = document["facts"]
+    if len({f["id"] for f in original}) != len(original):
         raise ValueError("Duplicate fact IDs")
+    facts, aliases = _canonical(original) if "i3" in enabled else (original, {})
     files = {}
     mapping = {}
     for scope, index, note_dir in (
@@ -90,4 +131,5 @@ def render_s2(document, *, features=FEATURES, channel=CHANNEL):
         files[index] = "\n".join(lines) + "\n"
     if set(mapping) != {f["id"] for f in facts}:
         raise ValueError("Unsupported fact scope")
+    mapping.update((previous, mapping[tip]) for previous, tip in aliases.items())
     return files, mapping
