@@ -75,3 +75,10 @@ collect.sh
 # Private acceptance receipts and temporary source snapshots
 *.private.json
 /docs/verification/**/*.source.txt
+
+# Local memory evaluation runtime, downloaded benchmarks, and private candidates
+/eval/external/
+/eval/real/
+/eval/.runtime/
+/eval/results/*.private.jsonl
+/eval/**/__pycache__/

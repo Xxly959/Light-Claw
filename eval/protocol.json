@@ -1,0 +1,28 @@
+{
+  "protocol": 1,
+  "baseline": "1962a1a57509953076fcdd727bba0dd4c8558b10",
+  "s1_ref": "memory-v1-snapshot",
+  "s2_ref": "s2-frozen",
+  "seed": 417211,
+  "bootstrap_seed": 419917,
+  "bootstrap_repeats": 10000,
+  "arm_order": ["N", "S0", "S1", "S2", "T", "O"],
+  "phases": {
+    "smoke": {"split": "dev", "items": 5, "repeats": 1},
+    "pilot": {"split": "dev", "items": null, "repeats": 2},
+    "formal": {"split": "test", "items": null, "repeats": 5}
+  },
+  "limits": {"maxToolCalls": 5, "maxInputTokens": 460000, "maxOutputTokens": 1024, "attemptTimeoutMs": 90000, "runTimeoutMs": 220000},
+  "success": {
+    "accuracy_margin": -0.03,
+    "large_min_kib": 64,
+    "against_s0_cost_ratio": 0.8,
+    "s2_against_s1_cost_ratio": 1.1,
+    "s2_target_categories": ["update", "implicit_rule", "position"],
+    "s2_superiority_lower_bound": 0,
+    "small_sizes_require_ci_includes_zero": [12, 32],
+    "alpha": 0.05
+  },
+  "scorer_sha256": "0d771b9e9ba19952c1bf3bb0e5a525daa944802d16d01808e9169615c2a45ff3",
+  "cases_sha256": "140af85d10d343592efa0fd7f782e7cd144093471a063448faf039e90071f76c"
+}
