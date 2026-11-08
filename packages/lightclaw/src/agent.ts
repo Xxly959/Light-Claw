@@ -24,7 +24,7 @@ import {
 	type Skill,
 } from "@mariozechner/pi-coding-agent";
 import { closeSync, constants, existsSync, fstatSync, lstatSync, openSync, readSync } from "fs";
-import { mkdir, writeFile } from "fs/promises";
+import { mkdir, mkdtemp, rename, rm, writeFile } from "fs/promises";
 import { homedir } from "os";
 import { dirname, join, resolve } from "path";
 import { attachmentPathForChannel, readChannelAttachment } from "./attachments.js";
@@ -533,6 +533,23 @@ ${memory}
 Each tool requires a "label" parameter (shown to user).
 ${goalsEnabled ? formatGoalPrompt(goalStore.get()) : ""}
 ${promptInstructions ? `\n## 可迭代行为指令\n${promptInstructions}` : ""}`;
+}
+
+async function writeWorkspaceGuide(channelDir: string, content: string, atomic: boolean): Promise<void> {
+	const path = join(channelDir, ".lightclaw-guide.md");
+	if (!atomic) {
+		await writeFile(path, content, "utf8");
+		return;
+	}
+	const temporaryDir = await mkdtemp(join(channelDir, ".lightclaw-guide-"));
+	const temporaryPath = join(temporaryDir, "guide.md");
+	try {
+		await writeFile(temporaryPath, content, { encoding: "utf8", flag: "wx" });
+		// Replace the directory entry itself, even when the previous entry was a symlink.
+		await rename(temporaryPath, path);
+	} finally {
+		await rm(temporaryDir, { recursive: true, force: true });
+	}
 }
 
 function extractToolResultText(result: unknown): string {
@@ -1299,10 +1316,10 @@ export function createAgentRunner(
 							"Command discovery failed. Check command -v before using optional commands; do not assume they exist.";
 					}
 				}
-				await writeFile(
-					join(channelDir, ".lightclaw-guide.md"),
+				await writeWorkspaceGuide(
+					channelDir,
 					buildWorkspaceGuide(workspacePath, channelId, channelIsolated),
-					"utf8",
+					memoryFeatures.has("i4"),
 				);
 				systemPrompt = buildSystemPrompt(
 					workspacePath,

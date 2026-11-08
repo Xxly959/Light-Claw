@@ -234,3 +234,20 @@ it("opts into lightweight memory guidance without changing the stored memory", a
 		cleanup();
 	}
 });
+
+it("writes the generated guide without following a link into shared memory", async () => {
+	const { workspace, create, context, store, cleanup } = createFixture(() => [fauxAssistantMessage("LC_REPLY")]);
+	vi.stubEnv("MEMORY_FEATURES", "i4");
+	try {
+		const memory = join(workspace, "MEMORY.md");
+		const guide = join(workspace, "chat-a", ".lightclaw-guide.md");
+		writeFileSync(memory, "LC_SHARED_UNCHANGED");
+		symlinkSync("../MEMORY.md", guide);
+		expect((await create("chat-a").run(context("chat-a", "LC_REQUEST", "1"), store)).stopReason).toBe("stop");
+		expect(readFileSync(memory, "utf8") === "LC_SHARED_UNCHANGED").toBe(true);
+		expect(readFileSync(guide, "utf8")).toContain("## Log Queries");
+	} finally {
+		vi.unstubAllEnvs();
+		cleanup();
+	}
+});
