@@ -1,0 +1,404 @@
+"""Run paired synthetic memory evaluations with durable per-run checkpoints."""
+import argparse
+from collections import defaultdict
+import fcntl
+import hashlib
+import json
+import math
+import os
+from pathlib import Path, PurePosixPath
+import random
+import re
+import subprocess
+import sys
+import time
+
+from lint_memory import lint_layout
+from prepare_runner import git, prepare, source_digest
+from render_s2 import CHANNEL, FEATURES as LAYOUT_FEATURES, render_s2
+
+HERE = Path(__file__).resolve().parent
+ROOT = HERE.parents[1]
+EVAL = ROOT / "eval"
+KIT = EVAL / "memory_eval_kit"
+sys.path.insert(0, str(KIT))
+from scorer import score
+
+FEATURES = frozenset(LAYOUT_FEATURES | {"i4", "i6", "i7"})
+RUNTIME = {"N": "S1", "S0": "S0", "S1": "S1", "S2": "S2", "T": "T", "O": "S0"}
+FLASH_PRICE = (2.0, 0.04, 2.0, 8.0)
+PRICES = {"deepseek-flash": FLASH_PRICE, "deepseek-v4-flash": FLASH_PRICE,
+          "deepseek-v4-pro": (9.0, 0.30, 9.0, 27.0)}
+PRICE_NAMES = ("input", "cacheRead", "cacheWrite", "output")
+SPEND = EVAL / "results/matrix-spend.private.jsonl"
+
+
+def load(path):
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def digest(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def mapped(path):
+    return f"{CHANNEL}/{path.removeprefix('channel/')}" if path.startswith("channel/") else path
+
+
+def fixture_files(source):
+    return {
+        mapped(path.relative_to(source).as_posix()): path.read_text(encoding="utf-8")
+        for path in sorted(source.rglob("*.md"))
+    }
+
+
+def oracle(document, ids):
+    grouped = defaultdict(list)
+    for fact in document["facts"]:
+        if fact["id"] in ids:
+            file = "MEMORY.md" if fact["scope"] == "global" else f"{CHANNEL}/MEMORY.md"
+            grouped[file].append(f"- {fact['text']}")
+    return {path: "\n".join(lines) + "\n" for path, lines in grouped.items()}
+
+
+def unit_key(row):
+    return (row["protocol_sha"], row["phase"], row["model_slot"], row["model"], row["case_id"],
+            row["arm"], row["repeat"], row["runtime_sha"], row["route_id"], tuple(row["features"]))
+
+
+def observed_reads(trace):
+    return {
+        PurePosixPath(tool["args"]["path"]).stem
+        for tool in trace.get("tools", [])
+        if tool["name"] == "read" and tool.get("status") in ("ok", "success")
+        and isinstance(tool.get("args"), dict) and isinstance(tool["args"].get("path"), str)
+    }
+
+
+def gold_reads(case, arm, mapping):
+    if arm == "S1":
+        return {PurePosixPath(path).stem for path in case["meta"].get("gold_reads_s1", [])}
+    if arm == "S2":
+        return {PurePosixPath(mapping[fact]).stem for fact in case["facts"]
+                if fact in mapping and PurePosixPath(mapping[fact]).name != "MEMORY.md"}
+    return set()
+
+
+def stale_values(case, document):
+    if case["category"] != "update":
+        return []
+    by_id = {f["id"]: f for f in document["facts"]}
+    return [str(by_id[f["supersedes"]]["value"]) for f in document["facts"]
+            if f["id"] in case["facts"] and f.get("supersedes") in by_id]
+
+
+def cost(trace, prices):
+    if trace.get("usageIncomplete") or not trace.get("attempts"):
+        return None
+    if any(attempt.get(key) is None for attempt in trace["attempts"] for key in PRICE_NAMES):
+        return None
+    return sum(sum((attempt.get(key) or 0) * price for key, price in zip(PRICE_NAMES, prices))
+               for attempt in trace["attempts"]) / 1_000_000
+
+
+def reserve(files, prices, limits):
+    """Planning estimate, not a provider token bound. Use uncached peak rates."""
+    initial = 8192 + sum(len(text.encode()) for path, text in files.items() if path.endswith("/MEMORY.md") or path == "MEMORY.md")
+    # Budget for repeated prompt plus at most one large file result per tool round.
+    largest = min(50 * 1024, max((len(body.encode()) for body in files.values()), default=0))
+    turns = limits["maxToolCalls"] + 1
+    tokens = initial * turns + (largest + 4 * limits["maxOutputTokens"]) * turns * (turns - 1) // 2
+    return (tokens * max(prices[:3]) +
+            turns * limits["maxOutputTokens"] * prices[3]) / 1_000_000
+
+
+def rows_for(path):
+    if not path.exists():
+        return []
+    with path.open(encoding="utf-8") as handle:
+        return [json.loads(line) for line in handle if line.strip()]
+
+
+def append_row(handle, row):
+    handle.write(json.dumps(row, ensure_ascii=False, separators=(",", ":")) + "\n")
+    handle.flush()
+    os.fsync(handle.fileno())
+
+
+def budget_state(paths, ledger=SPEND):
+    spent = 0.0
+    pending = set()
+    for path in paths:
+        for row in rows_for(path):
+            if row.get("route") != "faux":
+                spent += row.get("budget_charge_cny") or 0
+            if path == ledger and row.get("event") == "reserve":
+                pending.add(row["unit"])
+            if path == ledger and row.get("event") == "settle":
+                pending.discard(row["unit"])
+    if not math.isfinite(spent) or spent < 0:
+        raise ValueError("Invalid evaluation budget ledger")
+    return spent, pending
+
+
+def budget_event(route, event, key, charge):
+    fd = os.open(SPEND, os.O_APPEND | os.O_CREAT | os.O_WRONLY | os.O_NOFOLLOW, 0o600)
+    with os.fdopen(fd, "a", encoding="utf-8") as handle:
+        append_row(handle, {"route": route, "event": event, "unit": key, "budget_charge_cny": charge})
+
+
+def invoke(runtime, spec, env, seconds):
+    command = ["node", "--import", "tsx", str(runtime / "runner.ts")]
+    try:
+        proc = subprocess.run(command, cwd=ROOT, input=json.dumps(spec, ensure_ascii=False), env=env,
+                              text=True, capture_output=True, timeout=seconds, check=False)
+    except subprocess.TimeoutExpired:
+        return {"stopReason": "harness_timeout", "usageIncomplete": True, "attempts": [], "response": ""}
+    try:
+        result = json.loads(proc.stdout)
+    except ValueError:
+        result = {}
+    if proc.returncode or not isinstance(result, dict) or "stopReason" not in result:
+        return {"stopReason": "adapter_error", "usageIncomplete": True, "attempts": [], "response": ""}
+    return result
+
+
+def choose_cases(cases, n, seed, categories=()):
+    if n is None:
+        return cases
+    shuffled = list(cases)
+    random.Random(seed).shuffle(shuffled)
+    selected = [next(case for case in shuffled if case["category"] == category) for category in categories]
+    return (selected + [c for c in shuffled if c not in selected])[:n]
+
+
+def prior_stage_complete(stage, slot, model, route_id, protocol_sha, protocol, s2_source):
+    required = protocol["phases"][stage]
+    expected = (required["items"] or 116) * required["repeats"] * len(protocol["arm_order"])
+    groups = defaultdict(set)
+    for path in (EVAL / "results").glob("*.jsonl"):
+        for row in rows_for(path):
+            if (
+                (row.get("phase"), row.get("model_slot"), row.get("model"), row.get("route_id")) == (stage, slot, model, route_id)
+                and row.get("protocol_sha") == protocol_sha and row.get("arm") in protocol["arm_order"]
+                and row.get("commits", {}).get("S2", {}).get("sourceSha256") == s2_source
+                and row.get("trace", {}).get("fixturesUnchanged") is True
+                and row.get("trace", {}).get("usageIncomplete") is False
+                and row.get("trace", {}).get("attempts")
+            ):
+                groups[row["runtime_sha"]].add((row["case_id"], row["arm"], row["repeat"]))
+    return any(len(keys) == expected for keys in groups.values())
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--phase", choices=("smoke", "pilot", "formal"), default="smoke")
+    parser.add_argument("--model-slot", choices=("M1", "M2"), default="M1")
+    parser.add_argument("--route", choices=("faux", "deepseek", "configured"), default="faux")
+    parser.add_argument("--budget-cny", type=float)
+    parser.add_argument("--ablate", choices=sorted(FEATURES))
+    parser.add_argument("--runtime", type=Path, default=EVAL / ".runtime")
+    parser.add_argument("--result", type=Path)
+    args = parser.parse_args()
+    if args.ablate and args.phase != "pilot":
+        parser.error("Ablations are dev-pilot only")
+    if args.route == "faux" and args.phase != "smoke":
+        parser.error("Faux can verify plumbing on smoke only")
+    live = args.route != "faux"
+    if live and (args.budget_cny is None or not 0 < args.budget_cny < float("inf")):
+        parser.error("A finite authorized --budget-cny is required for live calls")
+    if args.route == "deepseek" and not (os.getenv("LIGHTCLAW_EVAL_API_KEY") or os.getenv("LIGHTCLAW_EVAL_DEEPSEEK_API_KEY")):
+        parser.error("Configure a dedicated evaluation credential in the environment")
+    if args.route == "configured" and not (os.getenv("LIGHTCLAW_EVAL_API_KEY") and os.getenv("LIGHTCLAW_EVAL_PROVIDER")):
+        parser.error("Configured routes require the dedicated generic key and provider")
+    model = os.getenv("LIGHTCLAW_EVAL_MODEL_ID") if live else "faux"
+    if not model:
+        parser.error("Set LIGHTCLAW_EVAL_MODEL_ID for live")
+    prices = PRICES.get(model)
+    if live and args.route == "configured":
+        raw = os.getenv("LIGHTCLAW_EVAL_CNY_PER_MILLION")
+        if not raw:
+            parser.error("Configured routes require explicit pricing via LIGHTCLAW_EVAL_CNY_PER_MILLION")
+        try:
+            prices = tuple(float(x) for x in raw.split(","))
+        except ValueError:
+            parser.error("Invalid CNY prices")
+        if len(prices) != 4 or any(not 0 <= p < float("inf") for p in prices):
+            parser.error("Provide four finite nonnegative prices: input,cacheRead,cacheWrite,output")
+    if live and not prices:
+        parser.error("Missing CNY rates for the selected model")
+
+    protocol_path = EVAL / "protocol.json"
+    protocol = load(protocol_path)
+    protocol_sha = digest(protocol_path)
+    stage = protocol["phases"][args.phase]
+    cases_path = KIT / "testset/cases.jsonl"
+    if digest(cases_path) != protocol["cases_sha256"] or digest(KIT / "scorer.py") != protocol["scorer_sha256"]:
+        parser.error("Frozen kit or scorer hash mismatch")
+    runtime = args.runtime.resolve() / ("frozen" if args.phase == "formal" else "dev")
+    ref = protocol["s2_ref"] if args.phase == "formal" else None
+    if ref:
+        frozen_sha = git("rev-parse", "--verify", f"{ref}^{{commit}}").decode().strip()
+        for path in ("eval/protocol.json", "eval/harness/render_s2.py", "eval/harness/run.py",
+                     "eval/harness/prepare_runner.py", "eval/harness/runner.ts"):
+            if (ROOT / path).read_bytes() != git("show", f"{frozen_sha}:{path}"):
+                parser.error(f"Frozen protocol or harness differs: {path}")
+    if not (runtime / "manifest.json").exists():
+        prepare(runtime, ref)
+    manifest = load(runtime / "manifest.json")
+    if ref and manifest["S2"]["commit"] != frozen_sha:
+        parser.error("Frozen runtime manifest does not match s2-frozen")
+    if not ref and manifest["S2"]["sourceSha256"] != source_digest(ROOT / "packages/lightclaw/src"):
+        parser.error("S2 runtime is stale. Choose a fresh --runtime directory.")
+    if any(row.get("adapterSha256") != digest(HERE / "runner.ts") for row in manifest.values()):
+        parser.error("Stale Runner adapter. Choose a fresh --runtime directory.")
+    versions = {
+        "node": subprocess.check_output(["node", "--version"], cwd=ROOT, text=True).strip(),
+        "python": sys.version.split()[0],
+        "package_lock_sha256": digest(ROOT / "package-lock.json"),
+        "layout_sha256": digest(HERE / "render_s2.py"),
+        "matrix_sha256": digest(Path(__file__)),
+    }
+    sources = {key: [row["sourceSha256"], row["adapterSha256"]] for key, row in manifest.items()}
+    runtime_sha = hashlib.sha256(json.dumps([sources, versions], sort_keys=True).encode()).hexdigest()
+    cases = [case for case in rows_for(cases_path) if case["split"] == stage["split"]]
+    cases = choose_cases(cases, stage["items"], protocol["seed"], stage.get("categories", []))
+    arms = ["S2"] if args.ablate else protocol["arm_order"]
+    plan = [(case, arm, repeat) for repeat in range(stage["repeats"]) for case in cases for arm in arms]
+    random.Random(protocol["seed"]).shuffle(plan)
+    features = FEATURES - ({args.ablate} if args.ablate else set())
+    phase = f"{args.phase}-ablate-{args.ablate}" if args.ablate else args.phase
+    model_filename = re.sub(r"[^A-Za-z0-9._-]", "_", model)
+    filename = (args.result or EVAL / "results" / f"{phase}-{args.model_slot}-{model_filename}.jsonl").resolve()
+    if live and (filename.parent != EVAL / "results" or filename.suffix != ".jsonl" or filename.name.endswith(".private.jsonl")):
+        parser.error("Paid traces must use eval/results/*.jsonl so all phases share one budget")
+    filename.parent.mkdir(parents=True, exist_ok=True)
+    inherited = {"PATH", "LANG", "LC_ALL", "TMPDIR", "SYSTEMROOT"}
+    if live:
+        inherited |= {"HTTP_PROXY", "HTTPS_PROXY", "ALL_PROXY", "NO_PROXY", "NODE_EXTRA_CA_CERTS",
+                      "http_proxy", "https_proxy", "all_proxy", "no_proxy"}
+    env = {name: value for name, value in os.environ.items()
+           if name in inherited or (live and name.startswith("LIGHTCLAW_EVAL_"))}
+    env["TSX_TSCONFIG_PATH"] = str(runtime / "tsconfig.json")
+    route_id = "faux"
+    if live:
+        probe = subprocess.run(["node", "--import", "tsx", str(runtime / "runner.ts"), "--preflight", args.route],
+                               cwd=ROOT, env=env, text=True, capture_output=True, timeout=20, check=False)
+        if probe.returncode:
+            parser.error("Model preflight failed. Check the dedicated route, model ID, and explicit models file.")
+        identity = json.loads(probe.stdout)
+        models_file = env.get("LIGHTCLAW_EVAL_MODELS_FILE")
+        route_id = hashlib.sha256(json.dumps([
+            args.route, identity, env.get("LIGHTCLAW_EVAL_BASE_URL"), digest(Path(models_file)) if models_file else None
+        ], sort_keys=True).encode()).hexdigest()
+        if args.phase != "smoke":
+            prior = "pilot" if args.phase == "formal" else "smoke"
+            if not prior_stage_complete(prior, args.model_slot, model, route_id, protocol_sha, protocol,
+                                        manifest["S2"]["sourceSha256"]):
+                parser.error(f"Complete the live {prior} phase for this model slot before proceeding")
+    # All paid phases share one lock and budget ledger, including separate model slots.
+    lock = EVAL / ".runtime" / "matrix.lock"
+    lock.parent.mkdir(parents=True, exist_ok=True)
+    with lock.open("a") as mutex:
+        fcntl.flock(mutex, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        recorded = rows_for(filename)
+        done = {unit_key(row) for row in recorded}
+        data = {}
+        scheduled = []
+        for case, arm, repeat in plan:
+            fid = case["fixture"]
+            if fid not in data:
+                root = KIT / "testset/fixtures" / fid
+                document = load(root / "facts.json")
+                generated, mapping = render_s2(document, features=features & LAYOUT_FEATURES)
+                maps = runtime / "fact-maps" / ("-".join(sorted(features)) or "off")
+                maps.mkdir(parents=True, exist_ok=True)
+                (maps / f"{fid}.json").write_text(json.dumps(mapping, ensure_ascii=False, sort_keys=True) + "\n", encoding="utf-8")
+                data[fid] = (document, fixture_files(root / "monolith"), fixture_files(root / "index_notes"), generated, mapping)
+            document, mono, split, s2, mapping = data[fid]
+            files = {"N": {}, "S0": mono, "S1": split, "S2": s2, "T": mono}.get(arm)
+            if arm == "O":
+                files = oracle(document, set(case["facts"]))
+            row = {
+                "protocol_sha": protocol_sha, "runtime_sha": runtime_sha, "commits": manifest,
+                "phase": phase, "model_slot": args.model_slot, "model": model, "route": args.route,
+                "route_id": route_id,
+                "schedule_seed": protocol["seed"], "dependencies": versions,
+                "case_id": case["id"], "arm": arm, "repeat": repeat, "size_kib": case["size_kib"],
+                "category": case["category"], "meta": case["meta"], "features": sorted(features) if arm == "S2" else [],
+            }
+            if unit_key(row) not in done:
+                scheduled.append((case, row, document, files, mapping))
+
+        spent, pending = 0.0, set()
+        if live:
+            existing = set((EVAL / "results").glob("*.jsonl")) | {filename}
+            spent, pending = budget_state(existing)
+            estimate = sum(reserve(files, prices, protocol["limits"]) for _, _, _, files, _ in scheduled)
+            with (EVAL / "cost_log.md").open("a", encoding="utf-8") as costs:
+                costs.write(f"\n- {phase}/{args.model_slot}/{model}。待跑 {len(scheduled)} 项。未缓存峰价规划估计 {estimate:.2f} 元，"
+                            f"累计预算计量 {spent:.4f} 元，80% 暂停线 {args.budget_cny * .8:.2f} 元。\n")
+        with filename.open("a", encoding="utf-8") as output:
+            for i, (case, row, document, files, mapping) in enumerate(scheduled, 1):
+                guard = reserve(files, prices, protocol["limits"]) if live else 0
+                key = hashlib.sha256(json.dumps(unit_key(row)).encode()).hexdigest()
+                if live and key in pending:
+                    print(f"budget checkpoint: reconcile interrupted reservation {key} before retry")
+                    return 2
+                if live and spent + guard > args.budget_cny * .8:
+                    print(f"budget checkpoint: completed {i-1}/{len(scheduled)}, {spent:.4f} CNY accounted")
+                    return 2
+                arm = row["arm"]
+                gold = gold_reads(case, arm, mapping)
+                lint = lint_layout(files, mapping) if arm == "S2" and "i6" in features else []
+                spec = {"variant": RUNTIME[arm], "prompt": case["question"], "files": files,
+                        "channel": CHANNEL, "model": {"route": args.route}, "limits": protocol["limits"]}
+                if not live:
+                    expected_good = case["id"] != cases[-1]["id"]
+                    turns = []
+                    note = next((path for path in sorted(files) if PurePosixPath(path).stem in gold), None)
+                    if note:
+                        turns.append({"read": {"path": f"/workspace/{note}"}})
+                    turns.append({"text": case["golden"] if expected_good else case["bad"]})
+                    spec["model"]["turns"] = turns
+                run_env = {**env, "MEMORY_FEATURES": ",".join(row["features"])}
+                if live:
+                    budget_event(args.route, "reserve", key, guard)
+                    spent += guard
+                trace = invoke(runtime, spec, run_env, protocol["limits"]["runTimeoutMs"] / 1000 + 25)
+                response = trace.get("response", "")
+                reads = observed_reads(trace)
+                passed = trace.get("stopReason") == "stop" and score(case["check"], response)
+                cache_supported = args.route == "deepseek" or os.getenv("LIGHTCLAW_EVAL_CACHE_TELEMETRY") == "1"
+                measured = cost(trace, prices) if live and cache_supported else None
+                row.update({
+                    "trace": trace, "passed": passed, "cost_cny_peak_reference": measured, "budget_charge_cny": 0,
+                    "gold_reads": sorted(gold), "observed_reads": sorted(reads),
+                    "read_precision": len(gold & reads) / len(reads) if reads else None,
+                    "read_recall": len(gold & reads) / len(gold) if gold else None,
+                    "stale_hit": any(re.search(r"(?<!\w)" + re.escape(value) + r"(?!\w)", response) for value in stale_values(case, document)),
+                    "abstain_rejected": case["category"] == "abstain" and not passed,
+                    "lint_before": lint, "lint_after": lint_layout(files, mapping) if arm == "S2" and "i6" in features else [],
+                    "completed_unix": time.time(),
+                })
+                if not live and (passed != expected_good or not trace.get("fixturesUnchanged")):
+                    raise RuntimeError(f"Faux smoke failed at {row['case_id']}/{arm}: stop={trace.get('stopReason')}, "
+                                       f"score={passed}/{expected_good}, unchanged={trace.get('fixturesUnchanged')}")
+                if trace.get("fixturesUnchanged") is False:
+                    raise RuntimeError("Runner modified a read-only memory fixture")
+                if live and (not trace.get("fixturesUnchanged") or trace.get("usageIncomplete") or not trace.get("attempts")):
+                    with (EVAL / ".runtime/failed-attempts.jsonl").open("a", encoding="utf-8") as errors:
+                        append_row(errors, row)
+                    print(f"infrastructure checkpoint: {key} reserved and not marked complete", flush=True)
+                    return 3
+                append_row(output, row)
+                if live and measured is not None:
+                    budget_event(args.route, "settle", key, measured - guard)
+                    spent += measured - guard
+                print(f"{i}/{len(scheduled)} {row['case_id']} {arm} {trace.get('stopReason')} pass={passed}", flush=True)
+    print(f"complete: {len(scheduled)} new rows")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

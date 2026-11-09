@@ -1,0 +1,5910 @@
+{
+  "schema_version": 1,
+  "protocol_sha": "d81ab2ef31dec3818bd5f476fb4cea0384a8c6e08a10c9ddf93a6c2df9389e95",
+  "methods": {
+    "bootstrap": "Paired differences of five-repeat pass rates, resampling case IDs",
+    "bootstrap_repeats": 10000,
+    "bootstrap_seed": 419917,
+    "confidence": 0.95,
+    "mcnemar": "Two-sided exact test on one majority (at least 3/5) decision per case and arm",
+    "holm_family": "All contrast-by-category McNemar tests within one complete model cohort",
+    "cost": "Median measured CNY at the recorded reference rates, excluding planning reserves"
+  },
+  "coverage": {
+    "total": 120,
+    "faux": 30,
+    "diagnostic_live": 30,
+    "formal_live": 0,
+    "other_route": 0,
+    "protocol_mismatch": 60,
+    "duplicate_rows": 0
+  },
+  "cohorts": [
+    {
+      "phase": "smoke",
+      "model_slot": "M1",
+      "model": "deepseek-flash",
+      "route": "deepseek",
+      "runtime_sha": "1698f0de88a1824e740ecbf0e9da61938d95690408478aaad4ddfd42d056d0d1",
+      "route_id": "6b77b6be93192c2583cbede32944ce8f35b39d48f65412e0c046c9adf2c74fca",
+      "coverage": {
+        "complete": false,
+        "expected_repeats": 1,
+        "arms": {
+          "N": {
+            "observed_items": 5,
+            "observed_runs": 5,
+            "items_with_all_repeats": 5,
+            "expected_items": 5,
+            "expected_runs": 5,
+            "missing_run_count_lower_bound": 0
+          },
+          "S0": {
+            "observed_items": 5,
+            "observed_runs": 5,
+            "items_with_all_repeats": 5,
+            "expected_items": 5,
+            "expected_runs": 5,
+            "missing_run_count_lower_bound": 0
+          },
+          "S1": {
+            "observed_items": 5,
+            "observed_runs": 5,
+            "items_with_all_repeats": 5,
+            "expected_items": 5,
+            "expected_runs": 5,
+            "missing_run_count_lower_bound": 0
+          },
+          "S2": {
+            "observed_items": 5,
+            "observed_runs": 5,
+            "items_with_all_repeats": 5,
+            "expected_items": 5,
+            "expected_runs": 5,
+            "missing_run_count_lower_bound": 0
+          },
+          "T": {
+            "observed_items": 5,
+            "observed_runs": 5,
+            "items_with_all_repeats": 5,
+            "expected_items": 5,
+            "expected_runs": 5,
+            "missing_run_count_lower_bound": 0
+          },
+          "O": {
+            "observed_items": 5,
+            "observed_runs": 5,
+            "items_with_all_repeats": 5,
+            "expected_items": 5,
+            "expected_runs": 5,
+            "missing_run_count_lower_bound": 0
+          }
+        },
+        "conflicting_units": 0,
+        "reported_providers": [
+          "deepseek"
+        ],
+        "issues": []
+      },
+      "metrics": [
+        {
+          "arm": "N",
+          "scope": "category",
+          "value": "abstain",
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 1,
+          "accuracy": 1,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00563264,
+          "latency_known": 1,
+          "latency_ms_p50": 8113.0,
+          "latency_ms_p95": 8113.0,
+          "tool_calls_median": 4,
+          "model_rounds_median": 4,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 1440
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 6016
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 314
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 1,
+            "count": 0,
+            "rate": 0
+          }
+        },
+        {
+          "arm": "N",
+          "scope": "category",
+          "value": "implicit_rule",
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 0,
+          "accuracy": 0,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.0008034400000000001,
+          "latency_known": 1,
+          "latency_ms_p50": 2176.0,
+          "latency_ms_p95": 2176.0,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 191
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 1536
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 45
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "N",
+          "scope": "category",
+          "value": "irrelevant",
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 1,
+          "accuracy": 1,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00044144,
+          "latency_known": 1,
+          "latency_ms_p50": 2353.0,
+          "latency_ms_p95": 2353.0,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 182
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 1536
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 2
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "N",
+          "scope": "category",
+          "value": "note_needed",
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 0,
+          "accuracy": 0,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00288944,
+          "latency_known": 1,
+          "latency_ms_p50": 3100.0,
+          "latency_ms_p95": 3100.0,
+          "tool_calls_median": 2,
+          "model_rounds_median": 3,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 670
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 4736
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 170
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "N",
+          "scope": "category",
+          "value": "update",
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 0,
+          "accuracy": 0,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.0035282399999999998,
+          "latency_known": 1,
+          "latency_ms_p50": 4964.0,
+          "latency_ms_p95": 4964.0,
+          "tool_calls_median": 3,
+          "model_rounds_median": 4,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 731
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 6656
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 225
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 1,
+            "count": 0,
+            "rate": 0
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "N",
+          "scope": "implicit_placement",
+          "value": "inline",
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 0,
+          "accuracy": 0,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.0008034400000000001,
+          "latency_known": 1,
+          "latency_ms_p50": 2176.0,
+          "latency_ms_p95": 2176.0,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 191
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 1536
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 45
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "N",
+          "scope": "overall",
+          "value": null,
+          "n_runs": 5,
+          "n_items": 5,
+          "passes": 2,
+          "accuracy": 0.4,
+          "cost_known": 5,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00288944,
+          "latency_known": 5,
+          "latency_ms_p50": 3100.0,
+          "latency_ms_p95": 7483.199999999999,
+          "tool_calls_median": 2,
+          "model_rounds_median": 3,
+          "stop_reasons": {
+            "stop": 5
+          },
+          "tokens": {
+            "input": {
+              "known": 5,
+              "median": 670
+            },
+            "cacheRead": {
+              "known": 5,
+              "median": 4736
+            },
+            "cacheWrite": {
+              "known": 5,
+              "median": 0
+            },
+            "output": {
+              "known": 5,
+              "median": 170
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 1,
+            "count": 0,
+            "rate": 0
+          },
+          "abstain_rejected": {
+            "known": 1,
+            "count": 0,
+            "rate": 0
+          }
+        },
+        {
+          "arm": "N",
+          "scope": "s1_index_cut",
+          "value": false,
+          "n_runs": 3,
+          "n_items": 3,
+          "passes": 2,
+          "accuracy": 0.6666666666666666,
+          "cost_known": 3,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.0008034400000000001,
+          "latency_known": 3,
+          "latency_ms_p50": 2353.0,
+          "latency_ms_p95": 7536.999999999999,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 3
+          },
+          "tokens": {
+            "input": {
+              "known": 3,
+              "median": 191
+            },
+            "cacheRead": {
+              "known": 3,
+              "median": 1536
+            },
+            "cacheWrite": {
+              "known": 3,
+              "median": 0
+            },
+            "output": {
+              "known": 3,
+              "median": 45
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 1,
+            "count": 0,
+            "rate": 0
+          }
+        },
+        {
+          "arm": "N",
+          "scope": "s1_index_cut",
+          "value": true,
+          "n_runs": 2,
+          "n_items": 2,
+          "passes": 0,
+          "accuracy": 0,
+          "cost_known": 2,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00320884,
+          "latency_known": 2,
+          "latency_ms_p50": 4032.0,
+          "latency_ms_p95": 4870.8,
+          "tool_calls_median": 2.5,
+          "model_rounds_median": 3.5,
+          "stop_reasons": {
+            "stop": 2
+          },
+          "tokens": {
+            "input": {
+              "known": 2,
+              "median": 700.5
+            },
+            "cacheRead": {
+              "known": 2,
+              "median": 5696.0
+            },
+            "cacheWrite": {
+              "known": 2,
+              "median": 0.0
+            },
+            "output": {
+              "known": 2,
+              "median": 197.5
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 1,
+            "count": 0,
+            "rate": 0
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "N",
+          "scope": "size",
+          "value": 32,
+          "n_runs": 2,
+          "n_items": 2,
+          "passes": 1,
+          "accuracy": 0.5,
+          "cost_known": 2,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00321804,
+          "latency_known": 2,
+          "latency_ms_p50": 5144.5,
+          "latency_ms_p95": 7816.15,
+          "tool_calls_median": 2.0,
+          "model_rounds_median": 2.5,
+          "stop_reasons": {
+            "stop": 2
+          },
+          "tokens": {
+            "input": {
+              "known": 2,
+              "median": 815.5
+            },
+            "cacheRead": {
+              "known": 2,
+              "median": 3776.0
+            },
+            "cacheWrite": {
+              "known": 2,
+              "median": 0.0
+            },
+            "output": {
+              "known": 2,
+              "median": 179.5
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 1,
+            "count": 0,
+            "rate": 0
+          }
+        },
+        {
+          "arm": "N",
+          "scope": "size",
+          "value": 64,
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 1,
+          "accuracy": 1,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00044144,
+          "latency_known": 1,
+          "latency_ms_p50": 2353.0,
+          "latency_ms_p95": 2353.0,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 182
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 1536
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 2
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "N",
+          "scope": "size",
+          "value": 128,
+          "n_runs": 2,
+          "n_items": 2,
+          "passes": 0,
+          "accuracy": 0,
+          "cost_known": 2,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00320884,
+          "latency_known": 2,
+          "latency_ms_p50": 4032.0,
+          "latency_ms_p95": 4870.8,
+          "tool_calls_median": 2.5,
+          "model_rounds_median": 3.5,
+          "stop_reasons": {
+            "stop": 2
+          },
+          "tokens": {
+            "input": {
+              "known": 2,
+              "median": 700.5
+            },
+            "cacheRead": {
+              "known": 2,
+              "median": 5696.0
+            },
+            "cacheWrite": {
+              "known": 2,
+              "median": 0.0
+            },
+            "output": {
+              "known": 2,
+              "median": 197.5
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 1,
+            "count": 0,
+            "rate": 0
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "N",
+          "scope": "size_category",
+          "value": [
+            32,
+            "abstain"
+          ],
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 1,
+          "accuracy": 1,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00563264,
+          "latency_known": 1,
+          "latency_ms_p50": 8113.0,
+          "latency_ms_p95": 8113.0,
+          "tool_calls_median": 4,
+          "model_rounds_median": 4,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 1440
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 6016
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 314
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 1,
+            "count": 0,
+            "rate": 0
+          }
+        },
+        {
+          "arm": "N",
+          "scope": "size_category",
+          "value": [
+            32,
+            "implicit_rule"
+          ],
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 0,
+          "accuracy": 0,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.0008034400000000001,
+          "latency_known": 1,
+          "latency_ms_p50": 2176.0,
+          "latency_ms_p95": 2176.0,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 191
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 1536
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 45
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "N",
+          "scope": "size_category",
+          "value": [
+            64,
+            "irrelevant"
+          ],
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 1,
+          "accuracy": 1,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00044144,
+          "latency_known": 1,
+          "latency_ms_p50": 2353.0,
+          "latency_ms_p95": 2353.0,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 182
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 1536
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 2
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "N",
+          "scope": "size_category",
+          "value": [
+            128,
+            "note_needed"
+          ],
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 0,
+          "accuracy": 0,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00288944,
+          "latency_known": 1,
+          "latency_ms_p50": 3100.0,
+          "latency_ms_p95": 3100.0,
+          "tool_calls_median": 2,
+          "model_rounds_median": 3,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 670
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 4736
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 170
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "N",
+          "scope": "size_category",
+          "value": [
+            128,
+            "update"
+          ],
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 0,
+          "accuracy": 0,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.0035282399999999998,
+          "latency_known": 1,
+          "latency_ms_p50": 4964.0,
+          "latency_ms_p95": 4964.0,
+          "tool_calls_median": 3,
+          "model_rounds_median": 4,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 731
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 6656
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 225
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 1,
+            "count": 0,
+            "rate": 0
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "O",
+          "scope": "category",
+          "value": "abstain",
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 0,
+          "accuracy": 0,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.0061185599999999995,
+          "latency_known": 1,
+          "latency_ms_p50": 5347.0,
+          "latency_ms_p95": 5347.0,
+          "tool_calls_median": 4,
+          "model_rounds_median": 5,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 1798
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 8064
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 275
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 1,
+            "count": 1,
+            "rate": 1
+          }
+        },
+        {
+          "arm": "O",
+          "scope": "category",
+          "value": "implicit_rule",
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 0,
+          "accuracy": 0,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00183072,
+          "latency_known": 1,
+          "latency_ms_p50": 952.0,
+          "latency_ms_p95": 952.0,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 864
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 768
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 9
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "O",
+          "scope": "category",
+          "value": "irrelevant",
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 1,
+          "accuracy": 1,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00171472,
+          "latency_known": 1,
+          "latency_ms_p50": 1121.0,
+          "latency_ms_p95": 1121.0,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 834
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 768
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 2
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "O",
+          "scope": "category",
+          "value": "note_needed",
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 1,
+          "accuracy": 1,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00175672,
+          "latency_known": 1,
+          "latency_ms_p50": 1237.0,
+          "latency_ms_p95": 1237.0,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 855
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 768
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 2
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "O",
+          "scope": "category",
+          "value": "update",
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 1,
+          "accuracy": 1,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00187472,
+          "latency_known": 1,
+          "latency_ms_p50": 908.0,
+          "latency_ms_p95": 908.0,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 898
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 768
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 6
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 1,
+            "count": 0,
+            "rate": 0
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "O",
+          "scope": "implicit_placement",
+          "value": "inline",
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 0,
+          "accuracy": 0,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00183072,
+          "latency_known": 1,
+          "latency_ms_p50": 952.0,
+          "latency_ms_p95": 952.0,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 864
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 768
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 9
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "O",
+          "scope": "overall",
+          "value": null,
+          "n_runs": 5,
+          "n_items": 5,
+          "passes": 3,
+          "accuracy": 0.6,
+          "cost_known": 5,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00183072,
+          "latency_known": 5,
+          "latency_ms_p50": 1121.0,
+          "latency_ms_p95": 4524.999999999999,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 5
+          },
+          "tokens": {
+            "input": {
+              "known": 5,
+              "median": 864
+            },
+            "cacheRead": {
+              "known": 5,
+              "median": 768
+            },
+            "cacheWrite": {
+              "known": 5,
+              "median": 0
+            },
+            "output": {
+              "known": 5,
+              "median": 6
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 1,
+            "count": 0,
+            "rate": 0
+          },
+          "abstain_rejected": {
+            "known": 1,
+            "count": 1,
+            "rate": 1
+          }
+        },
+        {
+          "arm": "O",
+          "scope": "s1_index_cut",
+          "value": false,
+          "n_runs": 3,
+          "n_items": 3,
+          "passes": 1,
+          "accuracy": 0.3333333333333333,
+          "cost_known": 3,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00183072,
+          "latency_known": 3,
+          "latency_ms_p50": 1121.0,
+          "latency_ms_p95": 4924.4,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 3
+          },
+          "tokens": {
+            "input": {
+              "known": 3,
+              "median": 864
+            },
+            "cacheRead": {
+              "known": 3,
+              "median": 768
+            },
+            "cacheWrite": {
+              "known": 3,
+              "median": 0
+            },
+            "output": {
+              "known": 3,
+              "median": 9
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 1,
+            "count": 1,
+            "rate": 1
+          }
+        },
+        {
+          "arm": "O",
+          "scope": "s1_index_cut",
+          "value": true,
+          "n_runs": 2,
+          "n_items": 2,
+          "passes": 2,
+          "accuracy": 1,
+          "cost_known": 2,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00181572,
+          "latency_known": 2,
+          "latency_ms_p50": 1072.5,
+          "latency_ms_p95": 1220.55,
+          "tool_calls_median": 0.0,
+          "model_rounds_median": 1.0,
+          "stop_reasons": {
+            "stop": 2
+          },
+          "tokens": {
+            "input": {
+              "known": 2,
+              "median": 876.5
+            },
+            "cacheRead": {
+              "known": 2,
+              "median": 768.0
+            },
+            "cacheWrite": {
+              "known": 2,
+              "median": 0.0
+            },
+            "output": {
+              "known": 2,
+              "median": 4.0
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 1,
+            "count": 0,
+            "rate": 0
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "O",
+          "scope": "size",
+          "value": 32,
+          "n_runs": 2,
+          "n_items": 2,
+          "passes": 0,
+          "accuracy": 0,
+          "cost_known": 2,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00397464,
+          "latency_known": 2,
+          "latency_ms_p50": 3149.5,
+          "latency_ms_p95": 5127.25,
+          "tool_calls_median": 2.0,
+          "model_rounds_median": 3.0,
+          "stop_reasons": {
+            "stop": 2
+          },
+          "tokens": {
+            "input": {
+              "known": 2,
+              "median": 1331.0
+            },
+            "cacheRead": {
+              "known": 2,
+              "median": 4416.0
+            },
+            "cacheWrite": {
+              "known": 2,
+              "median": 0.0
+            },
+            "output": {
+              "known": 2,
+              "median": 142.0
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 1,
+            "count": 1,
+            "rate": 1
+          }
+        },
+        {
+          "arm": "O",
+          "scope": "size",
+          "value": 64,
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 1,
+          "accuracy": 1,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00171472,
+          "latency_known": 1,
+          "latency_ms_p50": 1121.0,
+          "latency_ms_p95": 1121.0,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 834
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 768
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 2
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "O",
+          "scope": "size",
+          "value": 128,
+          "n_runs": 2,
+          "n_items": 2,
+          "passes": 2,
+          "accuracy": 1,
+          "cost_known": 2,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00181572,
+          "latency_known": 2,
+          "latency_ms_p50": 1072.5,
+          "latency_ms_p95": 1220.55,
+          "tool_calls_median": 0.0,
+          "model_rounds_median": 1.0,
+          "stop_reasons": {
+            "stop": 2
+          },
+          "tokens": {
+            "input": {
+              "known": 2,
+              "median": 876.5
+            },
+            "cacheRead": {
+              "known": 2,
+              "median": 768.0
+            },
+            "cacheWrite": {
+              "known": 2,
+              "median": 0.0
+            },
+            "output": {
+              "known": 2,
+              "median": 4.0
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 1,
+            "count": 0,
+            "rate": 0
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "O",
+          "scope": "size_category",
+          "value": [
+            32,
+            "abstain"
+          ],
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 0,
+          "accuracy": 0,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.0061185599999999995,
+          "latency_known": 1,
+          "latency_ms_p50": 5347.0,
+          "latency_ms_p95": 5347.0,
+          "tool_calls_median": 4,
+          "model_rounds_median": 5,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 1798
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 8064
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 275
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 1,
+            "count": 1,
+            "rate": 1
+          }
+        },
+        {
+          "arm": "O",
+          "scope": "size_category",
+          "value": [
+            32,
+            "implicit_rule"
+          ],
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 0,
+          "accuracy": 0,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00183072,
+          "latency_known": 1,
+          "latency_ms_p50": 952.0,
+          "latency_ms_p95": 952.0,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 864
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 768
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 9
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "O",
+          "scope": "size_category",
+          "value": [
+            64,
+            "irrelevant"
+          ],
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 1,
+          "accuracy": 1,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00171472,
+          "latency_known": 1,
+          "latency_ms_p50": 1121.0,
+          "latency_ms_p95": 1121.0,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 834
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 768
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 2
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "O",
+          "scope": "size_category",
+          "value": [
+            128,
+            "note_needed"
+          ],
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 1,
+          "accuracy": 1,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00175672,
+          "latency_known": 1,
+          "latency_ms_p50": 1237.0,
+          "latency_ms_p95": 1237.0,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 855
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 768
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 2
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "O",
+          "scope": "size_category",
+          "value": [
+            128,
+            "update"
+          ],
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 1,
+          "accuracy": 1,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00187472,
+          "latency_known": 1,
+          "latency_ms_p50": 908.0,
+          "latency_ms_p95": 908.0,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 898
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 768
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 6
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 1,
+            "count": 0,
+            "rate": 0
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "S0",
+          "scope": "category",
+          "value": "abstain",
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 0,
+          "accuracy": 0,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.02455272,
+          "latency_known": 1,
+          "latency_ms_p50": 4525.0,
+          "latency_ms_p95": 4525.0,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 12225
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 768
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 9
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 1,
+            "count": 1,
+            "rate": 1
+          }
+        },
+        {
+          "arm": "S0",
+          "scope": "category",
+          "value": "implicit_rule",
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 1,
+          "accuracy": 1,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.001068,
+          "latency_known": 1,
+          "latency_ms_p50": 1802.0,
+          "latency_ms_p95": 1802.0,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 198
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 12800
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 20
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "S0",
+          "scope": "category",
+          "value": "irrelevant",
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 1,
+          "accuracy": 1,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.04704272,
+          "latency_known": 1,
+          "latency_ms_p50": 3545.0,
+          "latency_ms_p95": 3545.0,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 23482
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 768
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 6
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "S0",
+          "scope": "category",
+          "value": "note_needed",
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 1,
+          "accuracy": 1,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.08891016,
+          "latency_known": 1,
+          "latency_ms_p50": 1909.0,
+          "latency_ms_p95": 1909.0,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 44401
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 2304
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 2
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "S0",
+          "scope": "category",
+          "value": "update",
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 1,
+          "accuracy": 1,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00239656,
+          "latency_known": 1,
+          "latency_ms_p50": 1951.0,
+          "latency_ms_p95": 1951.0,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 245
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 46464
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 6
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 1,
+            "count": 0,
+            "rate": 0
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "S0",
+          "scope": "implicit_placement",
+          "value": "inline",
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 1,
+          "accuracy": 1,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.001068,
+          "latency_known": 1,
+          "latency_ms_p50": 1802.0,
+          "latency_ms_p95": 1802.0,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 198
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 12800
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 20
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "S0",
+          "scope": "overall",
+          "value": null,
+          "n_runs": 5,
+          "n_items": 5,
+          "passes": 4,
+          "accuracy": 0.8,
+          "cost_known": 5,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.02455272,
+          "latency_known": 5,
+          "latency_ms_p50": 1951.0,
+          "latency_ms_p95": 4329.0,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 5
+          },
+          "tokens": {
+            "input": {
+              "known": 5,
+              "median": 12225
+            },
+            "cacheRead": {
+              "known": 5,
+              "median": 2304
+            },
+            "cacheWrite": {
+              "known": 5,
+              "median": 0
+            },
+            "output": {
+              "known": 5,
+              "median": 6
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 1,
+            "count": 0,
+            "rate": 0
+          },
+          "abstain_rejected": {
+            "known": 1,
+            "count": 1,
+            "rate": 1
+          }
+        },
+        {
+          "arm": "S0",
+          "scope": "s1_index_cut",
+          "value": false,
+          "n_runs": 3,
+          "n_items": 3,
+          "passes": 2,
+          "accuracy": 0.6666666666666666,
+          "cost_known": 3,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.02455272,
+          "latency_known": 3,
+          "latency_ms_p50": 3545.0,
+          "latency_ms_p95": 4427.0,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 3
+          },
+          "tokens": {
+            "input": {
+              "known": 3,
+              "median": 12225
+            },
+            "cacheRead": {
+              "known": 3,
+              "median": 768
+            },
+            "cacheWrite": {
+              "known": 3,
+              "median": 0
+            },
+            "output": {
+              "known": 3,
+              "median": 9
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 1,
+            "count": 1,
+            "rate": 1
+          }
+        },
+        {
+          "arm": "S0",
+          "scope": "s1_index_cut",
+          "value": true,
+          "n_runs": 2,
+          "n_items": 2,
+          "passes": 2,
+          "accuracy": 1,
+          "cost_known": 2,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.045653360000000004,
+          "latency_known": 2,
+          "latency_ms_p50": 1930.0,
+          "latency_ms_p95": 1948.9,
+          "tool_calls_median": 0.0,
+          "model_rounds_median": 1.0,
+          "stop_reasons": {
+            "stop": 2
+          },
+          "tokens": {
+            "input": {
+              "known": 2,
+              "median": 22323.0
+            },
+            "cacheRead": {
+              "known": 2,
+              "median": 24384.0
+            },
+            "cacheWrite": {
+              "known": 2,
+              "median": 0.0
+            },
+            "output": {
+              "known": 2,
+              "median": 4.0
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 1,
+            "count": 0,
+            "rate": 0
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "S0",
+          "scope": "size",
+          "value": 32,
+          "n_runs": 2,
+          "n_items": 2,
+          "passes": 1,
+          "accuracy": 0.5,
+          "cost_known": 2,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.01281036,
+          "latency_known": 2,
+          "latency_ms_p50": 3163.5,
+          "latency_ms_p95": 4388.85,
+          "tool_calls_median": 0.0,
+          "model_rounds_median": 1.0,
+          "stop_reasons": {
+            "stop": 2
+          },
+          "tokens": {
+            "input": {
+              "known": 2,
+              "median": 6211.5
+            },
+            "cacheRead": {
+              "known": 2,
+              "median": 6784.0
+            },
+            "cacheWrite": {
+              "known": 2,
+              "median": 0.0
+            },
+            "output": {
+              "known": 2,
+              "median": 14.5
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 1,
+            "count": 1,
+            "rate": 1
+          }
+        },
+        {
+          "arm": "S0",
+          "scope": "size",
+          "value": 64,
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 1,
+          "accuracy": 1,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.04704272,
+          "latency_known": 1,
+          "latency_ms_p50": 3545.0,
+          "latency_ms_p95": 3545.0,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 23482
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 768
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 6
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "S0",
+          "scope": "size",
+          "value": 128,
+          "n_runs": 2,
+          "n_items": 2,
+          "passes": 2,
+          "accuracy": 1,
+          "cost_known": 2,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.045653360000000004,
+          "latency_known": 2,
+          "latency_ms_p50": 1930.0,
+          "latency_ms_p95": 1948.9,
+          "tool_calls_median": 0.0,
+          "model_rounds_median": 1.0,
+          "stop_reasons": {
+            "stop": 2
+          },
+          "tokens": {
+            "input": {
+              "known": 2,
+              "median": 22323.0
+            },
+            "cacheRead": {
+              "known": 2,
+              "median": 24384.0
+            },
+            "cacheWrite": {
+              "known": 2,
+              "median": 0.0
+            },
+            "output": {
+              "known": 2,
+              "median": 4.0
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 1,
+            "count": 0,
+            "rate": 0
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "S0",
+          "scope": "size_category",
+          "value": [
+            32,
+            "abstain"
+          ],
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 0,
+          "accuracy": 0,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.02455272,
+          "latency_known": 1,
+          "latency_ms_p50": 4525.0,
+          "latency_ms_p95": 4525.0,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 12225
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 768
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 9
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 1,
+            "count": 1,
+            "rate": 1
+          }
+        },
+        {
+          "arm": "S0",
+          "scope": "size_category",
+          "value": [
+            32,
+            "implicit_rule"
+          ],
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 1,
+          "accuracy": 1,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.001068,
+          "latency_known": 1,
+          "latency_ms_p50": 1802.0,
+          "latency_ms_p95": 1802.0,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 198
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 12800
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 20
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "S0",
+          "scope": "size_category",
+          "value": [
+            64,
+            "irrelevant"
+          ],
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 1,
+          "accuracy": 1,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.04704272,
+          "latency_known": 1,
+          "latency_ms_p50": 3545.0,
+          "latency_ms_p95": 3545.0,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 23482
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 768
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 6
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "S0",
+          "scope": "size_category",
+          "value": [
+            128,
+            "note_needed"
+          ],
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 1,
+          "accuracy": 1,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.08891016,
+          "latency_known": 1,
+          "latency_ms_p50": 1909.0,
+          "latency_ms_p95": 1909.0,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 44401
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 2304
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 2
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "S0",
+          "scope": "size_category",
+          "value": [
+            128,
+            "update"
+          ],
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 1,
+          "accuracy": 1,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00239656,
+          "latency_known": 1,
+          "latency_ms_p50": 1951.0,
+          "latency_ms_p95": 1951.0,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 245
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 46464
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 6
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 1,
+            "count": 0,
+            "rate": 0
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "S1",
+          "scope": "category",
+          "value": "abstain",
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 1,
+          "accuracy": 1,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00628816,
+          "latency_known": 1,
+          "latency_ms_p50": 7326.0,
+          "latency_ms_p95": 7326.0,
+          "tool_calls_median": 3,
+          "model_rounds_median": 4,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 1986
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 11904
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 230
+            }
+          },
+          "read_precision": {
+            "known": 1,
+            "mean": 1.0
+          },
+          "read_recall": {
+            "known": 1,
+            "mean": 1.0
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 1,
+            "count": 0,
+            "rate": 0
+          }
+        },
+        {
+          "arm": "S1",
+          "scope": "category",
+          "value": "implicit_rule",
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 1,
+          "accuracy": 1,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00419584,
+          "latency_known": 1,
+          "latency_ms_p50": 1401.0,
+          "latency_ms_p95": 1401.0,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 2032
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 896
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 12
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "S1",
+          "scope": "category",
+          "value": "irrelevant",
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 1,
+          "accuracy": 1,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00457184,
+          "latency_known": 1,
+          "latency_ms_p50": 1402.0,
+          "latency_ms_p95": 1402.0,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 2244
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 896
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 6
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "S1",
+          "scope": "category",
+          "value": "note_needed",
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 1,
+          "accuracy": 1,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.006331600000000001,
+          "latency_known": 1,
+          "latency_ms_p50": 3293.0,
+          "latency_ms_p95": 3293.0,
+          "tool_calls_median": 1,
+          "model_rounds_median": 2,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 2849
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 3840
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 60
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 1,
+            "mean": 0.0
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "S1",
+          "scope": "category",
+          "value": "update",
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 1,
+          "accuracy": 1,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00188376,
+          "latency_known": 1,
+          "latency_ms_p50": 2289.0,
+          "latency_ms_p95": 2289.0,
+          "tool_calls_median": 1,
+          "model_rounds_median": 2,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 559
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 6144
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 65
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 1,
+            "count": 0,
+            "rate": 0
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "S1",
+          "scope": "implicit_placement",
+          "value": "inline",
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 1,
+          "accuracy": 1,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00419584,
+          "latency_known": 1,
+          "latency_ms_p50": 1401.0,
+          "latency_ms_p95": 1401.0,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 2032
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 896
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 12
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "S1",
+          "scope": "overall",
+          "value": null,
+          "n_runs": 5,
+          "n_items": 5,
+          "passes": 5,
+          "accuracy": 1,
+          "cost_known": 5,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00457184,
+          "latency_known": 5,
+          "latency_ms_p50": 2289.0,
+          "latency_ms_p95": 6519.4,
+          "tool_calls_median": 1,
+          "model_rounds_median": 2,
+          "stop_reasons": {
+            "stop": 5
+          },
+          "tokens": {
+            "input": {
+              "known": 5,
+              "median": 2032
+            },
+            "cacheRead": {
+              "known": 5,
+              "median": 3840
+            },
+            "cacheWrite": {
+              "known": 5,
+              "median": 0
+            },
+            "output": {
+              "known": 5,
+              "median": 60
+            }
+          },
+          "read_precision": {
+            "known": 1,
+            "mean": 1.0
+          },
+          "read_recall": {
+            "known": 2,
+            "mean": 0.5
+          },
+          "stale_hit": {
+            "known": 1,
+            "count": 0,
+            "rate": 0
+          },
+          "abstain_rejected": {
+            "known": 1,
+            "count": 0,
+            "rate": 0
+          }
+        },
+        {
+          "arm": "S1",
+          "scope": "s1_index_cut",
+          "value": false,
+          "n_runs": 3,
+          "n_items": 3,
+          "passes": 3,
+          "accuracy": 1,
+          "cost_known": 3,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00457184,
+          "latency_known": 3,
+          "latency_ms_p50": 1402.0,
+          "latency_ms_p95": 6733.599999999999,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 3
+          },
+          "tokens": {
+            "input": {
+              "known": 3,
+              "median": 2032
+            },
+            "cacheRead": {
+              "known": 3,
+              "median": 896
+            },
+            "cacheWrite": {
+              "known": 3,
+              "median": 0
+            },
+            "output": {
+              "known": 3,
+              "median": 12
+            }
+          },
+          "read_precision": {
+            "known": 1,
+            "mean": 1.0
+          },
+          "read_recall": {
+            "known": 1,
+            "mean": 1.0
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 1,
+            "count": 0,
+            "rate": 0
+          }
+        },
+        {
+          "arm": "S1",
+          "scope": "s1_index_cut",
+          "value": true,
+          "n_runs": 2,
+          "n_items": 2,
+          "passes": 2,
+          "accuracy": 1,
+          "cost_known": 2,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.004107680000000001,
+          "latency_known": 2,
+          "latency_ms_p50": 2791.0,
+          "latency_ms_p95": 3242.8,
+          "tool_calls_median": 1.0,
+          "model_rounds_median": 2.0,
+          "stop_reasons": {
+            "stop": 2
+          },
+          "tokens": {
+            "input": {
+              "known": 2,
+              "median": 1704.0
+            },
+            "cacheRead": {
+              "known": 2,
+              "median": 4992.0
+            },
+            "cacheWrite": {
+              "known": 2,
+              "median": 0.0
+            },
+            "output": {
+              "known": 2,
+              "median": 62.5
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 1,
+            "mean": 0.0
+          },
+          "stale_hit": {
+            "known": 1,
+            "count": 0,
+            "rate": 0
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "S1",
+          "scope": "size",
+          "value": 32,
+          "n_runs": 2,
+          "n_items": 2,
+          "passes": 2,
+          "accuracy": 1,
+          "cost_known": 2,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.005242,
+          "latency_known": 2,
+          "latency_ms_p50": 4363.5,
+          "latency_ms_p95": 7029.75,
+          "tool_calls_median": 1.5,
+          "model_rounds_median": 2.5,
+          "stop_reasons": {
+            "stop": 2
+          },
+          "tokens": {
+            "input": {
+              "known": 2,
+              "median": 2009.0
+            },
+            "cacheRead": {
+              "known": 2,
+              "median": 6400.0
+            },
+            "cacheWrite": {
+              "known": 2,
+              "median": 0.0
+            },
+            "output": {
+              "known": 2,
+              "median": 121.0
+            }
+          },
+          "read_precision": {
+            "known": 1,
+            "mean": 1.0
+          },
+          "read_recall": {
+            "known": 1,
+            "mean": 1.0
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 1,
+            "count": 0,
+            "rate": 0
+          }
+        },
+        {
+          "arm": "S1",
+          "scope": "size",
+          "value": 64,
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 1,
+          "accuracy": 1,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00457184,
+          "latency_known": 1,
+          "latency_ms_p50": 1402.0,
+          "latency_ms_p95": 1402.0,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 2244
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 896
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 6
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "S1",
+          "scope": "size",
+          "value": 128,
+          "n_runs": 2,
+          "n_items": 2,
+          "passes": 2,
+          "accuracy": 1,
+          "cost_known": 2,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.004107680000000001,
+          "latency_known": 2,
+          "latency_ms_p50": 2791.0,
+          "latency_ms_p95": 3242.8,
+          "tool_calls_median": 1.0,
+          "model_rounds_median": 2.0,
+          "stop_reasons": {
+            "stop": 2
+          },
+          "tokens": {
+            "input": {
+              "known": 2,
+              "median": 1704.0
+            },
+            "cacheRead": {
+              "known": 2,
+              "median": 4992.0
+            },
+            "cacheWrite": {
+              "known": 2,
+              "median": 0.0
+            },
+            "output": {
+              "known": 2,
+              "median": 62.5
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 1,
+            "mean": 0.0
+          },
+          "stale_hit": {
+            "known": 1,
+            "count": 0,
+            "rate": 0
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "S1",
+          "scope": "size_category",
+          "value": [
+            32,
+            "abstain"
+          ],
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 1,
+          "accuracy": 1,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00628816,
+          "latency_known": 1,
+          "latency_ms_p50": 7326.0,
+          "latency_ms_p95": 7326.0,
+          "tool_calls_median": 3,
+          "model_rounds_median": 4,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 1986
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 11904
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 230
+            }
+          },
+          "read_precision": {
+            "known": 1,
+            "mean": 1.0
+          },
+          "read_recall": {
+            "known": 1,
+            "mean": 1.0
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 1,
+            "count": 0,
+            "rate": 0
+          }
+        },
+        {
+          "arm": "S1",
+          "scope": "size_category",
+          "value": [
+            32,
+            "implicit_rule"
+          ],
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 1,
+          "accuracy": 1,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00419584,
+          "latency_known": 1,
+          "latency_ms_p50": 1401.0,
+          "latency_ms_p95": 1401.0,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 2032
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 896
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 12
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "S1",
+          "scope": "size_category",
+          "value": [
+            64,
+            "irrelevant"
+          ],
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 1,
+          "accuracy": 1,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00457184,
+          "latency_known": 1,
+          "latency_ms_p50": 1402.0,
+          "latency_ms_p95": 1402.0,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 2244
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 896
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 6
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "S1",
+          "scope": "size_category",
+          "value": [
+            128,
+            "note_needed"
+          ],
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 1,
+          "accuracy": 1,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.006331600000000001,
+          "latency_known": 1,
+          "latency_ms_p50": 3293.0,
+          "latency_ms_p95": 3293.0,
+          "tool_calls_median": 1,
+          "model_rounds_median": 2,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 2849
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 3840
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 60
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 1,
+            "mean": 0.0
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "S1",
+          "scope": "size_category",
+          "value": [
+            128,
+            "update"
+          ],
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 1,
+          "accuracy": 1,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00188376,
+          "latency_known": 1,
+          "latency_ms_p50": 2289.0,
+          "latency_ms_p95": 2289.0,
+          "tool_calls_median": 1,
+          "model_rounds_median": 2,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 559
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 6144
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 65
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 1,
+            "count": 0,
+            "rate": 0
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "S2",
+          "scope": "category",
+          "value": "abstain",
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 1,
+          "accuracy": 1,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.0031345599999999998,
+          "latency_known": 1,
+          "latency_ms_p50": 4200.0,
+          "latency_ms_p95": 4200.0,
+          "tool_calls_median": 2,
+          "model_rounds_median": 3,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 806
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 8064
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 150
+            }
+          },
+          "read_precision": {
+            "known": 1,
+            "mean": 1.0
+          },
+          "read_recall": {
+            "known": 1,
+            "mean": 1.0
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 1,
+            "count": 0,
+            "rate": 0
+          }
+        },
+        {
+          "arm": "S2",
+          "scope": "category",
+          "value": "implicit_rule",
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 1,
+          "accuracy": 1,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.0043556,
+          "latency_known": 1,
+          "latency_ms_p50": 2013.0,
+          "latency_ms_p95": 2013.0,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 2033
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 640
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 33
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "S2",
+          "scope": "category",
+          "value": "irrelevant",
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 1,
+          "accuracy": 1,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00416872,
+          "latency_known": 1,
+          "latency_ms_p50": 1037.0,
+          "latency_ms_p95": 1037.0,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 2045
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 768
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 6
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "S2",
+          "scope": "category",
+          "value": "note_needed",
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 0,
+          "accuracy": 0,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00180704,
+          "latency_known": 1,
+          "latency_ms_p50": 2554.0,
+          "latency_ms_p95": 2554.0,
+          "tool_calls_median": 1,
+          "model_rounds_median": 2,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 532
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 5376
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 66
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 1,
+            "mean": 0.0
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "S2",
+          "scope": "category",
+          "value": "update",
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 1,
+          "accuracy": 1,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.0041207200000000005,
+          "latency_known": 1,
+          "latency_ms_p50": 1135.0,
+          "latency_ms_p95": 1135.0,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 2021
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 768
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 6
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 1,
+            "count": 0,
+            "rate": 0
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "S2",
+          "scope": "implicit_placement",
+          "value": "inline",
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 1,
+          "accuracy": 1,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.0043556,
+          "latency_known": 1,
+          "latency_ms_p50": 2013.0,
+          "latency_ms_p95": 2013.0,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 2033
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 640
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 33
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "S2",
+          "scope": "overall",
+          "value": null,
+          "n_runs": 5,
+          "n_items": 5,
+          "passes": 4,
+          "accuracy": 0.8,
+          "cost_known": 5,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.0041207200000000005,
+          "latency_known": 5,
+          "latency_ms_p50": 2013.0,
+          "latency_ms_p95": 3870.7999999999997,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 5
+          },
+          "tokens": {
+            "input": {
+              "known": 5,
+              "median": 2021
+            },
+            "cacheRead": {
+              "known": 5,
+              "median": 768
+            },
+            "cacheWrite": {
+              "known": 5,
+              "median": 0
+            },
+            "output": {
+              "known": 5,
+              "median": 33
+            }
+          },
+          "read_precision": {
+            "known": 1,
+            "mean": 1.0
+          },
+          "read_recall": {
+            "known": 2,
+            "mean": 0.5
+          },
+          "stale_hit": {
+            "known": 1,
+            "count": 0,
+            "rate": 0
+          },
+          "abstain_rejected": {
+            "known": 1,
+            "count": 0,
+            "rate": 0
+          }
+        },
+        {
+          "arm": "S2",
+          "scope": "s1_index_cut",
+          "value": false,
+          "n_runs": 3,
+          "n_items": 3,
+          "passes": 3,
+          "accuracy": 1,
+          "cost_known": 3,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00416872,
+          "latency_known": 3,
+          "latency_ms_p50": 2013.0,
+          "latency_ms_p95": 3981.2999999999997,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 3
+          },
+          "tokens": {
+            "input": {
+              "known": 3,
+              "median": 2033
+            },
+            "cacheRead": {
+              "known": 3,
+              "median": 768
+            },
+            "cacheWrite": {
+              "known": 3,
+              "median": 0
+            },
+            "output": {
+              "known": 3,
+              "median": 33
+            }
+          },
+          "read_precision": {
+            "known": 1,
+            "mean": 1.0
+          },
+          "read_recall": {
+            "known": 1,
+            "mean": 1.0
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 1,
+            "count": 0,
+            "rate": 0
+          }
+        },
+        {
+          "arm": "S2",
+          "scope": "s1_index_cut",
+          "value": true,
+          "n_runs": 2,
+          "n_items": 2,
+          "passes": 1,
+          "accuracy": 0.5,
+          "cost_known": 2,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.0029638800000000003,
+          "latency_known": 2,
+          "latency_ms_p50": 1844.5,
+          "latency_ms_p95": 2483.05,
+          "tool_calls_median": 0.5,
+          "model_rounds_median": 1.5,
+          "stop_reasons": {
+            "stop": 2
+          },
+          "tokens": {
+            "input": {
+              "known": 2,
+              "median": 1276.5
+            },
+            "cacheRead": {
+              "known": 2,
+              "median": 3072.0
+            },
+            "cacheWrite": {
+              "known": 2,
+              "median": 0.0
+            },
+            "output": {
+              "known": 2,
+              "median": 36.0
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 1,
+            "mean": 0.0
+          },
+          "stale_hit": {
+            "known": 1,
+            "count": 0,
+            "rate": 0
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "S2",
+          "scope": "size",
+          "value": 32,
+          "n_runs": 2,
+          "n_items": 2,
+          "passes": 2,
+          "accuracy": 1,
+          "cost_known": 2,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00374508,
+          "latency_known": 2,
+          "latency_ms_p50": 3106.5,
+          "latency_ms_p95": 4090.65,
+          "tool_calls_median": 1.0,
+          "model_rounds_median": 2.0,
+          "stop_reasons": {
+            "stop": 2
+          },
+          "tokens": {
+            "input": {
+              "known": 2,
+              "median": 1419.5
+            },
+            "cacheRead": {
+              "known": 2,
+              "median": 4352.0
+            },
+            "cacheWrite": {
+              "known": 2,
+              "median": 0.0
+            },
+            "output": {
+              "known": 2,
+              "median": 91.5
+            }
+          },
+          "read_precision": {
+            "known": 1,
+            "mean": 1.0
+          },
+          "read_recall": {
+            "known": 1,
+            "mean": 1.0
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 1,
+            "count": 0,
+            "rate": 0
+          }
+        },
+        {
+          "arm": "S2",
+          "scope": "size",
+          "value": 64,
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 1,
+          "accuracy": 1,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00416872,
+          "latency_known": 1,
+          "latency_ms_p50": 1037.0,
+          "latency_ms_p95": 1037.0,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 2045
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 768
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 6
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "S2",
+          "scope": "size",
+          "value": 128,
+          "n_runs": 2,
+          "n_items": 2,
+          "passes": 1,
+          "accuracy": 0.5,
+          "cost_known": 2,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.0029638800000000003,
+          "latency_known": 2,
+          "latency_ms_p50": 1844.5,
+          "latency_ms_p95": 2483.05,
+          "tool_calls_median": 0.5,
+          "model_rounds_median": 1.5,
+          "stop_reasons": {
+            "stop": 2
+          },
+          "tokens": {
+            "input": {
+              "known": 2,
+              "median": 1276.5
+            },
+            "cacheRead": {
+              "known": 2,
+              "median": 3072.0
+            },
+            "cacheWrite": {
+              "known": 2,
+              "median": 0.0
+            },
+            "output": {
+              "known": 2,
+              "median": 36.0
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 1,
+            "mean": 0.0
+          },
+          "stale_hit": {
+            "known": 1,
+            "count": 0,
+            "rate": 0
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "S2",
+          "scope": "size_category",
+          "value": [
+            32,
+            "abstain"
+          ],
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 1,
+          "accuracy": 1,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.0031345599999999998,
+          "latency_known": 1,
+          "latency_ms_p50": 4200.0,
+          "latency_ms_p95": 4200.0,
+          "tool_calls_median": 2,
+          "model_rounds_median": 3,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 806
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 8064
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 150
+            }
+          },
+          "read_precision": {
+            "known": 1,
+            "mean": 1.0
+          },
+          "read_recall": {
+            "known": 1,
+            "mean": 1.0
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 1,
+            "count": 0,
+            "rate": 0
+          }
+        },
+        {
+          "arm": "S2",
+          "scope": "size_category",
+          "value": [
+            32,
+            "implicit_rule"
+          ],
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 1,
+          "accuracy": 1,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.0043556,
+          "latency_known": 1,
+          "latency_ms_p50": 2013.0,
+          "latency_ms_p95": 2013.0,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 2033
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 640
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 33
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "S2",
+          "scope": "size_category",
+          "value": [
+            64,
+            "irrelevant"
+          ],
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 1,
+          "accuracy": 1,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00416872,
+          "latency_known": 1,
+          "latency_ms_p50": 1037.0,
+          "latency_ms_p95": 1037.0,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 2045
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 768
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 6
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "S2",
+          "scope": "size_category",
+          "value": [
+            128,
+            "note_needed"
+          ],
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 0,
+          "accuracy": 0,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00180704,
+          "latency_known": 1,
+          "latency_ms_p50": 2554.0,
+          "latency_ms_p95": 2554.0,
+          "tool_calls_median": 1,
+          "model_rounds_median": 2,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 532
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 5376
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 66
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 1,
+            "mean": 0.0
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "S2",
+          "scope": "size_category",
+          "value": [
+            128,
+            "update"
+          ],
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 1,
+          "accuracy": 1,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.0041207200000000005,
+          "latency_known": 1,
+          "latency_ms_p50": 1135.0,
+          "latency_ms_p95": 1135.0,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 2021
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 768
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 6
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 1,
+            "count": 0,
+            "rate": 0
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "T",
+          "scope": "category",
+          "value": "abstain",
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 0,
+          "accuracy": 0,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00376976,
+          "latency_known": 1,
+          "latency_ms_p50": 3353.0,
+          "latency_ms_p95": 3353.0,
+          "tool_calls_median": 3,
+          "model_rounds_median": 4,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 806
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 12544
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 207
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 1,
+            "count": 1,
+            "rate": 1
+          }
+        },
+        {
+          "arm": "T",
+          "scope": "category",
+          "value": "implicit_rule",
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 1,
+          "accuracy": 1,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00197816,
+          "latency_known": 1,
+          "latency_ms_p50": 1676.0,
+          "latency_ms_p95": 1676.0,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 863
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 2304
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 20
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "T",
+          "scope": "category",
+          "value": "irrelevant",
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 1,
+          "accuracy": 1,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00196816,
+          "latency_known": 1,
+          "latency_ms_p50": 2847.0,
+          "latency_ms_p95": 2847.0,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 898
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 2304
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 10
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "T",
+          "scope": "category",
+          "value": "note_needed",
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 1,
+          "accuracy": 1,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00169976,
+          "latency_known": 1,
+          "latency_ms_p50": 2575.0,
+          "latency_ms_p95": 2575.0,
+          "tool_calls_median": 1,
+          "model_rounds_median": 2,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 483
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 6144
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 61
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "T",
+          "scope": "category",
+          "value": "update",
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 1,
+          "accuracy": 1,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.006853359999999999,
+          "latency_known": 1,
+          "latency_ms_p50": 3603.0,
+          "latency_ms_p95": 3603.0,
+          "tool_calls_median": 1,
+          "model_rounds_median": 2,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 3095
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 3584
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 65
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 1,
+            "count": 0,
+            "rate": 0
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "T",
+          "scope": "implicit_placement",
+          "value": "inline",
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 1,
+          "accuracy": 1,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00197816,
+          "latency_known": 1,
+          "latency_ms_p50": 1676.0,
+          "latency_ms_p95": 1676.0,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 863
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 2304
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 20
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "T",
+          "scope": "overall",
+          "value": null,
+          "n_runs": 5,
+          "n_items": 5,
+          "passes": 4,
+          "accuracy": 0.8,
+          "cost_known": 5,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00197816,
+          "latency_known": 5,
+          "latency_ms_p50": 2847.0,
+          "latency_ms_p95": 3553.0,
+          "tool_calls_median": 1,
+          "model_rounds_median": 2,
+          "stop_reasons": {
+            "stop": 5
+          },
+          "tokens": {
+            "input": {
+              "known": 5,
+              "median": 863
+            },
+            "cacheRead": {
+              "known": 5,
+              "median": 3584
+            },
+            "cacheWrite": {
+              "known": 5,
+              "median": 0
+            },
+            "output": {
+              "known": 5,
+              "median": 61
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 1,
+            "count": 0,
+            "rate": 0
+          },
+          "abstain_rejected": {
+            "known": 1,
+            "count": 1,
+            "rate": 1
+          }
+        },
+        {
+          "arm": "T",
+          "scope": "s1_index_cut",
+          "value": false,
+          "n_runs": 3,
+          "n_items": 3,
+          "passes": 2,
+          "accuracy": 0.6666666666666666,
+          "cost_known": 3,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00197816,
+          "latency_known": 3,
+          "latency_ms_p50": 2847.0,
+          "latency_ms_p95": 3302.4,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 3
+          },
+          "tokens": {
+            "input": {
+              "known": 3,
+              "median": 863
+            },
+            "cacheRead": {
+              "known": 3,
+              "median": 2304
+            },
+            "cacheWrite": {
+              "known": 3,
+              "median": 0
+            },
+            "output": {
+              "known": 3,
+              "median": 20
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 1,
+            "count": 1,
+            "rate": 1
+          }
+        },
+        {
+          "arm": "T",
+          "scope": "s1_index_cut",
+          "value": true,
+          "n_runs": 2,
+          "n_items": 2,
+          "passes": 2,
+          "accuracy": 1,
+          "cost_known": 2,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.0042765599999999996,
+          "latency_known": 2,
+          "latency_ms_p50": 3089.0,
+          "latency_ms_p95": 3551.6,
+          "tool_calls_median": 1.0,
+          "model_rounds_median": 2.0,
+          "stop_reasons": {
+            "stop": 2
+          },
+          "tokens": {
+            "input": {
+              "known": 2,
+              "median": 1789.0
+            },
+            "cacheRead": {
+              "known": 2,
+              "median": 4864.0
+            },
+            "cacheWrite": {
+              "known": 2,
+              "median": 0.0
+            },
+            "output": {
+              "known": 2,
+              "median": 63.0
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 1,
+            "count": 0,
+            "rate": 0
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "T",
+          "scope": "size",
+          "value": 32,
+          "n_runs": 2,
+          "n_items": 2,
+          "passes": 1,
+          "accuracy": 0.5,
+          "cost_known": 2,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00287396,
+          "latency_known": 2,
+          "latency_ms_p50": 2514.5,
+          "latency_ms_p95": 3269.1499999999996,
+          "tool_calls_median": 1.5,
+          "model_rounds_median": 2.5,
+          "stop_reasons": {
+            "stop": 2
+          },
+          "tokens": {
+            "input": {
+              "known": 2,
+              "median": 834.5
+            },
+            "cacheRead": {
+              "known": 2,
+              "median": 7424.0
+            },
+            "cacheWrite": {
+              "known": 2,
+              "median": 0.0
+            },
+            "output": {
+              "known": 2,
+              "median": 113.5
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 1,
+            "count": 1,
+            "rate": 1
+          }
+        },
+        {
+          "arm": "T",
+          "scope": "size",
+          "value": 64,
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 1,
+          "accuracy": 1,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00196816,
+          "latency_known": 1,
+          "latency_ms_p50": 2847.0,
+          "latency_ms_p95": 2847.0,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 898
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 2304
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 10
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "T",
+          "scope": "size",
+          "value": 128,
+          "n_runs": 2,
+          "n_items": 2,
+          "passes": 2,
+          "accuracy": 1,
+          "cost_known": 2,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.0042765599999999996,
+          "latency_known": 2,
+          "latency_ms_p50": 3089.0,
+          "latency_ms_p95": 3551.6,
+          "tool_calls_median": 1.0,
+          "model_rounds_median": 2.0,
+          "stop_reasons": {
+            "stop": 2
+          },
+          "tokens": {
+            "input": {
+              "known": 2,
+              "median": 1789.0
+            },
+            "cacheRead": {
+              "known": 2,
+              "median": 4864.0
+            },
+            "cacheWrite": {
+              "known": 2,
+              "median": 0.0
+            },
+            "output": {
+              "known": 2,
+              "median": 63.0
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 1,
+            "count": 0,
+            "rate": 0
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "T",
+          "scope": "size_category",
+          "value": [
+            32,
+            "abstain"
+          ],
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 0,
+          "accuracy": 0,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00376976,
+          "latency_known": 1,
+          "latency_ms_p50": 3353.0,
+          "latency_ms_p95": 3353.0,
+          "tool_calls_median": 3,
+          "model_rounds_median": 4,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 806
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 12544
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 207
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 1,
+            "count": 1,
+            "rate": 1
+          }
+        },
+        {
+          "arm": "T",
+          "scope": "size_category",
+          "value": [
+            32,
+            "implicit_rule"
+          ],
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 1,
+          "accuracy": 1,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00197816,
+          "latency_known": 1,
+          "latency_ms_p50": 1676.0,
+          "latency_ms_p95": 1676.0,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 863
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 2304
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 20
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "T",
+          "scope": "size_category",
+          "value": [
+            64,
+            "irrelevant"
+          ],
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 1,
+          "accuracy": 1,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00196816,
+          "latency_known": 1,
+          "latency_ms_p50": 2847.0,
+          "latency_ms_p95": 2847.0,
+          "tool_calls_median": 0,
+          "model_rounds_median": 1,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 898
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 2304
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 10
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "T",
+          "scope": "size_category",
+          "value": [
+            128,
+            "note_needed"
+          ],
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 1,
+          "accuracy": 1,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.00169976,
+          "latency_known": 1,
+          "latency_ms_p50": 2575.0,
+          "latency_ms_p95": 2575.0,
+          "tool_calls_median": 1,
+          "model_rounds_median": 2,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 483
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 6144
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 61
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        },
+        {
+          "arm": "T",
+          "scope": "size_category",
+          "value": [
+            128,
+            "update"
+          ],
+          "n_runs": 1,
+          "n_items": 1,
+          "passes": 1,
+          "accuracy": 1,
+          "cost_known": 1,
+          "cost_unknown": 0,
+          "cost_median_cny_peak_reference": 0.006853359999999999,
+          "latency_known": 1,
+          "latency_ms_p50": 3603.0,
+          "latency_ms_p95": 3603.0,
+          "tool_calls_median": 1,
+          "model_rounds_median": 2,
+          "stop_reasons": {
+            "stop": 1
+          },
+          "tokens": {
+            "input": {
+              "known": 1,
+              "median": 3095
+            },
+            "cacheRead": {
+              "known": 1,
+              "median": 3584
+            },
+            "cacheWrite": {
+              "known": 1,
+              "median": 0
+            },
+            "output": {
+              "known": 1,
+              "median": 65
+            }
+          },
+          "read_precision": {
+            "known": 0,
+            "mean": null
+          },
+          "read_recall": {
+            "known": 0,
+            "mean": null
+          },
+          "stale_hit": {
+            "known": 1,
+            "count": 0,
+            "rate": 0
+          },
+          "abstain_rejected": {
+            "known": 0,
+            "count": 0,
+            "rate": null
+          }
+        }
+      ],
+      "comparisons": [],
+      "c6": {
+        "status": "not_proven",
+        "reason": "Diagnostic phase",
+        "checks": []
+      }
+    }
+  ],
+  "c6": {
+    "status": "not_proven",
+    "reason": "No complete eligible live formal matrix"
+  },
+  "figures": {
+    "status": "skipped",
+    "reason": "No complete eligible live formal matrix",
+    "cohorts": []
+  }
+}

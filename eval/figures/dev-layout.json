@@ -1,0 +1,54 @@
+[
+  {
+    "fixture": "fx012k-dev",
+    "s0_channel_bytes": 12729,
+    "s1_channel_file_bytes": 1559,
+    "s1_channel_visible_bytes": 1558,
+    "s2_channel_bytes": 2082,
+    "s1_visible_rules": 3,
+    "s2_visible_rules": 5,
+    "rules": 5,
+    "facts_mapped": 217,
+    "notes": 46,
+    "lint": []
+  },
+  {
+    "fixture": "fx032k-dev",
+    "s0_channel_bytes": 32816,
+    "s1_channel_file_bytes": 3408,
+    "s1_channel_visible_bytes": 3407,
+    "s2_channel_bytes": 2299,
+    "s1_visible_rules": 3,
+    "s2_visible_rules": 5,
+    "rules": 5,
+    "facts_mapped": 545,
+    "notes": 113,
+    "lint": []
+  },
+  {
+    "fixture": "fx064k-dev",
+    "s0_channel_bytes": 65654,
+    "s1_channel_file_bytes": 7044,
+    "s1_channel_visible_bytes": 3948,
+    "s2_channel_bytes": 2913,
+    "s1_visible_rules": 3,
+    "s2_visible_rules": 5,
+    "rules": 5,
+    "facts_mapped": 1080,
+    "notes": 214,
+    "lint": []
+  },
+  {
+    "fixture": "fx128k-dev",
+    "s0_channel_bytes": 131318,
+    "s1_channel_file_bytes": 12700,
+    "s1_channel_visible_bytes": 4049,
+    "s2_channel_bytes": 2900,
+    "s1_visible_rules": 3,
+    "s2_visible_rules": 5,
+    "rules": 5,
+    "facts_mapped": 2152,
+    "notes": 428,
+    "lint": []
+  }
+]

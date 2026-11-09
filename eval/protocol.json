@@ -8,7 +8,7 @@
   "bootstrap_repeats": 10000,
   "arm_order": ["N", "S0", "S1", "S2", "T", "O"],
   "phases": {
-    "smoke": {"split": "dev", "items": 5, "repeats": 1},
+    "smoke": {"split": "dev", "items": 5, "repeats": 1, "categories": ["note_needed", "update", "implicit_rule", "irrelevant", "abstain"]},
     "pilot": {"split": "dev", "items": null, "repeats": 2},
     "formal": {"split": "test", "items": null, "repeats": 5}
   },
