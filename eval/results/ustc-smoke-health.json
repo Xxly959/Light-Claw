@@ -1,0 +1,127 @@
+{
+  "model": "deepseek-flash",
+  "route": "USTC OpenAI-compatible gateway",
+  "planned_per_attempt": 30,
+  "scope": "dev smoke",
+  "attempts": [
+    {
+      "parallelism": 1,
+      "complete": 3,
+      "infra_incomplete": 1
+    },
+    {
+      "parallelism": 4,
+      "complete": 7,
+      "infra_incomplete": 3
+    }
+  ],
+  "failures": [
+    {
+      "case_id": "fx032k-dev-abstain-02",
+      "arm": "S0",
+      "stop_reason": "aborted",
+      "latency_ms": 220025,
+      "usage_incomplete": true,
+      "attempts": [
+        {
+          "status": "error",
+          "class": null,
+          "usage_reported": false
+        },
+        {
+          "status": "error",
+          "class": null,
+          "usage_reported": false
+        },
+        {
+          "status": "aborted",
+          "class": null,
+          "usage_reported": false
+        }
+      ]
+    },
+    {
+      "case_id": "fx032k-dev-abstain-02",
+      "arm": "S0",
+      "stop_reason": "aborted",
+      "latency_ms": 220174,
+      "usage_incomplete": true,
+      "attempts": [
+        {
+          "status": "success",
+          "class": null,
+          "usage_reported": true
+        },
+        {
+          "status": "success",
+          "class": null,
+          "usage_reported": true
+        },
+        {
+          "status": "success",
+          "class": null,
+          "usage_reported": true
+        },
+        {
+          "status": "aborted",
+          "class": "aborted",
+          "usage_reported": false
+        }
+      ]
+    },
+    {
+      "case_id": "fx032k-dev-abstain-02",
+      "arm": "N",
+      "stop_reason": "aborted",
+      "latency_ms": 220117,
+      "usage_incomplete": true,
+      "attempts": [
+        {
+          "status": "success",
+          "class": null,
+          "usage_reported": true
+        },
+        {
+          "status": "success",
+          "class": null,
+          "usage_reported": true
+        },
+        {
+          "status": "error",
+          "class": "timeout",
+          "usage_reported": false
+        },
+        {
+          "status": "error",
+          "class": "timeout",
+          "usage_reported": false
+        },
+        {
+          "status": "aborted",
+          "class": "aborted",
+          "usage_reported": false
+        }
+      ]
+    },
+    {
+      "case_id": "fx128k-dev-note_needed-01",
+      "arm": "S0",
+      "stop_reason": "stop",
+      "latency_ms": 144355,
+      "usage_incomplete": true,
+      "attempts": [
+        {
+          "status": "error",
+          "class": "timeout",
+          "usage_reported": false
+        },
+        {
+          "status": "success",
+          "class": null,
+          "usage_reported": true
+        }
+      ]
+    }
+  ],
+  "formal_completed": 0
+}

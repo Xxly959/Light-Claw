@@ -448,6 +448,16 @@ function sanitize(value: unknown, key: string | undefined, scratch: string): unk
 	return value;
 }
 
+function attemptErrorClass(reason: string | undefined): string | undefined {
+	if (!reason) return undefined;
+	if (/timeout|timed out|deadline/i.test(reason)) return "timeout";
+	if (/429|rate.limit|quota|额度|限流/i.test(reason)) return "rate-or-quota";
+	if (/401|403|unauthorized|forbidden/i.test(reason)) return "authorization";
+	if (/5\d\d|bad.gateway|unavailable/i.test(reason)) return "upstream";
+	if (/abort|cancel/i.test(reason)) return "aborted";
+	return "other";
+}
+
 async function evaluate(spec: RunSpec, scratch: string) {
 	const channel = spec.channel ?? "channel";
 	if (!SAFE_NAME.test(channel) || channel.length > 64) throw new HarnessError("Invalid synthetic channel ID");
@@ -566,7 +576,7 @@ async function evaluate(spec: RunSpec, scratch: string) {
 	);
 	const attempts = modelAudit.flatMap(({ modelAttempt }, index) => {
 		if (!modelAttempt) return [];
-		const { usage, status } = modelAttempt;
+		const { usage, status, reason } = modelAttempt;
 		const reported = usage && usage.totalTokens > 0 ? usage : null;
 		return [
 			{
@@ -590,6 +600,7 @@ async function evaluate(spec: RunSpec, scratch: string) {
 							: "pi-normalized-zero",
 				stopReason: observation.calls[index]?.message?.stopReason ?? status,
 				status,
+				errorClass: status === "success" ? undefined : attemptErrorClass(reason),
 			},
 		];
 	});

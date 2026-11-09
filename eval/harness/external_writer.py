@@ -450,6 +450,11 @@ def execute_plan(manifest_path, plan, state, runtime, env, route, context_tokens
     return counts
 
 
+def valid_rates(rates, route):
+    return (len(rates) == 4 and all(math.isfinite(rate) and rate >= 0 for rate in rates)
+            and (any(rates) or route == "configured"))
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     mode = parser.add_mutually_exclusive_group(required=True)
@@ -468,8 +473,8 @@ def main():
     args = parser.parse_args()
     if not 256 <= args.history_bytes <= 256 * 1024:
         parser.error("--history-bytes must be between 256 and 262144")
-    if args.rates_cny and (not any(args.rates_cny) or any(not math.isfinite(p) or p < 0 for p in args.rates_cny)):
-        parser.error("CNY rates must be finite and nonnegative, with at least one positive rate")
+    if args.rates_cny and not valid_rates(args.rates_cny, args.route):
+        parser.error("Provide four finite nonnegative rates. All-zero rates require an explicit configured route.")
     if args.model_context_tokens is not None and not 0 < args.model_context_tokens <= 2_147_483_647:
         parser.error("--model-context-tokens must be a positive supported model context limit")
     live = args.run and args.route in ("deepseek", "configured")

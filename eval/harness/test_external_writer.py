@@ -12,10 +12,16 @@ from external_writer import (
     merge_corpus,
     run_chunk,
     validate_candidates,
+    valid_rates,
 )
 
 
 class WriterTest(unittest.TestCase):
+    def test_all_zero_rates_require_explicit_configured_route(self):
+        self.assertTrue(valid_rates((0, 0, 0, 0), "configured"))
+        self.assertFalse(valid_rates((0, 0, 0, 0), "deepseek"))
+        self.assertFalse(valid_rates((0, 0, 0, -1), "configured"))
+
     def test_longmem_gold_and_answer_bearing_identifiers_do_not_reach_writer(self):
         record = {
             "question": "GOLD_QUESTION",
