@@ -105,6 +105,22 @@ def cost(trace, prices):
                for attempt in trace["attempts"]) / 1_000_000
 
 
+def normalize_local_round_cap(trace):
+    """Separate the locally rejected dispatch from calls sent to the provider."""
+    attempts = trace.get("attempts", [])
+    rounds = trace.get("rounds", 0)
+    if (trace.get("budgetReason") != "Evaluation model round budget exhausted"
+            or trace.get("stopReason") != "aborted" or not trace.get("usageIncomplete")
+            or rounds < 1 or len(attempts) != rounds + 1):
+        return trace
+    dispatched, local = attempts[:-1], attempts[-1]
+    if (local.get("status") != "aborted" or local.get("stopReason") != "aborted"
+            or any(local.get(key) is not None for key in PRICE_NAMES)
+            or any(attempt.get(key) is None for attempt in dispatched for key in PRICE_NAMES)):
+        return trace
+    return {**trace, "attempts": dispatched, "localRoundCapAudit": local, "usageIncomplete": False}
+
+
 def deepseek_budget_factor(start, window_seconds):
     local_start = start.astimezone(SHANGHAI)
     end = local_start + timedelta(seconds=window_seconds)
@@ -180,7 +196,7 @@ def invoke(runtime, spec, env, seconds):
         result = {}
     if proc.returncode or not isinstance(result, dict) or "stopReason" not in result:
         return {"stopReason": "adapter_error", "usageIncomplete": True, "attempts": [], "response": ""}
-    return result
+    return normalize_local_round_cap(result)
 
 
 def parallel_results(items, launch, healthy, workers, *, admit=None):

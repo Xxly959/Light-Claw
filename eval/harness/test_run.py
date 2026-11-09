@@ -5,7 +5,7 @@ from tempfile import TemporaryDirectory
 import unittest
 from zoneinfo import ZoneInfo
 
-from run import budget_state, cost, deepseek_budget_factor, effective_limits, parallel_results
+from run import budget_state, cost, deepseek_budget_factor, effective_limits, normalize_local_round_cap, parallel_results
 
 
 class MatrixBudgetTest(unittest.TestCase):
@@ -73,3 +73,18 @@ class MatrixBudgetTest(unittest.TestCase):
     def test_missing_cache_telemetry_is_not_assumed_zero(self):
         trace = {"attempts": [{"input": 12, "cacheRead": None, "cacheWrite": 0, "output": 1}]}
         self.assertIsNone(cost(trace, (2, .04, 2, 8)))
+
+    def test_local_round_cap_keeps_real_usage_and_scored_abort(self):
+        measured = {"input": 12, "cacheRead": 0, "cacheWrite": 0, "output": 1}
+        local_abort = {"input": None, "cacheRead": None, "cacheWrite": None, "output": None,
+                       "stopReason": "aborted", "status": "aborted"}
+        trace = {"budgetReason": "Evaluation model round budget exhausted", "stopReason": "aborted",
+                 "rounds": 2, "usageIncomplete": True, "attempts": [measured, measured, local_abort]}
+        corrected = normalize_local_round_cap(trace)
+        self.assertFalse(corrected["usageIncomplete"])
+        self.assertEqual(corrected["stopReason"], "aborted")
+        self.assertEqual(corrected["localRoundCapAudit"], local_abort)
+        self.assertEqual(cost(corrected, (2, .04, 2, 8)), 0.000064)
+        for invalid in ({**trace, "budgetReason": "Provider timeout"},
+                        {**trace, "attempts": [measured, local_abort, local_abort]}):
+            self.assertIs(normalize_local_round_cap(invalid), invalid)
