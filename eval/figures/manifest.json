@@ -1,6 +1,21 @@
 {
-  "status": "diagnostic_only",
+  "status": "written",
   "cohorts": [
+    {
+      "phase": "formal",
+      "model_slot": "M1",
+      "model": "deepseek-flash",
+      "route": "deepseek",
+      "runtime_sha": "20551ba027944d196bfea81378aab850d2e1398a1c609f81cdd873518651f6aa",
+      "files": [
+        "81898cfb588e-accuracy-by-size.png",
+        "81898cfb588e-cost-by-size.png",
+        "81898cfb588e-latency-p50-by-size.png",
+        "81898cfb588e-latency-p95-by-size.png",
+        "81898cfb588e-cost-accuracy-pareto.png",
+        "81898cfb588e-category-heatmap.png"
+      ]
+    },
     {
       "phase": "pilot",
       "model_slot": "M1",

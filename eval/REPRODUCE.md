@@ -40,6 +40,18 @@ rtk proxy env LIGHTCLAW_EVAL_MODEL_ID=deepseek-v4-flash python3 eval/harness/run
 
 正式使用真实模型运行后，按 [分析器命令](harness/analyze.py) 生成统计和图表。公开数据集下载、抽样和许可见 [来源说明](external-sources.md)。真实日志筛选默认单独运行，输出留在忽略的 `eval/real/`，只由人审核。
 
+本次正式 M1 的续跑命令如下。需要预先设置上文的专用环境变量，配置 `deepseek-flash`、官方端点和与 dev 相同的模型定义。已有完整检查点时执行器会跳过全部组合。开始新的远端复测会产生费用，额度须按当次授权设置。
+
+```sh
+rtk proxy python3 -B eval/harness/run.py --phase formal --route deepseek --model-slot M1 --budget-cny 12.20 --deepseek-offpeak-budget --jobs 4 --runtime eval/.runtime/m1-deepseek-300s --result eval/results/formal-M1-deepseek-flash-official-v2.jsonl
+```
+
+从已提交的 JSONL 离线复算正式统计和图表用一条命令，无需凭证。
+
+```sh
+rtk proxy uv run --offline --no-project --python 3.12 --with matplotlib==3.10.8 -- python -B eval/harness/analyze.py --figures eval/figures
+```
+
 公开数据准备后可以单独验证固定写入器，不调用远程模型：
 
 ```sh
