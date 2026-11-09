@@ -227,6 +227,7 @@ it("opts into lightweight memory guidance without changing the stored memory", a
 		writeFileSync(join(workspace, "MEMORY.md"), "LC_SHARED_GUIDANCE");
 		expect((await create("chat-a").run(context("chat-a", "LC_REQUEST", "1"), store)).stopReason).toBe("stop");
 		expect(requests[0].system).toContain("Use the current indexes for relevant standing rules");
+		expect(requests[0].system).toContain("open the relevant note before concluding the detail is unrecorded");
 		expect(requests[0].system).not.toContain("Keep each MEMORY.md index within 4 KiB");
 		expect(requests[0].system).toContain("LC_SHARED_GUIDANCE");
 	} finally {

@@ -453,7 +453,7 @@ Global MEMORY.md, skills/ and events/ are NOT mounted in this container. The glo
 		? "Use the current indexes for relevant standing rules and saved context."
 		: "Keep each MEMORY.md index within 4 KiB. Put stable preferences, current agreements, and links to topical notes in the index.";
 	const memoryUse = memoryGuidance
-		? `If a task depends on missing remembered details, follow a topic link or read the relevant note.${memoryGuidance.searchAvailable ? " Use memory_search with a literal term when the note location is unclear." : ""} Use saved memory to carry context across conversations.`
+		? `If a task depends on missing remembered details, follow a topic link or read the relevant note.${memoryGuidance.searchAvailable ? " Use memory_search with a literal term when the note location is unclear." : ""} If a search result or index points to a relevant note but omits the needed detail, open the relevant note before concluding the detail is unrecorded. Use saved memory to carry context across conversations.`
 		: "Read relevant notes on demand. When asked to remember something or when you learn something worth reusing, record its date and source if available (this channel's log.jsonl ts or a verified artifact path). Distinguish unverified claims from confirmed facts, replace superseded entries when corrected, and check the source when a note is uncertain or stale. Use goal state for live goal status.";
 
 	// Format channel mappings
