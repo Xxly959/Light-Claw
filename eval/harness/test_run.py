@@ -36,6 +36,26 @@ class MatrixBudgetTest(unittest.TestCase):
         self.assertEqual(sorted(started), [0, 1])
         self.assertEqual(sorted(row["item"] for row in received), [0, 1])
 
+    def test_parallel_admission_retries_same_item_after_settlement(self):
+        reserved = set()
+        completed = []
+
+        def admit(item):
+            if reserved or item == 3:
+                return False
+            reserved.add(item)
+            return True
+
+        def launch(item):
+            self.assertIn(item, reserved)
+            return item
+
+        for item in parallel_results(range(5), launch, lambda _: True, 4, admit=admit):
+            reserved.remove(item)
+            completed.append(item)
+        self.assertEqual(completed, [0, 1, 2])
+
+
     def test_reservations_survive_restart_and_share_other_phase_spend(self):
         with TemporaryDirectory() as directory:
             ledger = Path(directory) / "matrix.jsonl"

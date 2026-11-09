@@ -183,19 +183,19 @@ def invoke(runtime, spec, env, seconds):
     return result
 
 
-def parallel_results(items, launch, healthy, workers):
-    """Checkpoint completed jobs and stop submitting after an infrastructure failure."""
+def parallel_results(items, launch, healthy, workers, *, admit=None):
+    """Defer work that cannot reserve budget until outstanding jobs settle."""
     remaining = iter(items)
+    item = next(remaining, None)
     with ThreadPoolExecutor(max_workers=workers) as pool:
         pending = set()
         stopped = False
         while True:
-            while not stopped and len(pending) < workers:
-                item = next(remaining, None)
-                if item is None:
-                    stopped = True
+            while item is not None and not stopped and len(pending) < workers:
+                if admit is not None and not admit(item):
                     break
                 pending.add(pool.submit(launch, item))
+                item = next(remaining, None)
             if not pending:
                 return
             done, pending = wait(pending, return_when=FIRST_COMPLETED)
@@ -254,7 +254,7 @@ def main():
     parser.add_argument("--ablate", choices=sorted(FEATURES))
     parser.add_argument("--runtime", type=Path, default=EVAL / ".runtime")
     parser.add_argument("--result", type=Path)
-    parser.add_argument("--jobs", type=int, default=1, help="Maximum in-flight runs for explicitly zero-priced routes")
+    parser.add_argument("--jobs", type=int, default=1, help="Maximum in-flight runs on DeepSeek or a zero-priced configured route")
     parser.add_argument("--smoke-run-timeout-s", type=int, help="Extend only the total per-run smoke deadline")
     parser.add_argument("--deepseek-offpeak-budget", action="store_true",
                         help="Use the documented half rate only when an entire official-route run fits off-peak")
@@ -290,8 +290,8 @@ def main():
             parser.error("Provide four finite nonnegative prices: input,cacheRead,cacheWrite,output")
     if live and not prices:
         parser.error("Missing CNY rates for the selected model")
-    if args.jobs > 1 and (args.route != "configured" or any(prices)):
-        parser.error("Parallel execution requires a configured route with four explicit zero rates")
+    if args.jobs > 1 and not (args.route == "deepseek" or args.route == "configured" and not any(prices)):
+        parser.error("Parallel execution requires the official DeepSeek route or four explicit zero rates")
 
     protocol_path = EVAL / "protocol.json"
     protocol = load(protocol_path)
@@ -461,37 +461,52 @@ def main():
             print(f"{i}/{len(scheduled)} {row['case_id']} {row['arm']} {trace.get('stopReason')} pass={row['passed']}", flush=True)
             return True
 
+        def reservation_key(row):
+            return hashlib.sha256(json.dumps(unit_key(row)).encode()).hexdigest()
+
+        reservations = {}
+        budget_block = None
+
+        def admit(item):
+            nonlocal spent, budget_block
+            _, row, _, files, _ = item
+            factor = 1
+            if args.deepseek_offpeak_budget:
+                factor = deepseek_budget_factor(datetime.now(SHANGHAI), limits["runTimeoutMs"] / 1000 + 30)
+            guard = reserve(files, prices, limits) * factor
+            key = reservation_key(row)
+            if key in pending:
+                budget_block = f"reconcile interrupted reservation {key} before retry"
+                return False
+            if spent + guard > args.budget_cny * .8:
+                budget_block = "next reservation would cross the pause threshold"
+                return False
+            budget_event(args.route, "reserve", key, guard)
+            spent += guard
+            reservations[key] = guard
+            row["budget_rate_factor"] = factor
+            budget_block = None
+            return True
+
         with filename.open("a", encoding="utf-8") as output:
-            if args.jobs > 1:
-                failed = False
-                for i, row in enumerate(parallel_results(scheduled, evaluate, trace_complete, args.jobs), 1):
-                    if not save_result(output, i, row):
-                        failed = True
-                if failed:
-                    return 3
-            else:
-                for i, item in enumerate(scheduled, 1):
-                    _, row, _, files, _ = item
-                    factor = deepseek_budget_factor(datetime.now(SHANGHAI), limits["runTimeoutMs"] / 1000 + 30) if args.deepseek_offpeak_budget else 1
-                    guard = reserve(files, prices, limits) * factor if live else 0
-                    if live:
-                        row["budget_rate_factor"] = factor
-                    key = hashlib.sha256(json.dumps(unit_key(row)).encode()).hexdigest()
-                    if guard and key in pending:
-                        print(f"budget checkpoint: reconcile interrupted reservation {key} before retry")
-                        return 2
-                    if live and spent + guard > args.budget_cny * .8:
-                        print(f"budget checkpoint: completed {i-1}/{len(scheduled)}, {spent:.4f} CNY accounted")
-                        return 2
-                    if guard:
-                        budget_event(args.route, "reserve", key, guard)
-                        spent += guard
-                    if not save_result(output, i, evaluate(item)):
-                        return 3
-                    measured = row["cost_cny_peak_reference"]
-                    if guard and measured is not None:
-                        budget_event(args.route, "settle", key, measured * factor - guard)
-                        spent += measured * factor - guard
+            failed = False
+            admission = admit if live and any(prices) else None
+            results = parallel_results(scheduled, evaluate, trace_complete, args.jobs, admit=admission)
+            for i, row in enumerate(results, 1):
+                if not save_result(output, i, row):
+                    failed = True
+                    continue
+                measured = row["cost_cny_peak_reference"]
+                if admission is not None and measured is not None:
+                    key = reservation_key(row)
+                    charge = measured * row["budget_rate_factor"] - reservations.pop(key)
+                    budget_event(args.route, "settle", key, charge)
+                    spent += charge
+            if failed:
+                return 3
+            if budget_block:
+                print(f"budget checkpoint: {budget_block}. {spent:.4f} CNY accounted")
+                return 2
     print(f"complete: {len(scheduled)} new rows")
     return 0
 
