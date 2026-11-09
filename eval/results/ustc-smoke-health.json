@@ -13,6 +13,13 @@
       "parallelism": 4,
       "complete": 7,
       "infra_incomplete": 3
+    },
+    {
+      "parallelism": 4,
+      "run_timeout_ms": 300000,
+      "model_attempt_timeout_ms": 90000,
+      "complete": 0,
+      "infra_incomplete": 4
     }
   ],
   "failures": [
@@ -121,7 +128,133 @@
           "usage_reported": true
         }
       ]
+    },
+    {
+      "case_id": "fx128k-dev-update-02",
+      "arm": "T",
+      "run_timeout_ms": 300000,
+      "stop_reason": "error",
+      "latency_ms": 34176,
+      "usage_incomplete": true,
+      "attempts": [
+        {
+          "status": "error",
+          "class": "other",
+          "usage_reported": false
+        },
+        {
+          "status": "error",
+          "class": "other",
+          "usage_reported": false
+        },
+        {
+          "status": "error",
+          "class": "other",
+          "usage_reported": false
+        },
+        {
+          "status": "error",
+          "class": "other",
+          "usage_reported": false
+        }
+      ]
+    },
+    {
+      "case_id": "fx032k-dev-abstain-02",
+      "arm": "S0",
+      "run_timeout_ms": 300000,
+      "stop_reason": "error",
+      "latency_ms": 34198,
+      "usage_incomplete": true,
+      "attempts": [
+        {
+          "status": "error",
+          "class": "other",
+          "usage_reported": false
+        },
+        {
+          "status": "error",
+          "class": "other",
+          "usage_reported": false
+        },
+        {
+          "status": "error",
+          "class": "other",
+          "usage_reported": false
+        },
+        {
+          "status": "error",
+          "class": "other",
+          "usage_reported": false
+        }
+      ]
+    },
+    {
+      "case_id": "fx064k-dev-irrelevant-03",
+      "arm": "S0",
+      "run_timeout_ms": 300000,
+      "stop_reason": "error",
+      "latency_ms": 34191,
+      "usage_incomplete": true,
+      "attempts": [
+        {
+          "status": "error",
+          "class": "other",
+          "usage_reported": false
+        },
+        {
+          "status": "error",
+          "class": "other",
+          "usage_reported": false
+        },
+        {
+          "status": "error",
+          "class": "other",
+          "usage_reported": false
+        },
+        {
+          "status": "error",
+          "class": "other",
+          "usage_reported": false
+        }
+      ]
+    },
+    {
+      "case_id": "fx128k-dev-note_needed-01",
+      "arm": "S1",
+      "run_timeout_ms": 300000,
+      "stop_reason": "error",
+      "latency_ms": 34169,
+      "usage_incomplete": true,
+      "attempts": [
+        {
+          "status": "error",
+          "class": "other",
+          "usage_reported": false
+        },
+        {
+          "status": "error",
+          "class": "other",
+          "usage_reported": false
+        },
+        {
+          "status": "error",
+          "class": "other",
+          "usage_reported": false
+        },
+        {
+          "status": "error",
+          "class": "other",
+          "usage_reported": false
+        }
+      ]
     }
   ],
-  "formal_completed": 0
+  "formal_completed": 0,
+  "connectivity_probe_300s": {
+    "resource": "/v1/models",
+    "authenticated": "SSLEOFError before HTTP response",
+    "default": "curl exit 35, HTTP 000",
+    "direct_ipv4": "curl exit 35, HTTP 000"
+  }
 }

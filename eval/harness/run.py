@@ -217,6 +217,15 @@ def prior_stage_complete(stage, slot, model, route_id, protocol_sha, protocol, s
     return any(len(keys) == expected for keys in groups.values())
 
 
+def effective_limits(defaults, phase, smoke_timeout_seconds):
+    if smoke_timeout_seconds is None:
+        return dict(defaults)
+    timeout = smoke_timeout_seconds * 1000
+    if phase != "smoke" or not defaults["runTimeoutMs"] <= timeout <= 600_000:
+        raise ValueError("The smoke timeout override applies only to smoke and must be between the default and 600 seconds")
+    return {**defaults, "runTimeoutMs": timeout}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--phase", choices=("smoke", "pilot", "formal"), default="smoke")
@@ -227,6 +236,7 @@ def main():
     parser.add_argument("--runtime", type=Path, default=EVAL / ".runtime")
     parser.add_argument("--result", type=Path)
     parser.add_argument("--jobs", type=int, default=1, help="Maximum in-flight runs for explicitly zero-priced routes")
+    parser.add_argument("--smoke-run-timeout-s", type=int, help="Extend only the total per-run smoke deadline")
     args = parser.parse_args()
     if not 1 <= args.jobs <= 8:
         parser.error("--jobs must be between 1 and 8")
@@ -264,6 +274,10 @@ def main():
     protocol = load(protocol_path)
     protocol_sha = digest(protocol_path)
     stage = protocol["phases"][args.phase]
+    try:
+        limits = effective_limits(protocol["limits"], args.phase, args.smoke_run_timeout_s)
+    except ValueError as error:
+        parser.error(str(error))
     cases_path = KIT / "testset/cases.jsonl"
     if digest(cases_path) != protocol["cases_sha256"] or digest(KIT / "scorer.py") != protocol["scorer_sha256"]:
         parser.error("Frozen kit or scorer hash mismatch")
@@ -291,6 +305,7 @@ def main():
         "layout_sha256": digest(HERE / "render_s2.py"),
         "matrix_sha256": digest(Path(__file__)),
         "parallelism": args.jobs,
+        "limits": limits,
     }
     sources = {key: [row["sourceSha256"], row["adapterSha256"]] for key, row in manifest.items()}
     runtime_sha = hashlib.sha256(json.dumps([sources, versions], sort_keys=True).encode()).hexdigest()
@@ -367,7 +382,7 @@ def main():
         if live:
             existing = set((EVAL / "results").glob("*.jsonl")) | {filename}
             spent, pending = budget_state(existing)
-            estimate = sum(reserve(files, prices, protocol["limits"]) for _, _, _, files, _ in scheduled)
+            estimate = sum(reserve(files, prices, limits) for _, _, _, files, _ in scheduled)
             with (EVAL / "cost_log.md").open("a", encoding="utf-8") as costs:
                 costs.write(f"\n- {phase}/{args.model_slot}/{model}。待跑 {len(scheduled)} 项。未缓存峰价规划估计 {estimate:.2f} 元，"
                             f"累计预算计量 {spent:.4f} 元，80% 暂停线 {args.budget_cny * .8:.2f} 元。\n")
@@ -378,7 +393,7 @@ def main():
             should_lint = arm == "S2" and "i6" in features
             lint = lint_layout(files, mapping) if should_lint else []
             spec = {"variant": RUNTIME[arm], "prompt": case["question"], "files": files,
-                    "channel": CHANNEL, "model": {"route": args.route}, "limits": protocol["limits"]}
+                    "channel": CHANNEL, "model": {"route": args.route}, "limits": limits}
             if not live:
                 expected_good = case["id"] != cases[-1]["id"]
                 turns = []
@@ -388,7 +403,7 @@ def main():
                 turns.append({"text": case["golden"] if expected_good else case["bad"]})
                 spec["model"]["turns"] = turns
             run_env = {**env, "MEMORY_FEATURES": ",".join(row["features"])}
-            trace = invoke(runtime, spec, run_env, protocol["limits"]["runTimeoutMs"] / 1000 + 25)
+            trace = invoke(runtime, spec, run_env, limits["runTimeoutMs"] / 1000 + 25)
             response = trace.get("response", "")
             reads = observed_reads(trace)
             passed = trace.get("stopReason") == "stop" and score(case["check"], response)
@@ -431,7 +446,7 @@ def main():
             else:
                 for i, item in enumerate(scheduled, 1):
                     _, row, _, files, _ = item
-                    guard = reserve(files, prices, protocol["limits"]) if live else 0
+                    guard = reserve(files, prices, limits) if live else 0
                     key = hashlib.sha256(json.dumps(unit_key(row)).encode()).hexdigest()
                     if guard and key in pending:
                         print(f"budget checkpoint: reconcile interrupted reservation {key} before retry")

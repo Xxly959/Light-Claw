@@ -32,6 +32,8 @@ rtk proxy env LIGHTCLAW_EVAL_MODEL_ID=deepseek-v4-flash python3 eval/harness/run
 
 已确认零费率的配置路由可用 `--jobs 4` 保持最多四个运行在途。并发数进入运行指纹，延迟只在同一并发条件内比较。遇到基础设施失败时，框架停止派发并保存已在途的成功结果。按原命令续跑会跳过完整组合。
 
+排查慢网关时，可在 `--phase smoke` 加 `--smoke-run-timeout-s 300`，并使用独立的 `--result` 文件。此设置只改变每项冒烟的总时限，单次模型请求超时、工具轮数、dev 和正式协议保持原值。
+
 正式使用真实模型运行后，按 [分析器命令](harness/analyze.py) 生成统计和图表。公开数据集下载、抽样和许可见 [来源说明](external-sources.md)。真实日志筛选默认单独运行，输出留在忽略的 `eval/real/`，只由人审核。
 
 公开数据准备后可以单独验证固定写入器，不调用远程模型：

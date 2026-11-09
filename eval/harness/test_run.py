@@ -3,10 +3,19 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 import unittest
 
-from run import budget_state, cost, parallel_results
+from run import budget_state, cost, effective_limits, parallel_results
 
 
 class MatrixBudgetTest(unittest.TestCase):
+    def test_smoke_can_extend_run_limit_without_changing_attempt_or_formal_limits(self):
+        defaults = {"runTimeoutMs": 220000, "attemptTimeoutMs": 90000}
+        self.assertEqual(effective_limits(defaults, "smoke", 300),
+                         {"runTimeoutMs": 300000, "attemptTimeoutMs": 90000})
+        self.assertEqual(effective_limits(defaults, "formal", None), defaults)
+        self.assertEqual(defaults["runTimeoutMs"], 220000)
+        with self.assertRaisesRegex(ValueError, "smoke"):
+            effective_limits(defaults, "formal", 300)
+
     def test_parallel_failure_drains_started_jobs_without_starting_more(self):
         started = []
 
