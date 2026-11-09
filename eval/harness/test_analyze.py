@@ -50,6 +50,14 @@ class AnalysisTests(unittest.TestCase):
         result = mcnemar([wins] * 6 + [ties])
         self.assertEqual(result, {"candidate_only": 6, "reference_only": 0, "p_exact": 0.03125})
 
+    def test_budget_ledger_events_are_not_evaluation_rows(self):
+        rows = [row("S0", 12, 0, 0, phase="smoke"),
+                {"route": "deepseek", "event": "reserve", "budget_charge_cny": 1},
+                {"route": "deepseek", "event": "settle", "budget_charge_cny": -0.9}]
+        counts = analyze(rows, self.protocol, SHA)["coverage"]
+        self.assertEqual(counts["total"], 1)
+        self.assertEqual(counts["protocol_mismatch"], 0)
+
     def test_partial_live_models_do_not_pool_or_produce_figures(self):
         rows = [row("S0", 12, 0, 0), row("S1", 12, 0, 0, model="different-id", slot="M2"),
                 row("S2", 12, 0, 0, model="faux", route="faux"), row("S2", 12, 0, 0, phase="smoke")]

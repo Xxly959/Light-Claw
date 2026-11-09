@@ -11,12 +11,12 @@
     "cost": "Median measured CNY at the recorded reference rates, excluding planning reserves"
   },
   "coverage": {
-    "total": 120,
+    "total": 60,
     "faux": 30,
     "diagnostic_live": 30,
     "formal_live": 0,
     "other_route": 0,
-    "protocol_mismatch": 60,
+    "protocol_mismatch": 0,
     "duplicate_rows": 0
   },
   "cohorts": [

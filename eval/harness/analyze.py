@@ -262,6 +262,8 @@ def analyze(rows, protocol, protocol_sha):
     cohorts = defaultdict(dict)
     conflicts = defaultdict(set)
     for row in rows:
+        if row.get("event") in {"reserve", "settle"} and "budget_charge_cny" in row:
+            continue
         totals["total"] += 1
         if row.get("route") == "faux" or row.get("model") == "faux":
             totals["faux"] += 1
@@ -411,7 +413,8 @@ def main():
     parser.add_argument("--output", type=Path, default=EVAL / "results" / "analysis.json")
     parser.add_argument("--figures", type=Path, help="Write PNGs and a figure manifest when eligible data exists")
     args = parser.parse_args()
-    sources = sorted((EVAL / "results").glob("*.jsonl")) if args.results is None else args.results
+    sources = (sorted(path for path in (EVAL / "results").glob("*.jsonl") if not path.name.endswith(".private.jsonl"))
+               if args.results is None else args.results)
     protocol_bytes = args.protocol.read_bytes()
     report = analyze(read_rows(sources), json.loads(protocol_bytes), hashlib.sha256(protocol_bytes).hexdigest())
     if args.figures:
