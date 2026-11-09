@@ -1,5 +1,20 @@
 {
-  "status": "skipped",
-  "reason": "No complete eligible live formal matrix",
-  "cohorts": []
+  "status": "diagnostic_only",
+  "cohorts": [
+    {
+      "phase": "pilot",
+      "model_slot": "M1",
+      "model": "deepseek-flash",
+      "route": "deepseek",
+      "runtime_sha": "0b0f5dacfa5fba0dfb3511251ed585ae19625f9c29852e4c041f970d23942a71",
+      "files": [
+        "pilot-d6970a018c8e-accuracy-by-size.png",
+        "pilot-d6970a018c8e-cost-by-size.png",
+        "pilot-d6970a018c8e-latency-p50-by-size.png",
+        "pilot-d6970a018c8e-latency-p95-by-size.png",
+        "pilot-d6970a018c8e-cost-accuracy-pareto.png",
+        "pilot-d6970a018c8e-category-heatmap.png"
+      ]
+    }
+  ]
 }
