@@ -45,3 +45,5 @@ rtk proxy python3 eval/harness/external_writer.py --plan
 写入器的执行入口见 `--help`。它只接收历史，用相同提示生成供各臂复用的语料，并和合成矩阵共用本地预算账本。公开基准的问答和官方评分需在真实语料准备完成后单独执行。
 
 有真实写入语料后，使用 `python3 eval/harness/external_qa.py --plan --writer-state <写入语料目录>` 校验回执并准备 N/S0/S1/S2 的共享布局、题目和裁判参考。计划把参考答案和相关会话标记放在独立文件中，Runner 只接收布局与题目。零费率路由可用 `--run --runtime <准备好的运行目录> --max-new-runs 4` 做限量接线验证。公开基准的官方评分仍单独执行。
+
+有外部 QA 回执后，运行 `python3 eval/harness/external_score.py --profile <问答回执配置>`。该命令按固定官方版本的解析方式计算 MemoryAgentBench 的子串匹配，并把 LongMemEval 回答与裁判参考按臂导出。当前没有调用 LongMemEval 裁判，导出不等于评分。
