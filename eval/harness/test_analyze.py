@@ -75,6 +75,19 @@ class AnalysisTests(unittest.TestCase):
             self.assertEqual(figures["status"], "skipped")
             self.assertEqual(list(Path(directory).glob("*.png")), [])
 
+    def test_complete_pilot_has_paired_estimates_without_formal_verdict(self):
+        rows = [dict(item, phase="pilot") for item in self.matrix() if item["repeat"] < 2]
+        cohort, = analyze(rows, self.protocol, SHA)["cohorts"]
+        self.assertTrue(cohort["coverage"]["pilot_complete"])
+        self.assertFalse(cohort["coverage"]["complete"])
+        self.assertEqual(cohort["c6"]["status"], "not_proven")
+        self.assertEqual(cohort["comparisons"], [])
+        self.assertEqual(len(cohort["pilot_comparisons"]), 3)
+        for comparison in cohort["pilot_comparisons"]:
+            overall = next(item for item in comparison["strata"] if item["scope"] == "overall")
+            self.assertEqual(overall["n_items"], 116)
+            self.assertTrue(all("mcnemar" not in item for item in comparison["strata"]))
+
     def test_complete_matrix_estimates_and_passes_c6(self):
         cohort, = analyze(self.matrix(), self.protocol, SHA)["cohorts"]
         self.assertTrue(cohort["coverage"]["complete"])
@@ -114,9 +127,27 @@ class AnalysisTests(unittest.TestCase):
     def test_c6_rejects_noninferiority_exactly_on_margin(self):
         cohort, = analyze(self.matrix(), self.protocol, SHA)["cohorts"]
         comparison = next(item for item in cohort["comparisons"] if item["candidate"] == "S1")
-        next(item for item in comparison["strata"] if item["scope"] == "overall")["ci"] = [-0.03, 0.02]
+        next(item for item in comparison["strata"] if item["scope"] == "overall")["ci"] = [-0.04, 0.02]
+        verdict = evaluate_c6(cohort["metrics"], cohort["comparisons"], self.protocol["success"])
+        self.assertEqual(verdict["status"], "passed")
+        next(item for item in comparison["strata"] if item["scope"] == "size" and item["value"] == 64)["ci"] = [-0.03, 0.02]
         verdict = evaluate_c6(cohort["metrics"], cohort["comparisons"], self.protocol["success"])
         self.assertEqual(verdict["status"], "failed")
+        self.assertEqual(verdict["comparisons"], {"S1_vs_S0": "failed", "S2_vs_S0": "passed", "S2_vs_S1": "passed"})
+
+    def test_observed_memory_tokens_reads_and_cache_usage(self):
+        run = row("S1", 12, CASE_TYPES.index("irrelevant"), 0, phase="smoke")
+        run["trace"].update({
+            "systemPrompt": {"parts": [{"name": "before_current_memory", "estimatedTokens": 100},
+                                       {"name": "current_memory", "estimatedTokens": 25}]},
+            "tools": [{"name": "read", "status": "error"}, {"name": "memory_search", "status": "ok"}],
+            "attempts": [{"input": 30, "cacheRead": 70, "cacheWrite": 0, "output": 5}],
+        })
+        cohort, = analyze([run], self.protocol, SHA)["cohorts"]
+        metrics = next(item for item in cohort["metrics"] if item["scope"] == "overall")
+        self.assertEqual(metrics["memory_tokens_estimated"], {"known": 1, "median": 25})
+        self.assertEqual(metrics["read_calls"], {"known": 1, "total": 1, "zero": 0})
+        self.assertEqual(metrics["input_cache_read_share"], 0.7)
 
     @unittest.skipIf(Figure is None, "Optional Matplotlib dependency is unavailable")
     def test_complete_test_fixture_exercises_all_figure_paths(self):

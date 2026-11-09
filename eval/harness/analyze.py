@@ -74,7 +74,11 @@ def summarize(rows):
     cost = [row["cost_cny_peak_reference"] for row in rows if observed_number(row.get("cost_cny_peak_reference"))]
     latency = sorted(trace["latencyMs"] for trace in traces if observed_number(trace.get("latencyMs")))
     tool_counts = [len(trace["tools"]) for trace in traces if isinstance(trace.get("tools"), list)]
+    read_counts = [sum(tool.get("name") == "read" for tool in trace["tools"])
+                   for trace in traces if isinstance(trace.get("tools"), list)]
     rounds = [trace["rounds"] for trace in traces if observed_number(trace.get("rounds"))]
+    memory_tokens = [part["estimatedTokens"] for trace in traces for part in trace.get("systemPrompt", {}).get("parts", [])
+                     if part.get("name") == "current_memory" and observed_number(part.get("estimatedTokens"))]
     result = {
         "n_runs": len(rows), "n_items": len({row["case_id"] for row in rows}),
         "passes": sum(row["passed"] for row in rows), "accuracy": mean(row["passed"] for row in rows),
@@ -82,7 +86,9 @@ def summarize(rows):
         "latency_known": len(latency), "latency_ms_p50": quantile(latency, 0.5) if latency else None,
         "latency_ms_p95": quantile(latency, 0.95) if latency else None,
         "tool_calls_median": median(tool_counts) if tool_counts else None,
+        "read_calls": {"known": len(read_counts), "total": sum(read_counts), "zero": read_counts.count(0)},
         "model_rounds_median": median(rounds) if rounds else None,
+        "memory_tokens_estimated": {"known": len(memory_tokens), "median": median(memory_tokens) if memory_tokens else None},
         "stop_reasons": dict(Counter(trace.get("stopReason", "missing") for trace in traces)),
         "tokens": {},
     }
@@ -92,7 +98,12 @@ def summarize(rows):
             attempts = trace.get("attempts", [])
             if attempts and not trace.get("usageIncomplete") and all(observed_number(attempt.get(field)) for attempt in attempts):
                 values.append(sum(attempt[field] for attempt in attempts))
-        result["tokens"][field] = {"known": len(values), "median": median(values) if values else None}
+        result["tokens"][field] = {"known": len(values), "median": median(values) if values else None,
+                                   "total": sum(values) if values else None}
+    input_fields = [result["tokens"][field] for field in TOKEN_FIELDS[:-1]]
+    have_cache = len(cost) == len(rows) and all(field["known"] == len(rows) for field in input_fields)
+    input_total = sum(field["total"] for field in input_fields) if have_cache else 0
+    result["input_cache_read_share"] = result["tokens"]["cacheRead"]["total"] / input_total if input_total else None
     for field in ("read_precision", "read_recall"):
         values = [row[field] for row in rows if arm in {"S1", "S2"} and observed_number(row.get(field))]
         result[field] = {"known": len(values), "mean": mean(values) if values else None}
@@ -156,7 +167,7 @@ def coverage(rows, conflicts, protocol, phase):
 
     complete = False
     issues = []
-    if phase == "formal":
+    if phase in {"pilot", "formal"}:
         if conflicts:
             issues.append("conflicting_duplicate_units")
         if set(by_arm) != set(expected_arms) or any(
@@ -174,11 +185,12 @@ def coverage(rows, conflicts, protocol, phase):
             if distribution != expected_distribution:
                 issues.append("unexpected_size_category_distribution")
         complete = not issues
-    return {"complete": complete, "expected_repeats": expected_repeats, "arms": arm_counts,
+    return {"complete": phase == "formal" and complete, "pilot_complete": phase == "pilot" and complete,
+            "expected_repeats": expected_repeats, "arms": arm_counts,
             "conflicting_units": conflicts, "reported_providers": sorted(providers), "issues": issues}
 
 
-def compare(rows, protocol):
+def compare(rows, protocol, *, include_mcnemar=True):
     by_arm = defaultdict(lambda: defaultdict(dict))
     strata = defaultdict(list)
     targets = set(protocol["success"]["s2_target_categories"])
@@ -200,7 +212,7 @@ def compare(rows, protocol):
             result = dict(scope=scope, value=value, **bootstrap(
                 deltas, protocol["bootstrap_repeats"], protocol["bootstrap_seed"], protocol["success"]["alpha"],
             ))
-            if scope == "category":
+            if include_mcnemar and scope == "category":
                 result["mcnemar"] = mcnemar(pairs)
                 tests.append(result["mcnemar"])
             comparison["strata"].append(result)
@@ -233,7 +245,6 @@ def evaluate_c6(metrics, comparisons, thresholds):
 
     large = [size for size in SIZES if size >= thresholds["large_min_kib"]]
     for candidate in ("S1", "S2"):
-        noninferiority(candidate, "S0", "overall", None)
         for size in large:
             noninferiority(candidate, "S0", "size", size)
             cost_ratio(candidate, "S0", "size", size, thresholds["against_s0_cost_ratio"])
@@ -251,10 +262,15 @@ def evaluate_c6(metrics, comparisons, thresholds):
     for category in rest:
         noninferiority("S2", "S1", "category", category)
     cost_ratio("S2", "S1", "overall", None, thresholds["s2_against_s1_cost_ratio"])
-    status = "not_proven" if any(item["passed"] is None for item in checks) else (
-        "failed" if any(item["passed"] is False for item in checks) else "passed"
-    )
-    return {"status": status, "checks": checks}
+
+    def status(outcomes):
+        if False in outcomes:
+            return "failed"
+        return "not_proven" if None in outcomes else "passed"
+
+    verdicts = {f"{a}_vs_{b}": status([item["passed"] for item in checks if (item["candidate"], item["reference"]) == (a, b)])
+                for a, b in CONTRASTS}
+    return {"status": status([item["passed"] for item in checks]), "comparisons": verdicts, "checks": checks}
 
 
 def analyze(rows, protocol, protocol_sha):
@@ -295,15 +311,18 @@ def analyze(rows, protocol, protocol_sha):
         observed = coverage(eligible, len(conflicts[key]), protocol, phase)
         metrics = arm_metrics(eligible)
         contrasts = compare(eligible, protocol) if observed["complete"] else []
+        pilot_contrasts = compare(eligible, protocol, include_mcnemar=False) if observed["pilot_complete"] else []
         verdict = evaluate_c6(metrics, contrasts, protocol["success"]) if observed["complete"] else {
             "status": "not_proven", "reason": "Incomplete formal matrix" if phase == "formal" else "Diagnostic phase", "checks": [],
         }
         results.append({"phase": phase, "model_slot": slot, "model": model, "route": route, "runtime_sha": runtime_sha,
                         "route_id": route_id,
-                        "coverage": observed, "metrics": metrics, "comparisons": contrasts, "c6": verdict})
+                        "coverage": observed, "metrics": metrics, "comparisons": contrasts,
+                        "pilot_comparisons": pilot_contrasts, "c6": verdict})
     return {
         "schema_version": 1, "protocol_sha": protocol_sha,
-        "methods": {"bootstrap": "Paired differences of five-repeat pass rates, resampling case IDs",
+        "methods": {"bootstrap": "Paired differences of per-case pass rates, resampling case IDs",
+                    "pilot": "Two-repeat paired development estimates, excluded from C6 and formal figures",
                     "bootstrap_repeats": protocol["bootstrap_repeats"], "bootstrap_seed": protocol["bootstrap_seed"],
                     "confidence": 1 - protocol["success"]["alpha"],
                     "mcnemar": "Two-sided exact test on one majority (at least 3/5) decision per case and arm",
