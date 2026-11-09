@@ -1,6 +1,7 @@
 """Run paired synthetic memory evaluations with durable per-run checkpoints."""
 import argparse
 from collections import defaultdict
+from concurrent.futures import FIRST_COMPLETED, ThreadPoolExecutor, wait
 import fcntl
 import hashlib
 import json
@@ -163,6 +164,32 @@ def invoke(runtime, spec, env, seconds):
     return result
 
 
+def parallel_results(items, launch, healthy, workers):
+    """Checkpoint completed jobs and stop submitting after an infrastructure failure."""
+    remaining = iter(items)
+    with ThreadPoolExecutor(max_workers=workers) as pool:
+        pending = set()
+        stopped = False
+        while True:
+            while not stopped and len(pending) < workers:
+                item = next(remaining, None)
+                if item is None:
+                    stopped = True
+                    break
+                pending.add(pool.submit(launch, item))
+            if not pending:
+                return
+            done, pending = wait(pending, return_when=FIRST_COMPLETED)
+            completed = [future.result() for future in done]
+            stopped = stopped or any(not healthy(result) for result in completed)
+            yield from completed
+
+
+def trace_complete(row):
+    trace = row["trace"]
+    return trace.get("fixturesUnchanged") is True and not trace.get("usageIncomplete") and bool(trace.get("attempts"))
+
+
 def choose_cases(cases, n, seed, categories=()):
     if n is None:
         return cases
@@ -199,7 +226,10 @@ def main():
     parser.add_argument("--ablate", choices=sorted(FEATURES))
     parser.add_argument("--runtime", type=Path, default=EVAL / ".runtime")
     parser.add_argument("--result", type=Path)
+    parser.add_argument("--jobs", type=int, default=1, help="Maximum in-flight runs for explicitly zero-priced routes")
     args = parser.parse_args()
+    if not 1 <= args.jobs <= 8:
+        parser.error("--jobs must be between 1 and 8")
     if args.ablate and args.phase != "pilot":
         parser.error("Ablations are dev-pilot only")
     if args.route == "faux" and args.phase != "smoke":
@@ -227,6 +257,8 @@ def main():
             parser.error("Provide four finite nonnegative prices: input,cacheRead,cacheWrite,output")
     if live and not prices:
         parser.error("Missing CNY rates for the selected model")
+    if args.jobs > 1 and (args.route != "configured" or any(prices)):
+        parser.error("Parallel execution requires a configured route with four explicit zero rates")
 
     protocol_path = EVAL / "protocol.json"
     protocol = load(protocol_path)
@@ -258,6 +290,7 @@ def main():
         "package_lock_sha256": digest(ROOT / "package-lock.json"),
         "layout_sha256": digest(HERE / "render_s2.py"),
         "matrix_sha256": digest(Path(__file__)),
+        "parallelism": args.jobs,
     }
     sources = {key: [row["sourceSha256"], row["adapterSha256"]] for key, row in manifest.items()}
     runtime_sha = hashlib.sha256(json.dumps([sources, versions], sort_keys=True).encode()).hexdigest()
@@ -338,64 +371,83 @@ def main():
             with (EVAL / "cost_log.md").open("a", encoding="utf-8") as costs:
                 costs.write(f"\n- {phase}/{args.model_slot}/{model}。待跑 {len(scheduled)} 项。未缓存峰价规划估计 {estimate:.2f} 元，"
                             f"累计预算计量 {spent:.4f} 元，80% 暂停线 {args.budget_cny * .8:.2f} 元。\n")
+        def evaluate(item):
+            case, row, document, files, mapping = item
+            arm = row["arm"]
+            gold = gold_reads(case, arm, mapping)
+            should_lint = arm == "S2" and "i6" in features
+            lint = lint_layout(files, mapping) if should_lint else []
+            spec = {"variant": RUNTIME[arm], "prompt": case["question"], "files": files,
+                    "channel": CHANNEL, "model": {"route": args.route}, "limits": protocol["limits"]}
+            if not live:
+                expected_good = case["id"] != cases[-1]["id"]
+                turns = []
+                note = next((path for path in sorted(files) if PurePosixPath(path).stem in gold), None)
+                if note:
+                    turns.append({"read": {"path": f"/workspace/{note}"}})
+                turns.append({"text": case["golden"] if expected_good else case["bad"]})
+                spec["model"]["turns"] = turns
+            run_env = {**env, "MEMORY_FEATURES": ",".join(row["features"])}
+            trace = invoke(runtime, spec, run_env, protocol["limits"]["runTimeoutMs"] / 1000 + 25)
+            response = trace.get("response", "")
+            reads = observed_reads(trace)
+            passed = trace.get("stopReason") == "stop" and score(case["check"], response)
+            cache_supported = args.route == "deepseek" or os.getenv("LIGHTCLAW_EVAL_CACHE_TELEMETRY") == "1"
+            measured = cost(trace, prices) if live and cache_supported else None
+            row.update({
+                "trace": trace, "passed": passed, "cost_cny_peak_reference": measured, "budget_charge_cny": 0,
+                "gold_reads": sorted(gold), "observed_reads": sorted(reads),
+                "read_precision": len(gold & reads) / len(reads) if reads else None,
+                "read_recall": len(gold & reads) / len(gold) if gold else None,
+                "stale_hit": any(re.search(r"(?<!\w)" + re.escape(value) + r"(?!\w)", response) for value in stale_values(case, document)),
+                "abstain_rejected": case["category"] == "abstain" and not passed,
+                "lint_before": lint, "lint_after": lint_layout(files, mapping) if should_lint else [],
+                "completed_unix": time.time(),
+            })
+            if not live and (passed != expected_good or not trace_complete(row)):
+                raise RuntimeError(f"Faux smoke failed at {row['case_id']}/{arm}: stop={trace.get('stopReason')}, "
+                                   f"score={passed}/{expected_good}, unchanged={trace.get('fixturesUnchanged')}")
+            return row
+
+        def save_result(output, i, row):
+            trace = row["trace"]
+            if not trace_complete(row):
+                with (EVAL / ".runtime/failed-attempts.jsonl").open("a", encoding="utf-8") as errors:
+                    append_row(errors, row)
+                print(f"infrastructure checkpoint: {row['case_id']}/{row['arm']} not marked complete", flush=True)
+                return False
+            append_row(output, row)
+            print(f"{i}/{len(scheduled)} {row['case_id']} {row['arm']} {trace.get('stopReason')} pass={row['passed']}", flush=True)
+            return True
+
         with filename.open("a", encoding="utf-8") as output:
-            for i, (case, row, document, files, mapping) in enumerate(scheduled, 1):
-                guard = reserve(files, prices, protocol["limits"]) if live else 0
-                key = hashlib.sha256(json.dumps(unit_key(row)).encode()).hexdigest()
-                if live and key in pending:
-                    print(f"budget checkpoint: reconcile interrupted reservation {key} before retry")
-                    return 2
-                if live and spent + guard > args.budget_cny * .8:
-                    print(f"budget checkpoint: completed {i-1}/{len(scheduled)}, {spent:.4f} CNY accounted")
-                    return 2
-                arm = row["arm"]
-                gold = gold_reads(case, arm, mapping)
-                lint = lint_layout(files, mapping) if arm == "S2" and "i6" in features else []
-                spec = {"variant": RUNTIME[arm], "prompt": case["question"], "files": files,
-                        "channel": CHANNEL, "model": {"route": args.route}, "limits": protocol["limits"]}
-                if not live:
-                    expected_good = case["id"] != cases[-1]["id"]
-                    turns = []
-                    note = next((path for path in sorted(files) if PurePosixPath(path).stem in gold), None)
-                    if note:
-                        turns.append({"read": {"path": f"/workspace/{note}"}})
-                    turns.append({"text": case["golden"] if expected_good else case["bad"]})
-                    spec["model"]["turns"] = turns
-                run_env = {**env, "MEMORY_FEATURES": ",".join(row["features"])}
-                if live:
-                    budget_event(args.route, "reserve", key, guard)
-                    spent += guard
-                trace = invoke(runtime, spec, run_env, protocol["limits"]["runTimeoutMs"] / 1000 + 25)
-                response = trace.get("response", "")
-                reads = observed_reads(trace)
-                passed = trace.get("stopReason") == "stop" and score(case["check"], response)
-                cache_supported = args.route == "deepseek" or os.getenv("LIGHTCLAW_EVAL_CACHE_TELEMETRY") == "1"
-                measured = cost(trace, prices) if live and cache_supported else None
-                row.update({
-                    "trace": trace, "passed": passed, "cost_cny_peak_reference": measured, "budget_charge_cny": 0,
-                    "gold_reads": sorted(gold), "observed_reads": sorted(reads),
-                    "read_precision": len(gold & reads) / len(reads) if reads else None,
-                    "read_recall": len(gold & reads) / len(gold) if gold else None,
-                    "stale_hit": any(re.search(r"(?<!\w)" + re.escape(value) + r"(?!\w)", response) for value in stale_values(case, document)),
-                    "abstain_rejected": case["category"] == "abstain" and not passed,
-                    "lint_before": lint, "lint_after": lint_layout(files, mapping) if arm == "S2" and "i6" in features else [],
-                    "completed_unix": time.time(),
-                })
-                if not live and (passed != expected_good or not trace.get("fixturesUnchanged")):
-                    raise RuntimeError(f"Faux smoke failed at {row['case_id']}/{arm}: stop={trace.get('stopReason')}, "
-                                       f"score={passed}/{expected_good}, unchanged={trace.get('fixturesUnchanged')}")
-                if trace.get("fixturesUnchanged") is False:
-                    raise RuntimeError("Runner modified a read-only memory fixture")
-                if live and (not trace.get("fixturesUnchanged") or trace.get("usageIncomplete") or not trace.get("attempts")):
-                    with (EVAL / ".runtime/failed-attempts.jsonl").open("a", encoding="utf-8") as errors:
-                        append_row(errors, row)
-                    print(f"infrastructure checkpoint: {key} reserved and not marked complete", flush=True)
+            if args.jobs > 1:
+                failed = False
+                for i, row in enumerate(parallel_results(scheduled, evaluate, trace_complete, args.jobs), 1):
+                    if not save_result(output, i, row):
+                        failed = True
+                if failed:
                     return 3
-                append_row(output, row)
-                if live and measured is not None:
-                    budget_event(args.route, "settle", key, measured - guard)
-                    spent += measured - guard
-                print(f"{i}/{len(scheduled)} {row['case_id']} {arm} {trace.get('stopReason')} pass={passed}", flush=True)
+            else:
+                for i, item in enumerate(scheduled, 1):
+                    _, row, _, files, _ = item
+                    guard = reserve(files, prices, protocol["limits"]) if live else 0
+                    key = hashlib.sha256(json.dumps(unit_key(row)).encode()).hexdigest()
+                    if guard and key in pending:
+                        print(f"budget checkpoint: reconcile interrupted reservation {key} before retry")
+                        return 2
+                    if live and spent + guard > args.budget_cny * .8:
+                        print(f"budget checkpoint: completed {i-1}/{len(scheduled)}, {spent:.4f} CNY accounted")
+                        return 2
+                    if guard:
+                        budget_event(args.route, "reserve", key, guard)
+                        spent += guard
+                    if not save_result(output, i, evaluate(item)):
+                        return 3
+                    measured = row["cost_cny_peak_reference"]
+                    if guard and measured is not None:
+                        budget_event(args.route, "settle", key, measured - guard)
+                        spent += measured - guard
     print(f"complete: {len(scheduled)} new rows")
     return 0
 
