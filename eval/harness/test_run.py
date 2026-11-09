@@ -1,12 +1,21 @@
 import json
+from datetime import datetime
 from pathlib import Path
 from tempfile import TemporaryDirectory
 import unittest
+from zoneinfo import ZoneInfo
 
-from run import budget_state, cost, effective_limits, parallel_results
+from run import budget_state, cost, deepseek_budget_factor, effective_limits, parallel_results
 
 
 class MatrixBudgetTest(unittest.TestCase):
+    def test_deepseek_half_rate_requires_entire_window_off_peak(self):
+        zone = ZoneInfo("Asia/Shanghai")
+        self.assertEqual(deepseek_budget_factor(datetime(2026, 11, 9, 18, 0, tzinfo=zone), 325), 0.5)
+        self.assertEqual(deepseek_budget_factor(datetime(2026, 11, 9, 17, 59, tzinfo=zone), 325), 1)
+        self.assertEqual(deepseek_budget_factor(datetime(2026, 11, 9, 8, 58, tzinfo=zone), 325), 1)
+        self.assertEqual(deepseek_budget_factor(datetime(2026, 11, 8, 11, 59, tzinfo=zone), 325), 0.5)
+
     def test_smoke_can_extend_run_limit_without_changing_attempt_or_formal_limits(self):
         defaults = {"runTimeoutMs": 220000, "attemptTimeoutMs": 90000}
         self.assertEqual(effective_limits(defaults, "smoke", 300),

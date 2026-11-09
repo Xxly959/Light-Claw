@@ -20,7 +20,7 @@ rtk proxy python3 eval/harness/reproduce.py
 
 ## 付费合成评测
 
-先设置明确的总预算、两个模型及其凭证。把凭证放在环境变量中。不要在命令参数或日志里写出密钥。DeepSeek 使用独立变量 `LIGHTCLAW_EVAL_DEEPSEEK_API_KEY`。每次启动会先在 `cost_log.md` 写入估算，全部收费阶段共用预算和 80% 暂停线。下方 100 只是命令示例。
+先设置明确的总预算、模型及其凭证。把凭证放在环境变量中。不要在命令参数或日志里写出密钥。DeepSeek 使用独立变量 `LIGHTCLAW_EVAL_DEEPSEEK_API_KEY`。每次启动会先在 `cost_log.md` 写入估算，全部收费阶段共用预算和 80% 暂停线。下方 100 只是命令示例。
 
 ```sh
 rtk proxy env LIGHTCLAW_EVAL_MODEL_ID=deepseek-v4-flash python3 eval/harness/run.py --route deepseek --model-slot M1 --phase smoke --budget-cny 100
@@ -29,6 +29,8 @@ rtk proxy env LIGHTCLAW_EVAL_MODEL_ID=deepseek-v4-flash python3 eval/harness/run
 从 `smoke` 推进至 `pilot` 后，用 dev 选择配置。正式用 `--phase formal`，强制采用冻结版本与 5 次重复。M2 替换模型 ID 并设置 `--model-slot M2`，可选 `--route configured`。配置路由须显式提供 `LIGHTCLAW_EVAL_PROVIDER`、`LIGHTCLAW_EVAL_MODEL_ID`、`LIGHTCLAW_EVAL_API_KEY`、按 `input,cacheRead,cacheWrite,output` 顺序的 `LIGHTCLAW_EVAL_CNY_PER_MILLION`，以及需要时的 `LIGHTCLAW_EVAL_MODELS_FILE` 与 HTTPS `LIGHTCLAW_EVAL_BASE_URL`。只有供应商明确提供缓存字段时才设置 `LIGHTCLAW_EVAL_CACHE_TELEMETRY=1`。重跑同一条命令从 JSONL 检查点续跑，切换源版本时选择新的 `--runtime` 和 `--result`。分析器按模型和源哈希分开汇总。
 
 上例用当前代码目录中的 Flash 兼容名称。直接使用 `deepseek-flash` 时需显式提供包含该 ID 的模型定义文件。框架在预留费用前离线核对模型。遇到记录不完整的已预留请求，先核对供应商用量和本地账本，再重试相同组合。
+
+官方 DeepSeek 路由可加 `--deepseek-offpeak-budget`。只有整个运行窗口都落在官方空闲时段时，预算预留与结算按高峰参考价的一半计算。跨时段的窗口按高峰价估计，工作日法定假期也按普通工作日保守估计。版本比较统一用峰值参考价。 [官方定价](https://api-docs.deepseek.com/zh-cn/quick_start/pricing/)
 
 已确认零费率的配置路由可用 `--jobs 4` 保持最多四个运行在途。并发数进入运行指纹，延迟只在同一并发条件内比较。遇到基础设施失败时，框架停止派发并保存已在途的成功结果。按原命令续跑会跳过完整组合。
 

@@ -2,6 +2,7 @@
 import argparse
 from collections import defaultdict
 from concurrent.futures import FIRST_COMPLETED, ThreadPoolExecutor, wait
+from datetime import datetime, time as wall_time, timedelta
 import fcntl
 import hashlib
 import json
@@ -13,6 +14,7 @@ import re
 import subprocess
 import sys
 import time
+from zoneinfo import ZoneInfo
 
 from lint_memory import lint_layout
 from prepare_runner import git, prepare, source_digest
@@ -32,6 +34,7 @@ PRICES = {"deepseek-flash": FLASH_PRICE, "deepseek-v4-flash": FLASH_PRICE,
           "deepseek-v4-pro": (9.0, 0.30, 9.0, 27.0)}
 PRICE_NAMES = ("input", "cacheRead", "cacheWrite", "output")
 SPEND = EVAL / "results/matrix-spend.private.jsonl"
+SHANGHAI = ZoneInfo("Asia/Shanghai")
 
 
 def load(path):
@@ -100,6 +103,22 @@ def cost(trace, prices):
         return None
     return sum(sum((attempt.get(key) or 0) * price for key, price in zip(PRICE_NAMES, prices))
                for attempt in trace["attempts"]) / 1_000_000
+
+
+def deepseek_budget_factor(start, window_seconds):
+    local_start = start.astimezone(SHANGHAI)
+    end = local_start + timedelta(seconds=window_seconds)
+    for offset in range((end.date() - local_start.date()).days + 1):
+        day = local_start.date() + timedelta(days=offset)
+        if day.weekday() >= 5:
+            continue
+        # Treat weekday holidays as peak when their schedule is unavailable.
+        for first, last in ((9, 12), (14, 18)):
+            peak_start = datetime.combine(day, wall_time(first), SHANGHAI)
+            peak_end = datetime.combine(day, wall_time(last), SHANGHAI)
+            if local_start < peak_end and end >= peak_start:
+                return 1
+    return 0.5
 
 
 def reserve(files, prices, limits):
@@ -237,11 +256,15 @@ def main():
     parser.add_argument("--result", type=Path)
     parser.add_argument("--jobs", type=int, default=1, help="Maximum in-flight runs for explicitly zero-priced routes")
     parser.add_argument("--smoke-run-timeout-s", type=int, help="Extend only the total per-run smoke deadline")
+    parser.add_argument("--deepseek-offpeak-budget", action="store_true",
+                        help="Use the documented half rate only when an entire official-route run fits off-peak")
     args = parser.parse_args()
     if not 1 <= args.jobs <= 8:
         parser.error("--jobs must be between 1 and 8")
     if args.ablate and args.phase != "pilot":
         parser.error("Ablations are dev-pilot only")
+    if args.deepseek_offpeak_budget and args.route != "deepseek":
+        parser.error("Off-peak budgeting applies only to the official DeepSeek route")
     if args.route == "faux" and args.phase != "smoke":
         parser.error("Faux can verify plumbing on smoke only")
     live = args.route != "faux"
@@ -306,6 +329,7 @@ def main():
         "matrix_sha256": digest(Path(__file__)),
         "parallelism": args.jobs,
         "limits": limits,
+        "offpeak_budget": args.deepseek_offpeak_budget,
     }
     sources = {key: [row["sourceSha256"], row["adapterSha256"]] for key, row in manifest.items()}
     runtime_sha = hashlib.sha256(json.dumps([sources, versions], sort_keys=True).encode()).hexdigest()
@@ -386,6 +410,8 @@ def main():
             with (EVAL / "cost_log.md").open("a", encoding="utf-8") as costs:
                 costs.write(f"\n- {phase}/{args.model_slot}/{model}。待跑 {len(scheduled)} 项。未缓存峰价规划估计 {estimate:.2f} 元，"
                             f"累计预算计量 {spent:.4f} 元，80% 暂停线 {args.budget_cny * .8:.2f} 元。\n")
+                if args.deepseek_offpeak_budget:
+                    costs.write("  只有整个请求窗口都在官方空闲时段才按半价计预算，组间比较仍用统一峰值参考价。\n")
         def evaluate(item):
             case, row, document, files, mapping = item
             arm = row["arm"]
@@ -446,7 +472,10 @@ def main():
             else:
                 for i, item in enumerate(scheduled, 1):
                     _, row, _, files, _ = item
-                    guard = reserve(files, prices, limits) if live else 0
+                    factor = deepseek_budget_factor(datetime.now(SHANGHAI), limits["runTimeoutMs"] / 1000 + 30) if args.deepseek_offpeak_budget else 1
+                    guard = reserve(files, prices, limits) * factor if live else 0
+                    if live:
+                        row["budget_rate_factor"] = factor
                     key = hashlib.sha256(json.dumps(unit_key(row)).encode()).hexdigest()
                     if guard and key in pending:
                         print(f"budget checkpoint: reconcile interrupted reservation {key} before retry")
@@ -461,8 +490,8 @@ def main():
                         return 3
                     measured = row["cost_cny_peak_reference"]
                     if guard and measured is not None:
-                        budget_event(args.route, "settle", key, measured - guard)
-                        spent += measured - guard
+                        budget_event(args.route, "settle", key, measured * factor - guard)
+                        spent += measured * factor - guard
     print(f"complete: {len(scheduled)} new rows")
     return 0
 
