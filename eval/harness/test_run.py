@@ -5,7 +5,7 @@ from tempfile import TemporaryDirectory
 import unittest
 from zoneinfo import ZoneInfo
 
-from run import budget_state, cost, deepseek_budget_factor, effective_limits, normalize_local_round_cap, parallel_results
+from run import budget_state, cost, deepseek_budget_factor, effective_limits, normalize_local_round_cap, parallel_results, trace_complete
 
 
 class MatrixBudgetTest(unittest.TestCase):
@@ -73,6 +73,15 @@ class MatrixBudgetTest(unittest.TestCase):
     def test_missing_cache_telemetry_is_not_assumed_zero(self):
         trace = {"attempts": [{"input": 12, "cacheRead": None, "cacheWrite": 0, "output": 1}]}
         self.assertIsNone(cost(trace, (2, .04, 2, 8)))
+
+    def test_answer_after_transport_retry_retains_score_and_unknown_cost(self):
+        success = {"status": "success", "stopReason": "stop", "input": 12, "cacheRead": 0, "cacheWrite": 0, "output": 1}
+        trace = {"fixturesUnchanged": True, "stopReason": "stop", "usageIncomplete": True,
+                 "attempts": [{"status": "error", "input": None}, success]}
+        self.assertTrue(trace_complete({"trace": trace}))
+        self.assertIsNone(cost(trace, (2, .04, 2, 8)))
+        for invalid in ({**trace, "stopReason": "aborted"}, {**trace, "attempts": trace["attempts"][:-1]}):
+            self.assertFalse(trace_complete({"trace": invalid}))
 
     def test_local_round_cap_keeps_real_usage_and_scored_abort(self):
         measured = {"input": 12, "cacheRead": 0, "cacheWrite": 0, "output": 1}

@@ -221,8 +221,16 @@ def parallel_results(items, launch, healthy, workers, *, admit=None):
 
 
 def trace_complete(row):
+    """An answered run can be scored even if an earlier retry has unreported usage."""
     trace = row["trace"]
-    return trace.get("fixturesUnchanged") is True and not trace.get("usageIncomplete") and bool(trace.get("attempts"))
+    attempts = trace.get("attempts")
+    if trace.get("fixturesUnchanged") is not True or not attempts:
+        return False
+    if not trace.get("usageIncomplete"):
+        return True
+    last = attempts[-1]
+    return (trace.get("stopReason") == last.get("stopReason") == "stop" and last.get("status") == "success"
+            and all(last.get(key) is not None for key in PRICE_NAMES))
 
 
 def choose_cases(cases, n, seed, categories=()):
@@ -244,9 +252,7 @@ def prior_stage_complete(stage, slot, model, route_id, protocol_sha, protocol, s
                 (row.get("phase"), row.get("model_slot"), row.get("model"), row.get("route_id")) == (stage, slot, model, route_id)
                 and row.get("protocol_sha") == protocol_sha and row.get("arm") in protocol["arm_order"]
                 and row.get("commits", {}).get("S2", {}).get("sourceSha256") == s2_source
-                and row.get("trace", {}).get("fixturesUnchanged") is True
-                and row.get("trace", {}).get("usageIncomplete") is False
-                and row.get("trace", {}).get("attempts")
+                and trace_complete(row)
             ):
                 groups[row["runtime_sha"]].add((row["case_id"], row["arm"], row["repeat"]))
     return any(len(keys) == expected for keys in groups.values())

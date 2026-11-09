@@ -1,4 +1,4 @@
-"""Resume the original sequential M1 pilot after a verified local cap checkpoint."""
+"""Resume the original sequential M1 pilot after verifying a scoreable checkpoint."""
 
 import argparse
 import fcntl
@@ -36,12 +36,12 @@ def main():
         if any(row["phase"] != "pilot" or row["runtime_sha"] != last["runtime_sha"]
                or row["dependencies"]["matrix_sha256"] != source_hash for row in [*history, last]):
             parser.error("The failed row and results do not share the requested pinned pilot")
-        if last["model_slot"] != "M1" or last["route"] != "deepseek" or last["model"] not in PRICES or last["passed"] is not False:
-            parser.error("The recovery requires a failed official DeepSeek M1 row")
+        if last["model_slot"] != "M1" or last["route"] != "deepseek" or last["model"] not in PRICES:
+            parser.error("The recovery requires an official DeepSeek M1 row")
         trace = normalize_local_round_cap(last["trace"])
         corrected = {**last, "trace": trace, "cost_cny_peak_reference": cost(trace, PRICES[last["model"]])}
-        if trace is last["trace"] or not trace_complete(corrected):
-            parser.error("The trace does not establish a local-only cap and complete provider usage")
+        if not trace_complete(corrected):
+            parser.error("The trace does not establish an answer or a local cap with complete provider usage")
 
         unit = unit_key(last)
         key = hashlib.sha256(json.dumps(unit).encode()).hexdigest()
@@ -51,10 +51,12 @@ def main():
         if all(unit_key(row) != unit for row in history):
             with result.open("a", encoding="utf-8") as output:
                 append_row(output, corrected)
-        if ledger[-1]["event"] == "reserve":
-            charge = corrected["cost_cny_peak_reference"] - ledger[-1]["budget_charge_cny"]
+        measured = corrected["cost_cny_peak_reference"]
+        if ledger[-1]["event"] == "reserve" and measured is not None:
+            charge = measured - ledger[-1]["budget_charge_cny"]
             budget_event(last["route"], "settle", key, charge)
-        print(f"checkpoint retained: {last['case_id']}/{last['arm']} stopped at the local round cap", flush=True)
+        reason = "usage unconfirmed, reservation retained" if measured is None else "provider usage reconciled"
+        print(f"checkpoint retained: {last['case_id']}/{last['arm']} ({reason})", flush=True)
 
     # Execute the original bytes so the schedule, limits and resume identity stay pinned.
     # Only the returned audit representation of a local rejection is normalized.
@@ -65,6 +67,7 @@ def main():
         namespace = pinned.__globals__
         invoke = namespace["invoke"]
         namespace["invoke"] = lambda *values: normalize_local_round_cap(invoke(*values))
+        namespace["trace_complete"] = trace_complete
         sys.argv = [script.name, "--phase", "pilot", "--route", "deepseek", "--result", str(result),
                     "--runtime", str(args.runtime), "--budget-cny", str(args.budget_cny)]
         return pinned()

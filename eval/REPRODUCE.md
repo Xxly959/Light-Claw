@@ -36,7 +36,7 @@ rtk proxy env LIGHTCLAW_EVAL_MODEL_ID=deepseek-v4-flash python3 eval/harness/run
 
 排查慢网关时，可在 `--phase smoke` 加 `--smoke-run-timeout-s 300`，并使用独立的 `--result` 文件。此设置只改变每项冒烟的总时限，单次模型请求超时、工具轮数、dev 和正式协议保持原值。
 
-2026-11-09 的 M1 官方 dev 矩阵使用 `510e80aa9` 中的串行执行器。该版将本地轮次保护生成的无用量审计项误当成了一次未获用量的真实调用。只在追踪同时满足固定保护原因、真实调用数相符且每次有完整用量时，`resume_pilot.py --matrix-ref 510e80aa9 --result eval/results/pilot-M1-deepseek-flash-official-v2.jsonl --runtime eval/.runtime/m1-deepseek-300s --budget-cny 10` 可保留该失败、结算真实用量并以原执行器续跑。它要求原始失败检查点和私有预算账本。后续执行器直接应用同一追踪修正。
+2026-11-09 的 M1 官方 dev 矩阵使用 `510e80aa9` 中的串行执行器。遇到本地轮次保护，保留失败与真实调用用量。遇到远端重试后有最终回答、但较早调用用量缺失，保留该回答与判分，费用标为未知并保留全额预算预留。旧执行器在这两种情况下均会暂停，可用 `resume_pilot.py --matrix-ref 510e80aa9 --result eval/results/pilot-M1-deepseek-flash-official-v2.jsonl --runtime eval/.runtime/m1-deepseek-300s --budget-cny 10` 从原始失败检查点和私有账本恢复，以同一执行器续跑。后续执行器直接应用这两项追踪规则。
 
 正式使用真实模型运行后，按 [分析器命令](harness/analyze.py) 生成统计和图表。公开数据集下载、抽样和许可见 [来源说明](external-sources.md)。真实日志筛选默认单独运行，输出留在忽略的 `eval/real/`，只由人审核。
 
