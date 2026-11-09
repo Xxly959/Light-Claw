@@ -88,6 +88,17 @@ class AnalysisTests(unittest.TestCase):
             self.assertEqual(overall["n_items"], 116)
             self.assertTrue(all("mcnemar" not in item for item in comparison["strata"]))
 
+    @unittest.skipIf(Figure is None, "Optional Matplotlib dependency is unavailable")
+    def test_pilot_figures_are_labeled_as_diagnostic(self):
+        rows = [dict(item, phase="pilot") for item in self.matrix() if item["repeat"] < 2]
+        report = analyze(rows, self.protocol, SHA)
+        with TemporaryDirectory() as directory:
+            manifest = write_figures(report, Path(directory))
+        self.assertEqual(manifest["status"], "diagnostic_only")
+        cohort, = manifest["cohorts"]
+        self.assertEqual(cohort["phase"], "pilot")
+        self.assertTrue(all(path.startswith("pilot-") for path in cohort["files"]))
+
     def test_complete_matrix_estimates_and_passes_c6(self):
         cohort, = analyze(self.matrix(), self.protocol, SHA)["cohorts"]
         self.assertTrue(cohort["coverage"]["complete"])

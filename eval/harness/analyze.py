@@ -322,7 +322,7 @@ def analyze(rows, protocol, protocol_sha):
     return {
         "schema_version": 1, "protocol_sha": protocol_sha,
         "methods": {"bootstrap": "Paired differences of per-case pass rates, resampling case IDs",
-                    "pilot": "Two-repeat paired development estimates, excluded from C6 and formal figures",
+                    "pilot": "Two-repeat paired development estimates, excluded from C6 and shown in labeled pilot figures",
                     "bootstrap_repeats": protocol["bootstrap_repeats"], "bootstrap_seed": protocol["bootstrap_seed"],
                     "confidence": 1 - protocol["success"]["alpha"],
                     "mcnemar": "Two-sided exact test on one majority (at least 3/5) decision per case and arm",
@@ -345,6 +345,9 @@ def figure_axes(title, xlabel, ylabel):
 def model_figures(cohort, directory):
     label = f"{cohort['model_slot']} {cohort['model']} ({cohort['route']})"
     identifier = hashlib.sha256((label + "/" + cohort["runtime_sha"] + "/" + cohort.get("route_id", "")).encode()).hexdigest()[:12]
+    if cohort["phase"] == "pilot":
+        label += " | Development pilot"
+        identifier = f"pilot-{identifier}"
     arms = list(cohort["coverage"]["arms"])
     sizes = {arm: sorted((row for row in cohort["metrics"] if row["arm"] == arm and row["scope"] == "size"), key=lambda row: row["value"])
              for arm in arms}
@@ -398,17 +401,20 @@ def model_figures(cohort, directory):
     axes.set_yticks(range(len(arms)), arms)
     figure.colorbar(image, ax=axes, label="Pass rate")
     save(figure, "category-heatmap")
-    return {"model_slot": cohort["model_slot"], "model": cohort["model"], "route": cohort["route"],
+    return {"phase": cohort["phase"], "model_slot": cohort["model_slot"], "model": cohort["model"], "route": cohort["route"],
             "runtime_sha": cohort["runtime_sha"], "files": written}
 
 
 def write_figures(report, directory):
     directory.mkdir(parents=True, exist_ok=True)
-    eligible = [cohort for cohort in report["cohorts"] if cohort["coverage"]["complete"]]
+    formal = [cohort for cohort in report["cohorts"] if cohort["coverage"]["complete"]]
+    pilot = [cohort for cohort in report["cohorts"] if cohort["coverage"]["pilot_complete"]]
+    eligible = formal + pilot
     if eligible and Figure is not None:
-        manifest = {"status": "written", "cohorts": [model_figures(cohort, directory) for cohort in eligible]}
+        manifest = {"status": "written" if formal else "diagnostic_only",
+                    "cohorts": [model_figures(cohort, directory) for cohort in eligible]}
     else:
-        reason = "No complete eligible live formal matrix" if not eligible else "Matplotlib is required for figures"
+        reason = "No complete eligible live matrix" if not eligible else "Matplotlib is required for figures"
         manifest = {"status": "skipped", "reason": reason, "cohorts": []}
     (directory / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
     return manifest
